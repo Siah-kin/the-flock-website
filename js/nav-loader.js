@@ -109,6 +109,7 @@
         if (file === 'stake.html') return 'stake';
         if (file === 'vote.html') return 'vote';
         if (file === 'privacy.html') return 'privacy';
+        if (file === 'faq.html') return 'faq';
         if (file === 'about.html') return 'intro';
         return null;
     }
