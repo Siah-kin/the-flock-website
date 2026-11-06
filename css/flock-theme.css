@@ -1,0 +1,23 @@
+/* The Flock theme: the home page's look for the other pages.
+   Fredoka headings, a blue band behind each page's title, a navy footer. Colours come from Arctide's logo. */
+@font-face { font-family: "Fredoka"; src: url("/assets/fonts/fredoka-latin.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
+
+body:not(.home-page) h1, body:not(.home-page) h2, body:not(.home-page) h3 { font-family: "Fredoka", "Inter", system-ui, sans-serif; letter-spacing: -0.005em; }
+body:not(.home-page) h1 { font-weight: 700; }
+
+/* Title band behind the first heading of each page (full width, one solid blue) */
+.about-hero, .alpha-hero, .roadmap-hero { position: relative; color: #fff; background: #004A94; box-shadow: 0 0 0 100vmax #004A94; clip-path: inset(0 -100vmax); padding-top: 48px !important; padding-bottom: 48px !important; margin-bottom: 44px; border-bottom: 0 !important; }
+.roadmap-shell { padding-top: 0 !important; }
+.about-hero h1, .alpha-hero h1, .roadmap-hero h1, .about-hero p, .alpha-hero p, .roadmap-hero p, .roadmap-hero .roadmap-lead, .about-hero .lead, .roadmap-hero h1 span { color: #fff !important; }
+.about-label, .alpha-hero [class*="kicker"], .roadmap-kicker, .alpha-hero [class*="label"], .alpha-hero [class*="eyebrow"] { background: rgba(255,255,255,.16) !important; color: #fff !important; }
+.roadmap-hero a { color: #FED801 !important; }
+
+/* Footer: a navy band like the home page */
+.site-footer.bonzi-branded-footer { background: #001536 !important; color: #fff !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; width: 100% !important; max-width: none !important; margin: 0 !important; padding: 36px 24px 40px !important; }
+.site-footer.bonzi-branded-footer span, .site-footer.bonzi-branded-footer a { color: #fff !important; }
+.site-footer.bonzi-branded-footer .footer-legal-row a { opacity: .85; }
+.site-footer.bonzi-branded-footer .footer-pipe { color: #8EC4FA !important; }
+
+/* Logo: the round Arctide The Flock badge, large enough to read */
+.nav-logo { font-size: 20px; }
+.site-footer.bonzi-branded-footer .footer-cto-row img, .page-footer .brand img { width: 40px !important; height: 40px !important; border-radius: 50% !important; }

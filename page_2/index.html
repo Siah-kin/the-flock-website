@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why The Flock Exists | The Flock</title>
+    <meta name="description" content="How The Flock handles problem reports today, what a Useful report adds to History, and what is not a reward.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Why The Flock Exists | The Flock">
+    <meta property="og:description" content="Report a bug, typo or broken step to the team. A report marked Useful appears in your dated History; it does not earn a reward.">
+    <meta property="og:url" content="https://bonzivista.org/page_2/">
+    <link rel="canonical" href="https://bonzivista.org/page_2/">
+    <link rel="icon" href="../bonzi-logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/nav.css?v=20260619routes5">
+    <link rel="stylesheet" href="/css/flock-theme.css">
+    <link rel="stylesheet" href="../css/bonzi-design.css">
+    <script src="../js/nav-loader.js?v=20260703full6" defer></script>
+
+    <style>
+        :root {
+            --purple: #0058A8;
+            --purple-light: #5AA0E6;
+            --purple-dark: #002050;
+            --white: #FFFFFF;
+            --black: #0A0A0A;
+            --gray: #71717A;
+            --gray-light: #F4F4F5;
+            --gold: #D4AF37;
+            --green: #10B981;
+            --red: #DC2626;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+        }
+        body.dark-mode { background: var(--black); color: #FAFAFA; }
+
+        .skip-nav {
+            position: absolute; top: -40px; left: 0;
+            background: var(--purple); color: #fff; padding: 8px 16px;
+            z-index: 100; transition: top 0.3s; font-weight: 600;
+        }
+        .skip-nav:focus { top: 0; }
+        *:focus-visible { outline: 3px solid var(--purple); outline-offset: 2px; }
+
+        /* Hero (about.html spine) */
+        .alpha-hero {
+            padding: 130px 40px 24px;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        .alpha-label {
+            display: inline-block;
+            font-size: 11px; font-weight: 700; letter-spacing: 3px;
+            text-transform: uppercase; color: var(--purple);
+            background: rgba(0, 88, 168, 0.08);
+            padding: 5px 12px; margin-bottom: 24px;
+        }
+        .alpha-hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800; line-height: 1.1; letter-spacing: -1px;
+            color: var(--black);
+        }
+        body.dark-mode .alpha-hero h1 { color: #fff; }
+
+        /* Body */
+        .alpha-body { max-width: 760px; margin: 0 auto; padding: 8px 40px 80px; }
+
+        .alpha-section { border-top: 1px solid #E4E4E7; padding: 44px 0; }
+        body.dark-mode .alpha-section { border-top-color: #27272A; }
+        .alpha-section h2 {
+            font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px;
+            line-height: 1.2; margin-bottom: 20px; color: var(--black);
+        }
+        body.dark-mode .alpha-section h2 { color: #fff; }
+        .alpha-section p {
+            font-size: 1.1rem; color: #3F3F46; line-height: 1.75;
+            margin-bottom: 18px; max-width: 660px;
+        }
+        body.dark-mode .alpha-section p { color: #D4D4D8; }
+        .alpha-section p:last-child { margin-bottom: 0; }
+        .alpha-section p strong { color: var(--black); }
+        body.dark-mode .alpha-section p strong { color: #fff; }
+
+        .stake-link {
+            color: var(--purple); font-weight: 600;
+            text-decoration: underline; text-underline-offset: 2px;
+        }
+        .stake-link:hover { color: var(--purple-dark); }
+        body.dark-mode .stake-link { color: var(--purple-light); }
+        body.dark-mode .stake-link:hover { color: #A9CBEF; }
+
+        .wallet-note {
+            border: 1px solid #E4E4E7; border-left: 3px solid var(--purple);
+            border-radius: 10px; padding: 18px 20px;
+            margin: 22px 0 6px; max-width: 660px;
+        }
+        body.dark-mode .wallet-note { border-color: #27272A; border-left-color: var(--purple); }
+        .wallet-note h3 { margin: 0 0 10px; font-size: 1.05rem; }
+        .wallet-note ul { margin: 0; padding-left: 18px; }
+        .wallet-note li {
+            font-size: 1rem; color: #3F3F46; line-height: 1.65;
+            margin-bottom: 8px;
+        }
+        body.dark-mode .wallet-note li { color: #D4D4D8; }
+        .wallet-note li:last-child { margin-bottom: 0; }
+
+        /* The italic-purple turn line (about.html guess-line) */
+        .turn-line {
+            font-size: 1.25rem; font-style: italic; font-weight: 500;
+            color: var(--purple); margin-top: 28px;
+        }
+        body.dark-mode .turn-line { color: var(--purple-light); }
+
+        code {
+            background: var(--gray-light); padding: 2px 8px;
+            font-size: 0.95rem; color: var(--purple);
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+        body.dark-mode code { background: #27272A; color: var(--purple-light); }
+
+        /* Page table of contents */
+        .toc {
+            background: rgba(0, 88, 168, 0.04);
+            border: 1px solid rgba(0,0,0,0.08);
+            border-left: 4px solid var(--purple);
+            padding: 18px 24px; margin: 28px 0 8px;
+        }
+        body.dark-mode .toc { background: rgba(0, 88, 168, 0.10); border-color: rgba(255,255,255,0.10); }
+        .toc h4 {
+            font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+            color: var(--gray); margin: 0 0 12px 0; font-weight: 700;
+        }
+        .toc ol { margin: 0; padding-left: 22px; color: var(--gray); }
+        .toc li { margin-bottom: 5px; line-height: 1.5; }
+        .toc a { color: var(--purple); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        body.dark-mode .toc a { color: var(--purple-light); }
+
+        /* Status boxes */
+        .highlight-box {
+            padding: 20px 24px; background: rgba(0, 88, 168, 0.08);
+            border-left: 4px solid var(--purple); border-radius: 0 8px 8px 0; margin: 18px 0;
+        }
+        body.dark-mode .highlight-box { background: rgba(0, 88, 168, 0.15); }
+        .highlight-box strong { color: var(--purple); }
+        .highlight-box.gold { border-left-color: var(--gold); background: rgba(212, 175, 55, 0.07); }
+        .highlight-box.gold strong { color: #9a7d10; }
+        body.dark-mode .highlight-box.gold { background: rgba(212, 175, 55, 0.12); }
+        body.dark-mode .highlight-box.gold strong { color: var(--gold); }
+        .highlight-box.gray { border-left-color: var(--gray); background: rgba(113, 113, 122, 0.06); }
+        .highlight-box.gray strong { color: var(--gray); }
+        body.dark-mode .highlight-box.gray strong { color: #A1A1AA; }
+        .highlight-box.deny { border-left-color: var(--red); background: rgba(220, 38, 38, 0.05); }
+        .highlight-box.deny strong { color: #b91c1c; }
+        body.dark-mode .highlight-box.deny strong { color: #f87171; }
+        .highlight-box p { font-size: 1rem; color: #3F3F46; margin: 0; line-height: 1.65; }
+        body.dark-mode .highlight-box p { color: #D4D4D8; }
+
+        .success-box {
+            padding: 20px 24px; background: rgba(16, 185, 129, 0.08);
+            border-left: 4px solid var(--green); border-radius: 0 8px 8px 0; margin: 18px 0;
+        }
+        body.dark-mode .success-box { background: rgba(16, 185, 129, 0.15); }
+        .success-box strong { color: var(--green); }
+        .success-box p { font-size: 1rem; color: #3F3F46; margin: 0 0 14px; line-height: 1.65; }
+        body.dark-mode .success-box p { color: #D4D4D8; }
+
+        /* Inline status pills */
+        .pill {
+            display: inline-block; font-size: 10px; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px;
+            border: 1px solid; vertical-align: middle; margin-left: 8px; white-space: nowrap;
+        }
+        .pill.live { color: var(--green); border-color: var(--green); background: rgba(16,185,129,0.06); }
+        .pill.checking { color: #9a7d10; border-color: var(--gold); background: rgba(212,175,55,0.08); }
+        body.dark-mode .pill.checking { color: var(--gold); }
+        .pill.later { color: var(--gray); border-color: rgba(0,0,0,0.18); }
+        body.dark-mode .pill.later { border-color: rgba(255,255,255,0.2); }
+
+        /* Step visual */
+        .step-visual { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 26px; }
+        .step-visual .step-content { flex: 1; }
+        .step-visual .step-content p { font-size: 1.05rem; margin: 0; }
+        .step-visual .step-number {
+            width: 36px; height: 36px; background: var(--purple); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 16px; flex-shrink: 0;
+        }
+        .step-visual .step-number.muted { background: var(--gray); }
+
+        /* CTA button (about.html hub-action) */
+        .alpha-action {
+            display: inline-block; padding: 14px 22px; font-size: 1rem;
+            font-weight: 700; font-family: inherit; color: var(--white);
+            background: var(--purple); border: 2px solid var(--purple);
+            text-decoration: none; transition: filter 0.15s;
+        }
+        .alpha-action:hover { filter: brightness(1.08); }
+
+        .feature-link {
+            margin-top: 16px; padding: 16px 20px;
+            background: rgba(0, 88, 168, 0.08); border-left: 3px solid var(--purple);
+            border-radius: 0 8px 8px 0; font-size: 0.95rem; color: #3F3F46;
+        }
+        body.dark-mode .feature-link { background: rgba(0, 88, 168, 0.15); color: #D4D4D8; }
+        .feature-link a { color: var(--purple); font-weight: 600; }
+        body.dark-mode .feature-link a { color: var(--purple-light); }
+
+        /* Footer (about.html) */
+        .alpha-footer {
+            background: var(--white); border-top: 1px solid #E4E4E7;
+            padding: 32px 40px 24px; font-size: 0.85rem; color: var(--black); text-align: center;
+        }
+        body.dark-mode .alpha-footer { background: var(--black); border-top-color: #27272A; color: #E4E4E7; }
+        .alpha-footer-inner { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .footer-brand { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--black); }
+        body.dark-mode .footer-brand { color: #fff; }
+        .footer-brand-link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+        .footer-sep { color: inherit; }
+        body.dark-mode .footer-sep { color: #71717A; }
+        .footer-sponsor { font-size: 0.85rem; color: inherit; }
+        .footer-sponsor-link { display: inline-flex; align-items: center; gap: 6px; color: inherit; text-decoration: none; }
+        .footer-sponsor-link:hover { color: var(--purple); }
+        .footer-sponsor-logo { flex-shrink: 0; }
+        .footer-links { display: flex; gap: 6px; }
+        .footer-links a { color: var(--black); text-decoration: none; transition: color 0.15s; }
+        body.dark-mode .footer-links a { color: #E4E4E7; }
+        .footer-links a:hover { color: var(--purple); }
+
+        @media (max-width: 600px) {
+            .alpha-hero { padding-top: 110px; }
+            .alpha-section p { font-size: 1.05rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body data-theme-default="light">
+    <a href="#main-content" class="skip-nav" data-i18n="alpha.skip">Skip to main content</a>
+    <nav id="nav-container" class="site-nav" aria-label="Main navigation"></nav>
+    <div id="mobile-menu-container"></div>
+
+<main id="main-content">
+
+    <section class="alpha-hero">
+        <div class="alpha-label" data-i18n="alpha.label">Why The Flock exists</div>
+        <h1>Why community help should count</h1>
+    </section>
+
+    <div class="alpha-body">
+
+        <div class="toc" role="navigation" aria-label="Contents">
+            <h4 data-i18n="alpha.toc_title">On this page</h4>
+            <ol>
+                <li><a href="#what-is" data-i18n="alpha.toc_whatis">What this is</a></li>
+                <li><a href="#why-this-way" data-i18n="alpha.toc_whyway">Why we do it this way</a></li>
+                <li><a href="#need" data-i18n="alpha.toc_need">Why we already know it is needed</a></li>
+                <li><a href="#fix" data-i18n="alpha.toc_fix">What is broken, and what we fix</a></li>
+                <li><a href="#report-problem">Report a problem</a></li>
+                <li><a href="#credit">What happens after a report?</a></li>
+                <li><a href="#status">What is available today?</a></li>
+                <li><a href="#next" data-i18n="alpha.toc_next">What comes next</a></li>
+                <li><a href="#take-part" data-i18n="alpha.toc_takepart">How to try it</a></li>
+                <li><a href="#papers" data-i18n="alpha.toc_papers">Want the detail?</a></li>
+            </ol>
+        </div>
+
+        <!-- 1. WHAT THIS IS -->
+        <section class="alpha-section" id="what-is">
+            <h2 data-i18n="alpha.whatis_h2">What this is</h2>
+            <p>The Flock is a Telegram bot for the Arctide community. Members can ask the team for support, check a draft before posting on X, and see activity the bot connects to their account.</p>
+            <p>Useful work can be easy to forget. The bot gives members a dated History entry when the team marks a problem report Useful. Team members who review reports do not receive a History entry for that work today.</p>
+            <p>This page explains what the bot does today and what the team is still exploring.</p>
+        </section>
+
+        <!-- 2. WHY WE DO IT THIS WAY -->
+        <section class="alpha-section" id="why-this-way">
+            <h2 data-i18n="alpha.whyway_h2">Why we do it this way</h2>
+            <p>The bot is already used by the Arctide community for support requests, Ambassador and My profile. This site describes those features alongside ideas that are still being explored.</p>
+            <p>Points and a reward pool are not live. Their rules, including how a team confirms useful work and how to prevent farming, have not been set.</p>
+        </section>
+
+        <!-- 3. WHY WE ALREADY KNOW IT IS NEEDED -->
+        <section class="alpha-section" id="need">
+            <h2 data-i18n="alpha.need_h2">Why we already know this is needed</h2>
+            <p data-i18n="alpha.need_p1">Good things get built around real people. You learn what they need by spending time with them and watching closely, not by guessing in a meeting. Most projects skip that part. It is slow, and it does not look impressive.</p>
+            <p data-i18n="alpha.need_p2">We spent seven years on it. Running real online communities by hand, every day. Watching what helped people and what let them down.</p>
+            <p data-i18n="alpha.need_p3">So we are not guessing about the need. We saw it, up close, for years. The slow part is the strength. You cannot design something like this from a whiteboard.</p>
+        </section>
+
+        <!-- 4. WHAT IS BROKEN, AND WHAT WE FIX -->
+        <section class="alpha-section" id="fix">
+            <h2>What work does the bot recognise today?</h2>
+            <p>When someone reports a bug, typo or broken step, the team receives a numbered card in its chat. If a team member closes it as Useful, the reporter sees a dated entry in History.</p>
+            <p>This gives the reporter a dated History entry. The team member who reviewed it does not get an entry for that work today.</p>
+            <p>We are exploring ways to recognise more useful community work. What would qualify, how decisions would be checked, and how to prevent farming still need to be worked out.</p>
+            <p>Useful work can be easy to forget. The History entry makes the team’s decision about a report visible to the member who sent it.</p>
+        </section>
+
+        <!-- 5. REPORT A PROBLEM -->
+        <section class="alpha-section" id="report-problem">
+            <h2>Spot a problem and report it</h2>
+            <p>Found a bug, typo or broken step? In The Flock, open <strong>Help → Ask the team → A problem</strong> and send a report.</p>
+            <p>The bot sends it to the team chat as a numbered card. A team member can review it and close it as <strong>Useful</strong>. When they do, the report appears in your History with the date.</p>
+        </section>
+
+        <!-- 6. WHAT HAPPENS AFTER A REPORT -->
+        <section class="alpha-section" id="credit">
+            <h2>What happens after a report?</h2>
+            <p>If the team marks your report Useful, the bot adds a dated entry to your History. That is recognition of the report. It does not pay you or award points.</p>
+            <p>The team member who reviews a report does not get a History entry for that review today.</p>
+        </section>
+
+        <!-- 7. HONEST STATUS -->
+        <section class="alpha-section" id="status">
+            <h2>What is available today?</h2>
+            <p>Here is what happens in the bot now:</p>
+
+            <div class="success-box">
+                <p><strong>Report:</strong> Open Help, choose Ask the team, then A problem. Your report goes to the team chat as a numbered card.</p>
+            </div>
+
+            <div class="highlight-box gold">
+                <p><strong>Team review:</strong> A team member can close the card as Useful. The bot then adds a dated entry to the reporter’s History.</p>
+            </div>
+
+            <div class="highlight-box gray">
+                <p><strong>No rewards are attached:</strong> Bug reports do not earn a payout, points or a share of a pool today.</p>
+            </div>
+
+            <div class="highlight-box deny">
+                <p><strong>Planned rewards are not live:</strong> there is no reward amount or start date to promise. The History entry shows the team’s decision; it is not a payment.</p>
+            </div>
+
+            <div class="feature-link" data-i18n="alpha.status_opensource">
+                This site is open source, free to read, copy, and run yourself (MIT licensed). You do not have to trust the words. You can read the thing. <a href="https://github.com/Siah-kin/community-bot" target="_blank" rel="noopener noreferrer">github.com/Siah-kin/community-bot &rarr;</a>
+            </div>
+        </section>
+
+        <!-- 8. WHAT COMES NEXT -->
+        <section class="alpha-section" id="next">
+            <h2 data-i18n="alpha.next_h2">What comes next</h2>
+            <p>The report and review flow is available today. Points and a reward pool are planned, but they are not live. There is no launch date or reward amount to promise.</p>
+            <p>Any future reward system would need clear rules for what counts and how the team confirms it before it could be described as available.</p>
+            <p>For now, reporting a problem can add a dated Useful entry to your History. It does not earn a reward.</p>
+        </section>
+
+        <!-- 9. HOW TO TRY IT -->
+        <section class="alpha-section" id="take-part">
+            <h2>How to report a problem</h2>
+            <p>Open The Flock in Telegram, choose <strong>Help → Ask the team → A problem</strong>, and describe the bug, typo or broken step.</p>
+            <p>Your report goes to the team chat as a numbered card. If the team closes it as Useful, you will see a dated entry in your History. Reporting does not earn points or money.</p>
+
+            <div class="success-box" style="margin-top:24px;">
+                <p><strong>Try it in the bot.</strong> Choose Help, then Ask the team, then A problem.</p>
+                <a class="alpha-action" href="https://t.me/Arctide_TheFlock_Bot?start=support" target="_blank" rel="noopener noreferrer">Open The Flock on Telegram &rarr;</a>
+            </div>
+        </section>
+
+        <!-- 8. WANT THE DETAIL -->
+        <section class="alpha-section" id="papers">
+            <h2 data-i18n="alpha.papers_h2">Want the detail?</h2>
+            <p data-i18n="alpha.papers_p1">Most people do not need this. But if you want to see the thinking behind it, we wrote it down. Both are honest that this is built from known, tested ideas, not from hype.</p>
+            <div class="feature-link">
+                <strong>The short version, about five minutes.</strong> The problem, the fix, and what is honest about it.<br>
+                <a href="/research/contribution-summary.html">Read the short version &rarr;</a>
+            </div>
+            <div class="feature-link">
+                <strong>The full paper.</strong> The formal model, the threats, and the references. A working draft. The spots where field data still goes are marked.<br>
+                <a href="/research/contribution-paper.html">Read the full paper &rarr;</a>
+            </div>
+            <div class="highlight-box gray">
+                <p data-i18n="alpha.papers_signoff"><strong>Current evidence ceiling:</strong> the paper passed independent review as an honest draft, but it is not yet backed by live results. The marked spots wait for real usage data. It does not claim treasury payout is live.</p>
+            </div>
+            <p data-i18n="alpha.papers_p2">Both are open source, like everything else here. The short version has Portuguese; the updated full working draft is English while the Portuguese translation catches up.</p>
+        </section>
+
+    </div>
+
+</main>
+
+<footer class="site-footer bonzi-branded-footer" aria-label="Site footer">
+    <div class="footer-cto-row">
+        <span>CTO</span>
+        <span class="footer-pipe" aria-hidden="true">|</span>
+        <a href="/">
+            <img src="/bonzi-logo.png" alt="" width="24" height="24">
+            <span>The Flock</span>
+        </a>
+    </div>
+    <div class="footer-sponsor-row">
+        <span>Partner</span>
+        <span class="footer-pipe" aria-hidden="true">|</span>
+        <a href="https://arctide.app/" target="_blank" rel="noopener noreferrer">
+            <img src="/assets/partners/arctide.png" alt="" width="24" height="24">
+            <span>Arctide.app</span>
+        </a>
+    </div>
+    <div class="footer-legal-row">
+        <a href="/privacy.html">Privacy</a>
+    </div>
+</footer>
+
+<script>window.BONZI_LANGS=["en","pt","zh","fr","ru","tr"];</script>
+</body>
+</html>

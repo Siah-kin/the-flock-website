@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Flock | Notice who does the heroics in your community</title>
+<meta name="description" content="The Flock is a Telegram bot for the Arctide community. Members ask the team for support, get help with writing on X and see dated activity in History.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="/bonzi-logo.png" type="image/png">
+    <link rel="stylesheet" href="/css/nav.css?v=20260619routes5">
+    <link rel="stylesheet" href="/css/bonzi-design.css">
+    <script src="/js/nav-loader.js?v=20260703full6" defer></script>
+    <style>
+        @font-face {
+            font-family: "Fredoka";
+            src: url("/assets/fonts/fredoka-latin.woff2") format("woff2");
+            font-weight: 500 700;
+            font-display: swap;
+        }
+        :root {
+            --navy: #002050;
+            --blue: #0058A8;
+            --sky: #5AA0E6;
+            --sun: #FED801;
+            --ink: #0E1B33;
+            --soft: #F2F7FC;
+            --line: #D6E4F3;
+            --slate: #1F2735;
+            --sea-green: #11603D;
+            --coral: #A63A2C;
+            --usdc: #2775CA;
+            --display: "Fredoka", "Inter", system-ui, sans-serif;
+        }
+        .home-page { background: #FFFFFF; color: var(--ink); }
+        body.dark-mode.home-page { background: #08142B; color: #E7EEF9; }
+        .home-page h1, .home-page h2, .home-page h3 { font-family: var(--display); text-wrap: balance; }
+        .home-page .nav-stake-btn { display: none; }
+        .wrap { max-width: 1140px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+
+        /* First screen: sky, sun on the horizon, waves, ducks */
+        .hero { position: relative; overflow: hidden; color: #fff; background: linear-gradient(180deg, #004A94 0%, #0058A8 55%, #1F68B8 100%); isolation: isolate; }
+        .hero-sun { position: absolute; z-index: -3; width: 380px; height: 380px; border-radius: 50%; background: var(--sun); left: 27%; bottom: -170px; }
+        .hero-waves { position: absolute; z-index: -2; left: 0; right: 0; bottom: 0; width: 100%; height: 300px; }
+        .hero-ducks { position: absolute; z-index: -1; right: 6%; bottom: 62px; width: 420px; height: auto; }
+        .hero-front { position: absolute; z-index: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 90px; pointer-events: none; }
+        .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr); gap: 56px; align-items: start; padding-top: 80px; padding-bottom: 170px; }
+        .hero h1 { font-weight: 700; font-size: clamp(2.3rem, 4.3vw, 3.7rem); line-height: 1.06; letter-spacing: -0.01em; }
+        .hero .sub { font-size: 1.24rem; line-height: 1.55; margin-top: 24px; max-width: 33em; color: #FFFFFF; }
+        .cta { display: inline-block; margin-top: 30px; background: var(--sun); color: var(--navy); font-family: var(--display); font-weight: 600; font-size: 1.45rem; padding: 18px 36px; border-radius: 999px; text-decoration: none; transition: transform .18s cubic-bezier(.2,.8,.2,1), box-shadow .18s; box-shadow: 0 8px 20px rgba(0, 0, 0, .28); }
+        .cta:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(0, 0, 0, .32); }
+        .cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+        .hero-list { margin: 18px 0 0; padding-left: 1.2em; display: grid; gap: 8px; max-width: 33em; }
+        .hero-list li { font-size: 1.1rem; line-height: 1.45; color: #fff; }
+        .hero-list .next-up { color: #FFF3B0; }
+        .hero-list .next-up a { color: var(--sun); font-weight: 600; text-underline-offset: 3px; }
+        .hero .small { margin-top: 12px; font-size: 1.05rem; color: #FFFFFF; }
+        .hero figure { margin: 0; animation: rise .8s cubic-bezier(.16,1,.3,1) both; }
+        @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+        /* The bot's own screens, drawn the way Telegram shows them */
+        .tg { background: #0E1621; border: 1px solid rgba(142, 196, 250, .3); border-radius: 22px; padding: 16px; max-width: 460px; width: 100%; box-shadow: 0 26px 56px rgba(0, 0, 0, .34), 0 4px 10px rgba(0, 0, 0, .16); color: #E8EEF7; font-size: .95rem; line-height: 1.45; text-align: left; }
+        .tg .msg { background: #182533; border-radius: 16px 16px 16px 4px; overflow: hidden; }
+        .tg .msg + .msg, .tg .me + .msg, .tg .msg + .me { margin-top: 10px; }
+        .tg .msg img { display: block; width: 100%; height: auto; }
+        .tg .cap { padding: 12px 14px 15px; }
+        .tg .cap p { margin: 10px 0 0; color: inherit; font-size: inherit; line-height: inherit; max-width: none; }
+        .tg .cap p:first-child { margin-top: 0; }
+        .tg .cap b { color: #fff; }
+        .tg .cap .quiet { color: #A9B8CC; }
+        .tg .cap ul { margin: 8px 0 0 1.1em; padding: 0; }
+        .tg mark { background: rgba(254, 216, 1, .2); color: #fff; padding: 2px 6px; border-radius: 6px; display: block; margin: 2px -6px; }
+        .tg .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+        .tg .btn { background: #223A55; color: #8EC4FA; text-align: center; font-size: .9rem; font-weight: 600; padding: 10px 8px; border-radius: 10px; }
+        .tg .btn.wide { grid-column: 1 / -1; }
+        .tg .btn.pick { outline: 2px solid var(--sun); color: var(--sun); }
+        /* The member's own message, on the right as Telegram shows it */
+        .tg .me { margin-left: auto; max-width: 86%; background: #2B5278; color: #fff; border-radius: 16px 16px 4px 16px; padding: 11px 14px; }
+        .tg .me .who { display: block; font-size: .8rem; color: #A9C7E8; margin-bottom: 3px; }
+        .tg .me u { text-decoration: none; border-radius: 5px; padding: 0 2px; transition: background-color .4s, box-shadow .4s; }
+
+        /* Bands that wear the colour of the bot's banner for that part */
+        .band { position: relative; color: #fff; }
+        .band .wv { position: absolute; left: 0; width: 100%; height: 56px; top: -55px; display: block; color: inherit; }
+        .band.navy { background: var(--navy); } .band.navy .wv { color: var(--navy); }
+        .band.slate { background: var(--slate); } .band.slate .wv { color: var(--slate); }
+        .band.coral { background: var(--coral); } .band.coral .wv { color: var(--coral); }
+        .band.green { background: var(--sea-green); } .band.green .wv { color: var(--sea-green); }
+        .band .wv path { fill: currentColor; }
+        .section { padding-top: 92px; padding-bottom: 104px; }
+        .section h2 { font-weight: 700; font-size: clamp(1.9rem, 3.3vw, 2.6rem); line-height: 1.1; max-width: 22em; }
+        .lede { font-size: 1.2rem; line-height: 1.6; margin-top: 18px; max-width: 38em; color: #33445A; }
+        .band .lede { color: #E4ECF7; }
+        .soft { background: var(--soft); }
+        body.dark-mode .soft { background: #0B1B38; }
+        body.dark-mode .lede { color: #C5D3E8; }
+
+        /* Why */
+        .why { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 56px; align-items: center; }
+        .why p { font-size: 1.22rem; line-height: 1.65; margin-top: 18px; max-width: 34em; color: #E4ECF7; }
+        .why p:first-of-type { font-size: 1.4rem; line-height: 1.5; color: #fff; }
+        .why .ducks-swim { width: 100%; height: auto; display: block; }
+        .why .ducks-swim { animation: bob 5s ease-in-out infinite; }
+        @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+
+        /* Two ponds: volume against confirmed help */
+        .lanes { margin-top: 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px; }
+        .lane { margin: 0; }
+        .lane-label { font-family: var(--display); font-weight: 600; font-size: 1.3rem; margin-bottom: 12px; }
+        .lane-cap { margin-top: 14px; font-size: 1.05rem; line-height: 1.5; color: #33445A; }
+        body.dark-mode .lane-cap { color: #C5D3E8; }
+        /* The demo: the bot's banners are the steps, one screen changes in place */
+        .steps { margin-top: 42px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; }
+        .step { width: 100%; display: grid; gap: 8px; text-align: left; background: transparent; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; }
+        .step .thumb { display: block; aspect-ratio: 2 / 1; border-radius: 12px; overflow: hidden; background: #2A3A55; box-shadow: 0 0 0 2px rgba(255,255,255,.14); transition: box-shadow .2s, transform .2s cubic-bezier(.2,.8,.2,1); }
+        .step .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .step .thumb.blank { display: grid; place-items: center; font-size: 2.8rem; background: linear-gradient(160deg, #24496F, #142A44); }
+        .step .thumb.ticket { display: grid; align-content: center; gap: 8px; padding: 10px 12px; background: linear-gradient(160deg, #24496F, #142A44); font-size: .8rem; color: #E8EEF7; }
+        .step .thumb.ticket b { color: #fff; }
+        .mini-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+        .mini-btns i { font-style: normal; text-align: center; background: #223A55; color: #8EC4FA; border-radius: 6px; padding: 3px 0; font-size: .68rem; font-weight: 700; }
+        .mini-btns i.on { outline: 2px solid var(--sun); color: var(--sun); }
+        .step .lbl { font-family: var(--display); font-weight: 600; font-size: 1.05rem; line-height: 1.25; display: flex; gap: 8px; align-items: flex-start; }
+        .step { align-content: start; }
+        .step .n { flex: none; width: 1.6em; height: 1.6em; border-radius: 50%; display: inline-grid; place-items: center; font-size: .8rem; background: rgba(255,255,255,.16); }
+        .step:hover .thumb { transform: translateY(-2px); }
+        .step[aria-selected="true"] .thumb { box-shadow: 0 0 0 3px var(--sun); }
+        .step[aria-selected="true"] .n { background: var(--sun); color: var(--navy); }
+        .step:focus-visible { outline: 3px solid var(--sun); outline-offset: 4px; border-radius: 12px; }
+        .panels { margin-top: 40px; }
+        .panel { display: grid; grid-template-columns: minmax(0, 460px) minmax(0, 1fr); gap: 56px; align-items: center; }
+        .panel + .panel { margin-top: 56px; }
+        .js .panel + .panel { margin-top: 0; }
+        .js .panel[hidden] { display: none; }
+        .panel .tg { justify-self: center; }
+        .panel h3 { font-weight: 600; font-size: 1.7rem; line-height: 1.15; }
+        .panel p { font-size: 1.15rem; line-height: 1.6; margin-top: 14px; max-width: 30em; color: #E4ECF7; }
+        .panel.show .tg { animation: swap .45s cubic-bezier(.16,1,.3,1) both; }
+        @keyframes swap { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
+        .next-step { margin-top: 22px; background: transparent; color: var(--sun); border: 2px solid var(--sun); font: 600 1.05rem var(--display); padding: 10px 20px; border-radius: 999px; cursor: pointer; display: none; }
+        .js .next-step { display: inline-block; }
+        .next-step:hover { background: rgba(254,216,1,.12); }
+        .next-step:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+        /* Check my reply: the notes light up the words they are about */
+        .marked u.on { background: rgba(229, 96, 79, .45); box-shadow: 0 0 0 2px rgba(255, 140, 120, .7); }
+        .tg .later { opacity: 1; transition: opacity .5s, transform .5s; }
+        .js .panel:not(.show) .later, .js .panel.show.wait .later { opacity: 0; transform: translateY(8px); }
+
+        /* Where fees go: Arctide's real split, then the part we are designing */
+        .fees { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 56px; align-items: start; margin-top: 44px; }
+        .scene { margin: 0; }
+        .scene-svg { display: block; width: 100%; height: auto; border-radius: 30px; box-shadow: 0 24px 50px rgba(0, 20, 40, .35); }
+        .scene-svg text { font-family: "Inter", system-ui, sans-serif; }
+        .scene-svg text.t { font-family: var(--display); }
+        .scene-svg *, .hero-ducks * { animation-play-state: paused; }
+        .play .scene-svg *, .hero-ducks * { animation-play-state: running; }
+        .scene-svg .ripple { animation: ripple 1.6s linear infinite; }
+        @keyframes ripple { to { stroke-dashoffset: -18; } }
+        .scene-svg .bob { animation: bob2 3.4s ease-in-out infinite; }
+        .scene-svg .b1 { animation-delay: -1.1s; } .scene-svg .b2 { animation-delay: -2.2s; }
+        @keyframes bob2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        .scene-svg .sw { animation: swim 7s ease-in-out infinite; } .scene-svg .s1 { animation-delay: -1.7s; } .scene-svg .s2 { animation-delay: -3.5s; } .scene-svg .s3 { animation-delay: -5.2s; }
+        @keyframes swim { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(26px); } }
+        .scene-svg .pass1, .scene-svg .pass2 { animation: through 6s ease-in-out infinite; } .scene-svg .pass2 { animation-delay: -3s; }
+        @keyframes through { 0% { transform: translateX(0); opacity: 1; } 45% { transform: translateX(190px); } 70% { transform: translateX(330px); opacity: 1; } 78%, 100% { transform: translateX(330px); opacity: 0; } }
+        .hero-ducks .hd { animation: bob2 4s ease-in-out infinite; } .hero-ducks .h2 { animation-delay: -1s; } .hero-ducks .h3 { animation-delay: -2s; } .hero-ducks .h4 { animation-delay: -3s; }
+        .back { margin-top: 18px; font-size: 1.02rem; line-height: 1.5; color: #DDEFE4; max-width: 34em; }
+        .fees-text p { font-size: 1.12rem; line-height: 1.6; margin-top: 16px; color: #E4ECF7; }
+        .fees-text .tg { margin-top: 18px; }
+        .fees-text .note { background: rgba(0,0,0,.2); border-left: 4px solid var(--sun); padding: 14px 16px; border-radius: 0 12px 12px 0; color: #fff; }
+        .fees-text .eg-title { margin-top: 28px; font-weight: 600; color: #fff; }
+
+        /* X's rule and how we work with it */
+        .rule { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 56px; align-items: start; }
+        .rule .lede a, .rule-card a { color: var(--blue); text-underline-offset: 3px; }
+        .rule-card { background: #fff; border-radius: 20px; padding: 26px 28px; box-shadow: 0 14px 34px rgba(0, 32, 80, .12); border-top: 6px solid var(--sun); }
+        .rule-card h3 { font-weight: 600; font-size: 1.35rem; }
+        .rule-card ul { margin: 14px 0 0; padding-left: 1.15em; display: grid; gap: 10px; }
+        .rule-card li { font-size: 1.06rem; line-height: 1.5; color: #33445A; }
+        body.dark-mode .rule-card { background: #10244A; } body.dark-mode .rule-card li { color: #C5D3E8; }
+        body.dark-mode .rule .lede a, .rule-card a { color: #8EC4FA; }
+        @media (max-width: 900px) { .rule { grid-template-columns: 1fr; gap: 28px; } .rule-card { padding: 20px 18px; } }
+
+        /* What it does: an index by job, linked into the manual */
+        .idx { margin-top: 40px; border-top: 1px solid var(--line); }
+        .idx-group { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 20px 40px; padding: 30px 0; border-bottom: 1px solid var(--line); }
+        .idx-head h3 { font-weight: 600; font-size: 1.3rem; line-height: 1.2; }
+        .idx-head .shown { display: inline-block; margin-top: 10px; font-weight: 600; font-size: .98rem; color: var(--blue); text-underline-offset: 3px; }
+        .idx-items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 34px; align-content: start; }
+        .idx-items li { display: grid; gap: 5px; align-content: start; }
+        .idx-items b { font-weight: 600; font-size: 1.08rem; line-height: 1.3; color: var(--ink); }
+        .idx-items a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+        .idx-items a:hover { text-decoration-thickness: 2px; }
+        .idx-items a:focus-visible, .idx-head .shown:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+        .idx-items .st { font-weight: 500; color: #5A6B82; }
+        .idx-items .ln { font-size: 1rem; line-height: 1.5; color: #4A5B72; }
+        body.dark-mode .idx, body.dark-mode .idx-group { border-color: #23395C; }
+        body.dark-mode .idx-items b { color: #E7EEF9; } body.dark-mode .idx-items a, body.dark-mode .idx-head .shown { color: #8EC4FA; }
+        body.dark-mode .idx-items .ln, body.dark-mode .idx-items .st { color: #A9B8CC; }
+        @media (max-width: 900px) { .idx-group { grid-template-columns: 1fr; padding: 26px 0; } .idx-items { grid-template-columns: 1fr; gap: 22px; } }
+        .where { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); font-size: 1.1rem; line-height: 1.6; max-width: 46em; color: #33445A; }
+        body.dark-mode .where { color: #C5D3E8; border-color: #23395C; }
+
+        .finish h2 { font-weight: 700; font-size: clamp(1.9rem, 3.2vw, 2.5rem); }
+        .finish p { font-size: 1.2rem; line-height: 1.6; margin-top: 16px; max-width: 34em; color: #DCE8F7; }
+        .page-footer { background: #001536; color: #fff; padding-top: 28px; padding-bottom: 32px; }
+        .page-footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; justify-content: space-between; }
+        .page-footer a { color: #fff; text-decoration: none; font-weight: 600; }
+        .page-footer a:hover { text-decoration: underline; }
+        .page-footer .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 1.2rem; }
+        .page-footer .brand img { width: 40px; height: 40px; border-radius: 50%; }
+        .page-footer .links { display: flex; gap: 22px; }
+
+        @media (max-width: 900px) {
+            .wrap { padding-left: 16px; padding-right: 16px; }
+            .hero-inner { grid-template-columns: 1fr; padding-top: 52px; padding-bottom: 150px; gap: 34px; }
+            .hero-sun { width: 260px; height: 260px; left: -50px; bottom: -120px; }
+            .hero-ducks { width: 250px; right: 4%; bottom: 50px; }
+            .hero-front { height: 70px; }
+            .section { padding-top: 70px; padding-bottom: 76px; }
+            .band .wv { height: 34px; top: -33px; }
+            .cta { font-size: 1.3rem; padding: 16px 30px; }
+            .why { grid-template-columns: 1fr; gap: 20px; }
+            .why .ducks-swim { max-width: 220px; }
+            .lanes { grid-template-columns: 1fr; gap: 28px; }
+            .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
+            .step .thumb.ticket { display: grid; align-content: center; gap: 8px; padding: 10px 12px; background: linear-gradient(160deg, #24496F, #142A44); font-size: .8rem; color: #E8EEF7; }
+        .step .thumb.ticket b { color: #fff; }
+        .mini-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+        .mini-btns i { font-style: normal; text-align: center; background: #223A55; color: #8EC4FA; border-radius: 6px; padding: 3px 0; font-size: .68rem; font-weight: 700; }
+        .mini-btns i.on { outline: 2px solid var(--sun); color: var(--sun); }
+        .step .lbl { font-size: .98rem; }
+            .panel { grid-template-columns: 1fr; gap: 24px; }
+            .fees { grid-template-columns: 1fr; gap: 36px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hero figure, .why .ducks-swim, .panel.show .tg { animation: none; }
+            .scene-svg *, .hero-ducks * { animation: none !important; }
+            .tg .later, .tg .me u { transition: none; }
+            .cta { transition: none; }
+        }
+    </style>
+</head>
+<body class="home-page" data-theme-default="light">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="duck" viewBox="0 0 210 121"><path d="M4,50 L58,58 L40,92 Z" fill="var(--duck-body,#FFCB2B)"/><path d="M18,78 C18,56 54,50 100,50 C146,50 182,64 180,92 C178,112 140,118 98,118 C52,118 18,104 18,78 Z" fill="var(--duck-body,#FFCB2B)"/><path d="M118,56 C112,28 134,6 158,8 C182,10 196,30 190,54 C186,70 170,78 150,78 C132,78 120,70 118,56 Z" fill="var(--duck-body,#FFCB2B)"/><path d="M186,36 C198,34 208,40 209,44 C208,50 198,54 186,54 Z" fill="var(--duck-beak,#F0963C)"/><ellipse cx="86" cy="86" rx="36" ry="14" fill="var(--duck-wing,#F2B705)" transform="rotate(-6 86 86)"/><circle cx="166" cy="30" r="4.6" fill="#1B2A3A"/><circle cx="167.6" cy="28.4" r="1.4" fill="#fff"/></symbol></defs></svg>
+    <nav id="nav-container"></nav>
+    <div id="mobile-menu-container"></div>
+
+    <main>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-sun" aria-hidden="true"></div>
+            <svg class="hero-waves" viewBox="0 0 1440 300" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0,150 C240,90 480,90 720,140 C960,190 1200,190 1440,120 L1440,300 L0,300 Z" fill="#2F6FC4"/>
+                <path d="M0,205 C260,150 520,160 760,198 C1000,236 1220,232 1440,180 L1440,300 L0,300 Z" fill="#1B4F9A"/>
+            </svg>
+            <svg class="hero-ducks" viewBox="0 0 730 149" aria-hidden="true" focusable="false"><use class="hd h1" href="#duck" x="0" y="26" width="200" height="115"/><use class="hd h2" href="#duck" x="215" y="62" width="150" height="86"/><use class="hd h3" href="#duck" x="385" y="42" width="150" height="86"/><use class="hd h4" href="#duck" x="545" y="36" width="185" height="106"/></svg>
+            <svg class="hero-front" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0,40 C300,8 560,24 820,40 C1080,56 1260,50 1440,26 L1440,90 L0,90 Z" fill="#002050"/>
+            </svg>
+            <div class="wrap hero-inner">
+                <div>
+                    <h1 id="hero-title">Notice who does the heroics in your community.</h1>
+                    <p class="sub">The Flock is a peer-to-peer app on Telegram that rewards teamwork in your community. It is live today for Arctide, the exchange on the Arc blockchain formerly known as EtherVista.</p>
+                    <ul class="hero-list">
+                        <li>When your team confirms that somebody helped, or one member thanks another, it goes on that member’s track record. The track record belongs to them.</li>
+                        <li>Members ask for support in private, and anyone on your team can answer from one chat.</li>
+                        <li>When a message claims to come from your team, members forward it to the bot, and it tells them whether it’s real.</li>
+                        <li>Before posting on X, members check their draft for what gets posts hidden, and your team grades what they publish.</li>
+                        <li class="next-up">Planned next: a closed reward loop for your OGs. Part of your token’s trading fees goes back to members whose help your team confirmed, so farming the bot gets nobody anything. <a href="#fees-title">How it works</a></li>
+                    </ul>
+                    <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a>
+                    <p class="small">Opens in Telegram.</p>
+                </div>
+                <figure>
+                    <div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, one post reviewed as Good, and one thanks received">
+                        <div class="msg">
+                            <img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="">
+                            <div class="cap">
+                                <p><b>📜 History</b> · Ana</p>
+                                <p class="quiet">These are the saved entries for your bot account. Older points show past activity; they do not promise anything in future.</p>
+                                <p>🙏 Thanks: 1 received · 0 given</p>
+                                <p><b>Reviewed by the team</b><br>
+                                <mark>• 29 Oct 2026 · 🎫 Request #0014 marked useful</mark>
+                                • 18 Oct 2026 · 📤 Post reviewed: 👍 Good<br>
+                                • 12 Oct 2026 · 🎫 Request #0009 marked useful</p>
+                                <p class="quiet">Something looks wrong? Tap Ask the team.</p>
+                            </div>
+                        </div>
+                        <div class="btns"><span class="btn">🎫 Ask the team</span><span class="btn">◀ Back</span></div>
+                    </div>
+                </figure>
+            </div>
+        </section>
+
+        <section class="band navy" aria-labelledby="why-title">
+            <div class="wrap section why">
+                <div>
+                    <h2 id="why-title">Why we built The Flock</h2>
+                    <p>A lot of the internet has become a poor place to spend time. AI writes much of what we read, and bots farm the replies, so the people who actually explain a project get buried.</p>
+                    <p>We want AI to boost human creativity instead of farming it. It should help a person say what they mean in their own words, and point out what reads as farmed. Today the bot does this with fixed rules and calls no AI model. The AI coach is planned.</p>
+                    <p>We built it for the OGs: the holders who stay loyal to a project beyond its price, and spend months teaching newcomers and pitching technology they believe in. Their heroics are rarely credited.</p>
+                </div>
+                <svg class="ducks-swim" viewBox="0 0 210 121" aria-hidden="true" focusable="false"><use href="#duck" width="210" height="121"/></svg>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="farm">
+            <div class="wrap">
+                <h2 id="farm">Quest platforms and raid bots get farmed.</h2>
+                    <p class="lede">When a tool pays for clicks, posts or messages, people can learn its rules and farm the rewards. The members who did useful work can get lost in that activity. The Flock currently adds a dated History entry when the team marks a problem report Useful or reviews a post. How any future reward system would prevent farming is still to be decided.</p>
+                <div class="lanes" id="lanes">
+                    <figure class="lane"><p class="lane-label">Tools that count messages</p><svg class="scene-svg farm" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drawing: a flock of grey duck accounts and two small yellow ducks, the people who helped, below a podium where a grey farming account stands first."><defs><linearGradient id="pg0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F4C80"/><stop offset="1" stop-color="#143A63"/></linearGradient><clipPath id="pc0"><rect width="600" height="250" rx="26"/></clipPath></defs><g clip-path="url(#pc0)"><rect width="600" height="250" fill="url(#pg0)"/><circle cx="64" cy="48" r="26" fill="#FED801" opacity=".9"/><path d="M0,214 C100,200 200,226 300,214 C400,202 500,226 600,210 L600,250 L0,250Z" fill="#0F2A4A"/><use class="duck sw s0" href="#duck" x="40" y="142" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s1" href="#duck" x="96" y="168" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s2" href="#duck" x="24" y="186" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s3" href="#duck" x="150" y="150" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s0" href="#duck" x="72" y="120" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s1" href="#duck" x="130" y="192" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s2" href="#duck" x="200" y="172" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s3" href="#duck" x="180" y="126" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><rect x="318" y="176" width="64" height="40" rx="6" fill="#5D7FA6"/><rect x="394" y="92" width="86" height="124" rx="8" fill="#E5604F"/><rect x="492" y="192" width="64" height="24" rx="6" fill="#5D7FA6"/><use class="duck " href="#duck" x="400" y="52" width="74" height="42.6" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="1"/><use class="duck " href="#duck" x="326" y="148" width="48" height="27.7" style="" opacity="1"/><use class="duck " href="#duck" x="500" y="168" width="48" height="27.7" style="" opacity="1"/><text x="437" y="150" text-anchor="middle" font-size="26" font-weight="700" fill="#fff" class="t">1</text><text x="437" y="38" text-anchor="middle" font-size="18" font-weight="700" fill="#FFB4A8" class="t">farming account</text><text x="350" y="238" text-anchor="middle" font-size="16" fill="#BFD9F2">people who helped</text></g></svg><figcaption class="lane-cap">Every message counts the same, so the farming account tops the board.</figcaption></figure>
+                    <figure class="lane lane-b"><p class="lane-label">The Flock</p><svg class="scene-svg farm" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drawing: grey duck accounts stay behind a yellow gate marked Your team confirms. Yellow ducks pass through to a track record with two dated lines."><defs><linearGradient id="pg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F4C80"/><stop offset="1" stop-color="#143A63"/></linearGradient><clipPath id="pc1"><rect width="600" height="250" rx="26"/></clipPath></defs><g clip-path="url(#pc1)"><rect width="600" height="250" fill="url(#pg1)"/><circle cx="64" cy="48" r="26" fill="#FED801" opacity=".9"/><path d="M0,214 C100,200 200,226 300,214 C400,202 500,226 600,210 L600,250 L0,250Z" fill="#0F2A4A"/><use class="duck sw s0" href="#duck" x="30" y="150" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s1" href="#duck" x="88" y="178" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s2" href="#duck" x="14" y="188" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s3" href="#duck" x="140" y="138" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck pass1" href="#duck" x="60" y="118" width="56" height="32.3" style="" opacity="1"/><use class="duck pass2" href="#duck" x="20" y="96" width="56" height="32.3" style="" opacity="1"/><rect x="262" y="70" width="14" height="148" rx="5" fill="#FED801"/><rect x="332" y="70" width="14" height="148" rx="5" fill="#FED801"/><rect x="258" y="62" width="92" height="16" rx="8" fill="#FED801"/><g><rect x="224" y="20" width="160" height="34" rx="17" fill="#FED801"/><text x="304" y="43" text-anchor="middle" font-size="17" font-weight="700" fill="#12304F" class="t">Your team confirms</text></g><rect x="404" y="66" width="180" height="136" rx="14" fill="#F6F1E3"/><rect x="404" y="66" width="180" height="28" rx="14" fill="#E3D9BD"/><text x="494" y="86" text-anchor="middle" font-size="17" font-weight="700" fill="#12304F" class="t">Track record</text><text x="418" y="124" font-size="15" fill="#12304F">12 Oct · Marked useful</text><text x="418" y="150" font-size="15" fill="#12304F">18 Oct · Post: Good</text><circle cx="424" cy="178" r="5" fill="#2FA866"/><rect x="438" y="174" width="96" height="8" rx="4" fill="#CBBF9C"/></g></svg><figcaption class="lane-cap">A line goes on a track record only when your team marks a request useful or reviews a post.</figcaption></figure>
+                </div>
+            </div>
+        </section>
+
+        <section class="section soft" aria-labelledby="rule-title">
+            <div class="wrap rule">
+                <div>
+                    <h2 id="rule-title">X no longer allows apps that pay people to post.</h2>
+                    <p class="lede">On 15 January 2026 X’s head of product wrote that X would “<a href="https://decrypt.co/354736/elon-musks-x-bans-access-infofi-crypto-projects-ai-slop-backlash" target="_blank" rel="noopener noreferrer">no longer allow apps that reward users for posting on X</a>”, and blamed AI slop and reply spam. The same day, Kaito said it was shutting down Yaps, where people earned a score for posting about projects. So a community that pays per post, per reply or per cashtag raid now works against X’s own rules.</p>
+                    <p class="lede">Anyone can become a professional and help pitch a project, out of loyalty or as a small business of their own. Both are fair when the work is real. But the method has to be forged, and that is where The Flock steps in.</p>
+                </div>
+                <div class="rule-card">
+                    <h3>How The Flock works with that rule</h3>
+                    <ul>
+                        <li>Nobody is paid to post, to reply or to raid a cashtag.</li>
+                        <li>Posts are reviewed by a person for quality, never counted for volume.</li>
+                        <li>In planning: points and a reward pool. Their rules and how to prevent farming are still being worked out (<a href="#fees-title">see the idea</a>).</li>
+                        <li>We discourage raids and spam, because they never get a project the result it needs.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="band slate" aria-labelledby="x-title">
+            <svg class="wv" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C240,4 480,4 720,26 C960,48 1200,50 1440,20 L1440,56 L0,56 Z"/></svg>
+            <div class="wrap section">
+                <h2 id="x-title">Talk about a project on X without getting hidden.</h2>
+                <p class="lede">Plenty of people who love a project don’t know how to present it without alarming a group’s admins or X’s own moderators. They post links, tickers and price talk. Then they spend weeks in a shadow ban without knowing why. If you are here to advocate a project and its token, and you want to learn from professionals, you are at the right stop.</p>
+                <div class="demo" data-demo>
+                    <div class="steps" role="tablist" aria-label="A member's path on X">
+                        <button class="step" role="tab" id="x-t1" aria-controls="x-p1" aria-selected="true"><span class="thumb"><img src="/assets/flock/screens/x_home.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">1</span>Learn what works</span></button>
+                        <button class="step" role="tab" id="x-t2" aria-controls="x-p2" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">2</span>Check a draft</span></button>
+                        <button class="step" role="tab" id="x-t3" aria-controls="x-p3" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">3</span>Team feedback</span></button>
+                        <button class="step" role="tab" id="x-t4" aria-controls="x-p4" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">4</span>Keep the track record</span></button>
+                    </div>
+                    <div class="panels">
+                        <div class="panel" role="tabpanel" id="x-p1" aria-labelledby="x-t1">
+                            <div class="tg" role="img" aria-label="The bot's Get noticed on X screen, with buttons to check a reply, see my posts, learn how to reply well, and go home">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/x_home.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>📣 Write replies people want to answer</b></p>
+                                        <p>Pick a post you want to answer, then add a useful detail, an experience or a thoughtful question.</p>
+                                        <p>Read → Add value → Reply</p>
+                                        <p>✍️ <b>Have a draft?</b> Check my reply before you post it.</p>
+                                        <p>📤 <b>Already posted?</b> Send it in My posts. If the team reviews it, their feedback arrives in this chat.</p>
+                                        <p>💬 <b>Not sure how?</b> How to reply well shows an example and tips.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">✍️ Check my reply</span><span class="btn">📤 My posts</span><span class="btn">💬 How to reply well</span><span class="btn">🏠 Home</span></div>
+                            </div>
+                            <div>
+                                <h3>Start with a post worth answering</h3>
+                                <p>The member adds something real to it: a detail, an experience, a question. The ten-page reply guide shows how replies get seen, why a pasted slogan does not, and how to check whether your replies are visible before you post more.</p>
+                                <button class="next-step" type="button">Next: check a draft</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="x-p2" aria-labelledby="x-t2">
+                            <div class="tg marked" role="img" aria-label="A member pastes a draft reply. The bot answers that it has a link, it drops the ticker, and it has price talk or a promised gain, and says it did not keep the text">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>✍️ Check my reply</b></p>
+                                        <p>Send the text you are thinking of posting as a reply on X. I’ll check for issues such as length, links, ticker mentions and price promises.</p>
+                                    </div>
+                                </div>
+                                <div class="me"><span class="who">Your draft</span><u data-k="1">$TIDE</u> is <u data-k="2">about to 10x</u>, get in before it pumps 🚀 <u data-k="0">arctide.app</u></div>
+                                <div class="msg later">
+                                    <div class="cap">
+                                        <p><b>✍️ Check my reply</b></p>
+                                        <ul><li>It has a link.</li><li>It drops the ticker.</li><li>Price talk or a promised gain.</li></ul>
+                                        <p class="quiet"><i>I did not keep your text.</i></p>
+                                    </div>
+                                </div>
+                                <div class="btns later"><span class="btn wide">❓ Why these?</span><span class="btn">✍️ Check another</span><span class="btn">✍️ Get noticed on X</span></div>
+                            </div>
+                            <div>
+                                <h3>See what gets a reply hidden, before you post it</h3>
+                                <p>The member pastes a draft. The bot names what often gets replies hidden: a link, a ticker, price talk, asking for likes, and about ten stock phrases that AI tools love. It never rewrites the text and keeps nothing. The member decides what to change.</p>
+                                <p>A wider check is built and in testing. It also flags long dashes, the “not this, but that” trick and chatbot openers, and shows the same signs to the person who reviews the post.</p>
+                                <button class="next-step" type="button">Next: your team’s feedback</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="x-p3" aria-labelledby="x-t3">
+                            <div class="tg" role="img" aria-label="The bot's Your post feedback screen: Good, by Ben. One post sent, one good">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>📣 Your post feedback</b></p>
+                                        <p><b>👍 Good</b>, by Ben.</p>
+                                        <p>1 sent · 1 good</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">📤 My posts</span><span class="btn">✍️ Get noticed on X</span></div>
+                            </div>
+                            <div>
+                                <h3>A person on your team grades the post</h3>
+                                <p>After posting on X, the member sends the link. Someone on your team grades it Good, Needs work or Not allowed, and says why. The feedback arrives in the member’s chat, so the member knows what to change next time.</p>
+                                <button class="next-step" type="button">Next: the track record</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="x-p4" aria-labelledby="x-t4">
+                            <div class="tg" role="img" aria-label="The bot's History screen for Maya, with one post reviewed as Good on 7 October 2026">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>📜 History</b> · Maya</p>
+                                        <p class="quiet">These are the saved entries for your bot account. Older points are a record of past activity, not a promise of anything in future.</p>
+                                        <p>🙏 Thanks: 0 received · 0 given</p>
+                                        <p><b>Reviewed by the team</b><br><mark>• 07 Oct 2026 · 📤 Post reviewed: 👍 Good</mark></p>
+                                        <p class="quiet">Something looks wrong? Tap Ask the team.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">🎫 Ask the team</span><span class="btn">◀ Back</span></div>
+                            </div>
+                            <div>
+                                <h3>The grade goes on their track record</h3>
+                                <p>Every reviewed post is added to the member’s History, with the date. Months later, anyone who explained your project well can show it. They can download their track record or delete it whenever they like.</p>
+                                <button class="next-step" type="button">Back to the start</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="band coral" aria-labelledby="help-title">
+            <svg class="wv" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,24 C220,50 500,52 760,28 C1020,4 1240,6 1440,30 L1440,56 L0,56 Z"/></svg>
+            <div class="wrap section">
+                <h2 id="help-title">What happens when a member needs help, or meets a fake admin?</h2>
+                <p class="lede">Support questions drown in a busy group, and scammers wait there pretending to be the team. The Flock takes the question into a private chat and gives your team one place to answer it.</p>
+                <div class="demo" data-demo>
+                    <div class="steps" role="tablist" aria-label="Support and safety">
+                        <button class="step" role="tab" id="h-t1" aria-controls="h-p1" aria-selected="true"><span class="thumb"><img src="/assets/flock/screens/ask.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">1</span>A member asks</span></button>
+                        <button class="step" role="tab" id="h-t2" aria-controls="h-p2" aria-selected="false" tabindex="-1"><span class="thumb ticket" aria-hidden="true"><span>🎫 <b>Ticket #0001</b></span><span class="mini-btns"><i>Done</i><i class="on">Useful</i><i>Spam</i></span></span><span class="lbl"><span class="n">2</span>Your team answers</span></button>
+                        <button class="step" role="tab" id="h-t3" aria-controls="h-p3" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/profile.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">3</span>Useful help is saved</span></button>
+                        <button class="step" role="tab" id="h-t4" aria-controls="h-p4" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/staffcheck.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">4</span>Is this really the team?</span></button>
+                    </div>
+                    <div class="panels">
+                        <div class="panel" role="tabpanel" id="h-p1" aria-labelledby="h-t1">
+                            <div class="tg" role="img" aria-label="The bot's Ask the team screen, with buttons for a problem, a complaint, and an idea or proposal">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/ask.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>🎫 Ask the team</b></p>
+                                        <p>Send a private request when you need help, want to raise a complaint or have an idea or proposal. A short set of questions helps the team understand what happened and what you need.</p>
+                                        <p>Never include a seed phrase or private key. Choose the topic closest to your request.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">🛠 A problem</span><span class="btn">⚠️ Complaint</span><span class="btn">💡 Idea or proposal</span><span class="btn">◀ Help</span></div>
+                            </div>
+                            <div>
+                                <h3>A private request with a number</h3>
+                                <p>The member picks a problem, a complaint or an idea, answers a few short questions and can attach a screenshot. The request gets a number, and the reply arrives in the same private chat. /status shows where it stands.</p>
+                                <button class="next-step" type="button">Next: your team answers</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="h-p2" aria-labelledby="h-t2">
+                            <div class="tg" role="img" aria-label="A ticket card in the team chat, after tapping Close: the buttons are Done, Useful, Spam and Back, with Useful highlighted">
+                                <div class="msg">
+                                    <div class="cap">
+                                        <p>🎫 <b>Ticket #0001</b> · 💡 Idea · ✅ clean (score 0)</p>
+                                        <p>From: Maya</p>
+                                        <p><b>Idea:</b> Add a price alert in the Telegram bot so traders do not miss moves on pools they follow.</p>
+                                        <p><b>Why:</b> Traders who follow several pools and cannot watch them all day.</p>
+                                        <p>↩️ <b>Answer this member</b><br>Tap 💬 Reply, or reply to this message. Your answer goes to their private chat.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">✅ Done</span><span class="btn pick">⭐ Useful</span><span class="btn">🚫 Spam</span><span class="btn">◀ Back</span></div>
+                            </div>
+                            <div>
+                                <h3>One private chat for your whole team</h3>
+                                <p>Each request reaches your team chat as a card. Anyone on the team can reply, take it, or close it as Done, Useful or Spam. Requests that look like spam wait in their own list, so your team sees the real ones first.</p>
+                                <button class="next-step" type="button">Next: useful help is saved</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="h-p3" aria-labelledby="h-t3">
+                            <div class="tg" role="img" aria-label="The bot's My profile screen for Maya: her track record in The Flock, with buttons for History, Badges, Account and Home">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/profile.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p>👤 <b>Maya</b></p>
+                                        <p>Your record in The Flock: what you have contributed, and what others confirmed.</p>
+                                        <p>📜 <b>History</b> lists what you have done here, with dates. 🏅 <b>Badges</b> shows recognition on your account.<br>🔐 <b>Account</b> holds your wallet and your data: download it or delete it at any time.</p>
+                                        <p>This record is yours.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">📜 History</span><span class="btn">🏅 Badges</span><span class="btn">🔐 Account</span><span class="btn">🏠 Home</span></div>
+                            </div>
+                            <div>
+                                <h3>One tap, and the help is remembered</h3>
+                                <p>A good bug report or a sharp idea is help too. When your team closes a request as Useful, it goes on that member’s track record with the date. Nobody has to remember who found the bug last spring.</p>
+                                <button class="next-step" type="button">Next: is this really the team?</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="h-p4" aria-labelledby="h-t4">
+                            <div class="tg" role="img" aria-label="The bot's answer to a forwarded message: written by someone on the team, with a warning to be careful">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/staffcheck.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>🛡 Written by someone on the team.</b></p>
+                                        <p>Careful: if your chat shows “Forwarded from”, the person who sent it to you may not be on the team. And even a real team account can be taken over, so this does not prove the message is safe.</p>
+                                        <p>You never need to connect a wallet or pay to get support. Support replies arrive through this bot. We never ask for your seed phrase, private key, password or login code.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">🎫 Ask the team</span><span class="btn">Check another</span></div>
+                            </div>
+                            <div>
+                                <h3>Forward the message, and the bot tells you</h3>
+                                <p>A member gets a message that says it comes from the team. They forward it to the bot, which says whether someone on your team wrote it. Here it was a real team member, and the bot still tells them to be careful. The bot itself never asks for a seed phrase, a password or a wallet connection, and it deletes a private key if someone pastes one.</p>
+                                <button class="next-step" type="button">Back to the start</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="band green" aria-labelledby="fees-title">
+            <svg class="wv" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C240,4 480,4 720,26 C960,48 1200,50 1440,20 L1440,56 L0,56 Z"/></svg>
+            <div class="wrap section">
+                <h2 id="fees-title">How Arctide splits your token’s trading fees</h2>
+                <p class="lede">If your token trades on Arctide, every trade pays a fee in USDC, and you set part of the split. Arctide’s router pays out each share in the same transaction.</p>
+                <div class="fees">
+                    <figure class="scene" id="flow">
+<svg class="scene-svg" id="fee-svg" viewBox="0 0 560 880" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drawing of how Arctide splits a trading fee. Someone trades your token on Arctide. The fee is paid in USDC. Arctide’s router splits it in the same transaction, three ways: liquidity providers, your project’s wallet or contract, and 0.25 percent to Arctide. A reward and tip pool for members whose help your team confirmed would sit under your project’s share. It is not live yet.">
+<defs>
+  <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#37B88C"/><stop offset=".55" stop-color="#25986F"/><stop offset="1" stop-color="#17704F"/></linearGradient>
+  <clipPath id="fclip"><rect width="560" height="880" rx="30"/></clipPath>
+</defs>
+<g clip-path="url(#fclip)">
+<rect width="560" height="880" fill="url(#fsky)"/>
+<circle cx="478" cy="86" r="44" fill="#FED801"/>
+<path d="M0,170 C90,130 170,150 250,168 C340,186 430,150 560,160 L560,260 L0,260Z" fill="#43C195" opacity=".55"/>
+<path d="M0,215 C120,185 210,215 330,206 C430,198 500,190 560,206 L560,300 L0,300Z" fill="#2E9A6C" opacity=".7"/>
+<g><rect x="30.0" y="36" width="400" height="48" rx="24.0" fill="#fff"/><text x="230" y="66.8" text-anchor="middle" font-size="19" font-weight="600" fill="#12304F" class="t">Someone trades your token on Arctide</text></g>
+<rect x="196" y="150" width="168" height="14" rx="5" fill="#B7793B"/><rect x="208" y="164" width="9" height="22" fill="#8F5C28"/><rect x="343" y="164" width="9" height="22" fill="#8F5C28"/>
+<use class="duck bob" href="#duck" x="214" y="108" width="74" height="42.6" style="" opacity="1"/>
+<g><circle cx="322" cy="140" r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><circle cx="338" cy="142" r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/></g>
+<path d="M280,190 L280,306" fill="none" stroke="#7CC8F0" stroke-width="62" stroke-linecap="round"/><path d="M280,190 L280,306" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/>
+<g><rect x="318.0" y="216" width="224" height="38" rx="19.0" fill="#fff"/><text x="430" y="241.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">The fee is paid in USDC</text></g>
+<g opacity="0" class="coin"><g transform="scale(1.0)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><animateMotion dur="6s" begin="0s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;1" keyTimes="0;0.36;1" path="M280,190 L280,306"/><animate attributeName="opacity" dur="6s" begin="0s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;.03;0.330;0.360;1"/></g><g opacity="0" class="coin"><g transform="scale(1.0)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><animateMotion dur="6s" begin="1.2s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;1" keyTimes="0;0.36;1" path="M280,190 L280,306"/><animate attributeName="opacity" dur="6s" begin="1.2s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;.03;0.330;0.360;1"/></g>
+<path d="M170,394 C170,430 105,436 105,484" fill="none" stroke="#7CC8F0" stroke-width="30" stroke-linecap="round"/><path d="M170,394 C170,430 105,436 105,484" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/><path d="M280,394 L280,486" fill="none" stroke="#7CC8F0" stroke-width="54" stroke-linecap="round"/><path d="M280,394 L280,486" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/><path d="M390,394 C390,430 465,436 465,484" fill="none" stroke="#7CC8F0" stroke-width="20" stroke-linecap="round"/><path d="M390,394 C390,430 465,436 465,484" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/>
+<g opacity="0" class="coin"><g transform="scale(0.9)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><animateMotion dur="6s" begin="2.4s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.4;0.7;1" path="M170,394 C170,430 105,436 105,484"/><animate attributeName="opacity" dur="6s" begin="2.4s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.4;0.430;0.670;0.700;1"/></g><g opacity="0" class="coin"><g transform="scale(1.0)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><animateMotion dur="6s" begin="2.4s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.4;0.7;1" path="M280,394 L280,486"/><animate attributeName="opacity" dur="6s" begin="2.4s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.4;0.430;0.670;0.700;1"/></g><g opacity="0" class="coin"><g transform="scale(1.0)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><animateMotion dur="6s" begin="3.6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.4;0.7;1" path="M280,394 L280,486"/><animate attributeName="opacity" dur="6s" begin="3.6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.4;0.430;0.670;0.700;1"/></g><g opacity="0" class="coin"><g transform="scale(0.8)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><animateMotion dur="6s" begin="2.4s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.4;0.7;1" path="M390,394 C390,430 465,436 465,484"/><animate attributeName="opacity" dur="6s" begin="2.4s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.4;0.430;0.670;0.700;1"/></g>
+<rect x="110" y="306" width="340" height="88" rx="20" fill="#12304F"/><rect x="110" y="306" width="340" height="12" rx="6" fill="#FED801"/><text x="280" y="347" text-anchor="middle" font-size="23" font-weight="700" fill="#fff" class="t">Arctide’s router</text><text x="280" y="374" text-anchor="middle" font-size="17" fill="#BFD9F2">splits the fee in one transaction</text>
+<rect x="148" y="388" width="44" height="12" rx="4" fill="#FED801"/>
+<rect x="258" y="388" width="44" height="12" rx="4" fill="#FED801"/>
+<rect x="368" y="388" width="44" height="12" rx="4" fill="#FED801"/>
+<ellipse cx="100" cy="548" rx="84" ry="52" fill="#7CC8F0"/>
+<use class="duck bob b1" href="#duck" x="48" y="520" width="56" height="32.3" style="" opacity="1"/><g transform="translate(156 538) scale(-1 1)"><use class="duck bob b2" href="#duck" x="0" y="0" width="50" height="28.8" style="" opacity="1"/></g>
+<g><rect x="11.0" y="608" width="178" height="36" rx="18.0" fill="#fff"/><text x="100" y="632.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">Liquidity providers</text></g>
+<text x="100" y="664" text-anchor="middle" font-size="17" fill="#fff">Their share</text>
+<ellipse cx="465" cy="548" rx="76" ry="52" fill="#7CC8F0"/>
+<image href="/assets/flock/badge.png" x="436" y="518" width="58" height="58"/>
+<g><rect x="407.0" y="608" width="116" height="36" rx="18.0" fill="#fff"/><text x="465" y="632.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">Arctide</text></g>
+<text x="465" y="664" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" class="t">0.25%</text>
+<rect x="192" y="486" width="176" height="176" rx="48" fill="#7CC8F0" stroke="#FED801" stroke-width="5"/>
+<text x="280" y="534" text-anchor="middle" font-size="21" font-weight="700" fill="#12304F" class="t">Your project</text><text x="280" y="566" text-anchor="middle" font-size="17" fill="#12304F">The share you set,</text><text x="280" y="586" text-anchor="middle" font-size="17" fill="#12304F">to your wallet</text><text x="280" y="606" text-anchor="middle" font-size="17" fill="#12304F">or contract</text>
+<g><circle cx="248" cy="636" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/><circle cx="280" cy="640" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/><circle cx="312" cy="636" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/></g>
+<path d="M280,664 L280,722" fill="none" stroke="#FED801" stroke-width="4" stroke-linecap="round" stroke-dasharray="3 11"/>
+<ellipse cx="280" cy="790" rx="190" ry="70" fill="rgba(255,255,255,.14)" stroke="#FED801" stroke-width="3" stroke-dasharray="9 9"/>
+<g><rect x="214" y="722" width="132" height="26" rx="13" fill="#FED801"/><text x="280" y="740" text-anchor="middle" font-size="14" font-weight="800" fill="#12304F" letter-spacing=".5">NOT LIVE YET</text></g>
+<text x="280" y="778" text-anchor="middle" font-size="21" font-weight="700" fill="#fff" class="t">A reward and tip pool</text><text x="280" y="804" text-anchor="middle" font-size="17" fill="#E6F6EE">for members whose help</text><text x="280" y="824" text-anchor="middle" font-size="17" fill="#E6F6EE">your team confirmed</text>
+<use class="duck " href="#duck" x="120" y="768" width="54" height="31.1" style="" opacity="0.55"/><g transform="translate(440 768) scale(-1 1)"><use class="duck " href="#duck" x="0" y="0" width="54" height="31.1" style="" opacity="0.55"/></g>
+<path d="M0,846 C90,830 180,858 280,846 C380,834 470,858 560,842 L560,880 L0,880Z" fill="#1B5F8C"/><path d="M0,862 C110,850 200,872 300,862 C400,852 480,872 560,860 L560,880 L0,880Z" fill="#12304F"/>
+</g></svg>
+<figcaption class="back">The idea behind the pool: members who are credited keep explaining the project well, and more people find it.</figcaption>
+</figure>
+                    <div class="fees-text">
+                        <p>One idea is that a project could put part of its trading fees into a pool for community contributions. We have not set the rules for what would qualify or how to prevent farming. Those decisions need to be made with the people building the system.</p>
+                        <p class="note"><b>Please note.</b> Points and a reward pool are not live. There is no reward amount or start date to promise.</p>
+                        <p class="eg-title">An example that works today: Arctide’s own token, TIDE. Its stakers claim TIDE and USDC on arctide.app, and The Flock shows each member’s position.</p>
+                        <div class="tg" role="img" aria-label="The bot's staking screen: link your wallet address to see what you have staked, when it unlocks, and the TIDE and USDC you can claim">
+                            <div class="msg">
+                                <img src="/assets/flock/screens/staking.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                <div class="cap">
+                                    <p><b>🌊 Your $TIDE staking</b></p>
+                                    <p>Link your wallet address to see your staking position here: what you have staked, when it unlocks, and the TIDE + USDC you can claim.</p>
+                                    <p>Only your public address is needed. Never send a seed phrase or private key: nobody from Arctide will ever ask for it.</p>
+                                    <p>Staking, claiming and withdrawing happen on arctide.app, signed by your own wallet.</p>
+                                </div>
+                            </div>
+                            <div class="btns"><span class="btn">🔗 Link my wallet</span><span class="btn">🌐 Open arctide.app ↗</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="does-title">
+            <div class="wrap">
+                <h2 id="does-title">What The Flock does</h2>
+                <p class="lede">Everything here works in the bot today, except items marked in testing or planned. A name that is a link opens the page that explains it.</p>
+                <div class="idx">
+                    <div class="idx-group">
+                        <div class="idx-head"><h3>Support, and spotting fake admins</h3><a class="shown" href="#help-title">Shown above ↑</a></div>
+                        <ul class="idx-items">
+                            <li><b><a href="manual/#tickets">Numbered private requests</a></b><span class="ln">Anyone on your team answers from one shared chat, and the reply lands in the member’s private chat.</span></li>
+                            <li><b><a href="manual/#noise">Spam held apart</a></b><span class="ln">Likely spam waits in a separate list, so your team reads real requests first.</span></li>
+                            <li><b><a href="manual/#is-it-the-team">Fake-admin check</a></b><span class="ln">Forward a message that claims to be from your team, and the bot says if it’s genuine.</span></li>
+                            <li><b><a href="faq.html#never-ask">The bot never asks for your seed phrase</a></b><span class="ln">Support works without connecting a wallet. If someone pastes a private key, the bot deletes it.</span></li>
+                            <li><b><span class="nm">Problem reports for developers</span> <span class="st">(in testing)</span></b><span class="ln">Each report carries the bot’s own log of what went wrong.</span></li>
+                            <li><b><span class="nm">Weekly team overview</span> <span class="st">(in testing)</span></b><span class="ln">Who did the work this week, and what is still waiting.</span></li>
+                        </ul>
+                    </div>
+                    <div class="idx-group">
+                        <div class="idx-head"><h3>Posting about your project on X</h3><a class="shown" href="#x-title">Shown above ↑</a></div>
+                        <ul class="idx-items">
+                            <li><b><a href="manual/#check-my-reply">Check my reply</a></b><span class="ln">Flags a link, a ticker, price talk, asking for likes or one of about ten stock AI phrases. It keeps no copy and never rewrites.</span></li>
+                            <li><b><a href="manual/#reply-guide">Reply guide</a></b><span class="ln">Ten short pages on writing replies people answer, ending with how a member checks that their replies are still visible.</span></li>
+                            <li><b><a href="manual/#review">Post grading by your team</a></b><span class="ln">Someone on your team grades a published post Good, Needs work or Not allowed, and says why.</span></li>
+                            <li><b><span class="nm">One tap to X and back</span> <span class="st">(in testing)</span></b><span class="ln">From a post worth answering to X in one tap, then back to the bot for feedback.</span></li>
+                            <li><b><a href="#x-title">Wider AI-phrasing check</a> <span class="st">(in testing)</span></b><span class="ln">Also flags long dashes, the “not this, but that” pattern and chatbot openers, for the member and for whoever grades the post.</span></li>
+                            <li><b><span class="nm">Grader training</span> <span class="st">(in testing)</span></b><span class="ln">Trusted members learn to grade posts, with a test of ten sample replies.</span></li>
+                            <li><b><span class="nm">AI coach</span> <span class="st">(planned)</span></b><span class="ln">Answers members’ questions and helps them write replies in their own words.</span></li>
+                        </ul>
+                    </div>
+                    <div class="idx-group">
+                        <div class="idx-head"><h3>Credit for members who support others</h3><a class="shown" href="#farm">Shown above ↑</a></div>
+                        <ul class="idx-items">
+                            <li><b><a href="manual/#profile">Dated track record</a></b><span class="ln">Every request your team marks useful and every post your team reviews goes on History with the date. The member can download it or delete it.</span></li>
+                            <li><b><a href="manual/#thanks">Thanks between members</a></b><span class="ln">In a private group, replying /thanks to a helpful message puts a thank-you on both members’ History.</span></li>
+                            <li><b><a href="faq.html#zeal">Zeal</a> <span class="st">(planned)</span></b><span class="ln">A proposal for recognising contributions over time. Zeal is not live, and its rules are not set.</span></li>
+                            <li><b><a href="#fees-title">Points and a reward pool</a> <span class="st">(under discussion)</span></b><span class="ln">One idea is a pool funded from project trading fees. What would qualify and how to prevent farming are still undecided.</span></li>
+                        </ul>
+                    </div>
+                    <div class="idx-group">
+                        <div class="idx-head"><h3>Keeping everyone up to date</h3></div>
+                        <ul class="idx-items">
+                            <li><b><a href="manual/#brief">Weekly brief</a></b><span class="ln">One line from your team at the top of every member’s Home screen.</span></li>
+                            <li><b><a href="manual/#carousel">Scheduled posts</a></b><span class="ln">Announcements and reminders go out in the group one at a time, every few hours.</span></li>
+                            <li><b><a href="manual/#wallet">TIDE staking and reminders</a></b><span class="ln">For Arctide: holders see what they have staked and when it unlocks, and can switch on reminders.</span></li>
+                        </ul>
+                    </div>
+                    <div class="idx-group">
+                        <div class="idx-head"><h3>Partners, and your own version</h3></div>
+                        <ul class="idx-items">
+                            <li><b><a href="manual/#ask-the-team">Partner proposals</a></b><span class="ln">A project that wants to launch or partner fills in a short form, and it arrives in your team chat as a request.</span></li>
+                            <li><b><span class="nm">Your own version of The Flock</span> <span class="st">(planned)</span></b><span class="ln">Run the same tools under your own community’s name.</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="where">Keep the bot you use to moderate your group. The Flock works alongside it.</p>
+            </div>
+        </section>
+
+        <section class="band navy finish" aria-labelledby="start">
+            <svg class="wv" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,24 C220,50 500,52 760,28 C1020,4 1240,6 1440,30 L1440,56 L0,56 Z"/></svg>
+            <div class="wrap section">
+                <h2 id="start">Try it as a member.</h2>
+                <p>Open the bot and press Start to see it as your members do. To talk to us about The Flock for your community, send a partner proposal: tap Help, then Ask the team, then Idea or proposal.</p>
+                <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer" aria-label="Site footer">
+        <div class="wrap">
+            <a class="brand" href="/"><img src="/bonzi-logo.png?v=20261104" alt="" width="40" height="40"><span>The Flock</span></a>
+            <div class="links"><a href="/privacy.html">Privacy</a><a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a></div>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.documentElement.classList.add('js');
+
+        // The highlights in the draft light up one by one, then the bot's answer appears
+        var timers = [];
+        function playMarks(panel) {
+            timers.forEach(clearTimeout); timers = [];
+            var tg = panel.querySelector('.marked'); if (!tg) return;
+            var us = tg.querySelectorAll('u');
+            us.forEach(function (u) { u.classList.remove('on'); });
+            if (reduce) { us.forEach(function (u) { u.classList.add('on'); }); panel.classList.remove('wait'); return; }
+            panel.classList.add('wait');
+            us.forEach(function (u) { timers.push(setTimeout(function () { u.classList.add('on'); }, 500 + 450 * Number(u.dataset.k))); });
+            timers.push(setTimeout(function () { panel.classList.remove('wait'); }, 500 + 450 * us.length + 200));
+        }
+
+        document.querySelectorAll('[data-demo]').forEach(function (demo) {
+            var tabs = Array.prototype.slice.call(demo.querySelectorAll('[role="tab"]'));
+            var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+            function show(i, focus) {
+                tabs.forEach(function (t, j) {
+                    var on = i === j;
+                    t.setAttribute('aria-selected', on ? 'true' : 'false');
+                    t.tabIndex = on ? 0 : -1;
+                    panels[j].hidden = !on;
+                    panels[j].classList.toggle('show', on);
+                });
+                if (focus) tabs[i].focus();
+                playMarks(panels[i]);
+            }
+            tabs.forEach(function (t, i) {
+                t.addEventListener('click', function () { show(i, false); });
+                t.addEventListener('keydown', function (e) {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); show((i + 1) % tabs.length, true); }
+                    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); show((i - 1 + tabs.length) % tabs.length, true); }
+                });
+            });
+            panels.forEach(function (p, i) {
+                var b = p.querySelector('.next-step');
+                if (b) b.addEventListener('click', function () { show((i + 1) % tabs.length, true); });
+            });
+            show(0, false);
+        });
+
+        var els = [document.getElementById('lanes'), document.getElementById('flow')].filter(Boolean);
+        function smil(el, on) {
+            el.querySelectorAll('svg').forEach(function (s) {
+                if (!s.pauseAnimations) return;
+                if (reduce) { s.pauseAnimations(); try { s.setCurrentTime(1.4); } catch (e) {} return; }
+                if (on) s.unpauseAnimations(); else s.pauseAnimations();
+            });
+        }
+        els.forEach(function (e) { smil(e, false); });
+        if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('play'); smil(e, true); }); return; }
+        var io = new IntersectionObserver(function (list) {
+            list.forEach(function (x) { x.target.classList.toggle('play', x.isIntersecting); smil(x.target, x.isIntersecting); });
+        }, { threshold: 0.2 });
+        els.forEach(function (e) { io.observe(e); });
+    })();
+    </script>
+</body>
+</html>
