@@ -1,6 +1,6 @@
 /* The Flock theme: the home page's look for the other pages.
    Fredoka headings, a blue band behind each page's title, a navy footer. Colours come from Arctide's logo. */
-@font-face { font-family: "Fredoka"; src: url("/assets/fonts/fredoka-latin.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
+@font-face { font-family: "Fredoka"; src: url("/the-flock-website/assets/fonts/fredoka-latin.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
 
 body:not(.home-page) h1, body:not(.home-page) h2, body:not(.home-page) h3 { font-family: "Fredoka", "Inter", system-ui, sans-serif; letter-spacing: -0.005em; }
 body:not(.home-page) h1 { font-weight: 700; }

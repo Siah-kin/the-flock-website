@@ -26,7 +26,7 @@
       '<div class="slot-access-label">Access</div>' +
       '<h1>Passage locked</h1>' +
       '<p>Play the slotgame first. A valid claim unlocks this page on this browser.</p>' +
-      '<a class="slot-access-action" href="/?slot=open">Open the slotgame</a>' +
+      '<a class="slot-access-action" href="/the-flock-website/?slot=open">Open the slotgame</a>' +
       (reason ? '<p class="slot-access-reason">' + escapeHtml(reason) + '</p>' : '') +
       '</div>';
     var nav = document.getElementById('mobile-menu-container') || document.body.firstChild;
