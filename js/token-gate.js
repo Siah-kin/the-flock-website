@@ -51,7 +51,7 @@ class TokenGate {
         overlay.innerHTML = `
             <div class="token-gate-modal">
                 <div class="token-gate-header">
-                    <img src="/the-flock-website/bonzi-logo.png" alt="The Flock" style="width: 48px; height: 48px; border-radius: 50%;">
+                    <img src="/bonzi-logo.png" alt="The Flock" style="width: 48px; height: 48px; border-radius: 50%;">
                     <h2>Holder Access Required</h2>
                 </div>
                 <p>This whitepaper is exclusive to BONZI and VISTA token holders.</p>
@@ -152,9 +152,9 @@ class TokenGate {
                     statusDiv.innerHTML = `
                         ❌ Insufficient balance. Need 1M+ BONZI (wallet or staked) or any VISTA.
                         <br><br>
-                        <a href="/the-flock-website/" style="color: #0058A8; text-decoration: none;">← Back to homepage</a>
+                        <a href="/" style="color: #0058A8; text-decoration: none;">← Back to homepage</a>
                         <br>
-                        <a href="/the-flock-website/economics/#ethervista" style="color: #0058A8; text-decoration: none;">How to buy →</a>
+                        <a href="/economics/#ethervista" style="color: #0058A8; text-decoration: none;">How to buy →</a>
                     `;
                 }
             }
