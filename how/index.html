@@ -269,5 +269,13 @@
     </footer>
 
     <script>document.documentElement.classList.add('js');</script>
+    <script>
+    // Old manual and FAQ links keep working: their anchors point to the matching section here.
+    (function () {
+        var map = { 'zeal': 'questions', 'x-feedback': 'get-noticed', 'post-feedback': 'get-noticed', 'reply-guide': 'check-my-reply', 'my-contributions': 'profile', 'never-ask': 'is-it-the-team', 'help': 'is-it-the-team', 'what-is-kept': 'profile', 'your-data': 'profile', 'thanks': 'profile', 'wallet': 'need-a-wallet', 'noise': 'tickets', 'team-desk': 'tickets', 'brief': 'tickets', 'carousel': 'setup', 'who-is-team': 'setup', 'what-can-i-do': 'member', 'members': 'member', 'start': 'member', 'troubleshooting': 'questions' };
+        var h = location.hash.slice(1);
+        if (map[h] && !document.getElementById(h)) { history.replaceState(null, '', '#' + map[h]); var el = document.getElementById(map[h]); if (el) el.scrollIntoView(); }
+    })();
+    </script>
 </body>
 </html>
