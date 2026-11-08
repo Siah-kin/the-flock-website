@@ -5,9 +5,9 @@
 /* Road: the "here" duck rides the rail at the fill (js sets --ride); it stays above the later stops */
 .road .here { z-index: 2; translate: 0 var(--ride, 0px); }
 /* Each stop's ring pulses once in its own colour when the fill reaches it */
-.stop::after { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; box-sizing: border-box; border: 3px solid var(--c); opacity: 0; pointer-events: none; }
+.stop::after { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; box-sizing: border-box; border: 4px solid var(--c); opacity: 0; pointer-events: none; }
 .stop.road-hit::after { animation: road-ping var(--dur-long) var(--ease-enter) both; }
-@keyframes road-ping { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(2.2); } }
+@keyframes road-ping { 0% { opacity: 1; transform: scale(1); } 50% { opacity: .75; } 100% { opacity: 0; transform: scale(2.3); } }
 /* On narrow screens the gutter is narrower than the duck: while it rides it shrinks to fit, so it never covers text */
 @media (max-width: 900px) {
     .stop::after { left: 12px; }
