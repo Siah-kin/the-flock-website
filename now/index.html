@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/bonzi-design.css">
     <link rel="stylesheet" href="/css/motion.css?v=20261108motion1">
     <script src="/js/nav-loader.js?v=20260703full6" defer></script>
+    <script src="/js/flock-motion.js?v=20261108motion1" defer></script>
     <style>
         @font-face { font-family: "Fredoka"; src: url("/assets/fonts/fredoka-latin.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
         :root { --navy: #002050; --blue: #0058A8; --sky: #7CC8F0; --sun: #FED801; --ink: #0E1B33; --muted: #4A5B72; --soft: #F2F7FC; --line: #D6E4F3; --display: "Fredoka", "Inter", system-ui, sans-serif; }
@@ -220,84 +221,6 @@
         </div>
     </footer>
 
-    <script>
-    (function () {
-        document.documentElement.classList.add('js');
-        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var shown = function (svg) { return getComputedStyle(svg).display !== 'none'; };
-        // Plays only the variant (wide or tall) that is on screen
-        function play(svg) {
-            if (reduce || !shown(svg)) return;
-            svg.classList.remove('go'); void svg.getBoundingClientRect(); svg.classList.add('go');
-            var m = svg.querySelector('animateMotion'); if (m && m.beginElement) m.beginElement();
-        }
-        // Jumps a variant straight to its last frame
-        function finish(svg) {
-            svg.classList.add('go');
-            var m = svg.querySelector('animateMotion'); if (m && m.beginElement) m.beginElement();
-            if (svg.setCurrentTime) { try { svg.setCurrentTime(3); } catch (e) {} }
-            if (svg.getAnimations) svg.getAnimations({ subtree: true }).forEach(function (a) { try { a.finish(); } catch (e) {} });
-        }
-        var played = [];
-        var anims = document.querySelectorAll('svg.tap, svg.loopx');
-        if (reduce) { anims.forEach(finish); }
-        else if ('IntersectionObserver' in window) {
-            var io = new IntersectionObserver(function (list) {
-                list.forEach(function (x) {
-                    if (!x.isIntersecting) return;
-                    var fig = x.target.closest('figure');
-                    io.unobserve(x.target);
-                    if (played.indexOf(fig) !== -1) return; // already played (or shown at its last frame)
-                    played.push(fig);
-                    fig.querySelectorAll('svg').forEach(play);
-                });
-            }, { threshold: 0.45 });
-            anims.forEach(function (s) { io.observe(s); });
-        } else { anims.forEach(function (s) { play(s); }); }
-        // Switching between the wide and tall layout after a figure has played shows its last frame at once
-        var narrow = window.matchMedia && window.matchMedia('(max-width: 600px)');
-        if (narrow && narrow.addEventListener && !reduce) {
-            narrow.addEventListener('change', function () {
-                played.forEach(function (fig) { fig.querySelectorAll('svg').forEach(function (s) { if (shown(s)) finish(s); }); });
-            });
-        }
-        document.querySelectorAll('.replay').forEach(function (b) {
-            b.addEventListener('click', function () {
-                var fig = b.closest('figure');
-                if (played.indexOf(fig) === -1) played.push(fig);
-                fig.querySelectorAll('svg').forEach(play);
-            });
-        });
-        // The opening flock bobs only while it is on screen and the tab is visible
-        var topEl = document.querySelector('.top');
-        if (topEl && !reduce) {
-            var seen = false;
-            var sync = function () { topEl.classList.toggle('play', seen && !document.hidden); };
-            if ('IntersectionObserver' in window) {
-                new IntersectionObserver(function (list) { seen = list[list.length - 1].isIntersecting; sync(); }, { threshold: 0.2 }).observe(topEl);
-            } else { seen = true; sync(); }
-            document.addEventListener('visibilitychange', sync);
-        }
-        // the path fills as you read
-        var road = document.querySelector('.road'), fill = document.querySelector('.rail i');
-        if (road && fill && !reduce) {
-            var pending = false, attached = false;
-            var tick = function () {
-                pending = false;
-                var r = road.getBoundingClientRect(), vh = window.innerHeight;
-                var p = Math.min(1, Math.max(0, (vh * 0.6 - r.top) / r.height));
-                fill.style.setProperty('--fill', p.toFixed(3));
-            };
-            var onScroll = function () { if (!pending) { pending = true; requestAnimationFrame(tick); } };
-            var attach = function () { if (!attached) { attached = true; window.addEventListener('scroll', onScroll, { passive: true }); } onScroll(); };
-            var detach = function () { if (attached) { attached = false; window.removeEventListener('scroll', onScroll); } onScroll(); };
-            window.addEventListener('resize', onScroll);
-            if ('IntersectionObserver' in window) {
-                new IntersectionObserver(function (list) { if (list[list.length - 1].isIntersecting) attach(); else detach(); }).observe(road);
-            } else { attach(); }
-            tick();
-        }
-    })();
-    </script>
+    <script>document.documentElement.classList.add('js');</script>
 </body>
 </html>
