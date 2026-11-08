@@ -9,13 +9,13 @@
 #lanes:not(.play) .scene-svg *,
 #flow:not(.play) .scene-svg *,
 .pic:not(.play) .scene-svg *,
-.top:not(.play) .flock use { animation-play-state: paused; }
+.top:not(.play) .flock * { animation-play-state: paused; }
 .hero.play .hero-ducks *,
 .why.play .ducks-swim,
 #lanes.play .scene-svg *,
 #flow.play .scene-svg *,
 .pic.play .scene-svg *,
-.top.play .flock use { animation-play-state: running; }
+.top.play .flock * { animation-play-state: running; }
 
 /* Home page: hero card, hero ducks, Why duck, tab panel swap */
 .hero figure { animation: rise var(--dur-long) var(--ease-enter) both; }
@@ -24,8 +24,9 @@
 @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
 .panel.show .tg { animation: swap var(--dur-med) var(--ease-enter) both; }
 @keyframes swap { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
-.hero-ducks .hd { animation: bob2 var(--amb-bob) ease-in-out infinite; }
-.hero-ducks .h2 { animation-delay: -1s; } .hero-ducks .h3 { animation-delay: -2s; } .hero-ducks .h4 { animation-delay: -3s; }
+.hero-ducks .hd { animation: bob2 var(--amb-bob) ease-in-out var(--phase, 0s) infinite; }
+/* --phase keeps the flock out of lockstep; a rigged duck's head follows the same phase (see Duck rig) */
+.hero-ducks .h2 { --phase: -1s; } .hero-ducks .h3 { --phase: -2s; } .hero-ducks .h4 { --phase: -3s; }
 
 /* Ponds and fee scene */
 .scene-svg .ripple { animation: ripple var(--amb-ripple) linear infinite; }
@@ -41,8 +42,8 @@
 @keyframes through { 0% { transform: translateX(0); opacity: 1; } 45% { transform: translateX(190px); } 70% { transform: translateX(330px); opacity: 1; } 78%, 100% { transform: translateX(330px); opacity: 0; } }
 
 /* now/ and why/: opening flock, filling rail, wide and tall variants */
-.top .flock use { animation: bob-flock var(--amb-bob) ease-in-out infinite; animation-play-state: paused; }
-.top .flock use:nth-child(2) { animation-delay: -1.3s; } .top .flock use:nth-child(3) { animation-delay: -2.6s; }
+.top .flock > * { animation: bob-flock var(--amb-bob) ease-in-out var(--phase, 0s) infinite; animation-play-state: paused; }
+.top .flock > :nth-child(2) { --phase: -1.3s; } .top .flock > :nth-child(3) { --phase: -2.6s; }
 /* Not the same curve as `bob`: the flock lifts 5px with no tilt */
 @keyframes bob-flock { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 .rail i { position: absolute; inset: 0; border-radius: 3px; background: linear-gradient(180deg, #2FA866, var(--sky) 55%, var(--sun)); transform-origin: top; transform: scaleY(var(--fill, 0)); }
@@ -104,7 +105,7 @@
     .rig, .rig * { animation: none !important; transition: none !important; }
     .hero figure, .why .ducks-swim, .panel.show .tg { animation: none; }
     .scene-svg *, .hero-ducks * { animation: none !important; }
-    .top .flock use { animation: none; }
+    .top .flock > * { animation: none; }
     .tap .ring { display: none; }
     .js .tap .useful-on, .js .tap .newline, .js .loopx .grade { opacity: 1; transform: none; animation: none !important; }
     .js .loopx .trail { stroke-dashoffset: 0; animation: none !important; }
