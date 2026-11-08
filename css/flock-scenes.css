@@ -1,0 +1,77 @@
+/* Scene animation for index, now/ and why/: every scene @keyframes, the rules that use them,
+   and the matching reduced-motion rules. Timing comes from css/motion.css (link that first).
+   Layout and colour stay in each page; only motion lives here. */
+
+/* Ambient loops stay paused unless their host is in view (js/flock-motion.js adds .play).
+   Pausing needs :not(.play) on the host: a plain `.scene-svg *` rule loses to the `animation:` shorthands below. */
+.hero:not(.play) .hero-ducks *,
+.why:not(.play) .ducks-swim,
+#lanes:not(.play) .scene-svg *,
+#flow:not(.play) .scene-svg *,
+.pic:not(.play) .scene-svg *,
+.top:not(.play) .flock use { animation-play-state: paused; }
+.hero.play .hero-ducks *,
+.why.play .ducks-swim,
+#lanes.play .scene-svg *,
+#flow.play .scene-svg *,
+.pic.play .scene-svg *,
+.top.play .flock use { animation-play-state: running; }
+
+/* Home page: hero card, hero ducks, Why duck, tab panel swap */
+.hero figure { animation: rise var(--dur-long) var(--ease-enter) both; }
+@keyframes rise { from { opacity: .01; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+.why .ducks-swim { animation: bob var(--amb-bob-slow) ease-in-out infinite; }
+@keyframes bob { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+.panel.show .tg { animation: swap var(--dur-med) var(--ease-enter) both; }
+@keyframes swap { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
+.hero-ducks .hd { animation: bob2 var(--amb-bob) ease-in-out infinite; }
+.hero-ducks .h2 { animation-delay: -1s; } .hero-ducks .h3 { animation-delay: -2s; } .hero-ducks .h4 { animation-delay: -3s; }
+
+/* Ponds and fee scene */
+.scene-svg .ripple { animation: ripple var(--amb-ripple) linear infinite; }
+@keyframes ripple { to { stroke-dashoffset: -18; } }
+.scene-svg .bob { animation: bob2 3.4s ease-in-out infinite; }
+.scene-svg .b1 { animation-delay: -1.1s; } .scene-svg .b2 { animation-delay: -2.2s; }
+@keyframes bob2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.scene-svg .sw { animation: swim var(--amb-swim) ease-in-out infinite; }
+.scene-svg .s1 { animation-delay: -1.7s; } .scene-svg .s2 { animation-delay: -3.5s; } .scene-svg .s3 { animation-delay: -5.2s; }
+@keyframes swim { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(26px); } }
+.scene-svg .pass1, .scene-svg .pass2 { animation: through 6s ease-in-out infinite; }
+.scene-svg .pass2 { animation-delay: -3s; }
+@keyframes through { 0% { transform: translateX(0); opacity: 1; } 45% { transform: translateX(190px); } 70% { transform: translateX(330px); opacity: 1; } 78%, 100% { transform: translateX(330px); opacity: 0; } }
+
+/* now/ and why/: opening flock, filling rail, wide and tall variants */
+.top .flock use { animation: bob-flock var(--amb-bob) ease-in-out infinite; animation-play-state: paused; }
+.top .flock use:nth-child(2) { animation-delay: -1.3s; } .top .flock use:nth-child(3) { animation-delay: -2.6s; }
+/* Not the same curve as `bob`: the flock lifts 5px with no tilt */
+@keyframes bob-flock { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.rail i { position: absolute; inset: 0; border-radius: 3px; background: linear-gradient(180deg, #2FA866, var(--sky) 55%, var(--sun)); transform-origin: top; transform: scaleY(var(--fill, 0)); }
+.pic .tall { display: none; }
+@media (max-width: 600px) { .pic .wide { display: none; } .pic .tall { display: block; } }
+
+/* The one tap: plays once when it comes into view */
+.tap .ring { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.js .tap .newline { opacity: 0; transform: translateY(-10px); }
+.tap.go .ring { animation: ring 1s ease-out .6s both; }
+.tap.go .useful-on { animation: on .3s ease-out 1.05s both; }
+.tap.go .newline { animation: slide .6s cubic-bezier(.16,1,.3,1) 1.7s both; /* scene beat */ }
+.js .tap .useful-on { opacity: 0; }
+@keyframes ring { 0% { opacity: .9; transform: scale(.4); } 100% { opacity: 0; transform: scale(1.8); } }
+@keyframes on { to { opacity: 1; } }
+@keyframes slide { to { opacity: 1; transform: none; } }
+
+/* The loop to X */
+.loopx .trail { stroke-dasharray: 1; stroke-dashoffset: 0; } .js .loopx .trail { stroke-dashoffset: 1; }
+.loopx.go .trail { animation: draw 2.6s ease-in-out .3s both; }
+.js .loopx .grade { opacity: 0; } .loopx.go .grade { animation: on .4s ease-out 2.9s both; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .hero figure, .why .ducks-swim, .panel.show .tg { animation: none; }
+    .scene-svg *, .hero-ducks * { animation: none !important; }
+    .top .flock use { animation: none; }
+    .tap .ring { display: none; }
+    .js .tap .useful-on, .js .tap .newline, .js .loopx .grade { opacity: 1; transform: none; animation: none !important; }
+    .js .loopx .trail { stroke-dashoffset: 0; animation: none !important; }
+    .rail i { transform: scaleY(1); }
+}
