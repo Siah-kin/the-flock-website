@@ -1,4 +1,23 @@
 /* S4 on now/ and why/: the road duck and stop pulses, the one tap, the loop to X.
-   Timing comes from css/motion.css (link that first); js/flock-road.js drives the beats. */
+   Timing comes from css/motion.css (link that first); js/flock-road.js drives the scene beats.
+   Keyframes here are named road-* so they never shadow the shared ones in css/flock-scenes.css. */
+
+/* Road: the "here" duck rides the rail at the fill (js sets --ride); it stays above the later stops */
+.road .here { z-index: 2; transform: translateY(var(--ride, 0px)); }
+/* Each stop's ring pulses once in its own colour when the fill reaches it */
+.stop::after { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; box-sizing: border-box; border: 3px solid var(--c); opacity: 0; pointer-events: none; }
+.stop.road-hit::after { animation: road-ping var(--dur-long) var(--ease-enter) both; }
+@keyframes road-ping { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(2.2); } }
+@media (max-width: 900px) { .stop::after { left: 12px; } }
+
+/* One tap: the pointer is drawn by js and hidden until the scene shows it */
+.road-pointer { opacity: 0; pointer-events: none; }
+
+/* Loop to X: the duck follows the trail's own path (js sets offset-path from it) and waits at the start */
+.loopx .road-duck { offset-distance: 0%; offset-rotate: 0deg; }
+.road-reply { opacity: 0; }
+
 @media (prefers-reduced-motion: reduce) {
+    .road .here { transform: none; }
+    .stop::after { display: none; }
 }
