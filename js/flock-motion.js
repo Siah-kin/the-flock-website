@@ -82,7 +82,7 @@
             running.push(s); s.step(); kick();
         }
         h = {
-            el: el, play: play, replay: play, end: end,
+            el: el, beats: beats, play: play, replay: play, end: end,
             pause: function () {
                 s.held = true;
                 s.anims = el.getAnimations ? el.getAnimations({ subtree: true }).filter(function (a) { return a.playState === 'running'; }) : [];
