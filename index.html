@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/bonzi-design.css">
     <link rel="stylesheet" href="/css/motion.css?v=20261108motion1">
     <script src="/js/nav-loader.js?v=20260703full6" defer></script>
+    <script src="/js/flock-motion.js?v=20261108motion1" defer></script>
     <style>
         @font-face {
             font-family: "Fredoka";
@@ -654,80 +655,74 @@
 
     <script>
     (function () {
-        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         document.documentElement.classList.add('js');
-
-        // The highlights in the draft light up one by one, then the bot's answer appears
-        function playMarks(panel, timers) {
-            timers.forEach(clearTimeout); timers.length = 0;
-            var tg = panel.querySelector('.marked'); if (!tg) return;
-            var us = tg.querySelectorAll('u');
-            us.forEach(function (u) { u.classList.remove('on'); });
-            if (reduce) { us.forEach(function (u) { u.classList.add('on'); }); panel.classList.remove('wait'); return; }
-            panel.classList.add('wait');
-            us.forEach(function (u) { timers.push(setTimeout(function () { u.classList.add('on'); }, 500 + 450 * Number(u.dataset.k))); });
-            timers.push(setTimeout(function () { panel.classList.remove('wait'); }, 500 + 450 * us.length + 200));
-        }
-
-        document.querySelectorAll('[data-demo]').forEach(function (demo) {
-            var timers = [];
-            var tabs = Array.prototype.slice.call(demo.querySelectorAll('[role="tab"]'));
-            var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
-            function show(i, focus) {
-                tabs.forEach(function (t, j) {
-                    var on = i === j;
-                    t.setAttribute('aria-selected', on ? 'true' : 'false');
-                    t.tabIndex = on ? 0 : -1;
-                    panels[j].hidden = !on;
-                    panels[j].classList.toggle('show', on);
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check my reply: the notes light up the words they are about, one by one, then the bot's answer appears
+            var marks = [];
+            document.querySelectorAll('.panel').forEach(function (panel) {
+                var us = panel.querySelectorAll('.marked u');
+                if (!us.length) return;
+                var beats = Array.prototype.map.call(us, function (u) {
+                    return { at: 500 + 450 * Number(u.dataset.k), run: function () { u.classList.add('on'); } };
                 });
-                if (focus) tabs[i].focus();
-                playMarks(panels[i], timers);
+                beats.push({ at: 500 + 450 * us.length + 200, run: function () { panel.classList.remove('wait'); } });
+                var show = function () { us.forEach(function (u) { u.classList.add('on'); }); panel.classList.remove('wait'); };
+                marks.push({ panel: panel, scene: Flock.scene(panel, {
+                    mode: 'once', threshold: null, beats: beats,
+                    reset: function () { us.forEach(function (u) { u.classList.remove('on'); }); panel.classList.add('wait'); },
+                    end: show
+                }) });
+            });
+            function playMarks(panel) {
+                marks.forEach(function (m) {
+                    if (m.panel !== panel) return;
+                    if (Flock.paused) m.scene.end(); else m.scene.replay();
+                });
             }
-            tabs.forEach(function (t, i) {
-                t.addEventListener('click', function () { show(i, false); });
-                t.addEventListener('keydown', function (e) {
-                    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); show((i + 1) % tabs.length, true); }
-                    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); show((i - 1 + tabs.length) % tabs.length, true); }
-                });
-            });
-            panels.forEach(function (p, i) {
-                var b = p.querySelector('.next-step');
-                if (b) b.addEventListener('click', function () { show((i + 1) % tabs.length, true); });
-            });
-            show(0, false);
-        });
 
-        // Ambient loops run only while their section is on screen and the tab is visible
-        var els = [document.querySelector('.hero'), document.querySelector('.why'), document.getElementById('lanes'), document.getElementById('flow')].filter(Boolean);
-        var inView = [];
-        function hasSmil(el) { return el.id === 'lanes' || el.id === 'flow'; }
-        function smil(el, on) {
-            if (!hasSmil(el)) return;
-            el.querySelectorAll('svg').forEach(function (s) {
-                if (!s.pauseAnimations) return;
-                if (reduce) { s.pauseAnimations(); return; }
-                if (on) s.unpauseAnimations(); else s.pauseAnimations();
+            document.querySelectorAll('[data-demo]').forEach(function (demo) {
+                var tabs = Array.prototype.slice.call(demo.querySelectorAll('[role="tab"]'));
+                var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+                function show(i, focus) {
+                    tabs.forEach(function (t, j) {
+                        var on = i === j;
+                        t.setAttribute('aria-selected', on ? 'true' : 'false');
+                        t.tabIndex = on ? 0 : -1;
+                        panels[j].hidden = !on;
+                        panels[j].classList.toggle('show', on);
+                    });
+                    if (focus) tabs[i].focus();
+                    playMarks(panels[i]);
+                }
+                tabs.forEach(function (t, i) {
+                    t.addEventListener('click', function () { show(i, false); });
+                    t.addEventListener('keydown', function (e) {
+                        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); show((i + 1) % tabs.length, true); }
+                        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); show((i - 1 + tabs.length) % tabs.length, true); }
+                    });
+                });
+                panels.forEach(function (p, i) {
+                    var b = p.querySelector('.next-step');
+                    if (b) b.addEventListener('click', function () { show((i + 1) % tabs.length, true); });
+                });
+                show(0, false);
             });
-        }
-        function apply(el) {
-            var on = !document.hidden && inView.indexOf(el) !== -1;
-            el.classList.toggle('play', on); smil(el, on);
-        }
-        els.forEach(function (e) { smil(e, false); });
-        // Reduced motion: no coin frozen mid-pipe; the static coins in the project box carry the meaning
-        if (reduce) document.querySelectorAll('#fee-svg .coin').forEach(function (c) { c.style.display = 'none'; });
-        if (!('IntersectionObserver' in window)) { els.forEach(function (e) { inView.push(e); apply(e); }); return; }
-        var io = new IntersectionObserver(function (list) {
-            list.forEach(function (x) {
-                var i = inView.indexOf(x.target);
-                if (x.isIntersecting && i === -1) inView.push(x.target);
-                if (!x.isIntersecting && i !== -1) inView.splice(i, 1);
-                apply(x.target);
-            });
-        }, { threshold: 0.2 });
-        els.forEach(function (e) { io.observe(e); });
-        document.addEventListener('visibilitychange', function () { els.forEach(apply); });
+
+            // Ambient loops: the hero ducks, the Why duck, both ponds and the fee scene
+            var hero = document.querySelector('.hero'), why = document.querySelector('.why');
+            var lanes = document.getElementById('lanes'), flow = document.getElementById('flow');
+            if (hero) Flock.ambient(hero);
+            if (why) Flock.ambient(why);
+            if (lanes) Flock.ambient(lanes);
+            if (flow) Flock.ambient(flow, { onchange: function (on) {
+                // SMIL coins follow the same switch. In reduced motion they stay off: the static coins in the project box carry the meaning
+                flow.querySelectorAll('svg').forEach(function (s) {
+                    if (!s.pauseAnimations) return;
+                    if (on) s.unpauseAnimations(); else s.pauseAnimations();
+                });
+                flow.querySelectorAll('#fee-svg .coin').forEach(function (c) { c.style.display = Flock.reduced ? 'none' : ''; });
+            } });
+        });
     })();
     </script>
 </body>
