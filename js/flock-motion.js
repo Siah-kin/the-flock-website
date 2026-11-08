@@ -157,7 +157,6 @@
         function label() {
             btns.forEach(function (b) {
                 b.textContent = F.paused ? 'Play animations' : 'Pause animations';
-                b.setAttribute('aria-pressed', F.paused ? 'true' : 'false');
             });
         }
         function add(host, before) {
