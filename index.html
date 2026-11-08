@@ -647,6 +647,7 @@
                 });
                 beats.push({ at: 500 + 450 * us.length + 200, run: function () { panel.classList.remove('wait'); } });
                 var show = function () { us.forEach(function (u) { u.classList.add('on'); }); panel.classList.remove('wait'); };
+                if (!window.Flock) return;
                 marks.push({ panel: panel, scene: Flock.scene(panel, {
                     mode: 'once', threshold: null, beats: beats,
                     reset: function () { us.forEach(function (u) { u.classList.remove('on'); }); panel.classList.add('wait'); },
@@ -689,6 +690,7 @@
             });
 
             // Ambient loops: the hero ducks, the Why duck, both ponds and the fee scene
+            if (!window.Flock) return;
             var hero = document.querySelector('.hero'), why = document.querySelector('.why');
             var lanes = document.getElementById('lanes'), flow = document.getElementById('flow');
             if (hero) Flock.ambient(hero);
