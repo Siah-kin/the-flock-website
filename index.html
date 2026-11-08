@@ -705,7 +705,7 @@
             if (!hasSmil(el)) return;
             el.querySelectorAll('svg').forEach(function (s) {
                 if (!s.pauseAnimations) return;
-                if (reduce) { s.pauseAnimations(); try { s.setCurrentTime(1.4); } catch (e) {} return; }
+                if (reduce) { s.pauseAnimations(); return; }
                 if (on) s.unpauseAnimations(); else s.pauseAnimations();
             });
         }
@@ -714,6 +714,8 @@
             el.classList.toggle('play', on); smil(el, on);
         }
         els.forEach(function (e) { smil(e, false); });
+        // Reduced motion: no coin frozen mid-pipe; the static coins in the project box carry the meaning
+        if (reduce) document.querySelectorAll('#fee-svg .coin').forEach(function (c) { c.style.display = 'none'; });
         if (!('IntersectionObserver' in window)) { els.forEach(function (e) { inView.push(e); apply(e); }); return; }
         var io = new IntersectionObserver(function (list) {
             list.forEach(function (x) {
