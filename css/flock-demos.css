@@ -1,0 +1,37 @@
+/* Home page scenes driven by js/flock-demos.js: the fee split (#flow), the two Telegram demos, the hero's highlighted
+   line. Motion only: layout, colours and words stay in index.html. Timing comes from css/motion.css. */
+
+/* S1 fee split. Coins are placed by their own transform; the router, the pool rings and the project label scale
+   around their centre. While a run plays (.run), the three resting coins wait for their beat. */
+#flow .router, #flow .ring, #flow .pj { transform-box: fill-box; transform-origin: center; }
+#flow .run .fc-out { opacity: 0; }
+
+/* S3 demos. The card no longer swaps in as one block: its bubbles grow from their tail corner instead */
+.js [data-demo].fx .panel.show .tg { animation: none; }
+[data-demo].fx .tg { position: relative; }
+[data-demo].fx .tg .msg, [data-demo].fx .tg .btns { transform-origin: 0 100%; }
+[data-demo].fx .tg .me { transform-origin: 100% 100%; }
+[data-demo].fx .tg .later, [data-demo].fx .tg .me u { transition: none; }
+[data-demo].fx .panel.pre > * { opacity: 0; }
+/* While the box eases to the new panel's height; the margin keeps the card's shadow */
+[data-demo].fx .panels.flip { overflow: hidden; overflow: clip; overflow-clip-margin: 64px; }
+
+/* The bot is typing: sits where the bot's answer will appear */
+.tg-typing { position: absolute; left: 16px; top: 0; display: flex; gap: 5px; padding: 13px 14px; background: #182533; border-radius: 16px 16px 16px 4px; opacity: 0; transform-origin: 0 100%; pointer-events: none; }
+.tg-typing i { width: 7px; height: 7px; border-radius: 50%; background: #C5D3E8; opacity: .45; }
+
+/* Your team answers: the pointer, and the outline that draws round Useful */
+.tg-ptr { position: absolute; left: 0; top: 0; width: 26px; height: 26px; opacity: 0; pointer-events: none; fill: #fff; stroke: #0E1621; stroke-width: 1.6px; stroke-linejoin: round; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .45)); }
+[data-demo].fx .tg .btn { position: relative; }
+.tg-pick { position: absolute; left: -2px; top: -2px; overflow: visible; pointer-events: none; }
+.tg-pick rect { fill: none; stroke: var(--sun, #FED801); stroke-width: 2px; stroke-dasharray: 1; stroke-dashoffset: 1; }
+
+/* Hero card: the highlighted History line is a background that can fill from the left */
+.js .hero .tg mark { background: linear-gradient(rgba(254, 216, 1, .2), rgba(254, 216, 1, .2)) 0 0 / 100% 100% no-repeat; }
+.js .hero .tg mark.f0 { background-size: 0 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+    [data-demo].fx .panel.pre > * { opacity: 1; }
+    .js .hero .tg mark.f0 { background-size: 100% 100%; }
+    .tg-typing, .tg-ptr { display: none; }
+}
