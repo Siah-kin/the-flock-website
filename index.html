@@ -180,6 +180,14 @@
         @media (max-width: 900px) { .rule { grid-template-columns: 1fr; gap: 28px; } .rule-card { padding: 20px 18px; } }
 
         /* What it does: an index by job, linked into the manual */
+        .gains { margin-top: 36px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 56px; }
+        .gains h3 { font-weight: 600; font-size: 1.35rem; }
+        .gains ul { margin: 14px 0 0; padding-left: 1.2em; display: grid; gap: 12px; }
+        .gains li { font-size: 1.12rem; line-height: 1.5; color: #33445A; }
+        body.dark-mode .gains li { color: #C5D3E8; }
+        .where a { color: var(--blue); font-weight: 600; text-underline-offset: 3px; }
+        body.dark-mode .where a { color: #8EC4FA; }
+        @media (max-width: 900px) { .gains { grid-template-columns: 1fr; gap: 28px; } }
         .idx { margin-top: 40px; border-top: 1px solid var(--line); }
         .idx-group { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 20px 40px; padding: 30px 0; border-bottom: 1px solid var(--line); }
         .idx-head h3 { font-weight: 600; font-size: 1.3rem; line-height: 1.2; }
@@ -600,56 +608,28 @@
 
         <section class="section" aria-labelledby="does-title">
             <div class="wrap">
-                <h2 id="does-title">What The Flock does</h2>
-                <p class="lede">Everything here works in the bot today, except items marked in testing or planned. A name that is a link opens the page that explains it.</p>
-                <div class="idx">
-                    <div class="idx-group">
-                        <div class="idx-head"><h3>Support, and spotting fake admins</h3><a class="shown" href="#help-title">Shown above ↑</a></div>
-                        <ul class="idx-items">
-                            <li><b><a href="manual/#tickets">Numbered private requests</a></b><span class="ln">Anyone on your team answers from one shared chat, and the reply lands in the member’s private chat.</span></li>
-                            <li><b><a href="manual/#noise">Spam held apart</a></b><span class="ln">Likely spam waits in a separate list, so your team reads real requests first.</span></li>
-                            <li><b><a href="manual/#is-it-the-team">Fake-admin check</a></b><span class="ln">Forward a message that claims to be from your team, and the bot says if it’s genuine.</span></li>
-                            <li><b><a href="faq.html#never-ask">The bot never asks for your seed phrase</a></b><span class="ln">Support works without connecting a wallet. If someone pastes a private key, the bot deletes it.</span></li>
-                            <li><b><span class="nm">Problem reports for developers</span> <span class="st">(in testing)</span></b><span class="ln">Each report carries the bot’s own log of what went wrong.</span></li>
-                            <li><b><span class="nm">Weekly team overview</span> <span class="st">(in testing)</span></b><span class="ln">Who did the work this week, and what is still waiting.</span></li>
+                <h2 id="does-title">What does The Flock do for your community?</h2>
+                <div class="gains">
+                    <div>
+                        <h3>For your team</h3>
+                        <ul>
+                            <li>Answer every member in private, from one chat.</li>
+                            <li>Read real requests first. Likely spam waits in its own list.</li>
+                            <li>See each week who helped, and what is still waiting.</li>
+                            <li>Give feedback on the posts members publish about your project.</li>
                         </ul>
                     </div>
-                    <div class="idx-group">
-                        <div class="idx-head"><h3>Posting about your project on X</h3><a class="shown" href="#x-title">Shown above ↑</a></div>
-                        <ul class="idx-items">
-                            <li><b><a href="manual/#check-my-reply">Check my reply</a></b><span class="ln">Flags a link, a ticker, price talk, asking for likes or one of about ten stock AI phrases. It keeps no copy and never rewrites.</span></li>
-                            <li><b><a href="manual/#reply-guide">Reply guide</a></b><span class="ln">Ten short pages on writing replies people answer, ending with how a member checks that their replies are still visible.</span></li>
-                            <li><b><a href="manual/#review">Post grading by your team</a></b><span class="ln">Someone on your team grades a published post Good, Needs work or Not allowed, and says why.</span></li>
-                            <li><b><span class="nm">One tap to X and back</span> <span class="st">(in testing)</span></b><span class="ln">From a post worth answering to X in one tap, then back to the bot for feedback.</span></li>
-                            <li><b><a href="#x-title">Wider AI-phrasing check</a> <span class="st">(in testing)</span></b><span class="ln">Also flags long dashes, the “not this, but that” pattern and chatbot openers, for the member and for whoever grades the post.</span></li>
-                            <li><b><span class="nm">Grader training</span> <span class="st">(in testing)</span></b><span class="ln">Trusted members learn to grade posts, with a test of ten sample replies.</span></li>
-                            <li><b><span class="nm">AI coach</span> <span class="st">(planned)</span></b><span class="ln">Answers members’ questions and helps them write replies in their own words.</span></li>
-                        </ul>
-                    </div>
-                    <div class="idx-group">
-                        <div class="idx-head"><h3>Credit for members who support others</h3><a class="shown" href="#farm">Shown above ↑</a></div>
-                        <ul class="idx-items">
-                            <li><b><a href="manual/#profile">Dated track record</a></b><span class="ln">Every request your team marks useful and every post your team reviews goes on History with the date. The member can download it or delete it.</span></li>
-                            <li><b><a href="faq.html#zeal">Zeal</a> <span class="st">(planned)</span></b><span class="ln">A member’s standing, built from help that other people confirmed.</span></li>
-                            <li><b><a href="#fees-title">Points and a reward pool</a> <span class="st">(planned)</span></b><span class="ln">Points for each piece of help your team confirms. A pool your project funds from part of its trading fees would pay members whose help your team confirmed.</span></li>
-                        </ul>
-                    </div>
-                    <div class="idx-group">
-                        <div class="idx-head"><h3>Keeping everyone up to date</h3></div>
-                        <ul class="idx-items">
-                            <li><b><a href="manual/#brief">Weekly brief</a></b><span class="ln">One line from your team at the top of every member’s Home screen.</span></li>
-                            <li><b><a href="manual/#carousel">Scheduled posts</a></b><span class="ln">Announcements and reminders go out in the group one at a time, every few hours.</span></li>
-                        </ul>
-                    </div>
-                    <div class="idx-group">
-                        <div class="idx-head"><h3>Partners, and your own version</h3></div>
-                        <ul class="idx-items">
-                            <li><b><a href="manual/#ask-the-team">Partner proposals</a></b><span class="ln">A project that wants to launch or partner fills in a short form, and it arrives in your team chat as a request.</span></li>
-                            <li><b><span class="nm">Your own version of The Flock</span> <span class="st">(planned)</span></b><span class="ln">Run the same tools under your own community’s name.</span></li>
+                    <div>
+                        <h3>For your members</h3>
+                        <ul>
+                            <li>Check whether a message really came from your team.</li>
+                            <li>Learn to talk about your project on X without getting hidden.</li>
+                            <li>Keep a dated track record of the help your team confirmed. It belongs to them.</li>
+                            <li>Get support without ever sharing a seed phrase or connecting a wallet.</li>
                         </ul>
                     </div>
                 </div>
-                <p class="where">Keep the bot you use to moderate your group. The Flock works alongside it.</p>
+                <p class="where">Keep the bot you use to moderate your group. The Flock works alongside it. <a href="/manual/">How each part works, step by step</a> · <a href="/page_4/">What comes next</a></p>
             </div>
         </section>
 
