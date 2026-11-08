@@ -749,9 +749,9 @@
                 [600, 1100, 1600, 2100, 2600].forEach(function (t, k) { if (pod) beats.push({ at: t + 680, run: hop(k) }); });
                 if (!Flock.reduced) el.classList.add('pre');
                 Flock.scene(el, {
-                    // start once both ponds are on screen (they stack on phones), or as much as the screen can show
+                    // start when most of the right pond shows: on phones the ponds stack and the left one is then above it
                     mode: 'once', ambient: true, duration: 6000, beats: beats,
-                    threshold: Math.min(0.85, Math.round(innerHeight * 80 / Math.max(el.offsetHeight, 1)) / 100),
+                    target: el.querySelector('.lane-b svg') || el, threshold: 0.6,
                     reset: function () { done = false; clear(); el.classList.add('pre'); void el.getBoundingClientRect(); },
                     end: function () { clear(); el.classList.add('end'); rig('.g1, .g2, .yb', 'flip'); done = true; }
                 });

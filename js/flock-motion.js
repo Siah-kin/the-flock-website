@@ -21,7 +21,8 @@
         if (!w) {
             w = ios[th] = { m: new Map() };
             w.io = new IntersectionObserver(function (list) {
-                list.forEach(function (x) { var f = w.m.get(x.target); if (f) f(x.isIntersecting); });
+                // in view = at least the threshold, in every engine (some report any overlap as intersecting)
+                list.forEach(function (x) { var f = w.m.get(x.target); if (f) f(x.isIntersecting && x.intersectionRatio >= th - 0.01); });
             }, { threshold: th });
         }
         w.m.set(el, cb); w.io.observe(el);
@@ -75,15 +76,21 @@
         if (!window.matchMedia || !matchMedia('(hover: hover)').matches) return;
         function each(f) { arr(host.querySelectorAll('.rig')).forEach(f); }
         function off() { each(function (r) { r.style.removeProperty('--look'); r.style.removeProperty('--look-x'); }); }
+        var ev, q = 0;
         host.addEventListener('pointermove', function (e) {
-            if (F.reduced || F.paused || (ok && !ok())) return off();
-            each(function (r) {
-                var h = r.querySelector('.head'), b = h && h.getBoundingClientRect();
-                if (!b) return;
-                var dx = e.clientX - b.left - b.width / 2, dy = e.clientY - b.top - b.height / 2;
-                var a = Math.max(-25, Math.min(25, Math.atan2(dy, Math.abs(dx)) * 57.3));
-                r.style.setProperty('--look', a.toFixed(1) + 'deg');
-                r.style.setProperty('--look-x', ((dx < 0) !== r.classList.contains('flip') ? -1 : 1) + 'px');
+            ev = e;
+            if (!q) q = requestAnimationFrame(function () {
+                q = 0;
+                if (F.reduced || F.paused || (ok && !ok())) return off();
+                // read every head first, then write, so the page lays out once per frame
+                var rs = arr(host.querySelectorAll('.rig')), bs = rs.map(function (r) { var h = r.querySelector('.head'); return h && h.getBoundingClientRect(); });
+                rs.forEach(function (r, i) {
+                    var b = bs[i]; if (!b) return;
+                    var dx = ev.clientX - b.left - b.width / 2, dy = ev.clientY - b.top - b.height / 2;
+                    var a = Math.max(-25, Math.min(25, Math.atan2(dy, Math.abs(dx)) * 57.3));
+                    r.style.setProperty('--look', a.toFixed(1) + 'deg');
+                    r.style.setProperty('--look-x', ((dx < 0) !== r.classList.contains('flip') ? -1 : 1) + 'px');
+                });
             });
         });
         host.addEventListener('pointerleave', off);
@@ -192,15 +199,16 @@
 
         if (F.reduced) end();
         else {
-            // an ambient scene runs its loops from 20% in view, and starts its storyboard at `th`
+            // an ambient scene runs its loops from 20% in view, and starts its storyboard when `th` of o.target (or el) shows
+            var tg = o.target || el;
             if (o.ambient) watch(el, 0.2, function (v) { s.seen = v; sa.sync(); });
-            if (th !== null) watch(el, th, function (v) {
+            if (th !== null) watch(tg, th, function (v) {
                 if (!o.ambient) s.seen = v;
                 if (o.mode === 'loop') { if (v && s.st !== 1) play(); else if (!v) { drop(); s.st = 0; } return; }
                 if (!v || s.st) return;
                 // paused on arrival: show the last frame (nothing hidden); Play replays from the start
                 if (F.paused) { s.armed = true; if (o.end) o.end(ctx()); return; }
-                unwatch(el, th); play();
+                unwatch(tg, th); play();
             });
         }
         return h;
