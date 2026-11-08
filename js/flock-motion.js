@@ -73,7 +73,7 @@
             if (F.reduced && o.onreduced) o.onreduced(ctx());
         }
         function play() {
-            if (F.reduced) return end();
+            if (F.reduced || F.paused) return end();
             drop(); s.armed = false;
             if (!F.paused) svgs().forEach(function (v) { if (v.unpauseAnimations) v.unpauseAnimations(); });
             if (o.reset) o.reset(ctx());
