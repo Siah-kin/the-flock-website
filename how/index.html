@@ -893,6 +893,8 @@
                 if (target) {
                     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                     target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+                    // Safari has no scrollend: settle the highlight after the jump
+                    if (!('onscrollend' in window)) { setTimeout(updateActive, 100); setTimeout(updateActive, 900); }
                 }
             });
         });
