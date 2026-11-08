@@ -1431,6 +1431,9 @@ body.dark-mode .perk-desc {
     0%, 100% { transform: translateY(0); opacity: 1; }
     50% { transform: translateY(-4px); opacity: 0.8; }
 }
+@media (prefers-reduced-motion: reduce) {
+    .sound-hint { animation: none; }
+}
 
 /* ========================================
    RESPONSIVE DESIGN SYSTEM
