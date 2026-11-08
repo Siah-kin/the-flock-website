@@ -152,9 +152,14 @@
         if (mode === null) return null;
         var r = stage.getBoundingClientRect();
         if (mode === 'live' && r.top < NAV && r.bottom > NAV + 10) return { el: sources, off: 72 };
-        var list = [sources, root.nextElementSibling], pick = null;
-        list.forEach(function (el) { if (el && el.getBoundingClientRect().top <= innerHeight * 0.5) pick = el; });
-        return pick ? { el: pick, off: pick.getBoundingClientRect().top } : null;
+        // the block the reader is in: the last one that starts in the top quarter of the screen or above it.
+        // In the lead nothing above them changes, so their place needs no help.
+        var list = [root.querySelector('.pw-lead'), sources, end, root.nextElementSibling], pick = null;
+        if (mode === 'live') list.splice(2, 1);  // in the scene the answer lives inside the stage
+        list.forEach(function (el) { if (el && el.getBoundingClientRect().top <= innerHeight * 0.25) pick = el; });
+        // a reader on the answer band goes to the scene's answer beat when the scene comes back
+        if (pick === end) return { answer: true };
+        return pick && pick !== list[0] ? { el: pick, off: pick.getBoundingClientRect().top } : null;
     }
 
     function setMode(m) {
@@ -176,7 +181,8 @@
             deco.forEach(function (el) { el.removeAttribute('style'); });
             root.appendChild(end);
         }
-        if (a) scrollTo(0, (window.scrollY || window.pageYOffset) + a.el.getBoundingClientRect().top - a.off);
+        if (a && a.answer) scrollTo(0, stage.getBoundingClientRect().top + (window.scrollY || window.pageYOffset) - NAV + (T.ca1 + 0.2) * H);
+        else if (a) scrollTo(0, (window.scrollY || window.pageYOffset) + a.el.getBoundingClientRect().top - a.off);
         requestAnimationFrame(function () { de.style.overflowAnchor = oa; });
     }
 
