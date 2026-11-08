@@ -191,15 +191,16 @@
         }
 
         if (F.reduced) end();
-        else if (th !== null) {
-            watch(el, th, function (v) {
-                s.seen = v;
-                if (o.ambient) sa.sync();
+        else {
+            // an ambient scene runs its loops from 20% in view, and starts its storyboard at `th`
+            if (o.ambient) watch(el, 0.2, function (v) { s.seen = v; sa.sync(); });
+            if (th !== null) watch(el, th, function (v) {
+                if (!o.ambient) s.seen = v;
                 if (o.mode === 'loop') { if (v && s.st !== 1) play(); else if (!v) { drop(); s.st = 0; } return; }
                 if (!v || s.st) return;
-                if (F.paused) { s.armed = true; return; }
-                if (!o.ambient) unwatch(el, th);
-                play();
+                // paused on arrival: an ambient scene shows its end frame (nothing hidden), others wait for Play
+                if (F.paused) { if (o.ambient) end(); else s.armed = true; return; }
+                unwatch(el, th); play();
             });
         }
         return h;
