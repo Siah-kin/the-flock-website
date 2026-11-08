@@ -657,9 +657,8 @@
         document.documentElement.classList.add('js');
 
         // The highlights in the draft light up one by one, then the bot's answer appears
-        var timers = [];
-        function playMarks(panel) {
-            timers.forEach(clearTimeout); timers = [];
+        function playMarks(panel, timers) {
+            timers.forEach(clearTimeout); timers.length = 0;
             var tg = panel.querySelector('.marked'); if (!tg) return;
             var us = tg.querySelectorAll('u');
             us.forEach(function (u) { u.classList.remove('on'); });
@@ -670,6 +669,7 @@
         }
 
         document.querySelectorAll('[data-demo]').forEach(function (demo) {
+            var timers = [];
             var tabs = Array.prototype.slice.call(demo.querySelectorAll('[role="tab"]'));
             var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
             function show(i, focus) {
@@ -681,7 +681,7 @@
                     panels[j].classList.toggle('show', on);
                 });
                 if (focus) tabs[i].focus();
-                playMarks(panels[i]);
+                playMarks(panels[i], timers);
             }
             tabs.forEach(function (t, i) {
                 t.addEventListener('click', function () { show(i, false); });
