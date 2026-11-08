@@ -20,6 +20,9 @@
 html[data-motion="paused"] *,
 html[data-motion="paused"] *::before,
 html[data-motion="paused"] *::after { animation-play-state: paused !important; }
+/* Entrance animations are not loops: they finish while paused so no content stays hidden */
+html[data-motion="paused"] .hero figure,
+html[data-motion="paused"] .panel.show .tg { animation-play-state: running !important; }
 
 /* Global pause toggle (js/flock-motion.js adds it to the nav) */
 .flock-pause {
