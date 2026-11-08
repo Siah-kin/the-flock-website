@@ -87,8 +87,9 @@
         .scene-svg { display: block; width: 100%; height: auto; border-radius: 30px; box-shadow: 0 24px 50px rgba(0, 20, 40, .35); }
         .scene-svg text { font-family: "Inter", system-ui, sans-serif; }
         .scene-svg text.t { font-family: var(--display); }
-        .scene-svg *, .hero-ducks * { animation-play-state: paused; }
-        .play .scene-svg *, .hero-ducks * { animation-play-state: running; }
+        /* Paused unless the figure is in view (:not(.play)); a plain `.scene-svg *` rule loses to the `animation:` shorthands below. */
+        .pic:not(.play) .scene-svg * { animation-play-state: paused; }
+        .pic.play .scene-svg * { animation-play-state: running; }
         .scene-svg .ripple { animation: ripple 1.6s linear infinite; }
         @keyframes ripple { to { stroke-dashoffset: -18; } }
         .scene-svg .bob { animation: bob2 3.4s ease-in-out infinite; }
@@ -122,6 +123,7 @@
         }
         @media (prefers-reduced-motion: reduce) {
             .top .flock use { animation: none; }
+            .scene-svg .sw { animation: none; }
             .tap .ring { display: none; }
             .js .tap .useful-on, .js .tap .newline, .js .loopx .grade { opacity: 1; transform: none; animation: none !important; }
             .js .replay { visibility: hidden; }
@@ -253,15 +255,20 @@
                 fig.querySelectorAll('svg').forEach(play);
             });
         });
-        // The opening flock bobs only while it is on screen and the tab is visible
-        var topEl = document.querySelector('.top');
-        if (topEl && !reduce) {
+        // Ambient loops run only while their section is on screen and the tab is visible
+        var ambient = [];
+        function watch(el) {
             var seen = false;
-            var sync = function () { topEl.classList.toggle('play', seen && !document.hidden); };
+            var sync = function () { el.classList.toggle('play', seen && !document.hidden); };
             if ('IntersectionObserver' in window) {
-                new IntersectionObserver(function (list) { seen = list[list.length - 1].isIntersecting; sync(); }, { threshold: 0.2 }).observe(topEl);
+                new IntersectionObserver(function (list) { seen = list[list.length - 1].isIntersecting; sync(); }, { threshold: 0.2 }).observe(el);
             } else { seen = true; sync(); }
-            document.addEventListener('visibilitychange', sync);
+            ambient.push(sync);
+        }
+        if (!reduce) {
+            watch(document.querySelector('.top'));
+            document.querySelectorAll('.scene-svg.farm').forEach(function (s) { watch(s.closest('figure')); });
+            document.addEventListener('visibilitychange', function () { ambient.forEach(function (f) { f(); }); });
         }
         // the path fills as you read
         var road = document.querySelector('.road'), fill = document.querySelector('.rail i');
