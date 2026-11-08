@@ -126,8 +126,8 @@
                 s.seen = v;
                 if (o.mode === 'loop') { if (v && s.st !== 1) play(); else if (!v) { drop(); s.st = 0; } return; }
                 if (!v || s.st) return;
-                if (o.mode !== 'loop') unwatch(el, th);
-                if (F.paused) s.armed = true; else play();
+                if (F.paused) { s.armed = true; return; }
+                unwatch(el, th); play();
             });
         }
         return h;
