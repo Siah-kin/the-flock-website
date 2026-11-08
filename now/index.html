@@ -223,21 +223,49 @@
     (function () {
         document.documentElement.classList.add('js');
         var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var shown = function (svg) { return getComputedStyle(svg).display !== 'none'; };
+        // Plays only the variant (wide or tall) that is on screen
         function play(svg) {
-            if (reduce) return;
+            if (reduce || !shown(svg)) return;
             svg.classList.remove('go'); void svg.getBoundingClientRect(); svg.classList.add('go');
             var m = svg.querySelector('animateMotion'); if (m && m.beginElement) m.beginElement();
         }
+        // Jumps a variant straight to its last frame
+        function finish(svg) {
+            svg.classList.add('go');
+            var m = svg.querySelector('animateMotion'); if (m && m.beginElement) m.beginElement();
+            if (svg.setCurrentTime) { try { svg.setCurrentTime(3); } catch (e) {} }
+            if (svg.getAnimations) svg.getAnimations({ subtree: true }).forEach(function (a) { try { a.finish(); } catch (e) {} });
+        }
+        var played = [];
         var anims = document.querySelectorAll('svg.tap, svg.loopx');
-        if (reduce) { anims.forEach(function (s) { s.classList.add('go'); var m = s.querySelector('animateMotion'); if (m && m.beginElement) { m.beginElement(); s.setCurrentTime && s.setCurrentTime(3); } }); }
+        if (reduce) { anims.forEach(finish); }
         else if ('IntersectionObserver' in window) {
             var io = new IntersectionObserver(function (list) {
-                list.forEach(function (x) { if (x.isIntersecting) { x.target.closest('figure').querySelectorAll('svg').forEach(play); io.unobserve(x.target); } });
+                list.forEach(function (x) {
+                    if (!x.isIntersecting) return;
+                    var fig = x.target.closest('figure');
+                    io.unobserve(x.target);
+                    if (played.indexOf(fig) !== -1) return; // already played (or shown at its last frame)
+                    played.push(fig);
+                    fig.querySelectorAll('svg').forEach(play);
+                });
             }, { threshold: 0.45 });
             anims.forEach(function (s) { io.observe(s); });
-        } else { anims.forEach(play); }
+        } else { anims.forEach(function (s) { play(s); }); }
+        // Switching between the wide and tall layout after a figure has played shows its last frame at once
+        var narrow = window.matchMedia && window.matchMedia('(max-width: 600px)');
+        if (narrow && narrow.addEventListener && !reduce) {
+            narrow.addEventListener('change', function () {
+                played.forEach(function (fig) { fig.querySelectorAll('svg').forEach(function (s) { if (shown(s)) finish(s); }); });
+            });
+        }
         document.querySelectorAll('.replay').forEach(function (b) {
-            b.addEventListener('click', function () { b.closest('figure').querySelectorAll('svg').forEach(play); });
+            b.addEventListener('click', function () {
+                var fig = b.closest('figure');
+                if (played.indexOf(fig) === -1) played.push(fig);
+                fig.querySelectorAll('svg').forEach(play);
+            });
         });
         // The opening flock bobs only while it is on screen and the tab is visible
         var topEl = document.querySelector('.top');
