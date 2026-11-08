@@ -1,2 +1,5 @@
 motion-snapshots/
 .DS_Store
+
+# internal working documents never go on the served site
+docs/
