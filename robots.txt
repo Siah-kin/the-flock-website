@@ -1,2 +1,16 @@
+# Link previews in Telegram, X and other apps may read the site.
+User-agent: TelegramBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Search engines stay out until the site opens (owner's call).
 User-agent: *
 Disallow: /
