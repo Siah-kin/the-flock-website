@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Flock | How to use the bot</title>
+    <meta name="description" content="How to use The Flock, Arctide's community bot on Telegram: asking the team for help, getting noticed on X, your profile and your data, and the tools for the community team.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="How the bot works | The Flock">
+    <meta property="og:description" content="How to use The Flock, Arctide's community bot on Telegram, screen by screen.">
+    <meta property="og:image" content="https://arcflock.com/assets/flock/arctide-flock.png">
+    <meta property="og:url" content="https://arcflock.com/how/">
+    <link rel="canonical" href="https://arcflock.com/how/">
+    <link rel="icon" href="../assets/flock/arctide-flock-128.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bonzi-design.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="/css/flock-theme.css">
+<script>window.BONZI_LANGS=["en"];</script>
+        <script src="../js/nav-loader.js?v=20260623access1" defer></script>
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --purple: #0058A8;
+            --purple-light: #5AA0E6;
+            --purple-dark: #002050;
+            --white: #FFFFFF;
+            --black: #0A0A0A;
+            --gray: #5B5B66;
+            --gray-light: #F4F4F5;
+            --gold: #d4af37;
+            --green: #10B981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        /* Dark Mode */
+        body.dark-mode { background: #0A0A0A; color: #FFFFFF; }
+
+        /* Layout */
+        .docs-layout {
+            display: flex;
+            padding-top: 56px;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--gray-light);
+            padding: 32px 20px;
+            position: fixed;
+            top: 56px;
+            bottom: 0;
+            overflow-y: auto;
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+        body.dark-mode .sidebar { background: #1F1F23; border-right-color: rgba(255,255,255,0.05); }
+
+        .sidebar-section { margin-bottom: 28px; }
+        .sidebar-section h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gray);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        body.dark-mode .sidebar-section h4 { color: #5B5B66; }
+
+        .sidebar-section a {
+            display: block;
+            padding: 8px 12px;
+            color: var(--black);
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 0;
+            transition: all 0.2s;
+            margin-bottom: 2px;
+        }
+        body.dark-mode .sidebar-section a { color: #A1A1AA; }
+        .sidebar-section a:hover { background: rgba(0, 88, 168, 0.1); color: var(--purple); }
+        body.dark-mode .sidebar-section a:hover { background: rgba(0, 88, 168, 0.15); color: var(--purple-light); }
+        .sidebar-section a.active { background: var(--purple); color: white; }
+
+        .stakeholder-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px !important;
+            margin-bottom: 6px !important;
+            border-radius: 0 !important;
+            font-weight: 600 !important;
+        }
+        .stakeholder-btn .icon { font-size: 18px; display: inline-flex; align-items: center; }
+        .stakeholder-btn .icon svg { width: 18px; height: 18px; fill: #0058A8; }
+        .section-icon { display: inline; margin-right: 8px; }
+        .section-icon svg { width: 24px; height: 24px; fill: #0058A8; vertical-align: middle; }
+
+        /* Main Content */
+        .docs-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Audience Section Backgrounds (subtle color coding) */
+        .audience-section {
+            margin-left: -64px;
+            margin-right: -64px;
+            padding: 48px 64px;
+            transition: background 0.3s ease;
+        }
+        .audience-section.farmers {
+            background: linear-gradient(to bottom, rgba(0, 88, 168, 0.03), rgba(0, 88, 168, 0.05));
+        }
+        body.dark-mode .audience-section.farmers {
+            background: linear-gradient(to bottom, rgba(0, 88, 168, 0.05), rgba(0, 88, 168, 0.08));
+        }
+        .docs-content h1 {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+        .docs-content h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 64px;
+            margin-bottom: 16px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(0,0,0,0.08);
+        }
+        body.dark-mode .docs-content h2 { border-top-color: rgba(255,255,255,0.08); }
+        .docs-content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 12px;
+        }
+        .docs-content p {
+            color: var(--gray);
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+        body.dark-mode .docs-content p { color: #A1A1AA; }
+        .docs-content p strong { color: var(--black); }
+        body.dark-mode .docs-content p strong { color: var(--white); }
+
+        .docs-content code {
+            background: var(--gray-light);
+            padding: 2px 8px;
+            border-radius: 0;
+            font-size: 14px;
+            color: var(--purple);
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+        body.dark-mode .docs-content code { background: #27272A; color: var(--purple-light); }
+
+        .docs-content pre {
+            background: var(--black);
+            color: var(--white);
+            padding: 20px 24px;
+            border-radius: 0;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .docs-content pre code { background: none; padding: 0; color: inherit; }
+
+        .docs-content ol, .docs-content ul {
+            color: var(--gray);
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+        body.dark-mode .docs-content ol, body.dark-mode .docs-content ul { color: #A1A1AA; }
+        .docs-content li { margin-bottom: 8px; line-height: 1.7; }
+        .docs-content li strong { color: var(--black); }
+        body.dark-mode .docs-content li strong { color: var(--white); }
+
+        .docs-content a { color: var(--purple); text-decoration: none; }
+        .docs-content a:hover { text-decoration: underline; }
+        body.dark-mode .docs-content a { color: var(--purple-light); }
+
+        /* Intro text */
+        .docs-intro {
+            font-size: 18px;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+        body.dark-mode .docs-intro { color: #A1A1AA; }
+
+        /* Highlight boxes */
+        .highlight-box {
+            padding: 20px 24px;
+            background: rgba(0, 88, 168, 0.08);
+            border-left: 4px solid var(--purple);
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+        body.dark-mode .highlight-box { background: rgba(0, 88, 168, 0.15); }
+        .highlight-box strong { color: var(--purple); }
+
+        /* Quick Know-How Cards (for diagonal readers) - GREEN = access */
+        .quick-knowhow {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.12));
+            border: 2px solid var(--green);
+            border-radius: 0;
+            padding: 32px;
+            margin: 32px 0 48px 0;
+            position: relative;
+        }
+        body.dark-mode .quick-knowhow {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.18));
+        }
+        .quick-knowhow-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        body.dark-mode .quick-knowhow-header { color: #34D399; }
+        .quick-knowhow-header svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--green);
+        }
+        body.dark-mode .quick-knowhow-header svg { fill: #34D399; }
+        .quick-knowhow-list {
+            display: grid;
+            gap: 16px;
+            list-style: none;
+            padding: 0;
+        }
+        .quick-knowhow-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--black);
+        }
+        body.dark-mode .quick-knowhow-list li { color: var(--white); }
+        .quick-knowhow-list li::before {
+            content: "→";
+            color: var(--green);
+            font-weight: 700;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        body.dark-mode .quick-knowhow-list li::before { color: #34D399; }
+        .quick-knowhow-list strong {
+            color: var(--green);
+            font-weight: 600;
+        }
+        body.dark-mode .quick-knowhow-list strong { color: #34D399; }
+
+        .success-box {
+            padding: 20px 24px;
+            background: rgba(16, 185, 129, 0.08);
+            border-left: 4px solid var(--green);
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+        body.dark-mode .success-box { background: rgba(16, 185, 129, 0.15); }
+        .success-box strong { color: var(--green); }
+
+        /* Command table */
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+        .command-table th {
+            background: var(--black);
+            color: var(--white);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .command-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gray-light);
+            color: var(--gray);
+        }
+        body.dark-mode .command-table td { border-bottom-color: #27272A; color: #A1A1AA; }
+        .command-table tr:nth-child(even) { background: var(--gray-light); }
+        body.dark-mode .command-table tr:nth-child(even) { background: #1F1F23; }
+        .command-table code { color: var(--purple); background: transparent; }
+
+        /* Accessibility: Skip Navigation */
+        .skip-nav {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--purple);
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+            font-weight: 600;
+        }
+        .skip-nav:focus { top: 0; }
+
+        /* Accessibility: Focus styles */
+        *:focus-visible {
+            outline: 3px solid var(--purple);
+            outline-offset: 2px;
+        }
+
+        /* Accessibility: Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Accessibility: High contrast mode */
+        @media (forced-colors: active) {
+            .highlight-box, .success-box { border: 2px solid; }
+            .stakeholder-btn { border: 1px solid; }
+        }
+
+        /* UI Mockup: Telegram-style phone frame */
+        .ui-mockup {
+            max-width: 360px;
+            margin: 24px auto;
+            background: #1A1A2E;
+            border: 2px solid rgba(0, 88, 168, 0.3);
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .ui-mockup-header {
+            background: #16162A;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(0, 88, 168, 0.2);
+        }
+        .ui-mockup-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .ui-mockup-name {
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .ui-mockup-body {
+            padding: 16px;
+            min-height: 180px;
+        }
+        .ui-mockup-msg {
+            background: #2A2A4A;
+            color: #E0E0E0;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            max-width: 85%;
+        }
+        .ui-mockup-btn {
+            display: block;
+            width: 100%;
+            background: rgba(0, 88, 168, 0.15);
+            border: 1px solid rgba(0, 88, 168, 0.3);
+            color: var(--purple-light);
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            cursor: default;
+        }
+        .ui-mockup-btn.gold { border-color: rgba(212, 175, 55, 0.3); color: var(--gold); background: rgba(212, 175, 55, 0.1); }
+        .ui-mockup-caption {
+            text-align: center;
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 8px;
+            font-style: italic;
+        }
+        body.dark-mode .ui-mockup { border-color: rgba(0, 88, 168, 0.4); }
+
+        /* Step visual indicator */
+        .step-visual {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+        .step-visual .step-content { flex: 1; }
+        .step-visual .step-number {
+            width: 36px;
+            height: 36px;
+            background: var(--purple);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s; z-index: 50; }
+            .sidebar.open { transform: translateX(0); }
+            .docs-content { margin-left: 0; padding: 32px 24px; }
+            .audience-section { margin-left: -24px; margin-right: -24px; padding: 32px 24px; }
+            .docs-content h1 { font-size: 32px; }
+            .nav-links { display: none; }
+        }
+
+    
+        /* The bot's screens, drawn the way Telegram shows them (same as the home page) */
+        .tg { background: #0E1621; border: 1px solid rgba(142, 196, 250, .3); border-radius: 22px; padding: 16px; max-width: 440px; width: 100%; margin: 28px auto; box-shadow: 0 22px 48px rgba(0, 0, 0, .28); color: #E8EEF7; }
+        .tg .msg { background: #182533; border-radius: 16px 16px 16px 4px; overflow: hidden; }
+        .tg .msg img { display: block; width: 100%; height: auto; }
+        .tg .cap { padding: 12px 14px 15px; font-size: .95rem; line-height: 1.45; text-align: left; }
+        .tg .cap p { margin: 10px 0 0; color: #E8EEF7; font-size: inherit; line-height: inherit; }
+        .tg .cap p:first-child { margin-top: 0; }
+        .tg .cap b, .tg .cap strong { color: #fff !important; }
+        .tg .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+        .tg .btn { background: #223A55; color: #8EC4FA; text-align: center; font-size: .9rem; font-weight: 600; padding: 10px 8px; border-radius: 10px; }
+        .tg .btn.wide { grid-column: 1 / -1; }
+    </style>
+</head>
+<body data-theme-default="light">
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
+    <nav id="nav-container" class="site-nav" aria-label="Main navigation"></nav>
+    <div id="mobile-menu-container"></div>
+
+    <div class="docs-layout">
+        <aside class="sidebar" id="sidebar" role="complementary" aria-label="Manual navigation">
+            <!-- Stakeholder selector -->
+            <div class="sidebar-section" role="navigation" aria-label="Stakeholder selection">
+                <h4>Who are you?</h4>
+                <a href="#members" class="stakeholder-btn"><span class="icon"><svg viewBox="0 0 24 24"><path d="M7.97 16L5 19l7 2 7-2-2.97-3H7.97zM12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17h8v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7z"/></svg></span> <span>Member</span></a>
+                <a href="#team" class="stakeholder-btn"><span class="icon"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span> <span>Community team</span></a>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>For members</h4>
+                <a href="#start">Start and the welcome card</a>
+                <a href="#home">Home</a>
+                <a href="#buidl">BUIDL</a>
+                <a href="#ask-the-team">Ask the team</a>
+                <a href="#get-noticed">Get noticed on X</a>
+                <a href="#profile">My profile</a>
+                <a href="#wallet">Wallet proof and staking</a>
+                <a href="#your-data">Your data</a>
+                <a href="#help">Help</a>
+                <a href="#commands">Commands</a>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>For the community team</h4>
+                <a href="#who-is-team">Who counts as the team</a>
+                <a href="#setup">Setting up the team chat</a>
+                <a href="#team-desk">The team desk</a>
+                <a href="#tickets">Answering requests</a>
+                <a href="#noise">Held-back requests</a>
+                <a href="#review">Reviewing X posts</a>
+                <a href="#brief">The weekly brief</a>
+                <a href="#carousel">The carousel</a>
+                <a href="#team-commands">Team commands</a>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>Help</h4>
+                <a href="#troubleshooting">Troubleshooting</a>
+                <a href="/faq/">FAQ</a>
+                <a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a>
+            </div>
+        </aside>
+
+        <main class="docs-content" id="main-content">
+            <!-- INTRO -->
+            <h1 id="intro">How to use The Flock</h1>
+            <p class="docs-intro">
+                The Flock is Arctide's community bot on Telegram. Through it you can ask the team for help, practise replies for X and get the team's feedback on what you post. Each contribution the team confirms is added to your own record. You use it in a private chat at <a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">@Arctide_TheFlock_Bot</a>.
+            </p>
+
+            <p>The bot makes you one promise about safety:</p>
+            <div class="highlight-box">
+                <strong>You never need to connect a wallet or pay to get support.</strong> Support replies arrive through this bot. We never ask for your seed phrase, private key, password or login code.
+            </div>
+
+            <p>This page walks through every screen in the order you meet them. Inside the bot, a short tour with examples opens from ❓ Help &gt; 📖 How it works, or when you type <code>/howitworks</code>. Common questions sit under ❓ Help in the bot, and our <a href="/faq/">FAQ page</a> has more answers. When none of that covers it, Ask the team sends your question to a person, and the reply comes back in your private chat.</p>
+
+            <div class="highlight-box" style="border-left: 4px solid var(--gold);">
+                <strong>Early version.</strong> The bot is young. A few parts are paused or still being built, such as new badge awards, and the screen in question says so when you reach it.
+            </div>
+
+            <!-- ===================== MEMBERS ===================== -->
+            <div class="audience-section farmers">
+            <h2 id="members"><span class="section-icon"><svg viewBox="0 0 24 24"><path d="M7.97 16L5 19l7 2 7-2-2.97-3H7.97zM12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17h8v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7z"/></svg></span><span>For members</span></h2>
+            <p class="docs-intro">Everything a member does happens in a private chat with the bot, and every reply from the team arrives there too.</p>
+
+            <div class="quick-knowhow">
+                <div class="quick-knowhow-header">
+                    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                    Quick start
+                </div>
+                <ul class="quick-knowhow-list">
+                    <li>Open @Arctide_TheFlock_Bot in Telegram and press Start.</li>
+                    <li>Need a person? Tap ❓ Help, then 🎫 Ask the team.</li>
+                    <li>Want to report a problem, share an idea or practise replies for X? Tap 🛠 BUIDL.</li>
+                    <li>Your record and your data are under 👤 My profile.</li>
+                </ul>
+            </div>
+
+            <h3 id="start">Start and the welcome card</h3>
+            <p>The first time you press Start, the bot sends its welcome card: a picture with the text below it. The card says what the bot keeps for you and ends with the safety promise and the bot's sign-off.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 🌊 Hi Maya, welcome to Arctide The Flock! 🦆"><div class="msg"><img src="/assets/flock/screens/welcome.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>🌊 Hi Maya, welcome to Arctide The Flock! 🦆</b></p><p>In a busy community, helpful work can disappear. The Flock keeps your requests, X feedback and activity together. When the team confirms a contribution, it is saved to a record that stays yours.</p><p>Tap 🛠 BUIDL to report a problem, share an idea, pitch the project or practise useful replies on X. When you need a person, choose Ask the team under ❓ Help. Their reply arrives in this private chat.</p><p>🛡 You never need to connect a wallet or pay to get support. Support replies arrive through this bot. We never ask for your seed phrase, private key, password or login code.<br>
+                        Hitting 2 ducks with 1 rock 🪨</p></div></div><div class="btns"><span class="btn">🛠 BUIDL</span><span class="btn">👤 My profile</span></div></div>
+            <p class="ui-mockup-caption">The welcome card, the first time you press Start</p>
+
+            <h3 id="home">Home</h3>
+            <p>Each later Start opens the Home card. It greets you by first name and gives a short writing tip. When the team has answered one of your requests, Home tells you so. When the team has set a weekly brief, Home also shows "This week on X:" with the brief's text. The three buttons are the same as on the welcome card.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 🌊 Welcome back, Maya."><div class="msg"><img src="/assets/flock/screens/home.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>🌊 Welcome back, Maya.</b></p><p>💡 Today’s tip: Their reply is the best result.</p><p>When the team confirms your contribution, such as a request marked useful or a post they reviewed, it is saved to your record in The Flock.</p><p>/status shows your requests · /privacy shows your data.</p></div></div><div class="btns"><span class="btn">🛠 BUIDL</span><span class="btn">👤 My profile</span></div></div>
+            <p class="ui-mockup-caption">Home, each time you press Start again</p>
+
+            <h3 id="buidl">BUIDL</h3>
+            <p>BUIDL is where you put work into the community. It offers two ways. 🎫 Help &amp; feedback is for reporting a problem or sharing an idea with the team. 📣 Pitch is for explaining the project to people who may care. This work is unpaid, and you can stop at any time.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 🛠 BUIDL"><div class="msg"><img src="/assets/flock/screens/buidl.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>🛠 BUIDL</b></p><p>When the team confirms your contribution, it is saved to a record that stays yours.</p><p>🎫 Help &amp; feedback: report a problem or share an idea with the team.<br>
+                        📣 Pitch: explain the project to people who may care, practise replies on X, or bring in a project to launch.</p><p>It is unpaid, and yours to stop at any time. Requests and proposals get a reply here when the team can. Posts you send for feedback are all read at first, then a sample.</p></div></div><div class="btns"><span class="btn">🎫 Help &amp; feedback</span><span class="btn">📣 Pitch</span></div></div>
+            <p class="ui-mockup-caption">Home &gt; 🛠 BUIDL</p>
+
+            <p>🎫 Help &amp; feedback opens the same request form as Ask the team, described next. Pitch explains how to talk about the project in your own words: start with a problem people recognise, give a fact they can check, and ask an honest question. It has two buttons. ✍️ Get noticed on X opens the writing practice described further down this page. 🤝 Bring in a project opens the proposal form straight away, for introducing a team that wants to launch, or a partner.</p>
+
+            <h3 id="ask-the-team">Ask the team</h3>
+            <p>When you need a person, Ask the team sends them a private request. You reach it from ❓ Help &gt; 🎫 Ask the team, from BUIDL &gt; 🎫 Help &amp; feedback, or by typing <code>/ticket</code>. First you choose what kind of request it is.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 🎫 Ask the team"><div class="msg"><img src="/assets/flock/screens/ask.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>🎫 Ask the team</b></p><p>Send a private request when you need help, want to raise a complaint or have an idea or proposal. A short set of questions helps the team understand what happened and what you need.</p><p>Your answers and any attachments go to the team’s private chat. Their reply arrives in this chat. You can check its status later with /status. The team will reply when they can; this bot does not promise a response time.</p><p>Never include a seed phrase or private key. Choose the topic closest to your request.</p></div></div><div class="btns"><span class="btn">🛠 A problem</span><span class="btn">⚠️ Complaint</span><span class="btn">💡 Idea or proposal</span><span class="btn">◀ Help</span></div></div>
+            <p class="ui-mockup-caption">❓ Help &gt; 🎫 Ask the team</p>
+
+            <p>The bot then asks a few short questions, one per message. At the end you can add screenshots or files, and nothing reaches the team until you tap ✅ Send request. You get a request number straight away.</p>
+
+            <table class="command-table">
+                <thead>
+                    <tr><th>Request</th><th>The questions, in order</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>🛠 A problem</td><td>A screenshot (or a button to skip it), what went wrong, which device and app, and the public wallet address if funds are involved</td></tr>
+                    <tr><td>⚠️ Complaint</td><td>What happened and when, who or what was involved, and what outcome you want</td></tr>
+                    <tr><td>💡 Idea</td><td>The idea in a sentence or two, then what problem it solves and for whom</td></tr>
+                    <tr><td>🤝 Proposal</td><td>Who you are, a public link, what you propose, and what you need from Arctide</td></tr>
+                </tbody>
+            </table>
+
+            <p>After you send it, anything you type in the chat joins that request, and the bot tells you so. The team's reply arrives in the same private chat, signed with the first name of the person who answered. Type <code>/status</code> to see your latest requests and where each one stands, and <code>/cancel</code> to stop a form halfway.</p>
+
+            <p>When the team thinks a problem or complaint is fixed, the bot asks you to try again and tell them. Your answer is what confirms the fix. If you don't answer, it reminds you once, three days later.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 🔧 Request #0001: we think this is fixed."><div class="msg"><div class="cap"><p><b>🔧 <strong>Request #0001: we think this is fixed.</strong></b></p><p>Could you try once more, the same way as before, and tell us? Your check is what confirms the fix.</p></div></div><div class="btns"><span class="btn">✅ It works now</span><span class="btn">❌ Still not working</span></div></div>
+            <p class="ui-mockup-caption">The fix check, when the team thinks a problem is fixed</p>
+
+            <h3 id="get-noticed">Get noticed on X</h3>
+            <p>A good reply on X gives the person you answer something to reply to, and it may lead people to your profile. Get noticed on X helps you write those replies in your own words and lets you ask the team for feedback on what you published. It pays nothing, and you can stop at any time. You reach it from 🛠 BUIDL &gt; 📣 Pitch &gt; ✍️ Get noticed on X, or by typing <code>/reply</code>.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 📣 Write replies people want to answer"><div class="msg"><img src="/assets/flock/screens/x_home.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>📣 Write replies people want to answer</b></p><p>Pick a post you want to answer, then add a useful detail, an experience or a thoughtful question.</p><p>Read → Add value → Reply</p><p>✍️ Have a draft? Check my reply before you post it.</p><p>📤 Already posted? Send it in My posts. If the team reviews it, their feedback arrives in this chat.</p><p>💬 Not sure how? How to reply well shows an example and tips.</p></div></div><div class="btns"><span class="btn">✍️ Check my reply</span><span class="btn">📤 My posts</span><span class="btn">💬 How to reply well</span><span class="btn">🏠 Home</span></div></div>
+            <p class="ui-mockup-caption">Get noticed on X, or type /reply</p>
+
+            <h4 id="check-my-reply">Check my reply</h4>
+            <p>Paste a draft and the bot looks for common problems. It flags problems such as a reply that is too short or too long, a link, a ticker, price talk, claims about income and requests for likes. It lists up to six remarks, and ❓ Why these? explains each one. Your draft stays private: the bot checks the wording, then forgets the text, and you publish on X yourself.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: ✍️ Check my reply"><div class="msg"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>✍️ Check my reply</b></p><p>• It has a link.<br>
+                        • It drops the ticker.<br>
+                        • Price talk or a promised gain.</p><p>I did not keep your text.</p></div></div><div class="btns"><span class="btn">✍️ Check another</span><span class="btn">✍️ Get noticed on X</span></div></div>
+            <p class="ui-mockup-caption">The result of a check</p>
+
+            <h4 id="reply-guide">Tips and the Reply guide</h4>
+            <p>💬 How to reply well has three buttons: 💡 Show an example, 📖 Writing tips, and 📋 Team review, which explains how the team's feedback works. Writing tips shows one tip at a time, and 💡 Next tip brings the next one. From there, 📖 Reply guide (or <code>/playbook</code>) opens ten short pages you move through with Next and Previous:</p>
+            <ol>
+                <li>Be the interesting one</li>
+                <li>Know who you are talking to</li>
+                <li>Reply early</li>
+                <li>When they reply, you're in the conversation</li>
+                <li>Read them before you write</li>
+                <li>Let your profile introduce you</li>
+                <li>Keep a useful conversation going</li>
+                <li>Go where the topic is discussed</li>
+                <li>Write it in your own words</li>
+                <li>Check what is visible</li>
+            </ol>
+
+            <h4 id="accounts">Accounts to follow</h4>
+            <p>👥 Accounts to follow, on the Writing tips screen (or <code>/accounts</code>), is the team's list of accounts on X where conversations about Arctide happen. 🏛 Open the list on X opens it outside Telegram. Read a person's recent posts before you reply, and bring something useful to the conversation. Being on the list is no endorsement or invitation to send direct messages.</p>
+
+            <h4 id="link-x">My posts and Link my X account</h4>
+            <p>Before you send posts for feedback, the bot needs to know which X account is yours. In 📤 My posts, tap 🔗 Link my X account. The bot gives you a code that starts with <code>FLOCK-</code>. Post it on X from your account, then reply to the bot's message with that post's link. The code works for 30 minutes, you can delete the post afterwards, and the bot never asks for your password. Linking X is separate from your wallet, and you can read tips and use Check my reply without it.</p>
+
+            <h4 id="send-a-post">Send a post</h4>
+            <p>Once your account is linked, My posts shows it with your counts: posts sent, waiting and good. 📤 Send a post asks for the link to one of your own posts from the last 48 hours. The bot checks the link and tells you whether a person on the team will review it. The team reads every post at first. Members with a run of good posts may later have only a sample reviewed.</p>
+
+            <h4 id="post-feedback">Post feedback</h4>
+            <p>After a review, the result arrives in your private chat: 👍 Good, ✏️ Needs work or 🚫 Not allowed, with the reviewer's first name and your updated counts. Earlier feedback stays in the chat, so you can scroll back to it.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 📣 Your post feedback"><div class="msg"><img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>📣 Your post feedback</b></p><p>👍 Good, by Ben.</p><p>1 sent · 1 good</p></div></div><div class="btns"><span class="btn">📤 My posts</span><span class="btn">✍️ Get noticed on X</span></div></div>
+            <p class="ui-mockup-caption">The team's feedback on a post you sent</p>
+
+            <h3 id="profile">My profile</h3>
+            <p>My profile is your record in The Flock: what you have contributed, and what others confirmed. Open it from 👤 My profile on Home, or type <code>/myprofile</code>. Your first entry can come from a request the team marks useful or a post you send for review.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 👤 Maya"><div class="msg"><img src="/assets/flock/screens/profile.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>👤 Maya</b></p><p>Your record in The Flock: what you have contributed, and what others confirmed.</p><p>Nothing here yet. Your first entry can come from a request the team marks useful or a post you send for review.</p><p>📜 History lists what you have done here, with dates. 🏅 Badges shows recognition on your account.<br>
+                        🔐 Account holds your wallet and your data: download it or delete it at any time.</p><p>This record is yours.</p></div></div><div class="btns"><span class="btn">📜 History</span><span class="btn">🏅 Badges</span><span class="btn">🔐 Account</span><span class="btn">🏠 Home</span></div></div>
+            <p class="ui-mockup-caption">Home &gt; 👤 My profile, for a new member</p>
+
+            <p>📜 History lists, with dates, the thanks you received and gave, the requests the team marked useful and the posts the team reviewed. 🏅 Badges shows badges already on your account. New badge awards are paused for now, and the screen says so. 🔐 Account shows whether your wallet is proven and leads to 🔐 Prove wallet, 🌊 Staking and 🔒 Your data.</p>
+
+            <h3 id="thanks">Thanks between members (paused)</h3>
+            <p>Thanks are paused for now. If you reply to a message with <code>/thanks</code>, the bot says no point moved. Thanks and points are planned. Thanks are not Zeal.</p>
+
+            <h3 id="wallet">Wallet proof and staking</h3>
+            <p>Both wallet screens are optional. You can get support and use Get noticed on X without either, and the bot never connects to your wallet.</p>
+
+            <p>🔐 Prove wallet (or <code>/prove</code>) checks that a wallet is under your control, which an address alone can't show. You paste your <span class="term" data-tip="The 0x address people use to send you funds. It is safe to share; a seed phrase or private key is not." tabindex="0">public address</span>. The bot then asks you to send an exact small amount of USDC from that wallet to the same wallet on <span class="term" data-tip="The blockchain network that Arctide runs on" tabindex="0">Arc</span>, within 30 minutes. It costs only the network fee, and the USDC stays in your wallet. You approve the transfer in your own wallet, then paste its <span class="term" data-tip="The id of a transfer. Copy it from your wallet's activity list or a block explorer. It starts with 0x." tabindex="0">transaction hash</span> into the chat. A private key looks much like a hash, so check what you copy before you send it.</p>
+
+            <p>🌊 Staking (or <code>/staking</code>) reads the $TIDE staking position of a public address you link with <code>/wallet</code>. It shows what you have staked, when the 14-day lock ends, the TIDE and USDC ready to claim, and the pool's totals. 🔄 Refresh reads it again, and a reminders button turns notifications on or off. Staking itself happens on arctide.app, which 🌐 Open arctide.app ↗ opens. Linking an address doesn't prove you own it or move any funds, and <code>/unlink</code> removes it.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 🔐 Account · Maya"><div class="msg"><img src="/assets/flock/screens/account.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>🔐 Account · Maya</b></p><p>⬜ Wallet · not proven yet. /prove starts it: you send yourself a few cents, approve the self-transfer in your own wallet; never share a wallet secret.</p><p>Wallet and data choices</p><p>Wallet proof is optional. Your data explains saved information and optional uses, and offers download and account deletion. Staking opens a read of the linked address; any transaction is approved in your own wallet.</p></div></div><div class="btns"><span class="btn">🔐 Prove wallet</span><span class="btn">🌊 Staking</span><span class="btn">🔒 Your data</span><span class="btn">◀ Back</span></div></div>
+            <p class="ui-mockup-caption">My profile &gt; 🔐 Account</p>
+
+            <h3 id="your-data">Your data</h3>
+            <p>Your data shows what the bot keeps about you and lets you take a copy or remove it. Open it from 🔐 Account &gt; 🔒 Your data, or type <code>/privacy</code>.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 🔒 Your data"><div class="msg"><img src="/assets/flock/screens/your_data.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>🔒 Your data</b></p><p>See what the bot keeps about you, take a copy, or remove it.</p><p>Want a copy? Download my data sends you a file.<br>
+                        Want it gone? Delete my account asks you to confirm first.<br>
+                        Not sure what is kept? See what is kept lists it.</p><p>Optional<br>
+                        Activity notes: on<br>
+                        Bot improvements: off</p></div></div><div class="btns"><span class="btn">📥 Download my data</span><span class="btn">🗑 Delete my account</span><span class="btn">📋 See what is kept</span><span class="btn">◀ Account</span></div></div>
+            <p class="ui-mockup-caption">My profile &gt; 🔐 Account &gt; 🔒 Your data</p>
+
+            <p>📥 Download my data sends you a file with your records. 📋 See what is kept lists everything stored with your account, including the technical logs, and what deletion removes. 🗑 Delete my account asks you to confirm first. It removes your bot profile, your wallet and X links, your posts, points, badges and the thanks you received. Thanks you gave stay with the people you gave them to, without your name. Your support requests and spam-prevention records stay with the team, backup copies remain until they expire, and messages already delivered in Telegram may remain there. Deleting can't be undone, and if you come back you start as a new member.</p>
+
+            <p>Two optional settings sit under 📋 See what is kept &gt; ⚙️ Optional settings. Activity notes are extra notes about actions such as filing a request or checking a wallet, kept so Arctide can build your contribution history later. You can turn them on or off, and turning them off doesn't affect support or your filed requests. Bot improvements would let Arctide use your messages and button taps to improve the bot. That use has not started, so nothing is collected, whatever you choose.</p>
+
+            <h3 id="help">Help</h3>
+            <p>Help is where you go when you're stuck. Open it from ❓ Help on Home, or type <code>/help</code>. It has four buttons: 🎫 Ask the team, ❓ Common questions, 📖 How it works and 🏠 Home.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: ❓ Need a hand with The Flock?"><div class="msg"><img src="/assets/flock/screens/help.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>❓ Need a hand with The Flock?</b></p><p>Find an answer, see how the bot works, or ask a person on the team.</p><p>🎫 Ask the team: tell us what isn’t working. A few questions help you explain it; the team’s reply comes back to this private chat. Your answers go to the team’s private chat.</p><p>❓ Common questions: answers about getting noticed on X, your profile, wallets and your account.</p><p>📖 How it works: a guided introduction, with examples and places to begin.</p><p>Already sent a request? /status shows where it stands.</p><p>🛡 You never need to connect a wallet or pay to get support. Support replies arrive through this bot. We never ask for your seed phrase, private key, password or login code.</p></div></div><div class="btns"><span class="btn">🎫 Ask the team</span><span class="btn">❓ Common questions</span><span class="btn">📖 How it works</span><span class="btn">🏠 Home</span></div></div>
+            <p class="ui-mockup-caption">Home &gt; ❓ Help</p>
+
+            <h4 id="common-questions">Common questions</h4>
+            <p>Common questions has three topics. Using The Flock covers getting noticed on X, your profile and requests. Wallets and safety explains the difference between viewing a wallet and proving it. Data and standing covers what the bot keeps and the optional settings. Our <a href="/faq/">FAQ page</a> has more answers.</p>
+
+            <h4 id="is-it-the-team">Is it really the team?</h4>
+            <p>In crypto groups, people sometimes pretend to be the team. If someone sends you a message in Telegram and you're not sure it's genuine, the bot can check who wrote it. Open ❓ Help &gt; ❓ Common questions &gt; Wallets and safety &gt; 🛡 Is it really the team?, then forward the message within five minutes. The bot tells you whether someone on the team wrote it, that it doesn't know the person, or that it can't tell, for example when Telegram hides the writer. It forgets the message and its writer once it has answered. Even a real team account can be taken over, so refuse anyone who asks for your seed phrase, your private key or a payment.</p>
+
+            <h4 id="how-it-works">How it works</h4>
+            <p>📖 How it works (or <code>/howitworks</code>) is a four-page tour with examples: Contributions that leave a record, Get feedback on a published post, See what you have contributed, and Take one useful step. You can read it again from Help at any time.</p>
+
+            <h3 id="commands">Commands</h3>
+            <p>Buttons reach every screen, and you can also type these commands in your private chat with the bot. The first nine are in Telegram's Menu.</p>
+            <table class="command-table">
+                <thead>
+                    <tr><th>Command</th><th>What it opens</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>/start</code></td><td>Home, or the welcome card the first time</td></tr>
+                    <tr><td><code>/help</code></td><td>Help</td></tr>
+                    <tr><td><code>/howitworks</code></td><td>The four-page tour</td></tr>
+                    <tr><td><code>/reply</code></td><td>Get noticed on X</td></tr>
+                    <tr><td><code>/accounts</code></td><td>Accounts to follow</td></tr>
+                    <tr><td><code>/myprofile</code></td><td>My profile</td></tr>
+                    <tr><td><code>/privacy</code></td><td>Your data</td></tr>
+                    <tr><td><code>/ticket</code></td><td>Ask the team</td></tr>
+                    <tr><td><code>/cancel</code></td><td>Stops whatever step is waiting</td></tr>
+                    <tr><td><code>/status</code></td><td>Your latest requests and where each stands</td></tr>
+                    <tr><td><code>/playbook</code></td><td>The Reply guide</td></tr>
+                    <tr><td><code>/prove</code></td><td>Prove your wallet</td></tr>
+                    <tr><td><code>/staking</code></td><td>Your $TIDE staking view</td></tr>
+                    <tr><td><code>/wallet</code> and an address</td><td>Links a public address for the staking view</td></tr>
+                    <tr><td><code>/unlink</code></td><td>Removes that address</td></tr>
+                    <tr><td><code>/deleteaccount</code></td><td>Opens the same confirm screen as 🗑 Delete my account. Nothing is deleted until you tap to confirm.</td></tr>
+                    <tr><td><code>/about</code></td><td>What the bot is, with a line on Arctide and 📈 Open the DEX</td></tr>
+                    <tr><td><code>/tips</code></td><td>Explains Zeal and Thanks, which are planned and have not started</td></tr>
+                </tbody>
+            </table>
+
+            </div><!-- End members section -->
+
+            <!-- ===================== COMMUNITY TEAM ===================== -->
+            <h2 id="team"><span class="section-icon"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><span>For the community team</span></h2>
+            <p class="docs-intro">Members' requests and X posts reach the team as cards in a private Telegram group, the team chat. You answer there or from your own private chat with the bot, and the member reads your answer in their private chat.</p>
+
+            <h3 id="who-is-team">Who counts as the team</h3>
+            <p>Only people on the bot's admin list can use the team tools. The bot's owner keeps that list in the bot's server settings, and there is no Telegram command for adding people yet. To be added, ask the bot's owner. Reading the team chat and answering through the bot are separate permissions. Everyone in the group can read the cards, and people on the admin list answer them.</p>
+
+            <h3 id="setup">Setting up the team chat</h3>
+            <p>Requests carry members' names, messages and files, so the team chat must be a private group with only the people who should read them. If you're on the admin list, press Start in your private chat with the bot. With no team chat yet, it shows "First, set up a private team chat" and the button ➕ Set up my team chat.</p>
+
+            <div class="step-visual">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Create a private group</h4>
+                    <p>Make a private Telegram group with your team. You can create it first and add the bot afterwards.</p>
+                </div>
+            </div>
+            <div class="step-visual">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Add the bot</h4>
+                    <p>Tap ➕ Set up my team chat to open Telegram's group picker, or add the bot from the group's Add members menu. While no team chat exists, the first private group you add it to becomes the team chat.</p>
+                </div>
+            </div>
+            <div class="step-visual">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Send /setup if needed</h4>
+                    <p>If the bot is already in the group, or no setup button shows, send <code>/setup</code> in that group.</p>
+                </div>
+            </div>
+
+            <div class="tg" role="img" aria-label="The bot screen: ✅ Your team’s private chat is ready"><div class="msg"><div class="cap"><p><b>✅ Your team’s private chat is ready</b></p><p>This is where your team receives support requests and X posts for review. Read a request, see who is handling it, and answer the member in their private chat with the bot.</p><p>Keep this group private. Everyone here can read the names, messages and attachments on the cards. Include only people who should see them.</p><p>The carousel, which schedules community messages, is optional. Requests will keep arriving here.</p></div></div><div class="btns"><span class="btn">📖 Team guide</span><span class="btn">📰 Set up the carousel</span></div></div>
+            <p class="ui-mockup-caption">The confirmation in your new team chat</p>
+
+            <p>To move to another group later, send <code>/setup</code> there. The bot asks before it moves, open requests come along, and the old group is told. The bot refuses a public group. It also checks every hour that the team chat is still private. If the group has become public, the bot stops posting member details there and tells the admins.</p>
+
+            <h3 id="team-desk">The team desk</h3>
+            <p>When someone on the admin list presses Start in a private chat, the bot opens the team desk instead of the member Home. It shows "All clear", or the open tickets and how long the oldest has waited without a reply. Open tickets appear as buttons, so you can open one and answer it from your private chat. An answer sent from there is also copied under the ticket's card in the team chat. 👀 Member view shows the member screens without changing your admin permissions.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 👋 Welcome to your team desk, Maya."><div class="msg"><div class="cap"><p><b>👋 Welcome to your team desk, Maya.</b></p><p>Tickets and X posts from members arrive as cards in your team chat, the private group you chose. You answer them there, and the member gets your answer in their private chat with the bot.</p><p>All clear. No tickets or posts are waiting.</p><p>New here? Tap How to answer for the steps.</p><p>Everyone in the team chat can read members' names and messages, so add only people who should.</p></div></div><div class="btns"><span class="btn">🔎 Find the team chat</span><span class="btn">📖 How to answer</span><span class="btn">⚙️ Team and groups</span><span class="btn">👀 Member view</span></div></div>
+            <p class="ui-mockup-caption">The team desk, after the team chat is set up</p>
+
+            <h3 id="tickets">Answering requests in the team chat</h3>
+            <p>Each request arrives in the team chat as a ticket card. The card shows the ticket number, the type, the result of the spam check, the sender's name and their answers, with four buttons below it.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 🎫 Ticket #0001 · 💡 Idea · ✅ clean (score 0)
+                        From: Maya · id 50"><div class="msg"><div class="cap"><p><b>🎫 Ticket #0001 · 💡 Idea · ✅ clean (score 0)<br>
+                        From: Maya · id 50</b></p><p>Idea: Add a price alert in the Telegram bot so traders do not miss moves on pools they follow.</p><p>Why: Traders who follow several pools and cannot watch them all day.</p><p>↩️ Answer this member<br>
+                        Tap 💬 Reply, or reply to this message. Your answer goes to their private chat. /guide explains the controls.</p></div></div><div class="btns"><span class="btn">💬 Reply</span><span class="btn">🙋 I&#x27;ll take it</span><span class="btn">⚡ Quick reply</span><span class="btn">✅ Close…</span></div></div>
+            <p class="ui-mockup-caption">A ticket card in the team chat, with an example idea</p>
+
+            <table class="command-table">
+                <thead>
+                    <tr><th>Button</th><th>What it does</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>💬 Reply</td><td>Sends your answer to the member's private chat, signed with your first name</td></tr>
+                    <tr><td>🙋 I'll take it</td><td>Puts your name on the card, so the team knows you're handling it</td></tr>
+                    <tr><td>⚡ Quick reply</td><td>Sends a ready answer for that type, such as "Added", "Tell us more" or "On roadmap" for ideas. For problems and complaints it can also send the fix check, which asks the member to confirm.</td></tr>
+                    <tr><td>✅ Close…</td><td>✅ Done closes the ticket and tells the member. ⭐ Useful also records that it helped the community. 🚫 Spam is only for real spam. A complaint or criticism is not spam.</td></tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <strong>Anything you send as a reply to a card goes to the member.</strong> To talk about a ticket with the team, write a normal message in the team chat.
+            </div>
+
+            <h3 id="noise">Held-back requests</h3>
+            <p>The bot holds back requests that look like spam, such as random or repeated text. They don't appear as cards, and your team desk shows them as held back. Send <code>/noise</code> in the team chat to see them, then tap ✅ Release to post the card or 🗑 Dismiss to remove it. A dismissal counts against the sender, and <code>/forgive</code> clears a member's strikes.</p>
+
+            <h3 id="review">Reviewing X posts</h3>
+            <p>When a member sends a post for feedback, a review card arrives in the team chat. By then the bot has already checked that the X account is theirs and that the post is from the last 48 hours. Send <code>/review</code> to bring up the next waiting post, read it, and choose 👍 Good, ✏️ Needs work or 🚫 Not allowed, then a reason. The member gets the result in their private chat. Some grades go to a second person on the team before they are sent, so those need at least two people on the admin list.</p>
+
+            <div class="tg" role="img" aria-label="The bot screen: 📣 X posts"><div class="msg"><div class="cap"><p><b>📣 X posts</b></p><p>1 post waiting · oldest less than an hour</p><p>Read the post before grading; the member receives your final feedback privately.</p></div></div><div class="btns"><span class="btn">▶️ Next post</span><span class="btn">ℹ️ Help</span></div></div>
+            <p class="ui-mockup-caption">/review in the team chat</p>
+
+            <h3 id="brief">The weekly brief</h3>
+            <p>The brief is a short line the team writes for members each week. Send <code>/brief</code> followed by your text, up to 500 characters, and it appears on every member's Home card after "This week on X:". <code>/brief off</code> clears it, and <code>/brief</code> on its own reminds you how to set it. The brief is text only.</p>
+
+            <h3 id="carousel">The carousel</h3>
+            <p>The carousel posts your team's announcements and reminders in the community group, one at a time, every few hours, so nobody has to remember them. The team writes the posts in a private Telegram channel, and every admin of that channel can write and change them. Keep the channel separate from the team chat, because members' requests don't belong in published posts.</p>
+            <ol>
+                <li>Make a private channel for your team's posts.</li>
+                <li>Add the bot to the channel as an admin.</li>
+                <li>In your private chat with the bot, send <code>/content</code>. The bot gives you a code.</li>
+                <li>In the channel, post <code>/content</code> and the code. The bot tells you when they are paired.</li>
+            </ol>
+            <p>From then on, each new post in the channel joins the carousel. The bot posts only in a community group it has just confirmed is private, and it never posts in a public group. <code>/carousel</code> shows the settings. Posts can't be given an end date yet.</p>
+
+            <h3 id="team-commands">Team commands</h3>
+            <p>These work for people on the admin list. <code>/review</code> and <code>/brief</code> work when typed. The others are in the admin Menu.</p>
+            <table class="command-table">
+                <thead>
+                    <tr><th>Command</th><th>What it does</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>/setup</code></td><td>Sent in a private group, makes it the team chat. It is first in your own Menu.</td></tr>
+                    <tr><td><code>/guide</code></td><td>Opens the six-page How to answer guide</td></tr>
+                    <tr><td><code>/stats</code></td><td>Counts tickets by type and week</td></tr>
+                    <tr><td><code>/noise</code></td><td>Lists held-back requests, with Release and Dismiss</td></tr>
+                    <tr><td><code>/carousel</code></td><td>Shows the carousel settings</td></tr>
+                    <tr><td><code>/content</code></td><td>Pairs your private channel with the carousel</td></tr>
+                    <tr><td><code>/close</code></td><td>Sent as a reply to a ticket card, closes that ticket</td></tr>
+                    <tr><td><code>/forgive</code></td><td>Clears a member's spam strikes</td></tr>
+                    <tr><td><code>/version</code></td><td>Names the release the bot is running</td></tr>
+                    <tr><td><code>/review</code></td><td>Brings up the next X post waiting for review</td></tr>
+                    <tr><td><code>/brief</code></td><td>Sets, shows or clears the weekly brief</td></tr>
+                </tbody>
+            </table>
+
+            <!-- ===================== TROUBLESHOOTING ===================== -->
+            <h2 id="troubleshooting">Troubleshooting</h2>
+
+            <h3 id="quiet-group">The bot is quiet in our group</h3>
+            <p>In a public group, the bot sends no welcome and <code>/thanks</code> does nothing. <code>/start</code> there only points you to the private chat. Open your private chat with <a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">@Arctide_TheFlock_Bot</a> and press Start. Everything on this page works there. In a private group, the bot welcomes new members with buttons that open the private chat. There, <code>/thanks</code> answers that thanks are paused.</p>
+
+            <h3 id="find-ask-the-team">I can't find Ask the team</h3>
+            <p>The welcome card mentions Ask the team but has no button with that name. Tap ❓ Help, then 🎫 Ask the team, or type <code>/ticket</code>.</p>
+
+            <h3 id="where-is-the-reply">Where is the team's reply?</h3>
+            <p>Replies arrive in your private chat with the bot, so scroll up in that chat. <code>/status</code> lists your requests and where each one stands. The team replies when they can, and the bot doesn't promise a response time.</p>
+
+            <h3 id="drops-the-ticker">The bot says my reply "drops the ticker", but I only wrote Arctide</h3>
+            <p>Check my reply counts the plain word Arctide as a ticker for now. If that is the only remark, you can ignore it.</p>
+
+            <h3 id="wallet-hash">Wallet proof asks for a hash</h3>
+            <p>The transaction hash is the id of your self-transfer. Copy it from your wallet's activity list or a block explorer. It starts with 0x. Never paste a private key or seed phrase, which can look similar. If the 30 minutes run out, start again with <code>/prove</code>. Proof is optional, and you can leave it.</p>
+
+            <h3 id="no-badge">I proved my wallet and got no badge</h3>
+            <p>New badge awards are paused, so proving a wallet doesn't add one right now. Badges already on your account stay there.</p>
+
+            <h3 id="stuck">I'm stuck halfway through a step</h3>
+            <p>Type <code>/cancel</code> to stop whatever step is waiting, then <code>/start</code> to go back to Home.</p>
+
+            <div class="highlight-box">
+                <strong>Need help?</strong> In the bot, tap ❓ Help, then 🎫 Ask the team. A person on the team reads your request and replies in your private chat. <a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Highlight active section on scroll
+        const sections = document.querySelectorAll('h1[id], h2[id], h3[id]');
+        const navLinks = document.querySelectorAll('.sidebar-section a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+    <footer class="site-footer bonzi-branded-footer" aria-label="Site footer">
+        <div class="footer-cto-row">
+            <a href="/">
+                <img src="/assets/flock/arctide-flock-128.png" alt="" width="24" height="24">
+                <span>The Flock</span>
+            </a>
+        </div>
+        <div class="footer-legal-row">
+            <a href="/legal/privacy.html">Privacy</a><span aria-hidden="true"> · </span><a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a>
+        </div>
+    </footer>
+
+</body>
+</html>
