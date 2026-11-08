@@ -66,7 +66,38 @@
 .js .loopx .grade { opacity: 0; } .loopx.go .grade { animation: on .4s ease-out 2.9s both; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 
+/* Duck rig (Flock.rig in js/flock-motion.js). Parts are named as in the duck brief: tail, body, wing, head, beak_top,
+   eye, pupil, plus eyelid and wake, which only rigged ducks have and which are invisible at rest. Origins sit at the
+   joints, in the duck's own 210 x 121 units. At rest every part is where the <use> duck draws it: idle parts move only
+   while an ancestor has .play, so a paused or reduced-motion duck is the plain drawing. */
+.rig .pose { transform-origin: 105px 84px; transition: scale var(--dur-short) var(--ease-move), rotate var(--dur-med) var(--ease-move); }
+.rig .act { transform-origin: 100px 118px; }
+.rig .head { transform-origin: 134px 66px; transition: rotate var(--dur-med) var(--ease-move); }
+.rig .wing { transform-origin: 114px 82px; }
+.rig .eyelid { transform-origin: 166px 24.6px; transform: scaleY(0); }
+.rig .wake { transform-origin: 100px 117px; opacity: 0; transform: scaleX(.3); transition: opacity var(--dur-med), transform var(--dur-med) var(--ease-move); }
+/* Idle: wing shuffle and blink at irregular intervals; ducks that bob (.bob) also get the head following the body */
+.play .rig .wing { animation: rig-shuffle calc(var(--amb-flick) + var(--amb-flick-spread) * var(--r1, .5)) ease-in-out infinite; }
+.play .rig .eyelid { animation: rig-blink calc(var(--amb-blink) + var(--amb-blink-spread) * var(--r2, .5)) linear infinite; }
+.play .rig.bob .head { animation: rig-follow var(--amb-bob) ease-in-out calc(var(--phase, 0s) + var(--rig-lag)) infinite; }
+@keyframes rig-shuffle { 0%, 90%, 100% { transform: none; } 93% { transform: rotate(-12deg); } 96% { transform: rotate(3deg); } }
+@keyframes rig-blink { 0%, 96%, 100% { transform: scaleY(0); } 98% { transform: scaleY(1); } }
+@keyframes rig-follow { 0%, 100% { transform: none; } 25% { transform: rotate(1.5deg); } 75% { transform: rotate(-1.5deg); } }
+/* Swim leans forward with a wake (drift is the slow version); flip faces left; arrive squashes, then settles */
+.rig.drift .pose { rotate: 1deg; } .rig.drift .wake { opacity: .3; transform: scaleX(.6); }
+.rig.swim .pose { rotate: 2deg; } .rig.swim .wake { opacity: .5; transform: none; }
+.rig.flip .pose { scale: -1 1; } .rig.flip.drift .pose { rotate: -1deg; } .rig.flip.swim .pose { rotate: -2deg; }
+.rig.arrive .act { animation: rig-arrive var(--dur-med) linear both; }
+@keyframes rig-arrive { 0% { transform: none; } 15% { transform: scaleY(.94); animation-timing-function: var(--ease-pop); } 100% { transform: none; } }
+/* Look up (at a podium); confused: head tilt, a blink, a pause */
+.rig.look .head { rotate: -16deg; }
+.rig.confused .head { animation: rig-confused var(--dur-long) var(--ease-move) both; }
+.rig.confused .eyelid { animation: rig-blink-once var(--dur-long) linear both; }
+@keyframes rig-confused { 0%, 100% { transform: none; } 25%, 75% { transform: rotate(10deg); } }
+@keyframes rig-blink-once { 0%, 40%, 60%, 100% { transform: scaleY(0); } 50% { transform: scaleY(1); } }
+
 @media (prefers-reduced-motion: reduce) {
+    .rig, .rig * { animation: none !important; transition: none !important; }
     .hero figure, .why .ducks-swim, .panel.show .tg { animation: none; }
     .scene-svg *, .hero-ducks * { animation: none !important; }
     .top .flock use { animation: none; }
