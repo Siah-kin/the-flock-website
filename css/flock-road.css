@@ -23,6 +23,6 @@
 .road-reply { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
-    .road .here { translate: none; }
+    .road .here { translate: none; scale: none; }
     .stop::after { display: none; }
 }
