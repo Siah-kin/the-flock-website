@@ -92,7 +92,9 @@
             },
             build: function (svg, L) {
                 var E = ease(), micro = dur('--dur-micro', 120), short = dur('--dur-short', 220);
-                var on = svg.querySelector('.useful-on'), txt = on.previousElementSibling, btn = txt.previousElementSibling;
+                var on = svg.querySelector('.useful-on');
+                if (!on || !svg.querySelector('.newline')) return;
+                var txt = on.previousElementSibling, btn = txt.previousElementSibling;
                 var c = centre(btn), k = c.b.height / 40, ptr = svg.querySelector('.road-pointer');
                 var tx = c.x + 6 * k, ty = c.y + 4 * k, sx = tx + 46 * k, sy = ty + 46 * k;
                 var at = function (x, y, s) { return 'translate(' + x + 'px,' + y + 'px) scale(' + (k * s) + ')'; };
@@ -147,6 +149,7 @@
             build: function (svg, L) {
                 var E = ease(), micro = dur('--dur-micro', 120), short = dur('--dur-short', 220), med = dur('--dur-med', 420);
                 var trail = svg.querySelector('.trail'), u = svg._duck, tile = svg.querySelector('rect[fill="#000"]');
+                if (!trail || !u || !tile) return;
                 var tall = svg.classList.contains('tall'), len = trail.getTotalLength(), tb = tile.getBBox();
                 // the duck lands where the path first comes inside the X tile
                 var land = 0.5;
