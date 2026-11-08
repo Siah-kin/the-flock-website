@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Flock | Notice who does the heroics in your community</title>
-<meta name="description" content="The Flock is a peer-to-peer app on Telegram that rewards teamwork in your community. Members ask your team for support, check their X drafts and keep a dated track record.">
+<meta name="description" content="The Flock is a Telegram bot that keeps a track record of the help your team confirms. Members ask for support in private and check their X drafts before posting.">
     <link rel="canonical" href="https://arcflock.com/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="The Flock">
     <meta property="og:title" content="The Flock | Notice who does the heroics in your community">
-    <meta property="og:description" content="The Flock is a peer-to-peer app on Telegram that rewards teamwork in your community. Members ask your team for support, check their X drafts and keep a dated track record.">
+    <meta property="og:description" content="The Flock is a Telegram bot that keeps a track record of the help your team confirms. Members ask for support in private and check their X drafts before posting.">
     <meta property="og:url" content="https://arcflock.com/">
     <meta property="og:image" content="https://arcflock.com/assets/og/home.jpg">
     <meta property="og:image:alt" content="The Flock: notice who does the heroics in your community">
@@ -65,8 +65,9 @@
         .cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
         .hero-list { margin: 18px 0 0; padding-left: 1.2em; display: grid; gap: 8px; max-width: 33em; }
         .hero-list li { font-size: 1.1rem; line-height: 1.45; color: #fff; }
-        .hero-list .next-up { color: #FFF3B0; }
-        .hero-list .next-up a { color: var(--sun); font-weight: 600; text-underline-offset: 3px; }
+        .hero-planned { margin: 22px 0 0; max-width: 33em; font-size: 1rem; line-height: 1.45; color: #D6E6F7; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.28); }
+        .hero-planned b { color: #fff; }
+        .hero-planned a { color: #fff; font-weight: 600; text-underline-offset: 3px; }
         .hero .small { margin-top: 12px; font-size: 1.05rem; color: #FFFFFF; }
         .hero figure { margin: 0; }
 
@@ -262,14 +263,16 @@
             <div class="wrap hero-inner">
                 <div>
                     <h1 id="hero-title">Notice who does the heroics in your community.</h1>
-                    <p class="sub">The Flock is a peer-to-peer app on Telegram that rewards teamwork in your community.</p>
+                    <p class="sub">The Flock is a Telegram bot that keeps a track record of the help your team confirms.</p>
                     <ul class="hero-list">
-                        <li>When your team confirms that somebody helped, it goes on that member’s track record. The track record belongs to them.</li>
-                        <li>Members ask for support in private, and anyone on your team can answer from one chat.</li>
-                        <li>When a message claims to come from your team, members forward it to the bot, and it tells them whether it’s real.</li>
-                        <li>Before posting on X, members check their draft for what gets posts hidden, and your team grades what they publish.</li>
-                        <li class="next-up">Planned next: a closed reward loop for your OGs. Part of your token’s trading fees goes back to members whose help your team confirmed, so farming the bot gets nobody anything. <a href="#fees-title">How it works</a></li>
+                        <li>Help that your team confirms goes on that member’s track record, which belongs to them. They can download it or delete it.</li>
+                        <li>Members ask for support in private, and anyone on your team can answer from one chat. The bot holds likely spam until someone on your team lets it through.</li>
+                        <li>A message claims to come from your team? Members forward it to the bot, and it says whether someone on the team wrote it.</li>
+                        <li>Before posting on X, members check a draft for links, price talk, too many hashtags and signs of AI writing.</li>
+                        <li>Your team grades the posts members send in.</li>
+                        <li>Every Monday the bot posts in your team chat who helped last week, by name.</li>
                     </ul>
+                    <p class="hero-planned"><b>Planned, not live yet:</b> a share of your token’s trading fees for members whose help your team confirmed. <a href="#fees-title">How it works</a></p>
                     <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a>
                 </div>
                 <figure>
@@ -608,7 +611,7 @@
                         <h3>For your team</h3>
                         <ul>
                             <li>Answer every member in private, from one chat.</li>
-                            <li>Read real requests first. Likely spam waits in its own list.</li>
+                            <li>Read real requests first. The bot holds likely spam until someone on your team lets it through.</li>
                             <li>See each week who helped, and what is still waiting.</li>
                             <li>Grade the X posts members publish about your project.</li>
                         </ul>
