@@ -93,7 +93,7 @@
         if (pathMatches(cleanPath, '/page_3') || pathMatches(cleanPath, '/specs')) return 'what';
         if (pathMatches(cleanPath, '/now') || pathMatches(cleanPath, '/page_4')) return 'now';
         if (pathMatches(cleanPath, '/how') || pathMatches(cleanPath, '/manual')) return 'how';
-        if (pathMatches(cleanPath, '/faq')) return 'faq';
+        if (pathMatches(cleanPath, '/faq')) return 'how';
         if (pathMatches(cleanPath, '/quest-earn')) return 'quest-earn';
         if (cleanPath.endsWith('/about.html') || cleanPath.endsWith('/about')) return 'about';
         if (cleanPath.endsWith('/stake.html') || cleanPath.endsWith('/stake')) return 'stake';
