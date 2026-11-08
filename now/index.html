@@ -252,12 +252,21 @@
         // the path fills as you read
         var road = document.querySelector('.road'), fill = document.querySelector('.rail i');
         if (road && fill && !reduce) {
+            var pending = false, attached = false;
             var tick = function () {
+                pending = false;
                 var r = road.getBoundingClientRect(), vh = window.innerHeight;
                 var p = Math.min(1, Math.max(0, (vh * 0.6 - r.top) / r.height));
                 fill.style.setProperty('--fill', p.toFixed(3));
             };
-            window.addEventListener('scroll', tick, { passive: true }); window.addEventListener('resize', tick); tick();
+            var onScroll = function () { if (!pending) { pending = true; requestAnimationFrame(tick); } };
+            var attach = function () { if (!attached) { attached = true; window.addEventListener('scroll', onScroll, { passive: true }); } onScroll(); };
+            var detach = function () { if (attached) { attached = false; window.removeEventListener('scroll', onScroll); } onScroll(); };
+            window.addEventListener('resize', onScroll);
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver(function (list) { if (list[list.length - 1].isIntersecting) attach(); else detach(); }).observe(road);
+            } else { attach(); }
+            tick();
         }
     })();
     </script>
