@@ -151,8 +151,9 @@
         .scene-svg { display: block; width: 100%; height: auto; border-radius: 30px; box-shadow: 0 24px 50px rgba(0, 20, 40, .35); }
         .scene-svg text { font-family: "Inter", system-ui, sans-serif; }
         .scene-svg text.t { font-family: var(--display); }
-        .scene-svg *, .hero-ducks * { animation-play-state: paused; }
-        .play .scene-svg *, .hero-ducks * { animation-play-state: running; }
+        /* Paused unless the section is in view (:not(.play)). A plain `.scene-svg *` rule loses to the later `animation:` shorthands, which reset the play state. */
+        .hero:not(.play) .hero-ducks *, .why:not(.play) .ducks-swim, #lanes:not(.play) .scene-svg *, #flow:not(.play) .scene-svg * { animation-play-state: paused; }
+        .hero.play .hero-ducks *, .why.play .ducks-swim, #lanes.play .scene-svg *, #flow.play .scene-svg * { animation-play-state: running; }
         .scene-svg .ripple { animation: ripple 1.6s linear infinite; }
         @keyframes ripple { to { stroke-dashoffset: -18; } }
         .scene-svg .bob { animation: bob2 3.4s ease-in-out infinite; }
@@ -696,20 +697,34 @@
             show(0, false);
         });
 
-        var els = [document.getElementById('lanes'), document.getElementById('flow')].filter(Boolean);
+        // Ambient loops run only while their section is on screen and the tab is visible
+        var els = [document.querySelector('.hero'), document.querySelector('.why'), document.getElementById('lanes'), document.getElementById('flow')].filter(Boolean);
+        var inView = [];
+        function hasSmil(el) { return el.id === 'lanes' || el.id === 'flow'; }
         function smil(el, on) {
+            if (!hasSmil(el)) return;
             el.querySelectorAll('svg').forEach(function (s) {
                 if (!s.pauseAnimations) return;
                 if (reduce) { s.pauseAnimations(); try { s.setCurrentTime(1.4); } catch (e) {} return; }
                 if (on) s.unpauseAnimations(); else s.pauseAnimations();
             });
         }
+        function apply(el) {
+            var on = !document.hidden && inView.indexOf(el) !== -1;
+            el.classList.toggle('play', on); smil(el, on);
+        }
         els.forEach(function (e) { smil(e, false); });
-        if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('play'); smil(e, true); }); return; }
+        if (!('IntersectionObserver' in window)) { els.forEach(function (e) { inView.push(e); apply(e); }); return; }
         var io = new IntersectionObserver(function (list) {
-            list.forEach(function (x) { x.target.classList.toggle('play', x.isIntersecting); smil(x.target, x.isIntersecting); });
+            list.forEach(function (x) {
+                var i = inView.indexOf(x.target);
+                if (x.isIntersecting && i === -1) inView.push(x.target);
+                if (!x.isIntersecting && i !== -1) inView.splice(i, 1);
+                apply(x.target);
+            });
         }, { threshold: 0.2 });
         els.forEach(function (e) { io.observe(e); });
+        document.addEventListener('visibilitychange', function () { els.forEach(apply); });
     })();
     </script>
 </body>
