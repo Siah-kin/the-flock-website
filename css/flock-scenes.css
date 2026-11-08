@@ -3,13 +3,14 @@
    Layout and colour stay in each page; only motion lives here. */
 
 /* Ambient loops stay paused unless their host is in view (js/flock-motion.js adds .play).
-   Pausing needs :not(.play) on the host: a plain `.scene-svg *` rule loses to the `animation:` shorthands below. */
+   Pausing needs :not(.play) on the host and !important: scene rules below use `animation:` shorthands, which reset the
+   play state and can be more specific. */
 .hero:not(.play) .hero-ducks *,
 .why:not(.play) .ducks-swim,
 #lanes:not(.play) .scene-svg *,
 #flow:not(.play) .scene-svg *,
 .pic:not(.play) .scene-svg *,
-.top:not(.play) .flock * { animation-play-state: paused; }
+.top:not(.play) .flock * { animation-play-state: paused !important; }
 .hero.play .hero-ducks *,
 .why.play .ducks-swim,
 #lanes.play .scene-svg *,
@@ -37,9 +38,56 @@
 .scene-svg .sw { animation: swim var(--amb-swim) ease-in-out infinite; }
 .scene-svg .s1 { animation-delay: -1.7s; } .scene-svg .s2 { animation-delay: -3.5s; } .scene-svg .s3 { animation-delay: -5.2s; }
 @keyframes swim { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(26px); } }
-.scene-svg .pass1, .scene-svg .pass2 { animation: through 6s ease-in-out infinite; }
-.scene-svg .pass2 { animation-delay: -3s; }
-@keyframes through { 0% { transform: translateX(0); opacity: 1; } 45% { transform: translateX(190px); } 70% { transform: translateX(330px); opacity: 1; } 78%, 100% { transform: translateX(330px); opacity: 0; } }
+
+/* Two ponds (home #lanes): plays once when it comes into view, then idles. Beats are in index.html; this is what each
+   beat starts. Times are fractions of --scene-ponds (6s), so the CSS and the beat clock read the same storyboard.
+   Left: grey ducks swim in, message chips rise to the podium, the duck on top bobs higher each time, the yellow ducks
+   look up, then at each other. Right: the yellow duck swims to the gate, the bar lifts, it passes, a dated line writes
+   into the Track record card; the first grey duck reaches the closed gate, is confused and turns away; the second
+   turns without reaching it. Frame 0 (.pre) applies only while motion can run, so a paused page hides nothing. */
+html:not([data-motion="paused"]) #lanes.pre .gin .move { transform: translateX(-48px); opacity: 0; }
+#lanes.go .gin .move { animation: ponds-in calc(var(--scene-ponds) * .1) var(--ease-move) both; }
+@keyframes ponds-in { from { transform: translateX(-48px); opacity: 0; } to { transform: none; opacity: 1; } }
+#lanes .chip-y { transform-box: fill-box; transform-origin: center; }
+#lanes.go .chip { animation: ponds-chip-x var(--dur-long) var(--ease-move) calc(var(--scene-ponds) * var(--at)) both; }
+#lanes.go .chip-y { animation: ponds-chip-y var(--dur-long) ease-in-out calc(var(--scene-ponds) * var(--at, 0)) both; }
+@keyframes ponds-chip-x { from { transform: none; } to { transform: translateX(var(--dx)); } }
+@keyframes ponds-chip-y {
+    0% { transform: translateY(0) scale(.6); opacity: 0; }
+    15% { opacity: 1; }
+    45% { transform: translateY(calc(var(--dy) - 46px)) scale(1); }
+    85% { transform: translateY(var(--dy)) scale(1); opacity: 1; }
+    100% { transform: translateY(var(--dy)) scale(.7); opacity: 0; }
+}
+#lanes .pod.hop .move { animation: ponds-hop var(--dur-med) ease-in-out both; }
+@keyframes ponds-hop { 0%, 100% { transform: none; } 35% { transform: translateY(var(--hop, -3px)); } }
+#lanes .pill { transform-box: fill-box; transform-origin: center; }
+#lanes.go.s-lift .pill { animation: ponds-nudge var(--dur-med) var(--ease-pop) both; }
+@keyframes ponds-nudge { 0%, 100% { transform: none; } 40% { transform: rotate(-3deg) scale(1.04); } }
+#lanes.go.s-lift .gate-bar { animation: ponds-lift var(--dur-med) var(--ease-pop) both; }
+#lanes.go.s-lift.s-lower .gate-bar { animation: ponds-lower var(--dur-med) var(--ease-move) both; }
+@keyframes ponds-lift { from { transform: none; } to { transform: translateY(-20px); } }
+@keyframes ponds-lower { from { transform: translateY(-20px); } to { transform: none; } }
+/* Each leg of a swim is its own animation (token easing per leg); a later leg holds only once it starts */
+#lanes.go .yd .move { animation: ponds-yd-1 calc(var(--scene-ponds) * .2333) var(--ease-move) both, ponds-yd-2 calc(var(--scene-ponds) * .1667) var(--ease-move) calc(var(--scene-ponds) * .2667) forwards; }
+@keyframes ponds-yd-1 { from { transform: none; } to { transform: translate(140px, 32px); } }
+@keyframes ponds-yd-2 { from { transform: translate(140px, 32px); } to { transform: translate(288px, 32px); } }
+#lanes.go .g1 .move { animation: ponds-g1-1 calc(var(--scene-ponds) * .4) var(--ease-move) calc(var(--scene-ponds) * .1) both, ponds-g1-2 calc(var(--scene-ponds) * .2) var(--ease-move) calc(var(--scene-ponds) * .6333) forwards; }
+@keyframes ponds-g1-1 { from { transform: none; } to { transform: translate(66px, 14px); } }
+@keyframes ponds-g1-2 { from { transform: translate(66px, 14px); } to { transform: none; } }
+#lanes.go .g2 .move { animation: ponds-g2-1 calc(var(--scene-ponds) * .6333) var(--ease-move) both, ponds-g2-2 calc(var(--scene-ponds) * .2) var(--ease-move) calc(var(--scene-ponds) * .7) forwards; }
+@keyframes ponds-g2-1 { from { transform: none; } to { transform: translate(56px, -4px); } }
+@keyframes ponds-g2-2 { from { transform: translate(56px, -4px); } to { transform: none; } }
+#lanes .tr-wipe { transform-box: fill-box; transform-origin: left center; }
+#lanes.go.s-write .tr-new { opacity: 1; }
+#lanes.go.s-write .tr-wipe { animation: ponds-wipe var(--dur-long) var(--ease-move) both; }
+@keyframes ponds-wipe { from { transform: scaleX(0); } to { transform: none; } }
+#lanes.go.s-write .tr-skel { animation: ponds-out var(--dur-short) var(--ease-exit) both; }
+@keyframes ponds-out { to { opacity: 0; } }
+/* End frame (reduced motion, paused on arrival, and where the storyboard leaves it) */
+#lanes.end .yd .move { transform: translate(288px, 32px); }
+#lanes.end .tr-new { opacity: 1; }
+#lanes.end .tr-skel { opacity: 0; }
 
 /* now/ and why/: opening flock, filling rail, wide and tall variants */
 .top .flock > * { animation: bob-flock var(--amb-bob) ease-in-out var(--phase, 0s) infinite; animation-play-state: paused; }
@@ -77,7 +125,7 @@
 .rig .pupil { translate: var(--look-x, 0px) 0; transition: translate var(--dur-short) var(--ease-move); }
 .rig .wing { transform-origin: 116px 80px; }
 .rig .eyelid { transform-origin: 164px 21.8px; transform: scaleY(0); }
-.rig .brow { opacity: 0; transition: opacity var(--dur-short); }
+.rig .brow { opacity: 0; }
 .rig .wake { transform-origin: 100px 117px; opacity: 0; transform: scaleX(.3); transition: opacity var(--dur-med), transform var(--dur-med) var(--ease-move); }
 /* Idle: wing shuffle and blink at irregular intervals; ducks that bob (.bob) also get the head following the body */
 .play .rig .wing { animation: rig-shuffle calc(var(--amb-flick) + var(--amb-flick-spread) * var(--r1, .5)) ease-in-out infinite; }
@@ -97,12 +145,14 @@
 /* Confused: head tilt, raised brow, a blink, a pause. Turned away at the gate = confused, then flip and drift */
 .rig.confused .head { animation: rig-confused var(--dur-long) var(--ease-move) both; }
 .rig.confused .eyelid { animation: rig-blink-once var(--dur-long) linear both; }
-.rig.confused .brow { opacity: 1; }
+.rig.confused .brow { animation: rig-brow var(--dur-long) linear both; }
+.rig.wink .eyelid { animation: rig-blink-once var(--dur-med) linear both; }
+@keyframes rig-brow { 0%, 100% { opacity: 0; } 15%, 85% { opacity: 1; } }
 @keyframes rig-confused { 0%, 100% { transform: none; } 25%, 75% { transform: rotate(10deg); } }
 @keyframes rig-blink-once { 0%, 40%, 60%, 100% { transform: scaleY(0); } 50% { transform: scaleY(1); } }
 
 @media (prefers-reduced-motion: reduce) {
-    .rig, .rig * { animation: none !important; transition: none !important; }
+    .rig, .rig *, .scene-svg * { animation: none !important; transition: none !important; }
     .hero figure, .why .ducks-swim, .panel.show .tg { animation: none; }
     .scene-svg *, .hero-ducks * { animation: none !important; }
     .top .flock > * { animation: none; }

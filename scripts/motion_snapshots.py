@@ -22,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'motion-snapshots')
 PAGES = {'home': '/', 'now': '/now/', 'why': '/why/'}
 SIZES = [(1280, 800), (390, 844)]
-END_MS = 4000  # past the longest beat sequence in these pages
+END_MS = 6000  # past the longest beat sequence in these pages (two ponds: 6s)
 
 
 class Quiet(http.server.SimpleHTTPRequestHandler):

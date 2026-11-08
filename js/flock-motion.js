@@ -191,15 +191,16 @@
         }
 
         if (F.reduced) end();
-        else if (th !== null) {
-            watch(el, th, function (v) {
-                s.seen = v;
-                if (o.ambient) sa.sync();
+        else {
+            // an ambient scene runs its loops from 20% in view, and starts its storyboard at `th`
+            if (o.ambient) watch(el, 0.2, function (v) { s.seen = v; sa.sync(); });
+            if (th !== null) watch(el, th, function (v) {
+                if (!o.ambient) s.seen = v;
                 if (o.mode === 'loop') { if (v && s.st !== 1) play(); else if (!v) { drop(); s.st = 0; } return; }
                 if (!v || s.st) return;
+                // paused on arrival: show the last frame (nothing hidden); Play replays from the start
                 if (F.paused) { s.armed = true; if (o.end) o.end(ctx()); return; }
-                if (!o.ambient) unwatch(el, th);
-                play();
+                unwatch(el, th); play();
             });
         }
         return h;
