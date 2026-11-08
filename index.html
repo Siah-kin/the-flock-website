@@ -65,6 +65,13 @@
         .cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
         .hero-list { margin: 18px 0 0; padding-left: 1.2em; display: grid; gap: 8px; max-width: 33em; }
         .hero-list li { font-size: 1.1rem; line-height: 1.45; color: #fff; }
+        .hero-list a { color: #fff; font-weight: 600; text-underline-offset: 3px; }
+        .hero-note { margin: 16px 0 0; max-width: 33em; font-size: 1.05rem; line-height: 1.5; color: #E4ECF7; }
+        .ask-list { margin: 26px 0 0; padding-left: 1.2em; display: grid; gap: 12px; max-width: 46em; }
+        .ask-list li { font-size: 1.12rem; line-height: 1.5; color: #33445A; }
+        body.dark-mode .ask-list li { color: #C5D3E8; }
+        .ask-status { margin-top: 0; margin-bottom: 14px; max-width: 46em; font-size: 1.05rem; color: #33445A; }
+        body.dark-mode .ask-status { color: #C5D3E8; }
         .hero-planned { margin: 22px 0 0; max-width: 33em; font-size: 1rem; line-height: 1.45; color: #D6E6F7; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.28); }
         .hero-planned b { color: #fff; }
         .hero-planned a { color: #fff; font-weight: 600; text-underline-offset: 3px; }
@@ -263,16 +270,14 @@
             <div class="wrap hero-inner">
                 <div>
                     <h1 id="hero-title">Notice who does the heroics in your community.</h1>
-                    <p class="sub">The Flock is a Telegram bot that keeps a track record of the help your team confirms.</p>
+                    <p class="sub">The Flock is a peer-to-peer app on Telegram. People learn to pitch a project on X in their own words, and the help they give, once your team confirms it, goes on a track record that belongs to them.</p>
                     <ul class="hero-list">
-                        <li>Help that your team confirms goes on that member’s track record, which belongs to them. They can download it or delete it.</li>
-                        <li>Members ask for support in private, and anyone on your team can answer from one chat. The bot holds likely spam until someone on your team lets it through.</li>
-                        <li>A message claims to come from your team? Members forward it to the bot, and it says whether someone on the team wrote it.</li>
-                        <li>Before posting on X, members check a draft for links, price talk, too many hashtags and signs of AI writing.</li>
-                        <li>Your team grades the posts members send in.</li>
-                        <li>Every Monday the bot posts in your team chat who helped last week, by name.</li>
+                        <li>On X, members check a draft for what can get a reply hidden, including signs of AI writing, and learn how X decides who gets seen. The bot never rewrites their words, and your team gives feedback on what they publish. <a href="#x-title">See the X side</a></li>
+                        <li>In private, members ask your team for support and check whether a message really came from your team. The help your team confirms goes on their track record. <a href="#help-title">How support works</a></li>
+                        <li>Trusted members can train to review replies alongside your team.</li>
                     </ul>
-                    <p class="hero-planned"><b>Planned, not live yet:</b> a share of your token’s trading fees for members whose help your team confirmed. <a href="#fees-title">How it works</a></p>
+                    <p class="hero-note">Today your team confirms the help. As the app takes on more of that work and trusted members review each other, your team steps back from the middle.</p>
+                    <p class="hero-planned"><b>Coming, not live yet:</b> answers to members’ questions from sources your team approved, with the passage behind each one (<a href="#ask-title">how the answers will work</a>). Later, a share of your token’s trading fees for members whose help was confirmed (<a href="#fees-title">how the fees work</a>).</p>
                     <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a>
                 </div>
                 <figure>
@@ -532,6 +537,22 @@
             </div>
         </section>
 
+        <section class="section soft" aria-labelledby="ask-title">
+            <div class="wrap">
+                <p class="ask-status"><b>Coming next. Being prepared for a private test, not live yet.</b></p>
+                <h2 id="ask-title">Answers that show where they come from.</h2>
+                <p class="lede">A wrong answer that sounds sure does more harm than no answer. So this bot is designed to show its evidence.</p>
+                <ul class="ask-list">
+                    <li>Your team approves the texts it may answer from, such as your docs and the wording on your app’s pages. It answers only from those.</li>
+                    <li>Every answer shows the exact passage it used and the date of that source, so members can check it themselves.</li>
+                    <li>When the sources don’t cover a question, it says so and offers a person on your team.</li>
+                    <li>When your team edits or withdraws a source, the bot stops answering from it. The private test has to show this works before anything goes live.</li>
+                    <li>During the test, a person reads every answer before it is sent.</li>
+                </ul>
+                <p class="ask-status" style="margin-top:22px">The first test question is one members ask often: can I open a pool for a token that already exists?</p>
+            </div>
+        </section>
+
         <section class="band green" aria-labelledby="fees-title">
             <svg class="wv" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C240,4 480,4 720,26 C960,48 1200,50 1440,20 L1440,56 L0,56 Z"/></svg>
             <div class="wrap section">
@@ -620,7 +641,7 @@
                         <h3>For your members</h3>
                         <ul>
                             <li>Check whether a message really came from your team.</li>
-                            <li>Check a reply with the bot before posting it on X.</li>
+                            <li>Check a reply with the bot before posting it on X, and learn how X decides who gets seen.</li>
                             <li>Keep a dated track record of the help your team confirmed, and download or delete it whenever they like.</li>
                             <li>Get support without ever sharing a seed phrase or connecting a wallet.</li>
                         </ul>
