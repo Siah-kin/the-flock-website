@@ -2,7 +2,7 @@
    Storyboards S1 and S3. Debug: #seek-flow=1700, #seek-hero=300, #seek-x-p2=2000 hold a scene at that time. */
 (function () {
     'use strict';
-    var doc = document, can = !!Element.prototype.animate, dbg = {}, stops = [], N = { transform: 'none' };
+    var doc = document, can = !!Element.prototype.animate, dbg = Object.create(null), stops = [], N = { transform: 'none' };
     // without the runtime the tabs still work and every scene shows its last frame
     var F = window.Flock || { reduced: true, scene: function (el, o) { var e = function () { o.end(); }; e(); return { el: el, end: e, replay: e, seek: e }; } };
     var cs = getComputedStyle(doc.documentElement);
