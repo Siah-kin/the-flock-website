@@ -41,7 +41,7 @@ html[data-motion="paused"] *::after { animation-play-state: paused !important; }
 .flock-pause:focus-visible { outline: 3px solid var(--blue, #0058A8); outline-offset: 3px; }
 body.dark-mode .flock-pause { color: rgba(255, 255, 255, 0.85); }
 body.dark-mode .flock-pause:hover { color: #5AA0E6; background: rgba(0, 88, 168, 0.2); }
-.mobile-menu .flock-pause { display: none; width: 100%; text-align: left; font-size: 18px; padding: 12px 0; border-radius: 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1); color: var(--black, #000); }
+.mobile-menu .flock-pause { display: none; width: 100%; text-align: left; font-size: 18px; font-weight: 400; padding: 12px 0; border-radius: 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1); color: var(--black, #000); }
 body.dark-mode .mobile-menu .flock-pause { color: #FFFFFF; border-bottom-color: rgba(255, 255, 255, 0.1); }
 @media (max-width: 600px) {
     .nav-right .flock-pause { display: none; }
