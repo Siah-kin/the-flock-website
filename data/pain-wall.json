@@ -1,0 +1,118 @@
+{
+  "about": "Quotes for the pain wall at the top of /why/. Each quote is the speaker's own words, copied from the source. '…' marks words left out and [it] marks one word replaced; every entry in `checks` is an exact run of words on the source page, which scripts/check_pain_wall_links.py looks for. Roles only, never names. After editing, run: python3 scripts/build_pain_wall.py (writes the list and the cards into why/index.html) and python3 scripts/check_pain_wall_links.py.",
+  "quotes": [
+    {
+      "id": "moderator-impersonators",
+      "quote": "As a community moderator for Alephium, we’ve encountered numerous scammers infiltrating the chat… these scammers quickly rename themselves to impersonate well-known figures, such as team members or community moderators.",
+      "checks": [
+        "As a community moderator for Alephium, we've encountered numerous scammers infiltrating the chat",
+        "these scammers quickly rename themselves to impersonate well-known figures, such as team members or community moderators."
+      ],
+      "role": "A community moderator",
+      "date": "2025-03-29",
+      "month": "Mar 2025",
+      "url": "https://blog.notrustverify.ch/catch-impersonators-on-telegram",
+      "site": "blog.notrustverify.ch",
+      "text_from": "page",
+      "tone": "amber"
+    },
+    {
+      "id": "twelve-dms",
+      "quote": "Here I reached out for help and instantly 12 dms from strangers claiming they could help.",
+      "checks": [
+        "Here I reached out for help and instantly 12 dms from strangers claiming they could help."
+      ],
+      "role": "A user asking for help in a project’s Telegram",
+      "date": "2025-01-16",
+      "month": "Jan 2025",
+      "url": "https://forum.polkadot.network/t/polkadex-is-a-scam/11451/1",
+      "site": "forum.polkadot.network",
+      "text_from": "page",
+      "tone": "amber"
+    },
+    {
+      "id": "easy-to-hit-as-a-farmer",
+      "quote": "Those criteria are easy to not hit as a real user, and easy to hit as a farmer, and had no anti-sybil program.",
+      "checks": [
+        "Those criteria are easy to not hit as a real user, and easy to hit as a farmer, and had no anti-sybil program."
+      ],
+      "role": "A venture investor, on an airdrop",
+      "date": "2024-06-11",
+      "month": "Jun 2024",
+      "url": "https://x.com/adamscochran/status/1800521951384879469",
+      "site": "x.com",
+      "text_from": "x-oembed",
+      "tone": "red"
+    },
+    {
+      "id": "in-tears",
+      "quote": "How tf am I not eligible? I’m in tears seriously.. been using only one wallet, checked out and used different protocols.",
+      "checks": [
+        "How tf am I not eligible? I'm in tears seriously.. been using only one wallet, checked out and used different protocols."
+      ],
+      "role": "A community member, after an airdrop",
+      "date": "2024-06-11",
+      "month": "Jun 2024",
+      "url": "https://x.com/ahrlien/status/1800425508989182172",
+      "site": "x.com",
+      "text_from": "x-oembed",
+      "tone": "red"
+    },
+    {
+      "id": "small-accounts-winning",
+      "quote": "What made [it] famous and trendy in the first place was small accounts winning.",
+      "checks": [
+        "What made Kaito famous and trendy in the first place was small accounts winning."
+      ],
+      "role": "A leaderboard user, after a rule change",
+      "date": "2025-08-09",
+      "month": "Aug 2025",
+      "url": "https://x.com/Telloo55/status/1954251216352862537",
+      "site": "x.com",
+      "text_from": "x-oembed",
+      "tone": "red"
+    },
+    {
+      "id": "wrongfully-excluded",
+      "quote": "It’s been reported that some users with high testnet participation have been wrongfully excluded from the airdrop. We want to make things right.",
+      "checks": [
+        "It's been reported that some users with high testnet participation have been wrongfully excluded from the airdrop. We want to make things right."
+      ],
+      "role": "A project team, after its airdrop",
+      "date": "2025-09-09",
+      "month": "Sep 2025",
+      "url": "https://x.com/theblessnetwork/status/1965487310696579229",
+      "site": "x.com",
+      "text_from": "x-oembed",
+      "tone": "red"
+    },
+    {
+      "id": "would-go-unrecognized",
+      "quote": "…most of our contributors’ significant impact over the past year would go unrecognized.",
+      "checks": [
+        "most of our contributors' significant impact over the past year would go unrecognized."
+      ],
+      "role": "A governance team lead",
+      "date": "2024-10-31",
+      "month": "Oct 2024",
+      "url": "https://gov.optimism.io/t/appeal-to-the-optimism-foundation-request-to-update-retrofunding-round-6-application/9208/1",
+      "site": "gov.optimism.io",
+      "text_from": "page",
+      "tone": "grey"
+    },
+    {
+      "id": "sleepless-nights",
+      "quote": "I’ve spent too many weekends and sleepless nights mediating between people and groups…",
+      "checks": [
+        "I've spent too many weekends and sleepless nights mediating between people and groups"
+      ],
+      "role": "A head ambassador, resigning unpaid",
+      "date": "2024-10-08",
+      "month": "Oct 2024",
+      "url": "https://forum.polkadot.network/t/resignation-of-the-head-ambassador-title-six/10367/1",
+      "site": "forum.polkadot.network",
+      "text_from": "page",
+      "tone": "grey"
+    }
+  ]
+}
