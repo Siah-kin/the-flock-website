@@ -35,11 +35,12 @@
         var sym = doc.getElementById('duck');
         if (!sym || !u || !u.parentNode) return u;
         if (!tpl) {
-            // pose: flip and tilt; act: squash; wake and eyelid exist only on rigged ducks and are invisible at rest
+            // pose: flip and tilt; act: squash. Wake, eyelid and brow exist only on rigged ducks and are invisible at rest
             tpl = svg('g', 'pose');
             tpl.innerHTML = '<ellipse class="wake" cx="100" cy="117" rx="84" ry="5" fill="#BFD9F2"/><g class="act">' + sym.innerHTML + '</g>';
-            var eye = tpl.querySelector('.eye');
-            if (eye) eye.insertAdjacentHTML('beforeend', '<circle class="eyelid" cx="166" cy="30" r="5.4" fill="var(--duck-body,#FFCB2B)"/>');
+            var p = tpl.querySelector('.pupil');
+            if (p) p.insertAdjacentHTML('afterend', '<ellipse class="eyelid" cx="164" cy="30" rx="7.4" ry="8.2" fill="var(--duck-body,#FFCB2B)"/>' +
+                '<path class="brow" d="M157,20.5 C160.5,17.5 166,17 170.5,19" fill="none" stroke="#1B2A3A" stroke-width="2.4" stroke-linecap="round"/>');
         }
         var g = svg('g', ((u.getAttribute('class') || '') + ' rig ' + (cls || '')).replace(/\s+/g, ' ').trim());
         var m = svg('g', 'move'), v = svg('svg');
@@ -66,6 +67,26 @@
         a.sync = sync; amb.push(a); sync();
         watch(el, 0.2, function (v) { a.seen = v; sync(); });
         return a;
+    };
+
+    // Look at: rigged ducks in `host` turn head and pupil toward the pointer (within 25 degrees) while ok() allows it,
+    // and ease back when it leaves. Pointer devices with hover only.
+    F.look = function (host, ok) {
+        if (!window.matchMedia || !matchMedia('(hover: hover)').matches) return;
+        function each(f) { arr(host.querySelectorAll('.rig')).forEach(f); }
+        function off() { each(function (r) { r.style.removeProperty('--look'); r.style.removeProperty('--look-x'); }); }
+        host.addEventListener('pointermove', function (e) {
+            if (F.reduced || F.paused || (ok && !ok())) return off();
+            each(function (r) {
+                var h = r.querySelector('.head'), b = h && h.getBoundingClientRect();
+                if (!b) return;
+                var dx = e.clientX - b.left - b.width / 2, dy = e.clientY - b.top - b.height / 2;
+                var a = Math.max(-25, Math.min(25, Math.atan2(dy, Math.abs(dx)) * 57.3));
+                r.style.setProperty('--look', a.toFixed(1) + 'deg');
+                r.style.setProperty('--look-x', ((dx < 0) !== r.classList.contains('flip') ? -1 : 1) + 'px');
+            });
+        });
+        host.addEventListener('pointerleave', off);
     };
 
     // Scenes: beats on one shared clock
