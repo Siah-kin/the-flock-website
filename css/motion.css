@@ -13,6 +13,15 @@
     --amb-bob-slow: 5s;
     --amb-swim: 7s;
     --amb-ripple: 1.6s;
+    /* Duck rig: the head follows the body this much later; wing shuffles and blinks come at irregular
+       intervals between base and base + spread (each duck gets its own point in that range) */
+    --rig-lag: 120ms;
+    --amb-flick: 3s;
+    --amb-flick-spread: 3s;
+    --amb-blink: 4s;
+    --amb-blink-spread: 3s;
+    /* Scene lengths: keyframe percentages inside a scene are its storyboard times */
+    --scene-ponds: 6s;
 }
 @media (prefers-reduced-motion: reduce) {
     :root { --dur-micro: 0ms; --dur-short: 0ms; --dur-med: 0ms; --dur-long: 0ms; }

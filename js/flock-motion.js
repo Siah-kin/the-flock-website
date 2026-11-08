@@ -5,7 +5,7 @@
     var doc = document, root = doc.documentElement, KEY = 'flock-motion';
     var mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
     var F = window.Flock = { reduced: mq.matches, paused: false, scenes: [] };
-    var amb = [], running = [], raf = 0, ios = {}, cbs = new Map();
+    var amb = [], running = [], raf = 0, ios = {}, tpl;
 
     root.classList.add('js');
     try { F.paused = localStorage.getItem(KEY) === 'paused'; } catch (e) {}
@@ -14,15 +14,46 @@
     function arr(x) { return Array.prototype.slice.call(x); }
     function shown(el) { return getComputedStyle(el).display !== 'none'; }
 
-    // One IntersectionObserver per threshold; without support everything counts as in view
+    // One IntersectionObserver per threshold, one callback per element and threshold; without support everything counts as in view
     function watch(el, th, cb) {
         if (!('IntersectionObserver' in window)) { cb(true); return; }
-        var io = ios[th] || (ios[th] = new IntersectionObserver(function (list) {
-            list.forEach(function (x) { var f = cbs.get(x.target); if (f) f(x.isIntersecting); });
-        }, { threshold: th }));
-        cbs.set(el, cb); io.observe(el);
+        var w = ios[th];
+        if (!w) {
+            w = ios[th] = { m: new Map() };
+            w.io = new IntersectionObserver(function (list) {
+                list.forEach(function (x) { var f = w.m.get(x.target); if (f) f(x.isIntersecting); });
+            }, { threshold: th });
+        }
+        w.m.set(el, cb); w.io.observe(el);
     }
-    function unwatch(el, th) { cbs.delete(el); if (ios[th]) ios[th].unobserve(el); }
+    function unwatch(el, th) { var w = ios[th]; if (w) { w.m.delete(el); w.io.unobserve(el); } }
+
+    // Duck rig: an animated duck is stamped as inline parts (named as in the duck brief), because parts inside a
+    // <use> cannot move per instance. Same drawing as #duck; static ducks keep using <use>. Returns the new group.
+    function svg(tag, cls) { var e = doc.createElementNS('http://www.w3.org/2000/svg', tag); if (cls) e.setAttribute('class', cls); return e; }
+    F.rig = function (u, i, cls) {
+        var sym = doc.getElementById('duck');
+        if (!sym || !u || !u.parentNode) return u;
+        if (!tpl) {
+            // pose: flip and tilt; act: squash; wake and eyelid exist only on rigged ducks and are invisible at rest
+            tpl = svg('g', 'pose');
+            tpl.innerHTML = '<ellipse class="wake" cx="100" cy="117" rx="84" ry="5" fill="#BFD9F2"/><g class="act">' + sym.innerHTML + '</g>';
+            var eye = tpl.querySelector('.eye');
+            if (eye) eye.insertAdjacentHTML('beforeend', '<circle class="eyelid" cx="166" cy="30" r="5.4" fill="var(--duck-body,#FFCB2B)"/>');
+        }
+        var g = svg('g', ((u.getAttribute('class') || '') + ' rig ' + (cls || '')).replace(/\s+/g, ' ').trim());
+        var m = svg('g', 'move'), v = svg('svg');
+        ['style', 'opacity'].forEach(function (a) { if (u.hasAttribute(a)) g.setAttribute(a, u.getAttribute(a)); });
+        ['x', 'y', 'width', 'height'].forEach(function (a) { if (u.hasAttribute(a)) v.setAttribute(a, u.getAttribute(a)); });
+        v.setAttribute('viewBox', sym.getAttribute('viewBox')); v.setAttribute('overflow', 'visible');
+        // irregular wing shuffles and blinks, the same on every load
+        i = i || 0;
+        g.style.setProperty('--r1', (i * 0.618 % 1).toFixed(2));
+        g.style.setProperty('--r2', ((i * 0.382 + 0.3) % 1).toFixed(2));
+        v.appendChild(tpl.cloneNode(true)); m.appendChild(v); g.appendChild(m);
+        u.parentNode.replaceChild(g, u);
+        return g;
+    };
 
     // Ambient: el gets .play while it is in view, the tab is visible and nothing is paused
     F.ambient = function (el, o) {
@@ -54,6 +85,14 @@
         var len = o.duration || (beats.length ? beats[beats.length - 1].at + 800 : 0);
         var th = o.threshold === undefined ? 0.45 : o.threshold;
         var s = { pos: 0, i: 0, last: 0, st: 0, held: false, armed: false, seen: false, anims: [] }, h;
+        // An ambient scene is also an ambient host: it has .play while live, and its clock stops with its CSS
+        function live() { return s.seen && !doc.hidden && !F.paused && !F.reduced; }
+        function hold() { return o.ambient ? !live() : F.paused; }
+        var sa = { sync: function () {
+            el.classList.toggle('play', live());
+            if (s.st === 1 && s.held !== hold()) { s.held = !s.held; s.last = performance.now(); kick(); }
+        } };
+        if (o.ambient) amb.push(sa);
 
         function ctx() {
             var all = o.variants ? arr(el.querySelectorAll(o.variants)) : [el];
@@ -62,7 +101,8 @@
         function svgs() { return arr(el.querySelectorAll('svg')).concat(el.pauseAnimations ? [el] : []); }
         function drop() { var k = running.indexOf(s); if (k > -1) running.splice(k, 1); }
         s.step = function () {
-            while (s.i < beats.length && beats[s.i].at <= s.pos) beats[s.i++].run(ctx());
+            while (s.st === 1 && s.i < beats.length && beats[s.i].at <= s.pos) beats[s.i++].run(ctx());
+            if (s.st !== 1) return;
             if (s.i < beats.length) return;
             if (o.mode === 'loop') { if (s.pos >= len) { if (o.reset) o.reset(ctx()); s.pos = 0; s.i = 0; } }
             else { s.st = 2; drop(); }
@@ -77,7 +117,7 @@
             drop(); s.armed = false;
             if (!F.paused) svgs().forEach(function (v) { if (v.unpauseAnimations) v.unpauseAnimations(); });
             if (o.reset) o.reset(ctx());
-            s.pos = 0; s.i = 0; s.st = 1; s.held = F.paused; s.last = performance.now();
+            s.pos = 0; s.i = 0; s.st = 1; s.held = hold(); s.last = performance.now();
             if (o.onplay) o.onplay(ctx());
             running.push(s); s.step(); kick();
         }
@@ -85,12 +125,15 @@
             el: el, beats: beats, play: play, replay: play, end: end,
             pause: function () {
                 s.held = true;
-                s.anims = el.getAnimations ? el.getAnimations({ subtree: true }).filter(function (a) { return a.playState === 'running'; }) : [];
+                // CSS animations stop through html[data-motion="paused"]; pausing them here would detach them from CSS for good
+                s.anims = el.getAnimations ? el.getAnimations({ subtree: true }).filter(function (a) {
+                    return a.playState === 'running' && !(window.CSSAnimation && a instanceof CSSAnimation);
+                }) : [];
                 s.anims.forEach(function (a) { a.pause(); });
                 svgs().forEach(function (v) { if (v.pauseAnimations) v.pauseAnimations(); });
             },
             resume: function () {
-                s.held = false; s.last = performance.now();
+                s.held = hold(); s.last = performance.now();
                 s.anims.forEach(function (a) { a.play(); }); s.anims = [];
                 svgs().forEach(function (v) { if (v.unpauseAnimations) v.unpauseAnimations(); });
                 if (s.armed && s.seen) play(); else kick();
@@ -102,8 +145,14 @@
                 v.forEach(function (x) { if (x.pauseAnimations) { x.pauseAnimations(); try { x.setCurrentTime(0); } catch (e) {} } });
                 if (o.reset) o.reset(ctx());
                 s.pos = ms; s.i = 0; s.st = 2; s.held = true;
-                while (s.i < beats.length && beats[s.i].at <= ms) beats[s.i++].run(ctx());
-                if (el.getAnimations) el.getAnimations({ subtree: true }).forEach(function (a) { a.pause(); a.currentTime = ms; });
+                // an animation a beat starts is set to its own age (ms - beat), the rest to ms
+                var age = new Map(), list = function () { return el.getAnimations ? el.getAnimations({ subtree: true }) : []; };
+                list().forEach(function (a) { age.set(a, 0); });
+                while (s.i < beats.length && beats[s.i].at <= ms) {
+                    var b = beats[s.i++]; b.run(ctx());
+                    list().forEach(function (a) { if (!age.has(a)) age.set(a, b.at); });
+                }
+                list().forEach(function (a) { a.pause(); a.currentTime = ms - (age.get(a) || 0); });
                 v.forEach(function (x) { if (x.setCurrentTime) { try { x.setCurrentTime(ms / 1000); } catch (e) {} } });
             }
         };
@@ -124,10 +173,12 @@
         else if (th !== null) {
             watch(el, th, function (v) {
                 s.seen = v;
+                if (o.ambient) sa.sync();
                 if (o.mode === 'loop') { if (v && s.st !== 1) play(); else if (!v) { drop(); s.st = 0; } return; }
                 if (!v || s.st) return;
                 if (F.paused) { s.armed = true; return; }
-                unwatch(el, th); play();
+                if (!o.ambient) unwatch(el, th);
+                play();
             });
         }
         return h;
