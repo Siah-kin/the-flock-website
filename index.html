@@ -703,6 +703,7 @@
             // Ambient loops: the hero ducks, the Why duck, both ponds and the fee scene
             if (!window.Flock) return;
             var hero = document.querySelector('.hero'), why = document.querySelector('.why');
+            document.querySelectorAll('.hero-ducks use').forEach(function (u, i) { Flock.rig(u, i, 'bob'); });
             var lanes = document.getElementById('lanes'), flow = document.getElementById('flow');
             if (hero) Flock.ambient(hero);
             if (why) Flock.ambient(why);

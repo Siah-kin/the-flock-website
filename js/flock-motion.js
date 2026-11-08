@@ -306,6 +306,7 @@
         }
         // ambient loops: the opening flock, and the farm ducks on why/
         var topEl = doc.querySelector('.top'); if (topEl) F.ambient(topEl);
+        arr(doc.querySelectorAll('.top .flock use')).forEach(function (u, i) { F.rig(u, i, 'bob'); });
         arr(doc.querySelectorAll('.pics .scene-svg')).forEach(function (s) { F.ambient(s.closest('figure')); });
     }
 
