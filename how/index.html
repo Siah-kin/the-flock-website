@@ -171,8 +171,8 @@
                 <section class="stop calm" id="check-my-reply" aria-labelledby="check-my-reply-h">
                     <div>
                         <h2 id="check-my-reply-h">How do I check a reply before I post it on X?</h2>
-                        <p>Open BUIDL, then Get noticed on X, then Check my reply, and paste your draft. The bot points out what often gets replies hidden, such as a link, a ticker or price talk. It keeps no copy, and the words stay yours.</p>
-                        <details class="more"><summary>More about posting on X</summary><ul><li>The Reply guide shows how to write replies people answer.</li><li>Nobody is paid to post, to reply or to raid a cashtag.</li></ul></details>
+                        <p>Open BUIDL, then Get noticed on X, then Check my reply, and paste your draft. The bot points out what often gets replies hidden, such as a link, a ticker or price talk. It keeps no copy of your draft.</p>
+                        <details class="more"><summary>More about posting on X</summary><ul><li>The Reply guide shows how to write replies people answer.</li></ul></details>
                     </div>
                     <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: ✍️ Check my reply"><div class="msg"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy"><div class="cap"><p><b>✍️ Check my reply</b></p><p>• It has a link.<br>
                         • It drops the ticker.<br>
@@ -248,7 +248,7 @@
         <section class="questions" aria-labelledby="questions">
             <div class="wrap">
                 <h2 id="questions">Common questions</h2>
-                <details class="qa" id="is-posting-paid"><summary>Is posting on X paid?</summary><p>No. Nobody is paid to post, to reply or to raid a cashtag. You can stop at any time.</p></details><details class="qa" id="need-a-wallet"><summary>Do I need a wallet?</summary><p>No. Support and the X tools work without one. Some communities switch on token tools, such as a staking view, which read a public address you choose to link.</p></details><details class="qa" id="reach-a-person"><summary>How do I reach a person?</summary><p>Tap Help, then Ask the team. A person on your team answers in your private chat with the bot.</p></details><details class="qa" id="really-the-team"><summary>Is a “yes” from the team check a guarantee?</summary><p>No. A real team account can be taken over, so stay careful with any message that asks you to act fast or to send something.</p></details><details class="qa" id="delete-account"><summary>How do I delete my account?</summary><p>Open Your data and tap Delete my account, or send /deleteaccount. The bot lists what will go and asks you to confirm.</p></details><details class="qa" id="moderation"><summary>Does The Flock replace our moderation bot?</summary><p>No. Keep the bot you use to moderate your group. The Flock works alongside it, in private chats and your team chat.</p></details>
+                <details class="qa" id="is-posting-paid"><summary>Is posting on X paid?</summary><p>Posting is your choice. Nobody is paid to post, to reply or to raid a cashtag, and you can stop at any time.</p></details><details class="qa" id="need-a-wallet"><summary>Do I need a wallet?</summary><p>Support and the X tools work without one. Some communities switch on token tools, such as a staking view, which read a public address you choose to link.</p></details><details class="qa" id="really-the-team"><summary>Is a “yes” from the team check a guarantee?</summary><p>It tells you the account is on your team. A real team account can still be taken over, so stay careful with any message that asks you to act fast or to send something.</p></details><details class="qa" id="delete-account"><summary>How do I delete my account?</summary><p>Open My profile, then Account, then Your data, and tap Delete my account, or send /deleteaccount. The bot lists what will go and asks you to confirm.</p></details><details class="qa" id="moderation"><summary>Does The Flock replace our moderation bot?</summary><p>Keep the bot you use to moderate your group. The Flock works alongside it, in private chats and your team chat.</p></details>
             </div>
         </section>
 
@@ -272,10 +272,13 @@
     <script>
     // Old manual and FAQ links keep working: their anchors point to the matching section here.
     (function () {
-        var map = { 'zeal': 'questions', 'x-feedback': 'get-noticed', 'post-feedback': 'get-noticed', 'reply-guide': 'check-my-reply', 'my-contributions': 'profile', 'never-ask': 'is-it-the-team', 'help': 'is-it-the-team', 'what-is-kept': 'profile', 'your-data': 'profile', 'thanks': 'profile', 'wallet': 'need-a-wallet', 'noise': 'tickets', 'team-desk': 'tickets', 'brief': 'tickets', 'carousel': 'setup', 'who-is-team': 'setup', 'what-can-i-do': 'member', 'members': 'member', 'start': 'member', 'troubleshooting': 'questions' };
+        var map = { 'zeal': 'questions', 'x-feedback': 'get-noticed', 'post-feedback': 'get-noticed', 'reply-guide': 'check-my-reply', 'my-contributions': 'profile', 'never-ask': 'is-it-the-team', 'help': 'is-it-the-team', 'what-is-kept': 'profile', 'your-data': 'profile', 'thanks': 'profile', 'wallet': 'need-a-wallet', 'noise': 'tickets', 'team-desk': 'tickets', 'brief': 'tickets', 'carousel': 'setup', 'who-is-team': 'setup', 'what-can-i-do': 'member', 'members': 'member', 'start': 'member', 'troubleshooting': 'questions', 'reach-a-person': 'ask-the-team' };
         var h = location.hash.slice(1);
         if (map[h] && !document.getElementById(h)) { history.replaceState(null, '', '#' + map[h]); var el = document.getElementById(map[h]); if (el) el.scrollIntoView(); }
     })();
+    </script>
+    <script>
+    document.addEventListener('nav:loaded', function () { document.querySelectorAll('a[data-nav="how"]').forEach(function (a) { a.href = 'https://t.me/Arctide_TheFlock_Bot'; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = 'Open the bot'; }); });
     </script>
 </body>
 </html>
