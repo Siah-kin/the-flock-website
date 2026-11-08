@@ -857,15 +857,16 @@
     </div>
 
     <script>
-        // Highlight active section on scroll
-        const sections = document.querySelectorAll('h1[id], h2[id], h3[id]');
+        // Highlight the section being read. No scroll handler: one observer on the headings
+        // (it fires when a heading enters or leaves the upper part of the screen) and `scrollend`,
+        // which catches jumps that skip the observer's band, such as anchor links.
+        const sections = Array.prototype.slice.call(document.querySelectorAll('h1[id], h2[id], h3[id]'));
         const navLinks = document.querySelectorAll('.sidebar-section a');
 
-        window.addEventListener('scroll', () => {
+        function updateActive() {
             let current = '';
             sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 100) {
+                if (section.getBoundingClientRect().top <= 100) {
                     current = section.getAttribute('id');
                 }
             });
@@ -875,7 +876,14 @@
                     link.classList.add('active');
                 }
             });
-        });
+        }
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver(updateActive, { rootMargin: '-100px 0px -60% 0px' });
+            sections.forEach(h => io.observe(h));
+        } else {
+            window.addEventListener('scroll', updateActive, { passive: true });
+        }
+        window.addEventListener('scrollend', updateActive);
 
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
