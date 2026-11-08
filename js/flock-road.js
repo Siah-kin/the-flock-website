@@ -215,6 +215,7 @@
             if (F.reduced) return;
             var r = rd.getBoundingClientRect(), p = Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / r.height));
             rd.style.setProperty('--ride', (p * H).toFixed(1) + 'px');
+            rd.classList.toggle('road-riding', p * H > 2);
             stops.forEach(function (s) {
                 if (s.done || p <= s.p) return;
                 s.done = true;
