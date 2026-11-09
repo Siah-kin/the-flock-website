@@ -1,0 +1,514 @@
+/* The Flock: mini-game in the pond at the bottom of each page, inside the navy "Try it as a member." section (rock throwing at bot ducks, weird events, wipes).
+   Needs js/flock-duck.js, js/flock-lines.js and js/flock-events-1..6.js loaded first. Respects Flock.paused from js/flock-motion.js. */
+(function () {
+  'use strict';
+  const NSS = 'http://www.w3.org/2000/svg';
+  function el(tag, css, html) { const e = document.createElement(tag); if (css) e.style.cssText = css; if (html) e.innerHTML = html; return e; }
+  const WIPES = '<svg width="92" height="64" viewBox="0 0 92 64" aria-hidden="true" style="display:block;overflow:visible"><ellipse cx="46" cy="60" rx="38" ry="4" fill="#000" opacity=".25"/><path d="M30,18 C28,6 40,0 46,4 C52,0 64,6 62,18 Z" fill="#fff" stroke="#BFD9F2" stroke-width="1.5"/><path d="M38,12 C42,9 50,9 54,12" fill="none" stroke="#DDEFFC" stroke-width="2" stroke-linecap="round"/><rect x="6" y="16" width="80" height="42" rx="12" fill="#7CC8F0" stroke="#4FA6DA" stroke-width="2"/><path d="M10,24 C30,20 62,20 82,24" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/><rect x="28" y="14" width="36" height="12" rx="6" fill="#fff" stroke="#4FA6DA" stroke-width="2"/><text x="46" y="44" text-anchor="middle" font-family="Fredoka,system-ui,sans-serif" font-weight="700" font-size="13" fill="#002050" letter-spacing="1">WIPES</text><circle cx="72" cy="48" r="3" fill="#fff" opacity=".7"/><circle cx="78" cy="42" r="2" fill="#fff" opacity=".5"/></svg>';
+  const WIPES_SM = '<svg width="64" height="46" viewBox="0 0 92 64" aria-hidden="true" style="display:block;overflow:visible"><path d="M30,18 C28,6 40,0 46,4 C52,0 64,6 62,18 Z" fill="#fff" stroke="#BFD9F2" stroke-width="1.5"/><rect x="6" y="16" width="80" height="42" rx="12" fill="#7CC8F0" stroke="#4FA6DA" stroke-width="2"/><path d="M10,24 C30,20 62,20 82,24" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/><rect x="28" y="14" width="36" height="12" rx="6" fill="#fff" stroke="#4FA6DA" stroke-width="2"/><text x="46" y="44" text-anchor="middle" font-family="Fredoka,system-ui,sans-serif" font-weight="700" font-size="13" fill="#002050" letter-spacing="1">WIPES</text></svg>';
+
+  // Where the game lives. One map for every page; the road pages are picked by an attribute on the band, so the same code
+  // works when a page's content moves (put data-flock-game="top" on a top band, "bottom" on the closing navy section).
+  //   wave   : the home page's pain wall answer band ("We built The Flock for them."), on its wave strip
+  //   top    : the top band of a road page (the yellow duck and three bots replace the static ducks)
+  //   bottom : the closing navy section ("Try it as a member."), turned into a pond
+  const MOUNTS = [
+    { mode: 'wave', sel: '#pain-wall .pw-end' },
+    { mode: 'top', sel: '[data-flock-game="top"]' },
+    { mode: 'bottom', sel: '[data-flock-game="bottom"]' }
+  ];
+
+  const CSS = '.game-throw:focus-visible,.game-control:focus-visible{outline:3px solid #FED801;outline-offset:3px}' +
+    /* the clipped game layer: nothing the game draws can reach the text above it */
+    '.game-layer{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:1}' +
+    /* the call-out and the score sit above the game layer */
+    '.game-info{position:absolute;z-index:3;pointer-events:none;grid-template-columns:minmax(0,1fr)}' +
+    '.game-hint.game-hint{white-space:nowrap;display:flex;align-items:center;gap:10px;width:fit-content;max-width:100%;box-sizing:border-box;margin:0;padding:6px 16px 6px 6px;border-radius:22px;background:rgba(0,16,48,.45);color:#fff;font:500 14.5px/1.4 Inter,system-ui,sans-serif;letter-spacing:0;text-align:left;overflow:hidden}.game-hint>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis}' +
+    '.game-hud{display:flex;gap:4px 16px;align-items:baseline;font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#BFD9F2;z-index:3}' +
+    '.game-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}' +
+    /* bottom: a pond along the foot of the section */
+    '.game-host{padding-bottom:0!important}.game-host>.wrap{padding-bottom:0}' +
+    '.game-pond{position:relative;width:100%;height:320px;margin-top:36px}' +
+    '.game-waves{position:absolute;left:0;top:0;width:100%;height:100%;display:block}' +
+    '.game-pond .game-info{top:16px;display:grid;gap:10px;justify-items:start}' +
+    /* top: the hero band; its text stays above the game */
+    '.game-top>.wrap{position:relative;z-index:2}.game-top .game-hint.game-hint{margin:22px 0 0}.game-top .game-hud{margin-top:10px}.game-top>.game-hud{position:absolute;right:24px;top:20px;margin:0}' +
+    /* wave: the answer band; the answer text stays above the game, the call-out sits under the button */
+    '.game-end .pw-calm{position:relative;z-index:2}.game-end .pw-ducks{visibility:hidden}' +
+    '.pw-end.game-end .pw-sun{bottom:230px}.pw-view>.pw-end.game-end .pw-sun{bottom:32%}' +
+    '.game-end .game-info{display:grid;justify-items:center;gap:10px;left:50%;transform:translateX(-50%);width:min(540px,calc(100% - 32px))}' +
+    '.pw-end.game-end{padding-bottom:290px}' +
+    '.pw-view>.pw-end .game-layer,.pw-view>.pw-end .game-throw,.pw-view>.pw-end .game-info{transition:opacity .35s}.pw-view>.pw-end:not(.pw-open) .game-layer,.pw-view>.pw-end:not(.pw-open) .game-throw,.pw-view>.pw-end:not(.pw-open) .game-info,.pw-view>.pw-end:not(.pw-open) .game-nudge{opacity:0;visibility:hidden}' +
+    '.pw-view>.pw-end.pw-open .game-throw{pointer-events:auto}' +
+    '@media (max-width:899px){.pw-end.game-end{padding-bottom:330px}.pw-end.game-end .pw-sun{bottom:190px}}' +
+    /* phone: the score is one short line after the call-out; one number only, no floating WIPES (the footer one stays) */
+    '@media (max-width:699px){.game-key{display:none}.game-pond{height:380px;margin-top:28px}.game-pond .game-info{left:16px;right:16px}.game-nudge{display:none!important}}';
+
+  function mount() {
+    const FD = window.FlockDuck, M = MOUNTS.find(m => document.querySelector(m.sel));
+    if (!FD || !M || !window.IntersectionObserver || !window.ResizeObserver) return;
+    const mode = M.mode, host = document.querySelector(M.sel), E = FD.E, cl = FD.cl;
+    if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+    const css = document.createElement('style'); css.textContent = CSS; document.head.appendChild(css);
+    // The instruction as a call-out: sun-yellow "i" badge, white text on a darker pill. "or press T" only where there is a keyboard pointer.
+    const hint = el('p', ''); hint.className = 'game-hint';
+    hint.innerHTML = '<span aria-hidden="true" style="flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#FED801;color:#002050;font:700 17px/1 Fredoka,system-ui,sans-serif">i</span><span></span>';
+    hint.lastChild.textContent = 'Pull back on the yellow duck and let go.';
+    const hud = el('div', ''); hud.className = 'game-hud';
+    // one hidden live node: it announces the score, and only after a throw the visitor made
+    const live = el('div', ''); live.className = 'game-sr'; live.setAttribute('role', 'status'); live.setAttribute('aria-live', 'polite');
+    const layer = el('div', ''); layer.className = 'game-layer';
+    const gsvg = document.createElementNS(NSS, 'svg'); gsvg.setAttribute('aria-hidden', 'true'); gsvg.style.cssText = 'position:absolute;left:0;top:0;pointer-events:none;overflow:visible'; layer.appendChild(gsvg);
+    const hit = el('div', 'position:absolute;z-index:6;touch-action:none;cursor:grab;border-radius:50%');
+    const help = el('span', 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap'); help.id = 'game-throw-help'; help.textContent = 'Arrow keys aim. Enter or Space throws.';
+    hit.className = 'game-throw'; hit.tabIndex = 0; hit.setAttribute('role', 'button'); hit.setAttribute('aria-label', 'Throw a rock at a bot duck'); hit.setAttribute('aria-describedby', help.id);
+    // g: how this mount measures itself. measure(st) fills st.W/H/HB/WL and the stain band, and returns the drag area's top and
+    // textBottom: the lowest text, button, call-out or score box. The layer is clipped to everything below it.
+    const WATER_DEFS = {};
+    const g = { mode, host, layer, hint, info: null, root: host, scales: s => s ? [.36, .44] : [.44, .5], bots: (W, s, i) => W * (s ? .5 + i * .19 : .62 + i * .11) };
+    const relBottom = (e, r) => e.getBoundingClientRect().bottom - r.top;
+
+    if (mode === 'bottom') {
+      // a wave strip along the foot of the section: the pond. The call-out and score sit in its sky.
+      host.classList.add('game-host');
+      const pond = el('div', '', '<svg class="game-waves" viewBox="0 0 1440 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,196 C240,160 480,162 720,192 C960,222 1200,220 1440,176 L1440,300 L0,300 Z" fill="#2F6FC4"/><path d="M0,252 C260,222 520,232 760,250 C1000,268 1220,264 1440,236 L1440,300 L0,300 Z" fill="#1B4F9A"/></svg>');
+      pond.className = 'game-pond'; host.appendChild(pond); pond.appendChild(layer);
+      const info = el('div', ''); info.className = 'game-info'; info.appendChild(hint); info.appendChild(hud); pond.appendChild(info);
+      pond.appendChild(hit); pond.appendChild(help); pond.appendChild(live);
+      g.root = pond; g.info = info;
+      g.measure = st => {
+        st.W = pond.offsetWidth; st.H = pond.offsetHeight; st.HB = st.H; st.WL = st.HB - (st.W < 700 ? 92 : 100);
+        st.lo = st.WL + 12; st.hi = st.HB - 28;
+        const wr = host.querySelector('.wrap'), pr = pond.getBoundingClientRect();
+        if (wr) { const wb = wr.getBoundingClientRect(), wc = getComputedStyle(wr), l = Math.max(12, wb.left - pr.left + parseFloat(wc.paddingLeft || 0)); info.style.left = l + 'px'; info.style.right = Math.max(12, pr.right - wb.right + parseFloat(wc.paddingRight || 0)) + 'px'; }
+        return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(relBottom(info, pr)) + 8, water: { d: 'M0,196 C240,160 480,162 720,192 C960,222 1200,220 1440,176 L1440,300 L0,300 Z', tf: 'scale(' + (st.W / 1440).toFixed(4) + ' ' + (st.H / 300).toFixed(4) + ')' } };
+      };
+    } else if (mode === 'top') {
+      // the hero band keeps its own waves; the game draws in a clipped layer under the text, below the call-out
+      host.classList.add('game-top');
+      const flock = host.querySelector('.flock'); if (flock) flock.style.display = 'none';
+      const sea = host.querySelector('.sea');
+      const wrap = host.querySelector('.wrap') || host;
+      wrap.appendChild(hint);
+      host.appendChild(layer); host.appendChild(hit); host.appendChild(help); host.appendChild(live);
+      g.info = wrap;
+      g.measure = st => {
+        st.W = host.offsetWidth; st.H = host.offsetHeight; st.HB = st.H; st.WL = st.H - 62;
+        st.lo = st.WL - 14; st.hi = st.WL + 2;   // the blue wave only: the white one below is the page
+        // the score: top right of a wide band; on a narrow one, one line after the call-out
+        const narrow = host.offsetWidth < 700;
+        if (narrow && hud.parentElement !== wrap) wrap.appendChild(hud);
+        else if (!narrow && hud.parentElement !== host) host.appendChild(hud);
+        const hr = host.getBoundingClientRect(), tx = Math.max(st.W < 700 ? 46 : 80, st.W * .1);
+        let top = st.WL - 130, tb = 0;
+        wrap.querySelectorAll(':scope > *').forEach(e => { const b = e.getBoundingClientRect(); if (!b.height) return; tb = Math.max(tb, b.bottom - hr.top); if (b.left - hr.left < tx + 70 && b.right - hr.left > tx - 70) top = Math.max(top, b.bottom - hr.top + 4); });
+        const sp = sea ? [...sea.querySelectorAll('path')].map(x => x.getAttribute('d')) : [];
+        return { top, textBottom: Math.ceil(tb) + 8, water: sea && sp.length > 1 ? { d: sp[0] + ' ' + sp[1], tf: 'translate(0 ' + (st.H - 120) + ') scale(' + (st.W / 1440).toFixed(4) + ' 1)' } : null };
+      };
+    } else {
+      // wave: the answer band of the home page's pain wall. Its three ducks give way to the game's bots on the same wave.
+      host.classList.add('game-end');
+      const ducks = host.querySelector('.pw-ducks'), sea = host.querySelector('.pw-sea'), cta = host.querySelector('.pw-cta');
+      const info = el('div', ''); info.className = 'game-info'; info.appendChild(hint); info.appendChild(hud);
+      host.insertBefore(layer, host.firstChild); host.appendChild(info); host.appendChild(hit); host.appendChild(help); host.appendChild(live);
+      g.info = info;
+      g.scales = s => s ? [.4, .46] : [.5, .56];
+      g.live = () => !host.parentElement || !host.parentElement.classList.contains('pw-view') || host.classList.contains('pw-open');
+      g.bots = (W, s, i) => { const hr = host.getBoundingClientRect(), d = ducks.getBoundingClientRect(); return (d.left - hr.left) + d.width * [.16, .48, .78][i]; };
+      g.measure = st => {
+        st.W = host.offsetWidth; st.H = host.offsetHeight; st.HB = st.H;
+        if (!st.W || !st.H) return null;
+        const hr = host.getBoundingClientRect(), d = ducks.getBoundingClientRect(), c = cta.getBoundingClientRect(), sr = sea.getBoundingClientRect();
+        st.WL = Math.min(st.H - 30, Math.max(st.H * .5, d.bottom - hr.top - 14));
+        st.lo = st.WL + 10; st.hi = Math.max(st.lo + 4, sr.top - hr.top + sr.height * .74);   // the two blue waves; the white shore below is not for stains
+        info.style.top = Math.round(c.bottom - hr.top + 24) + 'px';
+        const sp = [...sea.querySelectorAll('path')].map(x => x.getAttribute('d')), shore = sea.querySelector('.pw-shore');
+        return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(relBottom(info, hr)) + 8, water: { d: sp[0] + ' ' + (shore ? shore.getAttribute('d') : ''), tf: 'translate(0 ' + sea.offsetTop + ') scale(' + (st.W / 1440).toFixed(4) + ' ' + (sea.offsetHeight / 300).toFixed(4) + ')' } };
+      };
+    }
+    const footer = document.querySelector('.page-footer .wrap') || document.body;
+    const wipe = el('button', 'display:none;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;min-height:44px;cursor:pointer;color:#BFD9F2;font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.06em', WIPES + '<span></span>');
+    wipe.type = 'button'; wipe.className = 'game-wipes'; wipe.title = 'Please leave the place clean';
+    const links = footer.querySelector('.links'); footer.insertBefore(wipe, links || null);
+    const nudge = el('button', 'position:absolute;right:16px;bottom:10px;z-index:8;pointer-events:auto;display:none;align-items:center;gap:12px;background:#fff;border:2px solid #7CC8F0;border-radius:20px;padding:6px 16px 6px 6px;min-height:44px;box-shadow:0 10px 24px rgba(0,32,80,.3);cursor:pointer;font:600 1rem Fredoka,system-ui,sans-serif;color:#002050;text-align:left',
+      '<span style="position:relative;display:block;flex:none">' + WIPES_SM + '<span data-n aria-hidden="true" style="position:absolute;right:-8px;top:-8px;min-width:22px;height:22px;padding:0 5px;box-sizing:border-box;border-radius:11px;background:#D7263D;color:#fff;font:700 12px/22px Fredoka,system-ui,sans-serif;text-align:center">0</span></span><span class="game-nudge-t" style="display:grid;gap:1px"><span data-t style="font-size:1rem">Please leave the place clean</span><span style="font:500 12px Inter,system-ui,sans-serif;color:#4A5B72">Tap to wipe up after yourself</span></span>');
+    nudge.type = 'button'; nudge.className = 'game-nudge'; g.root.appendChild(nudge);
+    const o = { g, section: host, gsvg, layer, hero: g.root, hit, hud, hint, live, wipe, wipeLabel: wipe.querySelector('span'), nudge, nudgeTxt: nudge.querySelector('[data-t]'), nudgeCount: nudge.querySelector('[data-n]'), reduced: !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) };
+    o.wipeLabel.textContent = 'Please leave the place clean';
+    game(FD, E, cl, g.root, o);
+  }
+
+  function game(FD, E, cl, root, o) {
+    const NS = 'http://www.w3.org/2000/svg', gsvg = o.gsvg, hero = o.hero, hit = o.hit, hud = o.hud, wipe = o.wipe, wlab = o.wipeLabel;
+    const G = 980, nudge = o.nudge, ntxt = o.nudgeTxt, ncount = o.nudgeCount;
+    let red = o.reduced, secSeen = false, inView = false;
+    // the pain wall's answer band only plays once the scene has reached its end (or in the still layout)
+    const on = () => inView && (!o.g.live || o.g.live());
+    // Pause and reduced motion: read live. The game's own Web Animations are tracked so Pause can hold them.
+    const isPaused = () => !!(window.Flock && window.Flock.paused), calm = () => red || isPaused();
+    // One list of animations and one list of timers. Timers run on the game clock, which stops with Pause, a hidden tab
+    // and a page that is off screen, so nothing delayed (a sound, a bubble, a state change) fires while the game is held.
+    const anims = new Set(), pending = [];
+    const held = () => isPaused() || document.hidden;
+    const anim = (e, kf, op) => {
+      if (red) return { set onfinish(f) { f && f(); }, pause() {}, play() {}, finish() {}, cancel() {} };   // reduced motion: no animation, settle at once
+      const a = e.animate(kf, op); anims.add(a); a.addEventListener('finish', () => anims.delete(a)); a.addEventListener('cancel', () => anims.delete(a)); if (held()) a.pause(); return a;
+    };
+    const later = (fn, ms) => { if (red) { fn(); return; } pending.push({ at: stage.R + ms, fn }); wake(); };
+    const tickLater = R => { for (let i = 0; i < pending.length; i++) if (R >= pending[i].at) { const t = pending.splice(i--, 1)[0]; try { t.fn(); } catch (e) { console.warn(e); } } };
+    // The floating WIPES nudge: only after the visitor has thrown, only while the game area is on screen, never on a phone
+    // (there the footer button stays), and never next to the footer button: one of the two at a time.
+    const syncNudge = () => {
+      const has = stains.length > 0 && st.thrown, floating = has && secSeen && window.innerWidth >= 700;
+      nudge.style.display = floating ? 'flex' : 'none'; wipe.style.display = has && !floating ? 'flex' : 'none'; ncount.textContent = stains.length;
+    };
+    addEventListener('resize', () => syncNudge());
+    // the floating WIPES nudge shows only while the game section is on screen
+    const fio = new IntersectionObserver(es => { secSeen = es[es.length - 1].isIntersecting; syncNudge(); }, { threshold: 0 });
+    fio.observe(o.section);
+    const L = c => window.FlockLine ? window.FlockLine(c) : 'gm', pick = a => a[Math.floor(Math.random() * a.length)], rnd = (a, b) => a + Math.random() * (b - a), f1 = v => v.toFixed(1);
+    const mk = (tag, at, par) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); par.appendChild(e); return e; };
+    gsvg.innerHTML = '<g data-l="stains"></g><g data-l="evb"></g><g data-l="ducks"></g><g data-l="extra"></g><g data-l="evf"></g><g data-l="rock"></g><g data-l="fx"></g><g data-l="aim"></g><g data-l="ui"></g>';
+    // stains are clipped to the water shape of this page's waves, so none reaches the white shore or the page
+    const defs = document.createElementNS(NS, 'defs'); defs.innerHTML = '<clipPath id="game-water"><path clip-rule="evenodd" d=""/></clipPath>'; gsvg.insertBefore(defs, gsvg.firstChild);
+    const waterPath = defs.querySelector('path');
+    const Ly = {}; ['stains', 'evb', 'ducks', 'extra', 'evf', 'rock', 'fx', 'aim', 'ui'].forEach(n => Ly[n] = gsvg.querySelector('[data-l="' + n + '"]'));
+    Ly.stains.setAttribute('clip-path', 'url(#game-water)');
+    // one number only: bots bonked
+    hud.innerHTML = '<div>BONKED <b data-s style="font:700 15px Fredoka,system-ui,sans-serif;color:#FED801;margin-left:4px">0</b></div>';
+    const hudS = hud.querySelector('[data-s]'), live = o.live; let liveFlip = false;
+    const announce = () => { liveFlip = !liveFlip; live.textContent = 'Bonked: ' + st.score + (liveFlip ? '' : '.'); };
+    const st = { W: 0, H: 0, WL: 0, HB: 0, tx: 0, ox: 0, oy: 0, sc: .44, score: 0, combo: 0, wind: 0, aiming: false, ptr: null, thrown: false, nextSay: 2500, banner: null, cleaning: null, auto: null, attracted: false };
+    const thrower = { id: 'thr', k: 'y', s: .5, d0: 1, water: '#2F6FC4', posFn: () => [st.tx, st.WL, 0] };
+    const slots = [0, 1, 2].map(i => ({ i, st: 'float', x: 0, y: 0, rot: 0, bx: 0, by: 0, vx: 0, vy: 0, spin: 0, t0: 0, sayT: -1e9, landed: false }));
+    slots.forEach(s => { s.duck = { id: 'b' + s.i, k: 'g', s: .44, d0: -1, water: '#2F6FC4', posFn: () => [s.x, s.y, 0], extra: (T, o) => { o.rot = s.rot; } }; });
+    const all = [thrower, ...slots.map(s => s.duck)];
+    Ly.ducks.innerHTML = all.map(FD.svg).join(''); all.forEach(d => FD.prep(d, Ly.ducks));
+    const STAR = 'M0,-6 L1.8,-1.8 L6,-1.5 L2.8,1.2 L3.7,5.6 L0,3.2 L-3.7,5.6 L-2.8,1.2 L-6,-1.5 L-1.8,-1.8 Z';
+    const FOOT = '<path d="M0,10 L0,-2" stroke="#C46A1C" stroke-width="3" stroke-linecap="round"/><path d="M0,-2 L-8,-16 L-3,-12 L0,-18 L3,-12 L8,-16 Z" fill="#F0963C" stroke="#C46A1C" stroke-width="1.5" stroke-linejoin="round"/>';
+    slots.forEach(s => {
+      const g = mk('g', {}, Ly.extra);
+      g.innerHTML = '<g data-x="feet" opacity="0"><g data-x="f1">' + FOOT + '</g><g data-x="f2">' + FOOT + '</g></g>' +
+        '<g data-x="stars" opacity="0">' + [0, 1, 2].map(() => '<path d="' + STAR + '" fill="#FED801" stroke="#C98800" stroke-width="1"/>').join('') + '</g>' +
+        '<g data-x="sign" opacity="0"><rect x="-2" y="-28" width="4" height="34" fill="#8C7A55"/><rect x="-44" y="-50" width="88" height="24" rx="4" fill="#F6F1E3" stroke="#8C7A55" stroke-width="2"/><text y="-33.5" text-anchor="middle" font-family="Fredoka,system-ui,sans-serif" font-weight="700" font-size="12" fill="#A63A2C" letter-spacing=".5">SUSPENDED</text></g>' +
+        '<g data-x="chute" opacity="0"><path d="M-30,0 L0,46 M-8,-1 L0,46 M8,-1 L0,46 M30,0 L0,46" stroke="#12304F" stroke-width="1.2" fill="none"/><path d="M-36,0 C-36,-34 36,-34 36,0 C27,-7 14,-7 0,0 C-14,-7 -27,-7 -36,0 Z" fill="#F6F1E3" stroke="#12304F" stroke-width="1.5"/><path d="M-10,-2 C-11,-22 11,-22 10,-2 C6,-4 -6,-4 -10,-2 Z" fill="#E5604F"/></g>' +
+        '<g data-x="bub" opacity="0"><rect data-x="br" y="-30" height="24" rx="12" fill="#fff"/><path d="M-5,-7 L1,4 L5,-7 Z" fill="#fff"/><text data-x="bt" y="-13.5" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#12304F"></text></g>';
+      const q = n => g.querySelector('[data-x="' + n + '"]');
+      s.X = { feet: q('feet'), f1: q('f1'), f2: q('f2'), stars: q('stars'), sign: q('sign'), chute: q('chute'), bub: q('bub'), br: q('br'), bt: q('bt') };
+    });
+    const rockG = mk('g', { opacity: 0 }, Ly.rock);
+    rockG.innerHTML = '<path d="M-11,-3 C-10,-9 -3,-12 4,-11 C10,-9 12,-3 11,3 C9,9 2,12 -4,11 C-10,9 -12,3 -11,-3 Z" fill="#8E96A3" stroke="#5C6470" stroke-width="2" stroke-linejoin="round"/><path d="M-6,-6 C-3,-8 1,-8 4,-7" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2.4" stroke-linecap="round"/><path d="M2,2 L5,6 M3,4 L0,6" stroke="#5C6470" stroke-width="1.2" stroke-linecap="round"/>';
+    const rock = { st: 'ready', x: 0, y: 0, vx: 0, vy: 0, rot: 0, skips: 0, t0: calm() ? -1e4 : 0 };
+    const band = mk('path', { fill: 'none', stroke: '#6B4A2B', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: 0 }, Ly.aim);
+    const dots = Array.from({ length: 16 }, (_, i) => mk('circle', { r: Math.max(1.5, 4 - i * .16), fill: '#fff', opacity: 0 }, Ly.aim));
+    const pbar = mk('g', { opacity: 0 }, Ly.aim); pbar.innerHTML = '<rect x="-40" y="0" width="80" height="8" rx="4" fill="rgba(0,20,50,.45)"/><rect data-x="pf" x="-40" y="0" width="0" height="8" rx="4" fill="#FED801"/>';
+    const pf = pbar.querySelector('[data-x="pf"]');
+    const ban = mk('g', { opacity: 0 }, Ly.ui);
+    ban.innerHTML = '<text data-b="1" text-anchor="middle" font-family="Fredoka,system-ui,sans-serif" font-weight="700" font-size="34" fill="#FED801" stroke="#12304F" stroke-width="8" stroke-linejoin="round" paint-order="stroke"></text><text data-b="2" y="28" text-anchor="middle" font-family="Fredoka,system-ui,sans-serif" font-weight="600" font-size="16" fill="#fff" stroke="#12304F" stroke-width="5" stroke-linejoin="round" paint-order="stroke"></text>';
+    const b1 = ban.querySelector('[data-b="1"]'), b2 = ban.querySelector('[data-b="2"]');
+    let stains = []; const fx = [];
+
+    const layout = () => {
+      const m = o.g.measure(st); if (!m) return;
+      gsvg.setAttribute('width', st.W); gsvg.setAttribute('height', st.H); gsvg.setAttribute('viewBox', '0 0 ' + st.W + ' ' + st.H);
+      const small = st.W < 700, sc = o.g.scales(small); st.sc = sc[0]; thrower.s = sc[1];
+      st.tx = Math.max(small ? 46 : 80, st.W * .1); st.ox = st.tx + 10 * thrower.s / .5; st.oy = st.WL - 64 * thrower.s / .5;
+      slots.forEach(s => { s.duck.s = st.sc; s.bx = o.g.bots(st.W, small, s.i); s.by = st.WL + (s.i % 2) * 4; if (s.st === 'float') { s.x = s.bx; s.y = s.by; } });
+      // the drag area is the strip around the yellow duck; it never reaches the text or the button
+      // everything the game draws stays below the text, the call-out and the score
+      st.tb = m.textBottom; o.layer.style.clipPath = 'inset(' + st.tb + 'px 0 0 0)';
+      if (m.water) { waterPath.setAttribute('d', m.water.d); waterPath.setAttribute('transform', m.water.tf); }
+      // the drag area never goes above the text; with no room for it (large text on a narrow page) the game is hidden
+      const top = Math.max(m.top, st.tb), room = top <= st.WL - 20;
+      Object.assign(hit.style, { left: Math.max(0, st.tx - 70) + 'px', top: top + 'px', width: '140px', height: Math.max(44, st.WL + 24 - top) + 'px' });
+      [o.layer, hit, o.hint, hud].forEach(e => { e.style.display = room ? '' : 'none'; }); hit.tabIndex = room ? 0 : -1; st.room = room;
+    };
+    layout();
+    new ResizeObserver(() => { layout(); if (!stage.raf) stage.frame(0); }).observe(o.section);
+    if (o.g.info) new ResizeObserver(() => { layout(); if (!stage.raf) stage.frame(0); }).observe(o.g.info);
+    if (root !== o.section) new ResizeObserver(() => { layout(); if (!stage.raf) stage.frame(0); }).observe(root);
+
+    const step = (r, dt, tg, cb) => {
+      r.vx += st.wind * dt; r.vy += G * dt; r.x += r.vx * dt; r.y += r.vy * dt; r.rot += r.vx * dt * 1.6;
+      for (const t of tg) if (!t.hit) { const dx = r.x - t.x, dy = r.y - (t.y - 14 * t.k), rr = 12 + 24 * t.k; if (dx * dx + dy * dy < rr * rr) { t.hit = true; r.vx *= .9; r.vy = r.vy * .9 - 40; cb.hit(t); } }
+      if (r.y >= st.WL - 4 && r.vy > 0 && !r.dead) {
+        if (Math.abs(r.vy) < Math.abs(r.vx) * .8 && Math.hypot(r.vx, r.vy) > 260 && r.skips < 4) { r.vy = -Math.abs(r.vy) * .6; r.vx *= .82; r.y = st.WL - 4; r.skips++; cb.skip(r); }
+        else { r.dead = 1; cb.splash(r); }
+      }
+      if (r.x > st.W + 40 || r.x < -40 || r.y > st.HB + 200) r.dead = 1;
+    };
+    const targets = () => slots.filter(s => s.st === 'float').map(s => ({ s, x: s.x, y: s.y, k: st.sc / .44, hit: false }));
+    const vel = p => { const dx = st.ox - p[0], dy = st.oy - p[1], len = Math.min(180, Math.hypot(dx, dy)), a = Math.atan2(dy, dx), pw = len / 180, sp = (300 + 1150 * pw) * Math.sqrt(Math.max(.35, st.W / 1280)); return { vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, pw, len, a }; };
+    const say = (s, t) => { if (red) return; s.X.bt.textContent = t; const w = [...t].length * 7.4 + 24; s.bw = w; s.X.br.setAttribute('x', -w / 2); s.X.br.setAttribute('width', w); s.sayT = stage.R; };
+    const snd = n => { try { window.FlockSound && FlockSound.play(n); } catch (e) {} };
+    const throwIt = p => { const v = vel(p); if (v.pw < .08) return false; st.throws = (st.throws || 0) + 1; snd('whoosh'); Object.assign(rock, { st: 'fly', x: st.ox, y: st.oy, vx: v.vx, vy: v.vy, skips: 0, dead: 0 }); st.combo = 0; thrower.react = { type: 'dip', start: stage.R, dur: 380 }; if (red) settleThrow(); return true; };
+    // Reduced motion: a throw is worked out at once and shown as its result (score, a stain), with no flight, particles or respawn
+    const settleThrow = () => {
+      const tg = targets(); let n = 0, g = 0;
+      const cb = { hit: t => { n++; snd('bonk'); snd('quack'); st.score++; hudS.textContent = st.score; stain(t.x + rnd(-24, 24), rnd(st.lo, Math.max(st.lo + 2, st.hi)), 4); }, skip() {}, splash() {} };
+      while (!rock.dead && g++ < 3000) step(rock, 1 / 120, tg, cb);
+      if (n === 0) { const f = slots.filter(s => s.st === 'float'); if (f.length) say(pick(f), L('miss')); }
+
+      Object.assign(rock, { st: 'ready', t0: -1e4, dead: 0 }); st.combo = 0; announce(); syncNudge(); wake();
+    };
+    const solve = () => {
+      let best = null; const base = targets(); if (!base.length) return null;
+      const cb = { hit: () => cb.n++, skip: () => {}, splash: () => {}, n: 0 };
+      for (let a = -15; a >= -72; a -= 2.5) for (let pw = .2; pw <= 1; pw += .025) {
+        const len = pw * 180, ar = a * Math.PI / 180, p = [st.ox - Math.cos(ar) * len, st.oy - Math.sin(ar) * len], v = vel(p);
+        const r = { x: st.ox, y: st.oy, vx: v.vx, vy: v.vy, skips: 0, rot: 0 }, tg = base.map(t => Object.assign({}, t, { hit: false }));
+        cb.n = 0; let t = 0; while (!r.dead && t < 4) { step(r, 1 / 120, tg, cb); t += 1 / 120; }
+        const sc = cb.n * 10 - t; if (!best || sc > best.sc) best = { sc, p };
+      }
+      return best;
+    };
+    // test hook only (window.__road.auto): never called on load
+    const auto = () => { if (rock.st !== 'ready') return; const b = solve(); if (!b) return; st.auto = { t0: stage.R, p: b.p }; st.aiming = true; st.ptr = [st.ox, st.oy]; };
+
+    const text = (x, y, t) => { const el = mk('text', { 'text-anchor': 'middle', 'font-family': 'Fredoka,system-ui,sans-serif', 'font-weight': 700, 'font-size': 28, fill: '#FED801', stroke: '#12304F', 'stroke-width': 7, 'stroke-linejoin': 'round', 'paint-order': 'stroke' }, Ly.fx); el.textContent = t; fx.push({ kind: 'text', el, x, y, rot: rnd(-12, 12), age: 0, life: .85 }); };
+    const feathers = (x, y) => { for (let i = 0; i < 7; i++) { const el = mk('ellipse', { rx: 6, ry: 2.4, fill: '#C3CBD6', stroke: '#8693A7', 'stroke-width': .8 }, Ly.fx); fx.push({ kind: 'feather', el, x, y, vx: rnd(-160, 160), vy: rnd(-260, -80), ph: rnd(0, 6), age: 0, life: rnd(1.2, 1.9) }); } };
+    const splash = (x, y, big) => {
+      for (let i = 0; i < (big ? 12 : 5); i++) { const el = mk('circle', { r: rnd(1.5, 3.5), fill: '#DDF2FD' }, Ly.fx); fx.push({ kind: 'drop', el, x: x + rnd(-8, 8), y, vx: rnd(-120, 120), vy: -rnd(big ? 200 : 120, big ? 420 : 240), age: 0, life: 1.2 }); }
+      const el = mk('ellipse', { cx: x, cy: y + 2, fill: 'none', stroke: '#DDF2FD', 'stroke-width': 2.5 }, Ly.fx); fx.push({ kind: 'ring', el, r: big ? 22 : 12, age: 0, life: .6 });
+    };
+    const blood = (x, y, rvx) => { for (let i = 0; i < 12; i++) { const r = rnd(2.5, 5), el = mk('ellipse', { rx: r, ry: r, fill: '#D7263D' }, Ly.fx); fx.push({ kind: 'blood', el, x, y, vx: rvx * .2 + rnd(-260, 420), vy: -rnd(260, 760), r, land: rnd(st.lo, Math.max(st.lo + 2, st.hi)), age: 0, life: 6 }); } };
+    const blob = R => {
+      const n = 9, P = []; for (let i = 0; i < n; i++) { const a = i / n * 6.283, r = R * rnd(.7, 1.25); P.push([Math.cos(a) * r, Math.sin(a) * r]); }
+      const mid = (p, q) => [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2], m0 = mid(P[n - 1], P[0]);
+      let d = 'M' + f1(m0[0]) + ',' + f1(m0[1]);
+      for (let i = 0; i < n; i++) { const p = P[i], m = mid(p, P[(i + 1) % n]); d += ' Q' + f1(p[0]) + ',' + f1(p[1]) + ' ' + f1(m[0]) + ',' + f1(m[1]); }
+      return d + 'Z';
+    };
+    const stain = (x, y, r) => {
+      if (stains.length > 60) return;
+      const R = r * rnd(1.4, 2.2), g = mk('g', { transform: 'translate(' + f1(x) + ' ' + f1(y) + ') rotate(' + Math.round(rnd(0, 360)) + ')' }, Ly.stains), inner = mk('g', { transform: 'scale(.2)' }, g);
+      let h = '<path d="' + blob(R) + '" fill="#C81D33"/>';
+      for (let i = 0, n = 2 + Math.floor(Math.random() * 4); i < n; i++) { const a = rnd(0, 6.28), dd = R * rnd(1.1, 1.6); h += '<circle cx="' + f1(Math.cos(a) * dd) + '" cy="' + f1(Math.sin(a) * dd) + '" r="' + f1(R * rnd(.12, .3)) + '" fill="#C81D33"/>'; }
+      h += '<ellipse cx="' + f1(-R * .3) + '" cy="' + f1(-R * .3) + '" rx="' + f1(R * .35) + '" ry="' + f1(R * .18) + '" fill="#fff" opacity=".22"/>';
+      inner.innerHTML = h;
+      stains.push({ g, inner, x, y, born: stage.R, done: red }); if (red) inner.setAttribute('transform', 'scale(1)'); syncNudge();
+    };
+    const shake = () => { if (calm()) return; const k = [{ transform: 'translate(0,0)' }, { transform: 'translate(-6px,3px)' }, { transform: 'translate(5px,-3px)' }, { transform: 'translate(-2px,2px)' }, { transform: 'none' }]; anim(gsvg, k, { duration: 260 }); };
+    const liveCb = {
+      hit: t => { snd('bonk'); later(() => snd('quack'), 120); const s = t.s; Object.assign(s, { st: 'ko', vx: rock.vx * .35 + 90, vy: -480 - Math.random() * 160, spin: (Math.random() < .5 ? -1 : 1) * rnd(600, 1000), landed: false }); st.combo++; st.score++; hudS.textContent = st.score; text(s.x, s.y - 40 * st.sc / .44, L('bonk')); if (Math.random() < .5) { const w = slots.filter(o => o.st === 'float' && o !== s); if (w.length) later(() => say(pick(w), L('witness')), 700); } feathers(s.x, s.y - 16); blood(s.x, s.y - 18, rock.vx); shake(); },
+      skip: r => splash(r.x, st.WL, false), splash: r => splash(r.x, st.WL, true)
+    };
+    const rootPt = e => { const r = root.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    hit.addEventListener('pointerdown', e => { if (rock.st !== 'ready' || isPaused()) return; st.kbd = false; st.auto = null; st.aiming = true; st.thrown = true; st.ptr = rootPt(e); hit.setPointerCapture(e.pointerId); hit.style.cursor = 'grabbing'; wake(); e.preventDefault(); });
+    hit.addEventListener('pointermove', e => { if (st.aiming && !st.auto && !st.kbd) { st.ptr = rootPt(e); if (red) stage.frame(0); } });
+    // Keyboard: up/down change the angle, left/right the strength, Enter or Space throws. The aim shows from the first key press.
+    const kb = { a: -35, pw: .6 }, KEYS = { ArrowUp: [-2.5, 0], ArrowDown: [2.5, 0], ArrowLeft: [0, -.05], ArrowRight: [0, .05] };
+    const kbPt = () => { const len = kb.pw * 180, ar = kb.a * Math.PI / 180; return [st.ox - Math.cos(ar) * len, st.oy - Math.sin(ar) * len]; };
+    const kbOff = () => { if (!st.kbd) return; st.kbd = false; st.aiming = false; wake(); };
+    const kbKey = (k, rep) => {
+      if (KEYS[k]) { kb.a = cl(kb.a + KEYS[k][0], -80, -10); kb.pw = cl(kb.pw + KEYS[k][1], .1, 1); }
+      st.auto = null; st.thrown = true; st.kbd = true; st.aiming = true; st.ptr = kbPt();
+      if ((k === 'Enter' || k === ' ') && !rep && rock.st === 'ready') throwIt(st.ptr);
+      wake();
+    };
+    hit.addEventListener('keydown', e => {
+      const k = e.key;
+      if (k === 'Escape') { kbOff(); return; }
+      if (k !== 'Enter' && k !== ' ' && !KEYS[k]) return;
+      e.preventDefault(); if (!isPaused()) kbKey(k, e.repeat);
+    });
+    hit.addEventListener('blur', kbOff);
+    // T throws only while the duck control has focus.
+    document.addEventListener('keydown', e => {
+      const t = e.target;
+      if ((e.key !== 't' && e.key !== 'T') || e.ctrlKey || e.metaKey || e.altKey || e.repeat || e.defaultPrevented || (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))) return;
+      if (document.activeElement !== hit || !on() || isPaused()) return;
+      e.preventDefault(); if (document.activeElement !== hit) hit.focus({ preventScroll: true }); kbKey('Enter', false);
+    });
+    hit.addEventListener('pointerup', () => { hit.style.cursor = 'grab'; if (!st.aiming || st.auto) return; st.aiming = false; if (!throwIt(st.ptr)) snd('quack'); });
+    hit.addEventListener('pointercancel', () => { st.aiming = false; });
+    const instantClean = () => {
+      if (st.cleaning) { st.cleaning.cloth.remove(); st.cleaning = null; }
+      stains.forEach(s => s.g.remove()); stains = []; wlab.textContent = ntxt.textContent = 'Please leave the place clean'; syncNudge();
+    };
+    const clean = () => {
+      if (red) { instantClean(); return; }
+      if (st.cleaning || !stains.length) return;
+      const list = stains.slice().sort((a, b) => (Math.round(a.y / 60) - Math.round(b.y / 60)) || (a.x - b.x)), cloth = mk('g', {}, Ly.ui);
+      cloth.innerHTML = '<rect x="-20" y="-15" width="40" height="30" rx="6" fill="#fff" stroke="#9CC8E8" stroke-width="2"/><path d="M-13,-6 h26 M-13,0 h26 M-13,6 h18" stroke="#BFE6FA" stroke-width="2" stroke-linecap="round"/>';
+      st.cleaning = { t0: stage.R, list, cloth }; wlab.textContent = 'Scrubbing…'; ntxt.textContent = 'Scrubbing…'; wake();
+    };
+    wipe.addEventListener('click', clean); nudge.addEventListener('click', clean);
+
+    const frame = (R, dt) => {
+      // slots
+      slots.forEach(s => {
+        if (s.st === 'float') { s.x = s.bx + Math.sin(R / 1800 + s.i * 2) * 5; s.y = s.by + Math.sin(R / 1300 + s.i) * 1.2; s.rot = 0; }
+        else if (s.st === 'ko') { s.vy += G * dt; s.x += s.vx * dt; s.y += s.vy * dt; s.rot += s.spin * dt; if (s.y >= st.WL + 6 && s.vy > 0) { s.st = 'down'; s.t0 = R; s.y = st.WL; splash(s.x, st.WL, true); } if (s.x > st.W + 60 || s.x < -60) { s.st = 'sink'; s.t0 = R - 700; } }
+        else if (s.st === 'down') { if (R - s.t0 > 3000) { s.st = 'sink'; s.t0 = R; } }
+        else if (s.st === 'sink') { if (R - s.t0 > 700) { s.st = 'para'; s.y = (st.tb || 0) - 40; s.rot = 0; } }
+        else if (s.st === 'para') { s.y += 170 * dt; s.rot = Math.sin(R / 380) * 9; s.x = s.bx + Math.sin(R / 700) * 10; if (s.y >= s.by) { s.y = s.by; s.rot = 0; s.st = 'float'; s.t0 = R; s.landed = true; s.duck.react = { type: 'land', start: R, dur: 420 }; say(s, L('respawn')); } }
+      });
+      // auto aim
+      if (st.auto) { const k = (R - st.auto.t0) / 800, u = E.io(Math.min(1, k)); st.ptr = [st.ox + (st.auto.p[0] - st.ox) * u, st.oy + (st.auto.p[1] - st.oy) * u]; if (k >= 1.15) { const p = st.auto.p; st.auto = null; st.aiming = false; throwIt(p); } }
+      // rock
+      if (rock.st === 'fly') {
+        const tg = targets(), n = Math.max(1, Math.ceil(dt * 240));
+        for (let i = 0; i < n && !rock.dead; i++) step(rock, dt / n, tg, liveCb);
+        if (rock.dead) { rock.st = 'gone'; rock.t0 = R; }
+      } else if (rock.st === 'gone' && R - rock.t0 > 600) {
+        if (st.combo >= 2) { st.banner = { t0: R }; const cl2 = L(st.combo >= 3 ? 'combo3' : 'combo2').split('|'); b1.textContent = cl2[0]; b2.textContent = cl2[1] || ''; thrower.react = { type: 'happy', start: R, dur: 720 }; }
+        else if (st.combo === 0 && st.thrown) { thrower.react = { type: 'shake', start: R, dur: 700 }; const f = slots.filter(s => s.st === 'float'); if (f.length) say(pick(f), L('miss')); }
+
+        rock.st = 'ready'; rock.t0 = R; st.combo = 0; announce();
+      }
+      if (rock.st === 'ready') { const k = Math.min(1, (R - rock.t0) / 300); rockG.setAttribute('opacity', 1); rockG.setAttribute('transform', 'translate(' + f1(st.ox) + ' ' + f1(st.oy + Math.sin(R / 400) * 2) + ') scale(' + E.back(k).toFixed(3) + ')'); }
+      else if (rock.st === 'fly') rockG.setAttribute('transform', 'translate(' + f1(rock.x) + ' ' + f1(rock.y) + ') rotate(' + f1(rock.rot) + ')');
+      else rockG.setAttribute('opacity', 0);
+      // aim visuals
+      if (st.aiming && st.ptr && rock.st === 'ready') {
+        const v = vel(st.ptr), px = st.ox - Math.cos(v.a) * v.len, py = st.oy - Math.sin(v.a) * v.len;
+        band.setAttribute('d', 'M' + f1(st.ox) + ',' + f1(st.oy) + ' L' + f1(px) + ',' + f1(py)); band.setAttribute('opacity', .9);
+        const r = { x: st.ox, y: st.oy, vx: v.vx, vy: v.vy, skips: 9, rot: 0 }, nocb = { hit() {}, skip() {}, splash() {} };
+        dots.forEach((d, i) => { for (let j = 0; j < 8; j++) step(r, 1 / 120, [], nocb); d.setAttribute('cx', f1(r.x)); d.setAttribute('cy', f1(r.y)); d.setAttribute('opacity', r.dead ? 0 : (.9 - i * .045).toFixed(2)); });
+        pbar.setAttribute('opacity', 1); pbar.setAttribute('transform', 'translate(' + f1(st.tx) + ' ' + f1(st.WL + 14) + ')'); pf.setAttribute('width', f1(80 * v.pw)); pf.setAttribute('fill', v.pw > .8 ? '#E5604F' : '#FED801');
+      } else { band.setAttribute('opacity', 0); dots.forEach(d => d.setAttribute('opacity', 0)); pbar.setAttribute('opacity', 0); }
+      // taunts
+      if (!red && on() && R > st.nextSay && !convo) { const f = slots.filter(s => s.st === 'float' && R - s.sayT > 2200); if (f.length > 1 && Math.random() < .3 && !cur) chat('banterIdle'); else if (f.length) say(pick(f), L('taunt')); st.nextSay = R + rnd(3500, 6500); }
+      // ducks
+      const watch = rock.st === 'fly' ? [rock.x, rock.y] : null;
+      FD.update(thrower, 0, R, dt * 1000, st.aiming && st.ptr ? st.ptr : watch, '#2F6FC4');
+      slots.forEach(s => FD.update(s.duck, 0, R, dt * 1000, watch, '#2F6FC4'));
+      slots.forEach(s => {
+        const X = s.X, d = s.duck, sc = st.sc / .44, showW = s.st === 'float';
+        d.e.g.setAttribute('opacity', s.st === 'down' || s.st === 'sink' ? 0 : 1);
+        if (d.e.wf) { d.e.wf.style.display = showW ? '' : 'none'; d.e.wf.nextElementSibling.style.display = showW ? '' : 'none'; d.e.ring.style.display = showW ? '' : 'none'; }
+        let fo = 0, fy = 0, so = 0, sy = 0;
+        if (s.st === 'down') { const k = cl((R - s.t0) / 260, 0, 1); fo = 1; fy = 18 * (1 - E.back(k)); const k2 = cl((R - s.t0 - 350) / 450, 0, 1); so = k2 > 0 ? 1 : 0; sy = 30 * (1 - E.back(k2)); }
+        else if (s.st === 'sink') { const k = cl((R - s.t0) / 700, 0, 1); fo = 1 - k; fy = 24 * k; so = 1 - k; sy = 30 * k; }
+        X.feet.setAttribute('opacity', fo); X.feet.setAttribute('transform', 'translate(' + f1(s.x) + ' ' + f1(st.WL - 2 + fy) + ') scale(' + sc.toFixed(3) + ')');
+        X.f1.setAttribute('transform', 'translate(-7 0) rotate(' + f1(-14 + Math.sin(R / 90) * 16) + ')'); X.f2.setAttribute('transform', 'translate(7 0) rotate(' + f1(14 + Math.sin(R / 90 + 1.5) * 16) + ')');
+        X.stars.setAttribute('opacity', s.st === 'down' ? 1 : 0);
+        [...X.stars.children].forEach((p, i) => { const a = R / 260 + i * 2.094; p.setAttribute('transform', 'translate(' + f1(s.x + Math.cos(a) * 20 * sc) + ' ' + f1(st.WL - 34 * sc + Math.sin(a) * 6) + ') rotate(' + Math.round((R / 6) % 360) + ')'); });
+        X.sign.setAttribute('opacity', so); X.sign.setAttribute('transform', 'translate(' + f1(Math.min(st.W - 50, s.x + 34 * sc)) + ' ' + f1(st.WL + sy) + ') rotate(' + f1(Math.sin(R / 500) * 4) + ') scale(' + Math.max(.75, sc).toFixed(3) + ')');
+        let co = 0, cs = 1; if (s.st === 'para') co = 1; else if (s.st === 'float' && s.landed && R - s.t0 < 420) { const k = (R - s.t0) / 420; co = 1 - k; cs = 1 - k; }
+        X.chute.setAttribute('opacity', co.toFixed(2)); X.chute.setAttribute('transform', 'translate(' + f1(s.x) + ' ' + f1(s.y - 72 * sc) + ') rotate(' + f1(s.rot) + ') scale(' + sc.toFixed(3) + ' ' + Math.max(.001, sc * cs).toFixed(3) + ')');
+        const bk = (R - s.sayT) / Math.max(2000, 900 + ((s.X.bt.textContent || '').length * 45)), bo = s.st === 'float' && bk >= 0 && bk < 1 ? 1 : 0;
+        X.bub.setAttribute('opacity', bo); if (bo) X.bub.setAttribute('transform', 'translate(' + f1(Math.min(st.W - 8 - (s.bw || 0) / 2, Math.max(8 + (s.bw || 0) / 2, s.x))) + ' ' + f1(s.y - 58 * sc) + ') scale(' + E.back(Math.min(1, bk * 8)).toFixed(3) + ')');
+      });
+      // fx
+      for (let i = fx.length - 1; i >= 0; i--) {
+        const p = fx[i]; p.age += dt; const k = p.age / p.life;
+        if (p.kind === 'text') { p.el.setAttribute('transform', 'translate(' + f1(p.x) + ' ' + f1(p.y - 26 * E.o(Math.min(1, k))) + ') rotate(' + f1(p.rot) + ') scale(' + E.back(Math.min(1, p.age / .22)).toFixed(3) + ')'); p.el.setAttribute('opacity', k > .75 ? ((1 - k) / .25).toFixed(2) : 1); }
+        else if (p.kind === 'feather') { p.vy = Math.min(60, p.vy + 140 * dt); p.vx *= .985; p.x += (p.vx + Math.sin(p.age * 6 + p.ph) * 40) * dt; p.y += p.vy * dt; p.el.setAttribute('transform', 'translate(' + f1(p.x) + ' ' + f1(p.y) + ') rotate(' + f1(Math.sin(p.age * 5 + p.ph) * 40) + ')'); p.el.setAttribute('opacity', (1 - k).toFixed(2)); }
+        else if (p.kind === 'drop') { p.vy += G * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.el.setAttribute('cx', f1(p.x)); p.el.setAttribute('cy', f1(p.y)); if (p.y > st.WL + 6 && p.vy > 0) p.age = p.life; }
+        else if (p.kind === 'ring') { p.el.setAttribute('rx', f1(p.r * (1 + k * 1.6))); p.el.setAttribute('ry', f1(p.r * .3 * (1 + k * 1.6))); p.el.setAttribute('opacity', ((1 - k) * .8).toFixed(2)); }
+        else if (p.kind === 'blood') { p.vy += G * dt; p.x += p.vx * dt; p.y += p.vy * dt; const sp = Math.hypot(p.vx, p.vy); p.el.setAttribute('transform', 'translate(' + f1(p.x) + ' ' + f1(p.y) + ') rotate(' + f1(Math.atan2(p.vy, p.vx) * 57.3) + ')'); p.el.setAttribute('rx', f1(p.r * (1 + Math.min(1.4, sp / 700)))); if (p.vy > 0 && p.y >= p.land) { if (p.x > 0 && p.x < st.W) stain(p.x, p.y, p.r); p.age = p.life; } }
+        if (p.age >= p.life) { p.el.remove(); fx.splice(i, 1); }
+      }
+      stains.forEach(s => { const k = Math.min(1, (R - s.born) / 220); if (!s.done) { s.inner.setAttribute('transform', 'scale(' + Math.max(.2, E.back(k)).toFixed(3) + ')'); if (k >= 1) s.done = true; } });
+      // banner
+      // one banner at a time, in the pond strip, at least 24px below the score and no wider than the area
+      if (st.banner) { const k = (R - st.banner.t0) / 1800; if (k > 1) { st.banner = null; ban.setAttribute('opacity', 0); } else { const bw = b1.getBBox().width + 24, sc2 = Math.min(1, (st.W - 32) / bw), hw = bw * sc2 / 2, cx = Math.min(st.W - 16 - hw, Math.max(16 + hw, (slots[0].bx + slots[2].bx) / 2)), by = Math.max((st.tb || 0) + 24 + 34, st.WL - 120); ban.setAttribute('opacity', k > .85 ? ((1 - k) / .15).toFixed(2) : 1); ban.setAttribute('transform', 'translate(' + f1(cx) + ' ' + f1(by) + ') rotate(' + f1(Math.sin(R / 120) * 3) + ') scale(' + (E.back(Math.min(1, k * 6)) * sc2).toFixed(3) + ')'); } }
+      // cleaning
+      if (st.cleaning) {
+        const c = st.cleaning, per = 130, el = R - c.t0, j = Math.floor(el / per), k = (el % per) / per;
+        c.list.forEach((s, i) => { if (i < j) s.g.setAttribute('opacity', 0); else if (i === j) s.g.setAttribute('opacity', (1 - k).toFixed(2)); });
+        const a = c.list[Math.min(j, c.list.length - 1)], b = c.list[Math.min(j + 1, c.list.length - 1)];
+        c.cloth.setAttribute('transform', 'translate(' + f1(a.x + (b.x - a.x) * E.io(k)) + ' ' + f1(a.y + (b.y - a.y) * E.io(k) + Math.sin(el / 40) * 3) + ') rotate(' + f1(Math.sin(el / 55) * 18) + ')');
+        if (j >= c.list.length) {
+          c.list.forEach(s => s.g.remove()); stains = stains.filter(s => !c.list.includes(s)); c.cloth.remove(); st.cleaning = null;
+          wlab.textContent = 'Thanks'; ntxt.textContent = 'Thanks'; ncount.textContent = '✓';
+          later(() => { ntxt.textContent = wlab.textContent = 'Please leave the place clean'; syncNudge(); }, 1600);
+        }
+      }
+      // keep the loop awake a moment after anything is still moving (reduced motion and off-screen stop when idle)
+      if ((st.aiming && !st.kbd) || st.auto || rock.st !== 'ready' || R - rock.t0 < 320 || fx.length || st.cleaning || st.banner || cur || convo || pending.length || slots.some(s => s.st !== 'float' || (s.landed && R - s.t0 < 420) || R - s.sayT < Math.max(2000, 900 + (s.X.bt.textContent || '').length * 45))) st.wakeUntil = R + 1000;
+    };
+    let cur = null, nextEv = 6000, eid = 0; const recent = [];
+    let convo = null;
+    const chat = cat => { const lines = L(cat); if (!Array.isArray(lines)) return; convo = { lines, i: 0, next: stage.R + 900, last: null }; };
+    const tickChat = R => {
+      if (!convo || R < convo.next) return;
+      if (cur) { convo = null; return; }
+      const f = slots.filter(o => o.st === 'float'); if (!f.length) { convo.next = R + 800; return; }
+      let sp = f.length > 1 ? f.filter(o => o !== convo.last) : f; sp = sp[convo.i % sp.length] || f[0];
+      const line = convo.lines[convo.i];
+      say(sp, line); sp.duck.react = { type: convo.i % 2 ? 'quack' : 'dip', start: R, dur: 300 };
+      f.forEach(o => { if (o !== sp) o.duck.look = [[0, sp.x, sp.y - 20]]; }); sp.duck.look = null;
+      convo.last = sp; convo.i++; st.nextSay = R + 5000;
+      convo.next = R + 1100 + line.length * 38;
+      if (convo.i >= convo.lines.length) { convo = null; later(() => slots.forEach(o => o.duck.look = null), 1800); }
+    };
+    // The ten events that match what The Flock deals with. The other events stay in the event files, switched off.
+    const EVENTS_ON = ['fakeadmin', 'pirate', 'banner', 'clones', 'rug', 'airdrop', 'bluecheck', 'modhand', 'gull', 'bread'];
+    const evList = () => { const m = new Map(); (window.FlockEvents || []).forEach(d => { if (EVENTS_ON.includes(d.id)) m.set(d.id, d); }); return [...m.values()]; };
+    const C = {
+      get W() { return st.W; }, get WL() { return st.WL; }, get HB() { return st.HB; }, get top() { return 0; }, get k() { return st.sc / .44; },
+      R: 0, dt: 0, slots, thrower, E, cl, lp: FD.lp, rnd, pick, mk, FD,
+      floats: () => slots.filter(s => s.st === 'float'),
+      grab: s => { s.st = 'event'; s.rot = 0; return s; },
+      release: (s, how) => { if (how === 'float') { s.st = 'float'; s.rot = 0; } else { s.st = 'sink'; s.t0 = stage.R - 700; } },
+      say, text, line: L, splash, feathers, blood, shake,
+      ko: (s, vx) => { Object.assign(s, { st: 'ko', vx: vx == null ? 120 : vx, vy: -520, spin: rnd(600, 1000) * (Math.random() < .5 ? -1 : 1), landed: false }); st.score++; hudS.textContent = st.score; feathers(s.x, s.y - 16); },
+      g: front => { const e = mk('g', {}, front === false ? Ly.evb : Ly.evf); if (cur) cur.gs.push(e); return e; },
+      duck: o => { const d = Object.assign({ id: 'e' + (++eid), k: 'g', s: st.sc, d0: 1, land: true, px: 0, py: 0, pv: 0 }, o); const g = C.g(o.front !== false); g.innerHTML = FD.svg(d); FD.prep(d, g); d.posFn = () => [d.px, d.py, d.pv]; return d; },
+      upd: (d, ptr) => FD.update(d, 0, stage.R, C.dt * 1000, ptr || null, '#2F6FC4'),
+      // a focusable, named HTML button for an event's tappable thing (the SVG is hidden from assistive tech); removed when the event ends
+      control: (name, fn) => { const b = el('button', 'position:absolute;z-index:6;background:none;border:0;padding:0;border-radius:50%;pointer-events:none'); b.type = 'button'; b.className = 'game-control'; b.setAttribute('aria-label', name); b.addEventListener('click', fn); root.insertBefore(b, hit.nextSibling); if (cur) cur.gs.push(b); return b; },
+      label: () => {}, onRare: () => {}
+    };
+    const endEv = () => {
+      const c = cur; cur = null;
+      try { c.def.end && c.def.end(C, c.s); } catch (e) { console.warn(e); }
+      if (c.gs.includes(document.activeElement)) hit.focus({ preventScroll: true });
+      c.gs.forEach(g => g.remove());
+      slots.forEach(s => { if (s.st === 'event') C.release(s, 'para'); });
+      nextEv = stage.R + rnd(11000, 18000);
+      if (Math.random() < .85) chat('banterAfter');
+    };
+    const startEv = () => {
+      const L = evList().filter(d => (d.need || 0) <= C.floats().length && !recent.includes(d.id));
+      if (!L.length) { recent.length = 0; return; }
+      const tot = L.reduce((a, d) => a + (d.weight == null ? 1 : d.weight), 0); let r = Math.random() * tot, def = L[0]; for (const d of L) { r -= d.weight == null ? 1 : d.weight; if (r <= 0) { def = d; break; } }
+      recent.push(def.id); if (recent.length > 12) recent.shift();
+      cur = { def, t0: stage.R, gs: [], s: {} };
+
+      try { def.start && def.start(C, cur.s); } catch (e) { console.warn(e); endEv(); }
+    };
+    const tickEv = (R, dt) => {
+      C.R = R; C.dt = dt; tickChat(R);
+      if (cur) {
+        let t = (R - cur.t0) / 1000;
+        try { cur.def.frame(C, Math.min(1, t / cur.def.dur), t, dt, cur.s); } catch (e) { console.warn(cur.def.id, e); t = 1e9; }
+        if (t >= cur.def.dur) endEv();
+      } else if (!calm() && R > nextEv && on() && !st.aiming && !st.cleaning) startEv();
+    };
+    const stage = new FD.Stage({ observe: root, threshold: .01, end: 0, frame: (T, R, dtms) => { const dt = Math.min(.05, dtms / 1000); tickLater(R); tickEv(R, dt); frame(R, dt); } });
+    // Runs while the tab is shown and nothing is paused, and then only while the hero is on screen (idle animation, not under
+    // reduced motion) or something is still moving. A cleaning started from the footer always finishes.
+    stage.run = () => !red && !document.hidden && !isPaused() && (!!st.cleaning || (stage.visible && (stage.R < st.wakeUntil || (!red && on()))));
+    // Reduced motion: no loop at all. Every state change paints one static frame (the clock does not move, so nothing bobs or grows).
+    const wake = () => { if (red) { stage.frame(0); return; } st.wakeUntil = Math.max(st.wakeUntil || 0, stage.R + 1000); stage.kick(); };
+    stage.reduced = red;
+    stage.frame(0);
+    const syncLive = () => { const lv = !o.g.live || o.g.live(); hit.tabIndex = lv ? 0 : -1; wake(); };
+    if (o.g.live) { new MutationObserver(syncLive).observe(o.section, { attributes: true, attributeFilter: ['class'] }); syncLive(); }
+    new IntersectionObserver(es => { inView = es[es.length - 1].isIntersecting; stage.kick(); }).observe(hero);
+    // Pause, resume and a hidden tab hold or release every game animation; the game clock (and so every timer) stops by itself
+    const syncMotion = () => { if (held() && stage.raf) { cancelAnimationFrame(stage.raf); stage.raf = 0; }
+      anims.forEach(a => { if (held()) a.pause(); else if (a.playState === 'paused') a.play(); }); wake(); };
+    document.addEventListener('visibilitychange', syncMotion);
+    const F = window.Flock;
+    if (F && F.pauseAll && F.resumeAll) { const pa = F.pauseAll, ra = F.resumeAll; F.pauseAll = function () { const r = pa.apply(this, arguments); syncMotion(); return r; }; F.resumeAll = function () { const r = ra.apply(this, arguments); syncMotion(); return r; }; }
+    // Reduced motion, on at load or switched on later: everything settles where it is, at once
+    const settleAll = () => {
+      anims.forEach(a => { try { a.finish(); } catch (e) { a.cancel(); } }); anims.clear(); pending.length = 0;
+      fx.splice(0).forEach(p => p.el.remove());
+      if (cur) endEv(); convo = null; st.auto = null; st.aiming = false; st.banner = null; ban.setAttribute('opacity', 0);
+      Object.assign(rock, { st: 'ready', t0: -1e4, dead: 0 }); st.combo = 0;
+      slots.forEach(s => { if (s.st !== 'float') { s.st = 'float'; s.rot = 0; s.landed = false; s.x = s.bx; s.y = s.by; } });
+      if (stains.length || st.cleaning) instantClean();
+      stage.frame(0); wake();
+    };
+    if (window.matchMedia) { const mq = matchMedia('(prefers-reduced-motion: reduce)'), onMq = () => { red = stage.reduced = mq.matches; if (red) settleAll(); else wake(); }; if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq); }
+    window.__road = Object.assign(window.__road || {}, { root, game: stage, auto, st, slots, ev: C, startEv: id => { const d = evList().find(x => x.id === id); if (!d || (d.need || 0) > C.floats().length) return 'busy'; if (cur) endEv(); cur = { def: d, t0: stage.R, gs: [], s: {} }; d.start && d.start(C, cur.s); } });
+    }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();
+})();
