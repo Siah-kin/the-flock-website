@@ -126,7 +126,7 @@
                 s.seen = v;
                 if (o.mode === 'loop') { if (v && s.st !== 1) play(); else if (!v) { drop(); s.st = 0; } return; }
                 if (!v || s.st) return;
-                if (F.paused) { s.armed = true; return; }
+                if (F.paused) { s.armed = true; if (o.end) o.end(ctx()); return; }
                 unwatch(el, th); play();
             });
         }
