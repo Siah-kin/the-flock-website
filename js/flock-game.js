@@ -189,7 +189,7 @@
       gsvg.setAttribute('width', st.W); gsvg.setAttribute('height', st.H); gsvg.setAttribute('viewBox', '0 0 ' + st.W + ' ' + st.H);
       const small = st.W < 700, sc = o.g.scales(small); st.sc = sc[0]; thrower.s = sc[1];
       st.tx = Math.max(small ? 46 : 80, st.W * .1); st.ox = st.tx + 10 * thrower.s / .5; st.oy = st.WL - 64 * thrower.s / .5;
-      slots.forEach(s => { s.duck.s = st.sc; s.bx = o.g.bots(st.W, small, s.i); s.by = st.WL + (s.i % 2) * 4; if (s.st === 'float') { s.x = s.bx; s.y = s.by; } });
+      slots.forEach(s => { s.duck.s = st.sc; s.bx = Math.min(o.g.bots(st.W, small, s.i), st.W - 12 - 46 * st.sc / .44 - 6); s.by = st.WL + (s.i % 2) * 4; if (s.st === 'float') { s.x = s.bx; s.y = s.by; } });
       // the drag area is the strip around the yellow duck; it never reaches the text or the button
       // everything the game draws stays below the text, the call-out and the score
       st.tb = m.textBottom; o.layer.style.clipPath = 'inset(' + st.tb + 'px 0 0 0)';
@@ -325,7 +325,7 @@
       // slots
       slots.forEach(s => {
         if (s.st === 'float') { s.x = s.bx + Math.sin(R / 1800 + s.i * 2) * 5; s.y = s.by + Math.sin(R / 1300 + s.i) * 1.2; s.rot = 0; }
-        else if (s.st === 'ko') { s.vy += G * dt; s.x += s.vx * dt; s.y += s.vy * dt; s.rot += s.spin * dt; if (s.y >= st.WL + 6 && s.vy > 0) { s.st = 'down'; s.t0 = R; s.y = st.WL; splash(s.x, st.WL, true); } if (s.x > st.W + 60 || s.x < -60) { s.st = 'sink'; s.t0 = R - 700; } }
+        else if (s.st === 'ko') { s.vy += G * dt; s.x += s.vx * dt; { const hw = 46 * st.sc / .44 + 12; if (s.x > st.W - hw) { s.x = st.W - hw; s.vx = -Math.abs(s.vx) * .3; } else if (s.x < hw) { s.x = hw; s.vx = Math.abs(s.vx) * .3; } } s.y += s.vy * dt; s.rot += s.spin * dt; if (s.y >= st.WL + 6 && s.vy > 0) { s.st = 'down'; s.t0 = R; s.y = st.WL; splash(s.x, st.WL, true); } if (s.x > st.W + 60 || s.x < -60) { s.st = 'sink'; s.t0 = R - 700; } }
         else if (s.st === 'down') { if (R - s.t0 > 3000) { s.st = 'sink'; s.t0 = R; } }
         else if (s.st === 'sink') { if (R - s.t0 > 700) { s.st = 'para'; s.y = (st.tb || 0) + 230 * st.sc; s.rot = 0; } }
         else if (s.st === 'para') { s.y += 170 * dt; s.rot = Math.sin(R / 380) * 9; s.x = s.bx + Math.sin(R / 700) * 10; if (s.y >= s.by) { s.y = s.by; s.rot = 0; s.st = 'float'; s.t0 = R; s.landed = true; s.duck.react = { type: 'land', start: R, dur: 420 }; say(s, L('respawn')); } }
@@ -371,11 +371,11 @@
         X.f1.setAttribute('transform', 'translate(-7 0) rotate(' + f1(-14 + Math.sin(R / 90) * 16) + ')'); X.f2.setAttribute('transform', 'translate(7 0) rotate(' + f1(14 + Math.sin(R / 90 + 1.5) * 16) + ')');
         X.stars.setAttribute('opacity', s.st === 'down' ? 1 : 0);
         [...X.stars.children].forEach((p, i) => { const a = R / 260 + i * 2.094; p.setAttribute('transform', 'translate(' + f1(s.x + Math.cos(a) * 20 * sc) + ' ' + f1(st.WL - 34 * sc + Math.sin(a) * 6) + ') rotate(' + Math.round((R / 6) % 360) + ')'); });
-        X.sign.setAttribute('opacity', so); X.sign.setAttribute('transform', 'translate(' + f1(Math.min(st.W - 50, s.x + 34 * sc)) + ' ' + f1(st.WL + sy) + ') rotate(' + f1(Math.sin(R / 500) * 4) + ') scale(' + Math.max(.75, sc).toFixed(3) + ')');
+        X.sign.setAttribute('opacity', so); X.sign.setAttribute('transform', 'translate(' + f1(Math.min(st.W - 62, s.x + 34 * sc)) + ' ' + f1(st.WL + sy) + ') rotate(' + f1(Math.sin(R / 500) * 4) + ') scale(' + Math.max(.75, sc).toFixed(3) + ')');
         let co = 0, cs = 1; if (s.st === 'para') co = 1; else if (s.st === 'float' && s.landed && R - s.t0 < 420) { const k = (R - s.t0) / 420; co = 1 - k; cs = 1 - k; }
         X.chute.setAttribute('opacity', co.toFixed(2)); X.chute.setAttribute('transform', 'translate(' + f1(s.x) + ' ' + f1(s.y - 72 * sc) + ') rotate(' + f1(s.rot) + ') scale(' + sc.toFixed(3) + ' ' + Math.max(.001, sc * cs).toFixed(3) + ')');
         const bk = (R - s.sayT) / Math.max(2000, 900 + ((s.X.bt.textContent || '').length * 45)), bo = s.st === 'float' && bk >= 0 && bk < 1 ? 1 : 0;
-        X.bub.setAttribute('opacity', bo); if (bo) X.bub.setAttribute('transform', 'translate(' + f1(Math.min(st.W - 8 - (s.bw || 0) / 2, Math.max(8 + (s.bw || 0) / 2, s.x))) + ' ' + f1(Math.max((st.tb || 0) + 40, s.y - 58 * sc)) + ') scale(' + E.back(Math.min(1, bk * 8)).toFixed(3) + ')');
+        X.bub.setAttribute('opacity', bo); if (bo) X.bub.setAttribute('transform', 'translate(' + f1(Math.min(st.W - 12 - (s.bw || 0) / 2, Math.max(12 + (s.bw || 0) / 2, s.x))) + ' ' + f1(Math.max((st.tb || 0) + 40, s.y - 58 * sc)) + ') scale(' + E.back(Math.min(1, bk * 8)).toFixed(3) + ')');
       });
       // fx
       for (let i = fx.length - 1; i >= 0; i--) {
