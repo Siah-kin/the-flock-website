@@ -18,8 +18,8 @@
   const CSS = '.game-throw:focus-visible,.game-control:focus-visible{outline:3px solid #FED801;outline-offset:3px}' +
     /* the clipped game layer: nothing the game draws can reach the text above it */
     '.game-layer{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:1}' +
-    /* the call-out and the score sit above the game layer */
-    '.game-info{position:absolute;z-index:3;pointer-events:none;grid-template-columns:minmax(0,1fr)}' +
+    /* the call-out and the score sit in a bar BELOW the playfield, one row: call-out left, score right; they wrap on a phone */
+    '.game-bar{position:relative;z-index:3;pointer-events:none;box-sizing:border-box}.game-bar .game-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;box-sizing:border-box}.game-bar .game-hud{margin-left:auto}' +
     '.game-hint.game-hint{display:flex;align-items:center;gap:8px;width:fit-content;max-width:100%;box-sizing:border-box;margin:0;padding:6px 12px 6px 6px;border-radius:22px;background:rgba(0,16,48,.45);color:#fff;font:500 14.5px/1.4 Inter,system-ui,sans-serif;letter-spacing:0;text-align:left}.game-hint>span:last-child{min-width:0}' +
     '.game-hud{display:flex;gap:4px 16px;align-items:baseline;font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#BFD9F2;z-index:3}' +
     '.game-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}' +
@@ -27,19 +27,19 @@
     '.game-host{padding-bottom:0!important}.game-host>.wrap{padding-bottom:0}' +
     '.game-pond{position:relative;width:100%;height:320px;margin:0;background:#0b3969}' +
     '.game-waves{position:absolute;left:0;top:0;width:100%;height:100%;display:block}' +
-    '.game-pond .game-info{top:24px;left:max(16px,5%);right:max(16px,5%);display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px}' +
+    '.game-host>.game-bar{background:#1B4F9A;padding:12px 0 16px}' +
     /* top: the hero band; its text stays above the game */
-    '.top.game-top{padding-bottom:214px}.game-top>.wrap{position:relative;z-index:2}.game-top .game-hint.game-hint{margin:22px 0 0}.game-top .game-hud{margin-top:10px}.game-top>.game-hud{position:absolute;right:24px;top:20px;margin:0}@media(max-width:900px){.top.game-top{padding-bottom:194px}}' +
+    '.top.game-top{padding-bottom:214px}.game-top>.wrap{position:relative;z-index:2}.game-bar.game-bar-page{background:#fff;padding:14px 0 6px}.game-bar-page .game-hint.game-hint{background:#12304F}.game-bar-page .game-hud{color:#0058A8}body.dark-mode .game-bar.game-bar-page{background:#08142B}body.dark-mode .game-bar-page .game-hud{color:#BFD9F2}@media(max-width:900px){.top.game-top{padding-bottom:194px}}' +
     /* wave: the answer band; the answer text stays above the game, the call-out sits under the button */
     '.game-end .pw-calm{position:relative;z-index:2}.game-end .pw-ducks{visibility:hidden}' +
     '.pw-end.game-end .pw-sun{display:none}' +
-    '.game-end .game-info{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;left:max(16px,5%);width:calc(100% - 32px)}' +
-    '.pw-end.game-end{padding-bottom:250px}' +
-    '.pw-view>.pw-end .game-layer,.pw-view>.pw-end .game-throw,.pw-view>.pw-end .game-info{transition:opacity .35s}.pw-view>.pw-end:not(.pw-open) .game-layer,.pw-view>.pw-end:not(.pw-open) .game-throw,.pw-view>.pw-end:not(.pw-open) .game-info{opacity:0;visibility:hidden}' +
+    '.game-end>.game-bar{position:absolute;left:0;right:0;bottom:0;height:56px;display:flex;align-items:center;background:var(--navy,#002050);text-align:left}.game-end>.game-bar .game-row{width:100%;padding:0 max(16px,5%)}.pw-end.game-end .pw-sea{bottom:54px}.pw-end.game-end .pw-ducks{bottom:126px}.pw-view>.pw-end.game-end .pw-ducks{bottom:calc(13% + 56px)}' +
+    '.pw-end.game-end{padding-bottom:306px}' +
+    '.pw-view>.pw-end .game-layer,.pw-view>.pw-end .game-throw,.pw-view>.pw-end .game-bar{transition:opacity .35s}.pw-view>.pw-end:not(.pw-open) .game-layer,.pw-view>.pw-end:not(.pw-open) .game-throw,.pw-view>.pw-end:not(.pw-open) .game-bar{opacity:0;visibility:hidden}' +
     '.pw-view>.pw-end.pw-open .game-throw{pointer-events:auto}' +
-    '@media (max-width:899px){.pw-end.game-end{padding-bottom:270px}}' +
+    '@media (max-width:899px){.pw-end.game-end{padding-bottom:326px}}' +
     /* Phone: keep the pond and controls readable. */
-    '@media (max-width:699px){.game-key{display:none}.game-pond{height:320px}.game-pond .game-info{left:16px;right:16px}}';
+    '@media (max-width:699px){.game-key{display:none}.game-pond{height:320px}}';
 
   function mount() {
     const FD = window.FlockDuck, M = MOUNTS.find(m => document.querySelector(m.sel));
@@ -52,6 +52,7 @@
     hint.innerHTML = '<span aria-hidden="true" style="flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#FED801;color:#002050;font:700 17px/1 Fredoka,system-ui,sans-serif">i</span><span></span>';
     hint.lastChild.textContent = 'Pull the duck back, then let go.';
     const hud = el('div', ''); hud.className = 'game-hud';
+    const bar = el('div', ''); bar.className = 'game-bar'; const row = el('div', ''); row.className = 'game-row'; row.appendChild(hint); row.appendChild(hud); bar.appendChild(row);
     // one hidden live node: it announces the score, and only after a throw the visitor made
     const live = el('div', ''); live.className = 'game-sr'; live.setAttribute('role', 'status'); live.setAttribute('aria-live', 'polite');
     const layer = el('div', ''); layer.className = 'game-layer';
@@ -62,7 +63,7 @@
     // g: how this mount measures itself. measure(st) fills st.W/H/HB/WL and the stain band, and returns the drag area's top and
     // textBottom: the lowest text, button, call-out or score box. The layer is clipped to everything below it.
     const WATER_DEFS = {};
-    const g = { mode, host, layer, hint, info: null, root: host, scales: s => s ? [.36, .44] : [.44, .5], bots: (W, s, i) => W * (s ? .5 + i * .19 : .62 + i * .11) };
+    const g = { mode, host, layer, hint, bar, info: null, root: host, scales: s => s ? [.36, .44] : [.44, .5], bots: (W, s, i) => W * (s ? .5 + i * .19 : .62 + i * .11) };
     const relBottom = (e, r) => e.getBoundingClientRect().bottom - r.top;
 
     if (mode === 'bottom') {
@@ -70,15 +71,13 @@
       host.classList.add('game-host');
       const pond = el('div', '', '<svg class="game-waves" viewBox="0 0 1440 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,196 C240,160 480,162 720,192 C960,222 1200,220 1440,176 L1440,300 L0,300 Z" fill="#2F6FC4"/><path d="M0,252 C260,222 520,232 760,250 C1000,268 1220,264 1440,236 L1440,300 L0,300 Z" fill="#1B4F9A"/></svg>');
       pond.className = 'game-pond'; host.appendChild(pond); pond.appendChild(layer);
-      const info = el('div', ''); info.className = 'game-info'; info.appendChild(hint); info.appendChild(hud); pond.appendChild(info);
+      row.classList.add('wrap'); host.appendChild(bar);
       pond.appendChild(hit); pond.appendChild(help); pond.appendChild(live);
-      g.root = pond; g.info = info;
+      g.root = pond; g.info = bar;
       g.measure = st => {
         st.W = pond.offsetWidth; st.H = pond.offsetHeight; st.HB = st.H; st.WL = st.HB - (st.W < 700 ? 92 : 100);
         st.lo = st.WL + 12; st.hi = st.HB - 28;
-        const wr = host.querySelector('.wrap'), pr = pond.getBoundingClientRect();
-        if (wr) { const wb = wr.getBoundingClientRect(), wc = getComputedStyle(wr), l = Math.max(12, wb.left - pr.left + parseFloat(wc.paddingLeft || 0)); info.style.left = l + 'px'; info.style.right = Math.max(12, pr.right - wb.right + parseFloat(wc.paddingRight || 0)) + 'px'; }
-        return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(relBottom(info, pr)) + 8, water: { d: 'M0,196 C240,160 480,162 720,192 C960,222 1200,220 1440,176 L1440,300 L0,300 Z', tf: 'scale(' + (st.W / 1440).toFixed(4) + ' ' + (st.H / 300).toFixed(4) + ')' } };
+        return { top: Math.max(0, st.WL - 84), textBottom: 0, water: { d: 'M0,196 C240,160 480,162 720,192 C960,222 1200,220 1440,176 L1440,300 L0,300 Z', tf: 'scale(' + (st.W / 1440).toFixed(4) + ' ' + (st.H / 300).toFixed(4) + ')' } };
       };
     } else if (mode === 'top') {
       // the hero band keeps its own waves; the game draws in a clipped layer under the text, below the call-out
@@ -86,16 +85,12 @@
       const flock = host.querySelector('.flock'); if (flock) flock.style.display = 'none';
       const sea = host.querySelector('.sea');
       const wrap = host.querySelector('.wrap') || host;
-      wrap.appendChild(hint);
+      row.classList.add('wrap'); bar.classList.add('game-bar-page'); host.insertAdjacentElement('afterend', bar);
       host.appendChild(layer); host.appendChild(hit); host.appendChild(help); host.appendChild(live);
       g.info = wrap;
       g.measure = st => {
         st.W = host.offsetWidth; st.H = host.offsetHeight; st.HB = st.H; st.WL = st.H - 62;
         st.lo = st.H - 34; st.hi = st.H - 12;   // allow splashes on the white shoreline
-        // the score: top right of a wide band; on a narrow one, one line after the call-out
-        const narrow = host.offsetWidth < 700;
-        if (narrow && hud.parentElement !== wrap) wrap.appendChild(hud);
-        else if (!narrow && hud.parentElement !== host) host.appendChild(hud);
         const hr = host.getBoundingClientRect(), tx = Math.max(st.W < 700 ? 46 : 80, st.W * .1);
         let top = st.WL - 130, tb = 0;
         wrap.querySelectorAll(':scope > *').forEach(e => { const b = e.getBoundingClientRect(); if (!b.height) return; tb = Math.max(tb, b.bottom - hr.top); if (b.left - hr.left < tx + 70 && b.right - hr.left > tx - 70) top = Math.max(top, b.bottom - hr.top + 4); });
@@ -106,9 +101,8 @@
       // wave: the answer band of the home page's pain wall. Its three ducks give way to the game's bots on the same wave.
       host.classList.add('game-end');
       const ducks = host.querySelector('.pw-ducks'), sea = host.querySelector('.pw-sea'), cta = host.querySelector('.pw-cta');
-      const info = el('div', ''); info.className = 'game-info'; info.appendChild(hint); info.appendChild(hud);
-      host.insertBefore(layer, host.firstChild); host.appendChild(info); host.appendChild(hit); host.appendChild(help); host.appendChild(live);
-      g.info = info;
+      host.insertBefore(layer, host.firstChild); host.appendChild(bar); host.appendChild(hit); host.appendChild(help); host.appendChild(live);
+      g.info = bar;
       g.scales = s => s ? [.4, .46] : [.5, .56];
       g.live = () => !host.parentElement || !host.parentElement.classList.contains('pw-view') || host.classList.contains('pw-open');
       g.bots = (W, s, i) => { const hr = host.getBoundingClientRect(), d = ducks.getBoundingClientRect(); return (d.left - hr.left) + d.width * [.16, .48, .78][i]; };
@@ -118,9 +112,8 @@
         const hr = host.getBoundingClientRect(), d = ducks.getBoundingClientRect(), c = cta.getBoundingClientRect(), sr = sea.getBoundingClientRect();
         st.WL = Math.min(st.H - 30, Math.max(st.H * .5, d.bottom - hr.top - 14));
         st.lo = st.WL + 10; st.hi = Math.max(st.lo + 4, sr.top - hr.top + sr.height * .74);   // the two blue waves; the white shore below is not for stains
-        info.style.top = Math.round(Math.max(c.bottom - hr.top + 18, st.WL - 150)) + 'px';
         const sp = [...sea.querySelectorAll('path')].map(x => x.getAttribute('d')), shore = sea.querySelector('.pw-shore');
-        return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(relBottom(info, hr)) + 8, water: { d: sp[0] + ' ' + (shore ? shore.getAttribute('d') : ''), tf: 'translate(0 ' + (sr.top - hr.top).toFixed(2) + ') scale(' + (sr.width / 1440).toFixed(4) + ' ' + (sr.height / 300).toFixed(4) + ')' } };
+        return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(c.bottom - hr.top) + 8, water: { d: sp[0] + ' ' + (shore ? shore.getAttribute('d') : ''), tf: 'translate(0 ' + (sr.top - hr.top).toFixed(2) + ') scale(' + (sr.width / 1440).toFixed(4) + ' ' + (sr.height / 300).toFixed(4) + ')' } };
       };
     }
     const o = { g, section: host, gsvg, layer, hero: g.root, hit, hud, hint, live, reduced: !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) };
@@ -200,7 +193,7 @@
       // the drag area never goes above the text; with no room for it (large text on a narrow page) the game is hidden
       const top = Math.max(m.top, st.tb), room = top <= st.WL - 20;
       Object.assign(hit.style, { left: Math.max(0, st.tx - 70) + 'px', top: top + 'px', width: '140px', height: Math.max(44, st.WL + 24 - top) + 'px' });
-      [o.layer, hit, o.hint, hud].forEach(e => { e.style.display = room ? '' : 'none'; }); hit.tabIndex = room ? 0 : -1; st.room = room;
+      [o.layer, hit, o.g.bar].forEach(e => { e.style.display = room ? '' : 'none'; }); hit.tabIndex = room ? 0 : -1; st.room = room;
     };
     layout();
     new ResizeObserver(() => { layout(); if (!stage.raf) stage.frame(0); }).observe(o.section);
