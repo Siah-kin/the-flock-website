@@ -54,3 +54,7 @@ html[data-motion="paused"] .lp-n1, html[data-motion="paused"] .lp-n2, html[data-
 html[data-motion="paused"] .lp-arm .lp-n1, html[data-motion="paused"] .lp-arm .lp-n2, html[data-motion="paused"] .lp-arm .lp-n3, html[data-motion="paused"] .lp-arm .lp-n4, html[data-motion="paused"] .lp-arm .lp-plan { opacity: 1; transform: none; }
 html[data-motion="paused"] .lp-arm .lp-draw { stroke-dashoffset: 0; }
 html[data-motion="paused"] .lp-arm .lp-headfade { opacity: 1; }
+
+/* Critique fixes for the landing page (9 Nov): pull quotes lighter on phones; the fees line stands apart from the quotes */
+@media (max-width: 600px) { .pull, .fees-text .sticky { font-size: 1.12rem; line-height: 1.45; padding-left: 16px; } }
+.fees-text .sticky { border-left: 0; padding-left: 0; font-size: 1.5rem; }
