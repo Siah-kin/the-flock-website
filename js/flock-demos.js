@@ -2,7 +2,7 @@
    Storyboards S1 and S3. Debug: #seek-flow=1700, #seek-hero=300, #seek-x-p2=2000 hold a scene at that time. */
 (function () {
     'use strict';
-    var doc = document, can = !!Element.prototype.animate, dbg = Object.create(null), stops = [], N = { transform: 'none' };
+    var doc = document, flowGate = function () {}, can = !!Element.prototype.animate, dbg = Object.create(null), stops = [], N = { transform: 'none' };
     // without the runtime the tabs still work and every scene shows its last frame
     var F = window.Flock || { reduced: true, scene: function (el, o) { var e = function () { o.end(); }; e(); return { el: el, end: e, replay: e, seek: e }; } };
     var cs = getComputedStyle(doc.documentElement);
@@ -47,10 +47,12 @@
                 { at: o, run: function () {
                     kill(A); svg.classList.add('run');
                     if (head) bump(A, head, { transform: 'rotate(18deg)' }, 0, { easing: MOVE });
+                    // the resting coins fade away; later runs find them already gone
+                    outs.forEach(function (c) { anim(A, c, o ? fade(0, 0) : fade(1, 0), o ? 1 : 200, { easing: OUT }); });
                     var p = at(cin);
-                    anim(A, cin, [{ opacity: 0, transform: tr(p[0], p[1], 0) }, { opacity: 1, transform: tr(p[0], p[1], 1) }], SHORT, { easing: ease('--ease-pop', 'ease-out') });
+                    anim(A, cin, [{ opacity: 0, transform: tr(p[0], p[1], 0) }, { opacity: 1, transform: tr(p[0], p[1], 1.4) }], SHORT, { easing: ease('--ease-pop', 'ease-out') });
                 } },
-                { at: o + 300, run: function () { rate(3); anim(A, cin, along(pipes[0], [280, 330, 1]), 1200, { easing: MOVE }); } },
+                { at: o + 300, run: function () { rate(3); anim(A, cin, along(pipes[0], [280, 330, 1.4]), 1200, { easing: MOVE }); } },
                 { at: o + 1500, run: function () {
                     rate(1);
                     anim(A, q('.lamp')[0], [{ opacity: 0 }, { opacity: .9, offset: .25 }, { opacity: 0 }], LONG, { fill: 'none' });
@@ -76,44 +78,41 @@
             if (!last) b.push({ at: o + 8500, run: function () { outs.forEach(function (c) { anim(A, c, fade(1, 0), 400, { easing: OUT }); }); } });
             return b;
         }
-        function rest(on) { return function () { kill(A); rate(1); svg.classList.toggle('run', on); }; }
+        // the end frame keeps the ghost coin at its halfway stop, half faded, so "planned" shows
+        function rest(on) {
+            return function () {
+                kill(A); rate(1); svg.classList.toggle('run', on);
+                var g = at(ghost);
+                ghost.style.transform = on ? '' : tr(g[0], g[1] + 26);
+                ghost.style.opacity = on ? '' : '.5';
+            };
+        }
         // off screen the runtime holds the beat clock (and drops .play); hold this scene's animations with it
         var held = [];
-        if (window.MutationObserver) new MutationObserver(function () {
+        function gate() {
             if (fig.classList.contains('play')) held.splice(0).forEach(function (a) { a.play(); });
             else A.forEach(function (a) { if (a.playState === 'running') { a.pause(); held.push(a); } });
-        }).observe(fig, { attributes: true, attributeFilter: ['class'] });
-        dbg.flow = F.scene(fig, { mode: 'once', ambient: true, threshold: 0.35, beats: cycle(0).concat(cycle(9000), cycle(18000, 1)), reset: rest(true), end: rest(false) });
+        }
+        // Play resumes the saved animations even when the figure is off screen: hold them again
+        flowGate = gate;
+        if (window.MutationObserver) new MutationObserver(gate).observe(fig, { attributes: true, attributeFilter: ['class'] });
+        dbg.flow = F.scene(fig, { mode: 'once', ambient: true, threshold: 0.7, beats: cycle(0).concat(cycle(9000), cycle(18000, 1)), reset: rest(true), end: rest(false) });
     }
 
-    // S3, one panel: bubbles grow from their tail corner, buttons follow; the draft types, gets marked, the bot answers
-    function split(me) {
-        var out = [];
-        (function walk(n) {
-            arr(n.childNodes).forEach(function (c) {
-                if (c.nodeType !== 3) { if (c.className !== 'who') walk(c); return; }
-                var f = doc.createDocumentFragment();
-                Array.from(c.data).forEach(function (ch) { var s = doc.createElement('span'); s.textContent = ch; f.appendChild(s); out.push(s); });
-                n.replaceChild(f, c);
-            });
-        })(me);
-        return out;
-    }
+        // S3, one panel: bubbles grow from their tail corner, buttons follow; the pasted draft gets marked, the bot answers
     function panel(p) {
         var A = [], tg = p.querySelector('.tg'), parts = arr(tg.children), me = tg.querySelector('.me'), pick = tg.querySelector('.btn.pick');
-        var chars = me ? split(me) : [], us = me ? arr(me.querySelectorAll('u')) : [], dots, ptr, ring;
+        var us = me ? arr(me.querySelectorAll('u')) : [], ptr, dot, ring;
         us.sort(function (a, b) { return a.dataset.k - b.dataset.k; });
         function add(host, html) { host.insertAdjacentHTML('beforeend', html); return host.lastChild; }
-        if (me) dots = add(tg, '<div class="tg-typing" aria-hidden="true"><i></i><i></i><i></i></div>');
         if (pick) {
             ptr = add(tg, '<svg class="tg-ptr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6.2 1.6L9.6 19z"/></svg>');
+            dot = add(tg, '<i class="tg-dot" aria-hidden="true"></i>');
             ring = add(pick, '<svg class="tg-pick" width="0" height="0" aria-hidden="true"><rect x="1" y="1" rx="11" pathLength="1"/></svg>');
         }
         function bub(n, d) { anim(A, n, [{ opacity: 0, transform: 'scale(.96)' }, { opacity: 1, transform: 'none' }], SHORT, { delay: d }); }
-        function type(t) {
-            var step = Math.min(28, 900 / chars.length);
-            chars.forEach(function (s, i) { anim(A, s, fade(0, 1), 1, { delay: t + i * step }); });
-            t += step * chars.length + 250;
+        // the draft is pasted, so it is there whole; the three marks come one after another
+        function mark(t) {
             // as .marked u.on, in the order of the bot's list (link, ticker, price)
             us.forEach(function (u, k) {
                 anim(A, u, [{ backgroundColor: 'rgba(229,96,79,0)', boxShadow: '0 0 0 2px rgba(255,140,120,0)' },
@@ -121,26 +120,24 @@
             });
             return t + 350 * us.length;
         }
-        function typing(n, t) {
-            dots.style.top = n.offsetTop + 'px';
-            anim(A, dots, [{ opacity: 0, transform: 'scale(.96)' }, { opacity: 1, transform: 'none', offset: .25 }, { opacity: 1, offset: .9 }, { opacity: 0 }], 700, { delay: t, fill: 'none' });
-            arr(dots.children).forEach(function (d, j) { anim(A, d, [{ opacity: .45 }, { opacity: 1 }, { opacity: .45 }], 420, { delay: t + 120 + j * 120, easing: MOVE, fill: 'none' }); });
-        }
         // a pointer goes to Useful and presses it, then the pick outline draws round it
         function point(t) {
             // add offsets up to the card: a row that is still growing (transformed) is an offset parent too
             var w = pick.offsetWidth, h = pick.offsetHeight, x = w / 2, y = h / 2, n, r = ring.firstChild;
             for (n = pick; n && n !== tg; n = n.offsetParent) { x += n.offsetLeft; y += n.offsetTop; }
-            var to = tr(x + 26, y - 1), from = tr(x + 70, y + 44);
+            var ex = x + w / 2 - 18, ey = y + 4, to = tr(ex, ey), from = tr(ex + 44, ey + 45), dt = tr(ex - 14, ey - 14);
             anim(A, ptr, [{ opacity: 0, transform: from }, { opacity: 1, transform: from, offset: .2 }, { opacity: 1, transform: to }], 750, { delay: t, easing: MOVE });
             t += 750;
             bump(A, pick, { transform: 'scale(.94)' }, MICRO, { delay: t });
+            // on a phone the pointer is a fingertip: it appears on the button and presses in
+            anim(A, dot, [{ opacity: 0, transform: dt + ' scale(.6)' }, { opacity: 1, transform: dt + ' scale(1)' }], SHORT, { delay: t, easing: OUT });
             anim(A, ptr, [{ transform: to }, { transform: to + ' scale(.9)', offset: .4 }, { transform: to }], MICRO, { delay: t, fill: 'none' });
             t += MICRO;
             ring.setAttribute('width', w + 4); ring.setAttribute('height', h + 4); r.setAttribute('width', w + 2); r.setAttribute('height', h + 2);
             anim(A, r, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], MED, { delay: t, easing: MOVE });
             anim(A, pick, [{ color: '#8EC4FA' }, { color: '#FED801' }], SHORT, { delay: t });
             anim(A, ptr, fade(1, 0), SHORT, { delay: t + MED + 200, fill: 'forwards' });
+            anim(A, dot, [{ opacity: 1, transform: dt }, { opacity: 0, transform: dt }], SHORT, { delay: t + MED + 200 });
         }
         function run() {
             var t = 0, last = 0;
@@ -150,8 +147,8 @@
             parts.forEach(function (n, i) {
                 if (n.classList.contains('btns')) return bub(n, last + 60);
                 if (i) t += 300;
-                if (n === me) { bub(n, t); t = type(t + 150); return; }
-                if (dots && n.classList.contains('later')) { typing(n, t); t += 700; }
+                if (n === me) { bub(n, t); t = mark(t + SHORT + 300); return; }
+                if (me && n.classList.contains('later')) t += 700;
                 bub(n, last = t);
             });
             if (pick) point(last + 500);
@@ -189,7 +186,7 @@
                 var h1 = box.offsetHeight, a;
                 if (h1 === h0 || !live()) return;
                 box.classList.add('flip');
-                a = hs = box.animate({ height: [h0 + 'px', h1 + 'px'] }, { duration: MED, easing: IN });
+                a = hs = box.animate({ height: [h0 + 'px', h1 + 'px'] }, { duration: MED, easing: MOVE });
                 a.onfinish = function () { if (hs === a) stop(); };
             };
             ex[0].onfinish = function () { if (pend === mine) pend(); };
@@ -218,6 +215,12 @@
             io.observe(box);
         }
         stops.push(function () { seen = true; settle(); scenes[cur].end(); });
+        // reduced motion switched on during a swap: finish it now, no exit or height animation left running
+        if (window.matchMedia) {
+            var rm = matchMedia('(prefers-reduced-motion: reduce)');
+            var onrm = function (e) { if (e.matches) { seen = true; settle(); box.style.height = ''; scenes[cur].end(); } };
+            if (rm.addEventListener) rm.addEventListener('change', onrm);
+        }
     }
 
     // S3, hero: after the card rises, its highlighted History line fills from the left
@@ -232,21 +235,27 @@
         stops.push(h.end);
         if (!live()) return h.end();
         m.classList.add('f0');
-        var rise = m.closest('figure').getAnimations()[0];
-        (rise ? rise.finished : Promise.resolve()).then(h.replay, h.end);
+        // starts when the History card is in view (60%) and its rise is over, not at page load
+        var card = m.closest('figure'), rise = card.getAnimations()[0], seen = !window.IntersectionObserver, risen = false, done = false;
+        function go() { if (done || !seen || !risen) return; done = true; if (F.paused || F.reduced) h.end(); else h.replay(); }
+        (rise ? rise.finished : Promise.resolve()).then(function () { risen = true; go(); }, function () { risen = true; done = true; h.end(); });
+        if (!seen) {
+            var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { io.disconnect(); seen = true; go(); } }, { threshold: 0.6 });
+            io.observe(card);
+        } else go();
     }
 
     flow();
     arr(doc.querySelectorAll('[data-demo]')).forEach(demo);
     hero();
     // Pause: the fee scene freezes (the runtime does that); demos and the hero line jump to their last frame
-    if (window.MutationObserver) new MutationObserver(function () { if (F.paused) stops.forEach(function (f) { f(); }); })
+    if (window.MutationObserver) new MutationObserver(function () { if (F.paused) stops.forEach(function (f) { f(); }); else flowGate(); })
         .observe(doc.documentElement, { attributes: true, attributeFilter: ['data-motion'] });
     function seek() {
         var m = /^#seek-([\w-]+)=(\d+)$/.exec(location.hash), t = m && dbg[m[1]];
         if (!t) return;
-        t.el.scrollIntoView({ block: 'center', behavior: 'instant' });
         t.seek(+m[2]);
+        t.el.scrollIntoView({ block: 'center', behavior: 'instant' });
     }
     addEventListener('hashchange', seek);
     setTimeout(seek, 1000);
