@@ -56,6 +56,8 @@
     var mine = [];
     // A storyboard: setup(svg) once per variant, build(svg, list) creates every animation, marks name the beats
     function story(fig, o) {
+        // Without Web Animations, leave the runtime's own scene on this figure untouched
+        if (typeof fig.animate !== 'function') return;
         var a = adopt(fig), el = a.el;
         arr(el.querySelectorAll('svg')).forEach(o.setup);
         function clear(svg) { (svg._road || []).forEach(function (x) { x.cancel(); }); svg._road = []; }
@@ -206,8 +208,8 @@
     }
 
     /* Road: the "here" duck rides the rail at the fill, and each stop's ring pulses once when the fill reaches it.
-       Same measure as the rail in js/flock-motion.js. Scroll-linked, so it follows the reader even when paused;
-       pulses are skipped while paused, hidden or reduced. Pages without a riding duck (why/) skip all of it,
+       Same measure as the rail in js/flock-motion.js. Scroll-linked; it stays where it is while animations are paused,
+       and pulses are skipped while paused, hidden or reduced. Pages without a riding duck (why/) skip all of it,
        and the scroll listener is attached only while the road is on screen. */
     function road() {
         var rd = doc.querySelector('.road'), rail = rd && rd.querySelector('.rail'), here = rd && rd.querySelector('.here');
@@ -221,7 +223,7 @@
         }
         function tick() {
             pend = false;
-            if (F.reduced) return;
+            if (F.reduced || F.paused) return;
             var r = rd.getBoundingClientRect(), p = Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / r.height));
             here.style.translate = '0 ' + (p * H).toFixed(1) + 'px';
             rd.classList.toggle('road-riding', p * H > 2);
