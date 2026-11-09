@@ -90,12 +90,12 @@
       g.info = wrap;
       g.measure = st => {
         st.W = host.offsetWidth; st.H = host.offsetHeight; st.HB = st.H; st.WL = st.H - 62;
-        st.lo = st.H - 34; st.hi = st.H - 12;   // allow splashes on the white shoreline
+        st.lo = st.WL + 6; st.hi = st.WL + 22;   // the blue strip in front of the ducks; the white shore is not for stains or drops
         const hr = host.getBoundingClientRect(), tx = Math.max(st.W < 700 ? 46 : 80, st.W * .1);
         let top = st.WL - 130, tb = 0;
         wrap.querySelectorAll(':scope > *').forEach(e => { const b = e.getBoundingClientRect(); if (!b.height) return; tb = Math.max(tb, b.bottom - hr.top); if (b.left - hr.left < tx + 70 && b.right - hr.left > tx - 70) top = Math.max(top, b.bottom - hr.top + 4); });
         const sp = sea ? [...sea.querySelectorAll('path')].map(x => x.getAttribute('d')) : [];
-        return { top, textBottom: Math.ceil(tb) + 8, water: sea && sp.length > 1 ? { d: sp[0], tf: 'translate(0 ' + (st.H - 120) + ') scale(' + (st.W / 1440).toFixed(4) + ' 1)' } : null };
+        return { top, textBottom: Math.ceil(tb) + 8, water: sea && sp.length > 1 ? { d: sp[0] + ' ' + sp[1], tf: 'translate(0 ' + (st.H - 120) + ') scale(' + (st.W / 1440).toFixed(4) + ' 1)' } : null, shore: sea && sp.length > 1 ? { d: sp[1], tf: 'translate(0 ' + (st.H - 120) + ') scale(' + (st.W / 1440).toFixed(4) + ' 1)' } : null };
       };
     } else {
       // wave: the answer band of the home page's pain wall. Its three ducks give way to the game's bots on the same wave.
@@ -113,7 +113,7 @@
         st.WL = Math.min(st.H - 30, Math.max(st.H * .5, d.bottom - hr.top - 14));
         st.lo = st.WL + 10; st.hi = Math.max(st.lo + 4, sr.top - hr.top + sr.height * .74);   // the two blue waves; the white shore below is not for stains
         const sp = [...sea.querySelectorAll('path')].map(x => x.getAttribute('d')), shore = sea.querySelector('.pw-shore');
-        return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(c.bottom - hr.top) + 8, water: { d: sp[0] + ' ' + (shore ? shore.getAttribute('d') : ''), tf: 'translate(0 ' + (sr.top - hr.top).toFixed(2) + ') scale(' + (sr.width / 1440).toFixed(4) + ' ' + (sr.height / 300).toFixed(4) + ')' } };
+        return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(c.bottom - hr.top) + 8, water: { d: sp[0] + ' ' + (shore ? shore.getAttribute('d') : ''), tf: 'translate(0 ' + (sr.top - hr.top).toFixed(2) + ') scale(' + (sr.width / 1440).toFixed(4) + ' ' + (sr.height / 300).toFixed(4) + ')' }, shore: shore ? { d: shore.getAttribute('d'), tf: 'translate(0 ' + (sr.top - hr.top).toFixed(2) + ') scale(' + (sr.width / 1440).toFixed(4) + ' ' + (sr.height / 300).toFixed(4) + ')' } : null };
       };
     }
     const o = { g, section: host, gsvg, layer, hero: g.root, hit, hud, hint, live, reduced: !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) };
@@ -142,10 +142,14 @@
     const mk = (tag, at, par) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); par.appendChild(e); return e; };
     gsvg.innerHTML = '<g data-l="stains"></g><g data-l="evb"></g><g data-l="ducks"></g><g data-l="extra"></g><g data-l="evf"></g><g data-l="rock"></g><g data-l="fx"></g><g data-l="aim"></g><g data-l="ui"></g>';
     // Keep stains inside the scene; top scenes include their white shoreline.
-    const defs = document.createElementNS(NS, 'defs'); defs.innerHTML = '<clipPath id="game-water"><path clip-rule="evenodd" fill-rule="evenodd" d=""/></clipPath>'; gsvg.insertBefore(defs, gsvg.firstChild);
+    const defs = document.createElementNS(NS, 'defs'); defs.innerHTML = '<clipPath id="game-water"><path clip-rule="evenodd" fill-rule="evenodd" d=""/></clipPath><linearGradient id="game-fade" gradientUnits="userSpaceOnUse" x1="0" y1="-10" x2="0" y2="-9"><stop offset="0" stop-color="#000"/><stop offset="1" stop-color="#fff"/></linearGradient><mask id="game-fadem" maskUnits="userSpaceOnUse" x="0" y="0" width="1" height="1"><rect x="0" y="0" width="1" height="1" fill="url(#game-fade)"/></mask><mask id="game-noshore" maskUnits="userSpaceOnUse" x="0" y="0" width="1" height="1"><rect x="0" y="0" width="1" height="1" fill="#fff"/><path fill="#000" d=""/></mask>'; gsvg.insertBefore(defs, gsvg.firstChild);
     const waterPath = defs.querySelector('path');
     const Ly = {}; ['stains', 'evb', 'ducks', 'extra', 'evf', 'rock', 'fx', 'aim', 'ui'].forEach(n => Ly[n] = gsvg.querySelector('[data-l="' + n + '"]'));
     Ly.stains.setAttribute('clip-path', 'url(#game-water)');
+    // blood, drops and feathers never land on the white shore or past the water; sprites that enter from above fade in under the clip line, never sliced
+    Ly.fx.setAttribute('mask', 'url(#game-noshore)');
+    ['evb', 'ducks', 'extra', 'evf'].forEach(n => Ly[n].setAttribute('mask', 'url(#game-fadem)'));
+    const fadeG = defs.querySelector('#game-fade'), fadeM = defs.querySelector('#game-fadem'), shoreM = defs.querySelector('#game-noshore');
     // one number only: bots bonked
     hud.innerHTML = '<div>BONKED <b data-s style="font:700 15px Fredoka,system-ui,sans-serif;color:#FED801;margin-left:4px">0</b></div>';
     const hudS = hud.querySelector('[data-s]'), live = o.live; let liveFlip = false;
@@ -190,6 +194,9 @@
       // everything the game draws stays below the text, the call-out and the score
       st.tb = m.textBottom; o.layer.style.clipPath = 'inset(' + st.tb + 'px 0 0 0)';
       if (m.water) { waterPath.setAttribute('d', m.water.d); waterPath.setAttribute('transform', m.water.tf); }
+      [fadeM, shoreM].forEach(mk2 => { mk2.setAttribute('width', st.W); mk2.setAttribute('height', st.H); [...mk2.querySelectorAll('rect')].forEach(r => { r.setAttribute('width', st.W); r.setAttribute('height', st.H); }); });
+      fadeG.setAttribute('y1', st.tb > 0 ? st.tb : -10); fadeG.setAttribute('y2', st.tb > 0 ? st.tb + 46 : -9);
+      const shp = shoreM.querySelector('path'); shp.setAttribute('d', m.shore ? m.shore.d : ''); if (m.shore) shp.setAttribute('transform', m.shore.tf);
       // the drag area never goes above the text; with no room for it (large text on a narrow page) the game is hidden
       const top = Math.max(m.top, st.tb), room = top <= st.WL - 20;
       Object.assign(hit.style, { left: Math.max(0, st.tx - 70) + 'px', top: top + 'px', width: '140px', height: Math.max(44, st.WL + 24 - top) + 'px' });
@@ -320,7 +327,7 @@
         if (s.st === 'float') { s.x = s.bx + Math.sin(R / 1800 + s.i * 2) * 5; s.y = s.by + Math.sin(R / 1300 + s.i) * 1.2; s.rot = 0; }
         else if (s.st === 'ko') { s.vy += G * dt; s.x += s.vx * dt; s.y += s.vy * dt; s.rot += s.spin * dt; if (s.y >= st.WL + 6 && s.vy > 0) { s.st = 'down'; s.t0 = R; s.y = st.WL; splash(s.x, st.WL, true); } if (s.x > st.W + 60 || s.x < -60) { s.st = 'sink'; s.t0 = R - 700; } }
         else if (s.st === 'down') { if (R - s.t0 > 3000) { s.st = 'sink'; s.t0 = R; } }
-        else if (s.st === 'sink') { if (R - s.t0 > 700) { s.st = 'para'; s.y = (st.tb || 0) - 40; s.rot = 0; } }
+        else if (s.st === 'sink') { if (R - s.t0 > 700) { s.st = 'para'; s.y = (st.tb || 0) + 230 * st.sc; s.rot = 0; } }
         else if (s.st === 'para') { s.y += 170 * dt; s.rot = Math.sin(R / 380) * 9; s.x = s.bx + Math.sin(R / 700) * 10; if (s.y >= s.by) { s.y = s.by; s.rot = 0; s.st = 'float'; s.t0 = R; s.landed = true; s.duck.react = { type: 'land', start: R, dur: 420 }; say(s, L('respawn')); } }
       });
       // auto aim
