@@ -1,0 +1,50 @@
+/* The loop: a garden that grows, in four steps around a circle. Markup in index.html, motion in js/flock-loop.js.
+   Still layout (default; also reduced motion, paused, no JavaScript): the whole drawing shown.
+   Live: js adds .lp-arm before first paint of the scene, then each step comes in once when the section is in view.
+   The arrows into and out of the kept answer are dashed, like the ghost coin: that step is planned. */
+
+.lp { background: #fff; }
+.lp-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 56px; align-items: center; }
+.lp-copy h2 { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(1.9rem, 3.3vw, 2.6rem); line-height: 1.1; max-width: 14em; color: var(--ink); }
+.lp-copy p { margin: 22px 0 0; font-size: 1.2rem; line-height: 1.6; color: #33445A; max-width: 30em; }
+.lp-fig { margin: 0; }
+.lp-svg { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; overflow: visible; }
+
+.lp-bed { fill: #E4F0FC; }
+.lp-rim { fill: none; stroke: var(--sky); stroke-width: 3; }
+.lp-t { font-family: var(--display); font-weight: 600; font-size: 20px; fill: var(--ink); }
+.lp-q { font-family: var(--display); }
+.lp-ln { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linecap: round; }
+.lp-hd { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.lp-dash { stroke-dasharray: 5 9; }   /* the ghost coin's dashes: planned */
+.lp-draw { stroke-dasharray: 100; stroke-dashoffset: 0; }
+
+/* Live: nodes and the dashed arrows start hidden, solid arrows start undrawn, then each comes in once, in order */
+.lp-n1, .lp-n2, .lp-n3, .lp-n4, .lp-plan { transition: opacity var(--dur-med) var(--ease-enter), transform var(--dur-med) var(--ease-enter); }
+.lp-draw { transition: stroke-dashoffset var(--dur-long) var(--ease-move); }
+.lp-headfade { transition: opacity var(--dur-short) ease-out var(--dur-long); }
+.lp-arm .lp-n1, .lp-arm .lp-n2, .lp-arm .lp-n3, .lp-arm .lp-n4, .lp-arm .lp-plan { opacity: 0; }
+.lp-arm .lp-n1, .lp-arm .lp-n2, .lp-arm .lp-n3, .lp-arm .lp-n4 { transform: translateY(10px); }
+.lp-arm .lp-draw { stroke-dashoffset: 100; }
+.lp-arm .lp-headfade { opacity: 0; }
+.lp-arm .on.lp-n1, .lp-arm .on.lp-n2, .lp-arm .on.lp-n3, .lp-arm .on.lp-n4, .lp-arm .on.lp-plan { opacity: 1; transform: none; }
+.lp-arm .on .lp-draw { stroke-dashoffset: 0; }
+.lp-arm .on .lp-headfade { opacity: 1; }
+
+body.dark-mode .lp { background: #08142B; }
+body.dark-mode .lp-copy h2 { color: #fff; }
+body.dark-mode .lp-copy p { color: #C5D3E8; }
+body.dark-mode .lp-bed { fill: #10244A; }
+body.dark-mode .lp-t { fill: #E7EEF9; }
+body.dark-mode .lp-ln, body.dark-mode .lp-hd { stroke: #8EC4FA; }
+body.dark-mode .lp-q { fill: #8EC4FA; }
+
+@media (max-width: 860px) {
+    .lp-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .lp-n1, .lp-n2, .lp-n3, .lp-n4, .lp-plan, .lp-draw, .lp-headfade { transition: none !important; }
+    .lp-arm .lp-n1, .lp-arm .lp-n2, .lp-arm .lp-n3, .lp-arm .lp-n4, .lp-arm .lp-plan { opacity: 1; transform: none; }
+    .lp-arm .lp-draw { stroke-dashoffset: 0; }
+    .lp-arm .lp-headfade { opacity: 1; }
+}
