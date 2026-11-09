@@ -1,19 +1,21 @@
-/* Pain wall, the opening of /why/: a scroll scene in four beats on the shared Flock motion system.
+/* Pain wall, on the home page after the first screen: a scroll scene in four beats on the shared Flock motion system.
    1 pain: the quotes arrive one by one (desktop: a wall; phone: one at a time, on a stack)
    2 agony: the line lands while the wall stays
    3 poof: the quotes blur away, the sky turns blue, sun, sea and ducks come in
    4 solution: the answer and Open the bot
-   Reduced motion, the Pause toggle or no JavaScript give the still layout: the quotes as a list, then the answer.
-   The cards and the list are written into the page from data/pain-wall.json by scripts/build_pain_wall.py.
-   Load after js/flock-motion.js (both defer). Markup and styles: why/index.html, css/flock-painwall.css. */
+   Reduced motion, the Pause toggle, no JavaScript or a screen with no room give the still layout: the same quote
+   cards in a grid, each with its source link, then the answer.
+   The cards are written into the page from data/pain-wall.json by scripts/build_pain_wall.py.
+   Load after js/flock-motion.js (both defer). Markup and styles: index.html, css/flock-painwall.css. */
 (function () {
     'use strict';
     var doc = document, root = doc.getElementById('pain-wall');
     if (!root) return;
     var F = window.Flock || null;
     var stage = root.querySelector('.pw-stage'), view = root.querySelector('.pw-view'), wall = root.querySelector('.pw-wall');
-    var sources = root.querySelector('.pw-sources'), end = root.querySelector('.pw-end');
+    var end = root.querySelector('.pw-end');
     var cards = Array.prototype.slice.call(wall.querySelectorAll('.pw-q'));
+    var links = Array.prototype.slice.call(wall.querySelectorAll('.pw-q a'));
     var agony = end.querySelector('.pw-agony'), calm = end.querySelector('.pw-calm'), cta = end.querySelector('.pw-cta');
     var sun = end.querySelector('.pw-sun'), sea = end.querySelector('.pw-sea'), ducks = end.querySelector('.pw-ducks');
     var deco = [agony, calm, sun, sea, ducks];
@@ -183,10 +185,10 @@
     function anchor() {
         if (mode === null) return null;
         var r = stage.getBoundingClientRect();
-        if (mode === 'live' && r.top < NAV && r.bottom > NAV + 10) return { el: sources, off: 72 };
+        if (mode === 'live' && r.top < NAV && r.bottom > NAV + 10) return { el: stage, off: 72 };
         // the block the reader is in: the last one that starts in the top quarter of the screen or above it.
         // In the lead nothing above them changes, so their place needs no help.
-        var list = [root.querySelector('.pw-lead'), sources, end, root.nextElementSibling], pick = null;
+        var list = [root.querySelector('.pw-lead'), stage, end, root.nextElementSibling], pick = null;
         if (mode === 'live') list.splice(2, 1);  // in the scene the answer lives inside the stage
         list.forEach(function (el) { if (el && el.getBoundingClientRect().top <= innerHeight * 0.25) pick = el; });
         // a reader on the answer band goes to the scene's answer beat when the scene comes back
@@ -214,6 +216,8 @@
 
     function enterLive() {
         root.classList.add('pw-go');
+        // in the scene the cards come and go on their own; their links stay off the tab order so focus never lands on a faded card
+        links.forEach(function (a) { a.setAttribute('tabindex', '-1'); });
         view.appendChild(end);
         return layout();
     }
@@ -222,6 +226,7 @@
         removeEventListener('scroll', onScroll);
         root.classList.remove('pw-go', 'pw-phone');
         end.classList.remove('pw-open');
+        links.forEach(function (a) { a.removeAttribute('tabindex'); });
         deco.concat(cards).forEach(function (el) { el.removeAttribute('style'); el.classList.remove('pw-under'); });
         wall.removeAttribute('style'); view.removeAttribute('style'); stage.removeAttribute('style');
         if (end.parentNode !== root) root.appendChild(end);

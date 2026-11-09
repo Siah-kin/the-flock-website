@@ -27,6 +27,8 @@
     <script src="/js/flock-motion.js?v=20261109scenes1" defer></script>
     <link rel="stylesheet" href="/css/flock-demos.css?v=20261109demos1">
     <script src="/js/flock-demos.js?v=20261109demos1" defer></script>
+    <link rel="stylesheet" href="/css/flock-painwall.css?v=20261109painwall2">
+    <script src="/js/flock-painwall.js?v=20261109painwall2" defer></script>
     <style>
         @font-face {
             font-family: "Fredoka";
@@ -298,6 +300,46 @@
                         <div class="btns"><span class="btn">🎫 Ask the team</span><span class="btn">◀ Back</span></div>
                     </div>
                 </figure>
+            </div>
+        </section>
+
+        <!-- Pain wall: quotes come from data/pain-wall.json through scripts/build_pain_wall.py; edit the JSON, not the
+             cards below. Live: a scroll scene (js/flock-painwall.js). Reduced motion, paused or no JavaScript: the
+             quotes as cards with their links, then the answer. -->
+        <section class="pw" id="pain-wall" aria-labelledby="pw-title">
+            <script>(function(){var s=document.getElementById('pain-wall'),r=false,p=false;try{r=matchMedia('(prefers-reduced-motion: reduce)').matches;p=localStorage.getItem('flock-motion')==='paused';}catch(e){}if(r||p||!window.requestAnimationFrame)return;s.classList.add('pw-go');setTimeout(function(){if(!s.classList.contains('pw-live'))s.classList.remove('pw-go');},4000);})();</script>
+            <div class="pw-lead">
+                <div class="wrap">
+                    <h2 id="pw-title">Ask anyone who has helped a community.</h2>
+                    <p>These are real people, in their own words, from 2024 and 2025.</p>
+                </div>
+            </div>
+            <div class="pw-stage" role="region" aria-label="Real complaints from community members and moderators, then how The Flock answers them">
+                <div class="pw-view">
+                    <div class="pw-wall">
+                <!-- pain-wall:cards -->
+                    <figure class="pw-q" style="--r:-2deg"><blockquote>“As a community moderator for Alephium, we’ve encountered numerous scammers infiltrating the chat… these scammers quickly rename themselves to impersonate well-known figures, such as team members or community moderators.”</blockquote><figcaption><span>A community moderator · Mar 2025</span><a href="https://blog.notrustverify.ch/catch-impersonators-on-telegram" target="_blank" rel="noopener noreferrer"">source</a></figcaption></figure>
+                    <figure class="pw-q" style="--r:1.5deg"><blockquote>“Here I reached out for help and instantly 12 dms from strangers claiming they could help.”</blockquote><figcaption><span>A user asking for help in a project’s Telegram · Jan 2025</span><a href="https://forum.polkadot.network/t/polkadex-is-a-scam/11451/1" target="_blank" rel="noopener noreferrer"">source</a></figcaption></figure>
+                    <figure class="pw-q" style="--r:-1deg"><blockquote>“Those criteria are easy to not hit as a real user, and easy to hit as a farmer, and had no anti-sybil program.”</blockquote><figcaption><span>A venture investor, on an airdrop · Jun 2024</span><a href="https://x.com/adamscochran/status/1800521951384879469" target="_blank" rel="noopener noreferrer"">source</a></figcaption></figure>
+                    <figure class="pw-q" style="--r:2deg"><blockquote>“How tf am I not eligible? I’m in tears seriously.. been using only one wallet, checked out and used different protocols.”</blockquote><figcaption><span>A community member, after an airdrop · Jun 2024</span><a href="https://x.com/ahrlien/status/1800425508989182172" target="_blank" rel="noopener noreferrer"">source</a></figcaption></figure>
+                    <figure class="pw-q" style="--r:-2.5deg"><blockquote>“What made [it] famous and trendy in the first place was small accounts winning.”</blockquote><figcaption><span>A leaderboard user, after a rule change · Aug 2025</span><a href="https://x.com/Telloo55/status/1954251216352862537" target="_blank" rel="noopener noreferrer"">source</a></figcaption></figure>
+                    <figure class="pw-q" style="--r:1deg"><blockquote>“It’s been reported that some users with high testnet participation have been wrongfully excluded from the airdrop. We want to make things right.”</blockquote><figcaption><span>A project team, after its airdrop · Sep 2025</span><a href="https://x.com/theblessnetwork/status/1965487310696579229" target="_blank" rel="noopener noreferrer"">source</a></figcaption></figure>
+                    <figure class="pw-q" style="--r:-1.5deg"><blockquote>“…most of our contributors’ significant impact over the past year would go unrecognized.”</blockquote><figcaption><span>A governance team lead · Oct 2024</span><a href="https://gov.optimism.io/t/appeal-to-the-optimism-foundation-request-to-update-retrofunding-round-6-application/9208/1" target="_blank" rel="noopener noreferrer"">source</a></figcaption></figure>
+                    <figure class="pw-q" style="--r:2.5deg"><blockquote>“I’ve spent too many weekends and sleepless nights mediating between people and groups…”</blockquote><figcaption><span>A head ambassador, resigning unpaid · Oct 2024</span><a href="https://forum.polkadot.network/t/resignation-of-the-head-ambassador-title-six/10367/1" target="_blank" rel="noopener noreferrer"">source</a></figcaption></figure>
+                <!-- /pain-wall:cards -->
+                    </div>
+                </div>
+            </div>
+            <div class="pw-end">
+                <div class="pw-sun" aria-hidden="true"></div>
+                <svg class="pw-sea" viewBox="0 0 1440 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,120 C240,70 480,70 720,110 C960,150 1200,150 1440,96 L1440,300 L0,300 Z" fill="#2F6FC4"/><path d="M0,180 C260,140 520,150 760,178 C1000,206 1220,204 1440,160 L1440,300 L0,300 Z" fill="#1B4F9A"/><path class="pw-shore" d="M0,262 C300,236 560,244 820,260 C1080,276 1260,272 1440,250 L1440,300 L0,300 Z" fill="#ffffff"/></svg>
+                <svg class="pw-ducks" viewBox="0 0 520 120" aria-hidden="true" focusable="false"><use href="#duck" x="0" y="20" width="170" height="98"/><use href="#duck" x="185" y="46" width="130" height="75"/><use href="#duck" x="330" y="34" width="150" height="86"/></svg>
+                <p class="pw-agony">Farmers win. Helpers burn out. Scammers wear the team’s name.</p>
+                <div class="pw-calm">
+                    <h2>We built The Flock for them.</h2>
+                    <p>Members ask your team in private, so scammers have no stage. Your team confirms who really helped, and the helper keeps the track record.</p>
+                    <a class="pw-cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a>
+                </div>
             </div>
         </section>
 

@@ -1,41 +1,30 @@
-/* Pain wall, the opening of /why/. Markup in why/index.html, motion in js/flock-painwall.js.
+/* Pain wall, on the home page after the first screen. Markup in index.html, motion in js/flock-painwall.js.
    Two layouts:
-   - still (default; also reduced motion, paused, no JavaScript): lead, the quotes as a list with their sources,
-     then the answer on a blue band;
+   - still (default; also reduced motion, paused, no JavaScript, or a screen with no room for the scene): the lead,
+     the quotes as cards on a dark band, each with its source link, then the answer on a blue band;
    - live (.pw-go, set before first paint, confirmed by .pw-live): a sticky scroll scene in four beats
-     (quotes arrive, the line lands, the wall clears, the answer), followed by the same list. */
+     (quotes arrive, the line lands, the wall clears, the answer). */
 
 .pw { --pw-nav: 56px; --pw-paper: #F4F1EA; --pw-ink: #1E2330; --pw-link: #0058A8; --pw-sky: #004A94; }
 
 /* Lead */
-.pw-lead { padding: 72px 0 36px; background: #fff; }
-.pw-lead h1 { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.08; max-width: 16em; color: var(--ink); }
+.pw-lead { padding: 72px 0 40px; background: #fff; }
+.pw-lead h2 { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.08; max-width: 16em; color: var(--ink); }
 .pw-lead p { margin: 18px 0 0; font-size: 1.2rem; line-height: 1.6; color: #33445A; max-width: 34em; }
-.pw-lead .pw-jump { margin-top: 10px; font-size: 1rem; }
-.pw-jump a, .pw-sources a { color: var(--pw-link); font-weight: 700; }
 body.dark-mode .pw-lead { background: #141A28; }  /* the scene's first colour, so lead and scene read as one */
-body.dark-mode .pw-lead h1 { color: #fff; }
+body.dark-mode .pw-lead h2 { color: #fff; }
 body.dark-mode .pw-lead p { color: #C5D3E8; }
-body.dark-mode .pw-jump a, body.dark-mode .pw-sources a { color: #8EC4FA; }
 
-/* The source list (always in the page) */
-/* Compact: it follows the scene, so it reads as a reference list, with every source one click away */
-.pw-sources { padding: 28px 0 48px; scroll-margin-top: 72px; }
-.pw-sources h2 { margin: 0 0 14px; font-family: var(--display); font-weight: 700; font-size: 1.45rem; line-height: 1.15; }
-.pw-sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 10px 48px; max-width: 46em; }
-.pw-sources li { line-height: 1.45; color: var(--ink); }
-.pw-sources q { display: block; font-family: Georgia, "Times New Roman", serif; font-size: .95rem; }
-/* role, date and link on one line; on a narrow phone the link moves under the role */
-.pw-sources li { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; }
-.pw-sources li > q { flex: 0 0 100%; }
-.pw-sources li > span { color: #4A5B72; font-size: .84rem; }
-.pw-sources li > a { font-size: .84rem; display: inline-block; padding: 4px 0; }
-@media (min-width: 1000px) { .pw-sources ol { grid-template-columns: 1fr 1fr; max-width: none; } }
-body.dark-mode .pw-sources li { color: #E7EEF9; }
-body.dark-mode .pw-sources li > span { color: #A9B8CC; }
-.pw-jump a:focus-visible, .pw-sources a:focus-visible, .pw-q a:focus-visible { outline: 3px solid var(--pw-link); outline-offset: 3px; border-radius: 4px; }
+/* The quotes, still layout: cards in a grid on the scene's dark colour, so lead, cards and answer read in order */
+.pw-stage { background: #141A28; padding: 44px 0 56px; }
+.pw-wall { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.pw-q { margin: 0; padding: 16px 18px 12px; border-radius: 14px; background: var(--pw-paper); color: var(--pw-ink); box-shadow: 0 10px 28px rgba(0, 0, 0, .35); }
+.pw-q blockquote { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: calc(1.02rem * var(--pw-fs, 1)); line-height: 1.45; }
+.pw-q figcaption { margin-top: 8px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: calc(.8rem * var(--pw-fs, 1)); line-height: 1.35; color: #4F596B; }
+.pw-q figcaption a { flex: none; color: var(--pw-link); font-weight: 700; padding: 14px 10px; margin: -14px -10px; }  /* about a 44px tap target */
+.pw-q a:focus-visible, .pw-cta:focus-visible { outline: 3px solid var(--pw-link); outline-offset: 3px; border-radius: 4px; }
 
-/* The answer, still layout: a blue band after the list */
+/* The answer, still layout: a blue band after the cards */
 .pw-end { position: relative; overflow: hidden; isolation: isolate; color: #fff; background: linear-gradient(180deg, #1B2B4A 0%, #004A94 38%, #0058A8 100%); padding: 72px 0 200px; text-align: center; }
 .pw-agony { margin: 0 auto; padding: 0 16px; max-width: 26em; font-family: var(--display); font-weight: 600; font-size: clamp(1.4rem, 3vw, 2.1rem); line-height: 1.25; color: #fff; text-wrap: balance; }
 .pw-calm { padding: 0 16px; margin-top: 56px; }
@@ -50,21 +39,15 @@ body.dark-mode .pw-shore { fill: #08142B; }  /* meets the page below the band in
 .pw-ducks { position: absolute; z-index: -1; right: 7%; bottom: 70px; width: min(320px, 56vw); height: auto; }
 
 /* Live layout */
-.pw-stage { display: none; }
-.pw.pw-go .pw-stage { display: block; position: relative; height: var(--pw-h, 600vh); }
+.pw.pw-go .pw-stage { position: relative; height: var(--pw-h, 600vh); padding: 0; background: none; }
 .pw.pw-go .pw-view { position: sticky; top: var(--pw-nav); height: calc(100vh - var(--pw-nav)); overflow: hidden; background: var(--pw-bg, #141A28); }
 @supports (height: 100svh) { .pw.pw-go .pw-view { height: calc(100svh - var(--pw-nav)); } }
 .pw.pw-go > .pw-end { display: none; }
-.pw.pw-go .pw-sources { padding-top: 56px; }
-.pw:not(.pw-go) .pw-jump { display: none; }
 
 /* The wall itself never takes clicks; each card turns its own on once it is fully there (js) */
-.pw-wall { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-.pw-q { position: absolute; left: 0; top: 0; margin: 0; width: var(--pw-cw, 380px); padding: 16px 18px 12px; border-radius: 14px; background: var(--pw-paper); color: var(--pw-ink); box-shadow: 0 18px 40px rgba(0, 0, 0, .45); opacity: 0; visibility: hidden; transform-origin: 50% 100%; }
-.pw.pw-go .pw-q { will-change: transform, opacity; }
-.pw-q blockquote { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: calc(1.02rem * var(--pw-fs, 1)); line-height: 1.45; }
-.pw-q figcaption { margin-top: 8px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: calc(.8rem * var(--pw-fs, 1)); line-height: 1.35; color: #4F596B; }
-.pw-q figcaption a { flex: none; color: var(--pw-link); font-weight: 700; padding: 8px 6px; margin: -8px -6px; }
+.pw.pw-go .pw-wall { position: absolute; inset: 0; z-index: 1; display: block; max-width: none; margin: 0; padding: 0; pointer-events: none; }
+.pw.pw-go .pw-q { position: absolute; left: 0; top: 0; width: var(--pw-cw, 380px); box-shadow: 0 18px 40px rgba(0, 0, 0, .45); opacity: 0; visibility: hidden; transform-origin: 50% 100%; will-change: transform, opacity; }
+.pw.pw-go .pw-q figcaption a { padding: 8px 6px; margin: -8px -6px; }
 
 /* In the scene the answer layer fills the view and lets clicks through, except on the button once it shows */
 .pw-view > .pw-end { position: absolute; inset: 0; z-index: 2; padding: 0; background: none; overflow: hidden; pointer-events: none; display: grid; place-items: center; }
@@ -81,6 +64,8 @@ body.dark-mode .pw-shore { fill: #08142B; }  /* meets the page below the band in
 
 @media (max-width: 900px) {
     .pw-lead { padding: 48px 0 28px; }
+    .pw-stage { padding: 32px 0 40px; }
+    .pw-wall { padding: 0 16px; }
     .pw-end { padding: 56px 0 170px; }
     .pw-sun { left: 8%; bottom: 120px; }
     .pw-sea { height: 140px; }
@@ -89,7 +74,7 @@ body.dark-mode .pw-shore { fill: #08142B; }  /* meets the page below the band in
 /* Phone: one quote at a time, stacked */
 .pw-phone .pw-q blockquote { font-size: 1.04rem; }
 .pw-phone .pw-q figcaption { font-size: .82rem; }
-.pw-phone .pw-q figcaption a { padding: 14px 10px; margin: -14px -10px; }  /* about a 44px tap target */
+.pw.pw-go.pw-phone .pw-q figcaption a { padding: 14px 10px; margin: -14px -10px; }  /* about a 44px tap target */
 /* a covered card: a set darker paper, its words faded out, so only the edge shows behind the top card */
 .pw-phone .pw-q { transition: background-color var(--dur-short, 220ms); }
 .pw-phone .pw-q blockquote, .pw-phone .pw-q figcaption { transition: opacity var(--dur-short, 220ms); }
@@ -100,7 +85,6 @@ body.dark-mode .pw-shore { fill: #08142B; }  /* meets the page below the band in
 .pw-phone .pw-view > .pw-end .pw-calm h2 { font-size: 2rem; }
 
 @media (prefers-reduced-motion: reduce) {
-    .pw.pw-go .pw-stage { display: none; }
     .pw.pw-go > .pw-end { display: block; }
     .pw-view.play .pw-ducks use { animation: none; }
 }
