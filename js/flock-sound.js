@@ -1,5 +1,5 @@
 /* Flock sound: a tiny WebAudio synth, no audio files. Off until the visitor turns it on (browsers block sound before a tap).
-   FlockSound.play('quack'|'whoosh'|'bonk'): does nothing unless sound is on, the tab is visible and motion is not reduced.
+   FlockSound.play('quack'|'whoosh'|'bonk'|'pffft'): does nothing unless sound is on, the tab is visible and motion is not reduced.
    Ducks quack when tapped; the minigame calls whoosh (a throw), bonk and quack (a hit). Call it as `window.FlockSound && FlockSound.play('pop')`. The control itself is built in js/flock-motion.js. */
 (function () {
     'use strict';
@@ -42,10 +42,20 @@
         v.gain.setValueAtTime(0.0001, t); v.gain.linearRampToValueAtTime(g, t + d * 0.4); v.gain.exponentialRampToValueAtTime(0.0001, t + d);
         s.connect(f); f.connect(v); v.connect(out()); s.start(t); s.stop(t + d + 0.02);
     }
+    // a short, soft, low breath of noise: lowpassed, falling in pitch, peak gain .05, 0.3 s
+    function puff() {
+        if (!buf) { buf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate); for (var i = 0, a = buf.getChannelData(0); i < a.length; i++) a[i] = Math.random() * 2 - 1; }
+        var d = 0.3, t = ctx.currentTime, s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), v = ctx.createGain();
+        s.buffer = buf; f.type = 'lowpass'; f.Q.value = 0.7;
+        f.frequency.setValueAtTime(520, t); f.frequency.exponentialRampToValueAtTime(140, t + d);
+        v.gain.setValueAtTime(0.0001, t); v.gain.linearRampToValueAtTime(0.05, t + 0.03); v.gain.exponentialRampToValueAtTime(0.0001, t + d);
+        s.connect(f); f.connect(v); v.connect(out()); s.start(t); s.stop(t + d + 0.02);
+    }
     var voices = {
         quack: function () { tone('triangle', 620, 900, 0.07, 0.07); tone('triangle', 900, 480, 0.12, 0.06, 0.07); },
         whoosh: function () { noise(0.3, 0.06); },
-        bonk: function () { tone('sine', 190, 55, 0.16, 0.08); }
+        bonk: function () { tone('sine', 190, 55, 0.16, 0.08); },
+        pffft: puff
     };
     // sounds are dropped, never queued, unless the visitor has acted and the context is running
     S.play = function (name) {

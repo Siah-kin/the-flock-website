@@ -1,0 +1,15 @@
+/* The existing opening flock becomes a button; page content keeps its place. */
+.top .duck-play-control { position: absolute; right: 7%; bottom: 60px; width: 340px; min-height: 116px; padding: 0; border: 0; border-radius: 18px; background: transparent; color: #fff; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.top .duck-play-control .flock { position: static; width: 100%; height: auto; display: block; overflow: visible; }
+.duck-play-control:focus-visible { outline: 3px solid #FED801; outline-offset: 5px; }
+.duck-play-hint { display: flex; align-items: center; gap: 8px; width: max-content; max-width: 100%; margin: 8px auto 0; padding: 6px 14px 6px 7px; border-radius: 999px; background: rgba(0, 32, 80, .78); color: #fff; font: 600 1rem/1.2 var(--display); }
+.duck-play-hint i { flex: none; display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #FED801; color: #002050; font: 700 .9rem/1 Georgia, serif; font-style: italic; }
+.duck-gas ellipse { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.duck-pffft { opacity: 0; font-family: var(--display); }
+.duck-play-still .duck-gas ellipse { opacity: .8; }
+.duck-play-still .duck-pffft { opacity: 1; }
+.duck-play-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 900px) {
+    .top.has-duck-play { padding-bottom: 196px; }
+    .top .duck-play-control { width: 260px; right: 4%; bottom: 40px; }
+}
