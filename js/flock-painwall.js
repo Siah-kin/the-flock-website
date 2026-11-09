@@ -18,9 +18,7 @@
     var sun = end.querySelector('.pw-sun'), sea = end.querySelector('.pw-sea'), ducks = end.querySelector('.pw-ducks');
     var deco = [agony, calm, sun, sea, ducks];
     var mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
-    var NAV = 56, mode = null, phone = false, W = 0, H = 0, pos = [], T = {}, raf = 0, lastS = -1;
-
-    root.classList.add('pw-live');  // tells the inline starter in the page that this script runs
+    var NAV = 56, mode = null, phone = false, W = 0, H = 0, pos = [], T = {}, raf = 0, lastS = -1, broken = false;
 
     function clamp(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
     function ease(x) { return 1 - Math.pow(1 - x, 3); }
@@ -43,8 +41,12 @@
 
     // Desktop: a jittered masonry that fits the view above the strip kept for the line; no card covers another
     function layoutWall() {
-        var area = Math.min(1180, W - 48), n = area >= 1000 ? 3 : 2, gap = 26, top = 24, availH = H - top - 120;
+        // the strip under the wall holds the line at its real size (large text makes it taller)
+        var strip = Math.max(120, agony.offsetHeight + Math.round(H * 0.05) + 16);
+        var area = Math.min(1180, W - 48), n = area >= 1000 ? 3 : 2, gap = 26, top = 24, availH = H - top - strip;
         var cw = Math.floor((area - gap * (n - 1)) / n), x0 = Math.round((W - area) / 2), scales = [1, 0.94, 0.88, 0.83, 0.78];
+        // a reader who enlarged their text keeps it: no shrinking, the still layout takes over if it does not fit
+        if (parseFloat(getComputedStyle(doc.documentElement).fontSize) > 17) scales = [1];
         var cols, best, k;
         wall.style.setProperty('--pw-cw', cw + 'px');
         for (k = 0; k < scales.length; k++) {
@@ -62,6 +64,7 @@
             var jx = ((i * 37) % 21) - 10;
             return { x: x0 + b.col * (cw + gap) + jx, y: Math.round(y0 + b.y) };
         });
+        return h <= availH;
     }
 
     // Phone: one column; each card's bottom sits on the same line, so the stack beneath only shows its top edge
@@ -69,20 +72,28 @@
         var cw = W - 32, base = Math.round(H * 0.64);
         wall.style.setProperty('--pw-cw', cw + 'px');
         wall.style.setProperty('--pw-fs', 1);
+        var lowest = 0;
         pos = cards.map(function (q) {
             var y = Math.max(64, base - q.offsetHeight);
+            lowest = Math.max(lowest, y + q.offsetHeight);
             return { x: 16, y: y };
         });
+        // every card, at the bottom of the stack, must end above the line
+        return lowest <= H - (agony.offsetHeight + Math.round(H * 0.07) + 12);
     }
 
+    // Lays the scene out and says whether it fits: short screens (a phone on its side) or large text
+    // can leave no room for the cards or the answer, and then the page keeps the still layout
     function layout() {
         W = view.clientWidth; H = view.clientHeight;
         phone = W < 700 || H < 480;
         root.classList.toggle('pw-phone', phone);
-        if (phone) layoutStack(); else layoutWall();
+        var fits = phone ? layoutStack() : layoutWall();
+        fits = fits && calm.offsetHeight <= H;
         timeline();
         stage.style.setProperty('--pw-h', Math.round((T.end + 1) * H) + 'px');
-        lastS = -1; render();
+        lastS = -1;
+        return fits;
     }
 
     function progress() { return Math.max(-1, Math.min(T.end, (NAV - stage.getBoundingClientRect().top) / H)); }
@@ -144,14 +155,28 @@
         view.style.setProperty('--pw-bg', 'rgb(' + from.map(function (v, k) { return Math.round(v + (to[k] - v) * ca); }).join(',') + ')');
     }
 
-    function onScroll() { if (!raf) raf = requestAnimationFrame(render); }
+    // Any error puts the plain layout back, so the page never stays half built
+    function fail(e) {
+        broken = true;
+        removeEventListener('scroll', onScroll);
+        try { enterStill(); } catch (e2) {}
+        mode = 'still';
+        root.classList.remove('pw-go');
+        if (window.console && console.error) console.error('[pain wall] fell back to the still layout:', e);
+    }
+    function guard(fn) {
+        return function () { if (broken) return; try { return fn.apply(this, arguments); } catch (e) { fail(e); } };
+    }
+
+    var renderSafe = guard(render);
+    function onScroll() { if (!raf) raf = requestAnimationFrame(renderSafe); }
     var lastW = 0, lastH = 0;
     function onResize() {
-        if (mode !== 'live') return;
-        // phone toolbars change the height a little while scrolling; only a real change relays the scene
-        if (view.clientWidth === lastW && Math.abs(view.clientHeight - lastH) < 80) return;
-        lastW = view.clientWidth; lastH = view.clientHeight;
-        layout();
+        // phone toolbars change the height a little while scrolling; only a real change lays the scene out again
+        if (innerWidth === lastW && Math.abs(innerHeight - lastH) < 80) return;
+        lastW = innerWidth; lastH = innerHeight;
+        if (mode === 'live') { if (layout()) render(); else setMode('still'); }
+        else if (wantLive()) setMode('live');  // a screen that grew may now have room for the scene
     }
 
     // The element to keep in place when the layout switches, so the reader does not lose their spot
@@ -173,43 +198,54 @@
         if (m === mode) return;
         var a = anchor(), de = doc.documentElement, oa = de.style.overflowAnchor;
         de.style.overflowAnchor = 'none';
-        if (m === 'live') {
-            root.classList.add('pw-go');
-            view.appendChild(end);
-            mode = m;
-            lastW = view.clientWidth; lastH = view.clientHeight;
-            layout();
-            addEventListener('scroll', onScroll, { passive: true });
-        } else {
-            removeEventListener('scroll', onScroll);
-            mode = m;
-            root.classList.remove('pw-go', 'pw-phone');
-            end.classList.remove('pw-open');
-            deco.forEach(function (el) { el.removeAttribute('style'); });
-            root.appendChild(end);
-        }
+        lastW = innerWidth; lastH = innerHeight;
+        if (m === 'live' && !enterLive()) {
+            // no room for the scene: undo it in the same task, before anything is painted
+            enterStill();
+            m = 'still';
+            if (mode === 'still') { de.style.overflowAnchor = oa; return; }
+        } else if (m === 'still') enterStill();
+        mode = m;
+        if (m === 'live') { addEventListener('scroll', onScroll, { passive: true }); render(); }
         if (a && a.answer) scrollTo(0, stage.getBoundingClientRect().top + (window.scrollY || window.pageYOffset) - NAV + (T.ca1 + 0.2) * H);
         else if (a) scrollTo(0, (window.scrollY || window.pageYOffset) + a.el.getBoundingClientRect().top - a.off);
         requestAnimationFrame(function () { de.style.overflowAnchor = oa; });
     }
 
-    function sync() { setMode(wantLive() ? 'live' : 'still'); }
-
-    // A keyboard user who tabs to the hidden button is taken to the answer, so focus never lands on something unseen
-    cta.addEventListener('focus', function () {
-        if (mode !== 'live' || end.classList.contains('pw-open')) return;
-        var top = stage.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
-        scrollTo(0, top - NAV + (T.ca1 + 0.2) * H);
-    });
-    addEventListener('resize', onResize);
-
-    if (F && F.ambient) {
-        // The shared system tells us about Pause and reduced motion; the view also gets .play while on screen (duck bob)
-        F.ambient(view, { onchange: sync });
-    } else {
-        sync();
-        if (mq.addEventListener) mq.addEventListener('change', sync);
+    function enterLive() {
+        root.classList.add('pw-go');
+        view.appendChild(end);
+        return layout();
     }
-    sync();
-    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { if (mode === 'live') layout(); });
+    // The plain layout, with every inline style the scene set taken off
+    function enterStill() {
+        removeEventListener('scroll', onScroll);
+        root.classList.remove('pw-go', 'pw-phone');
+        end.classList.remove('pw-open');
+        deco.concat(cards).forEach(function (el) { el.removeAttribute('style'); el.classList.remove('pw-under'); });
+        wall.removeAttribute('style'); view.removeAttribute('style'); stage.removeAttribute('style');
+        if (end.parentNode !== root) root.appendChild(end);
+    }
+
+    var sync = guard(function () { setMode(wantLive() ? 'live' : 'still'); });
+
+    try {
+        // A keyboard user who tabs to the hidden button is taken to the answer, so focus never lands on something unseen
+        cta.addEventListener('focus', guard(function () {
+            if (mode !== 'live' || end.classList.contains('pw-open')) return;
+            var top = stage.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+            scrollTo(0, top - NAV + (T.ca1 + 0.2) * H);
+        }));
+        addEventListener('resize', guard(onResize));
+        if (F && F.ambient) {
+            // The shared system tells us about Pause and reduced motion; the view also gets .play while on screen (duck bob)
+            F.ambient(view, { onchange: sync });
+        } else if (mq.addEventListener) mq.addEventListener('change', sync);
+        sync();
+        if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(guard(function () {
+            if (mode === 'live') { if (layout()) render(); else setMode('still'); }
+        }));
+        // only now does the inline starter in the page know the scene runs; without it the starter undoes .pw-go
+        if (!broken) root.classList.add('pw-live');
+    } catch (e) { fail(e); }
 })();
