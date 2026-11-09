@@ -80,6 +80,11 @@
         .hero-list li { font-size: 1.1rem; line-height: 1.45; color: #fff; }
         .hero-list a { color: #fff; font-weight: 600; text-underline-offset: 3px; }
         .hero-note { margin: 16px 0 0; max-width: 33em; font-size: 1.05rem; line-height: 1.5; color: #E4ECF7; }
+        .ask-cards { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+        .ask-cards li { background: #fff; border-radius: 20px; padding: 22px 22px 24px; border-top: 6px solid var(--sun); box-shadow: 0 14px 34px rgba(0, 32, 80, .10); font-size: 1.05rem; line-height: 1.45; color: #33445A; }
+        .ask-cards b { display: block; font-family: var(--display); font-size: 1.3rem; line-height: 1.2; color: var(--navy); margin-bottom: 8px; }
+        body.dark-mode .ask-cards li { background: #10244A; color: #C5D3E8; } body.dark-mode .ask-cards b { color: #fff; }
+        @media (max-width: 900px) { .ask-cards { grid-template-columns: 1fr; } }
         .ask-list { margin: 26px 0 0; padding-left: 1.2em; display: grid; gap: 12px; max-width: 46em; }
         .ask-list li { font-size: 1.12rem; line-height: 1.5; color: #33445A; }
         body.dark-mode .ask-list li { color: #C5D3E8; }
@@ -616,13 +621,11 @@
         <section class="section soft" aria-labelledby="ask-title">
             <div class="wrap">
                 <h2 id="ask-title">Answers that show where they come from.</h2>
-                <p class="lede">A wrong answer that sounds sure does more harm than no answer. We’re testing these in private first.</p>
-                <ul class="ask-list">
-                    <li>Your team approves the texts it may answer from, such as your docs and the wording on your app’s pages. It answers only from those.</li>
-                    <li>Every answer shows the exact passage it used and the date of that source, so members can check it themselves.</li>
-                    <li>When the sources don’t cover a question, it says so and offers a person on your team.</li>
-                    <li>When your team edits or withdraws a source, the bot stops answering from it.</li>
-                    <li>During the test, a person reads every answer before it is sent.</li>
+                <p class="lede">A wrong answer that sounds sure does more harm than none. We’re building this and testing it in private first.</p>
+                <ul class="ask-cards">
+                    <li><b>Approved texts only</b>Your docs and your app’s wording. Withdraw one and the bot stops using it.</li>
+                    <li><b>The passage and its date</b>Each answer shows what it used, so members can check it.</li>
+                    <li><b>A person when unsure</b>If the sources don’t cover it, the bot offers your team. During the test, a person reads every answer first.</li>
                 </ul>
             </div>
         </section>
