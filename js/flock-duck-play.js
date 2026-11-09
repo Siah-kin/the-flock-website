@@ -25,6 +25,11 @@
             var a = node.animate(frames, { duration: duration, delay: delay || 0, easing: 'linear', fill: 'both' });
             animations.push(a); return a;
         }
+        function settle() {
+            run++;
+            animations.forEach(function (a) { a.cancel(); a.effect = null; }); animations = [];
+            button.classList.remove('duck-playing'); button.classList.add('duck-play-still');
+        }
         function play() {
             clear(); status.textContent = 'Pffft! The middle duck farted. The other ducks look over.';
             if (F.paused || F.reduced) { button.classList.add('duck-play-still'); return; }
@@ -45,8 +50,8 @@
             motion(birds[2].querySelector('.pose'), [{ transform: 'none' }, { transform: 'translateX(16px) scaleX(-1)', offset: .3 }, { transform: 'translateX(16px) scaleX(-1)', offset: .75 }, { transform: 'none' }], 1500, 450);
             Promise.all(animations.map(function (a) { return a.finished.catch(function () {}); })).then(function () { if (run === token) clear(); });
         }
-        button.addEventListener('click', play);
-        F.ambient(button, { onchange: function (on) { if (!on) clear(); } });
+        button.addEventListener('click', function (e) { e.stopPropagation(); play(); });
+        F.ambient(button, { onchange: function (on) { if (!on) { if (button.classList.contains('duck-playing') && (F.paused || F.reduced)) settle(); else clear(); } } });
         document.addEventListener('visibilitychange', function () { if (document.hidden) clear(); });
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
