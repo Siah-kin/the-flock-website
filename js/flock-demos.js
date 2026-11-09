@@ -22,10 +22,7 @@
     function fade(a, b) { return [{ opacity: a }, { opacity: b }]; }
     function tr(x, y, s) { return 'translate(' + x + 'px,' + y + 'px)' + (s == null ? '' : ' scale(' + s + ')'); }
     // Flock's resume replays what it paused, so a cancelled animation is also emptied
-    // a sound after d ms; dropped if motion was paused or the scene reset meanwhile
-    var T = [];
-    function snd(name, d) { if (window.FlockSound) T.push(setTimeout(function () { if (!F.paused) FlockSound.play(name); }, d || 0)); }
-    function kill(A) { T.splice(0).forEach(clearTimeout); A.splice(0).forEach(function (a) { a.cancel(); try { a.effect = null; } catch (e) {} }); }
+    function kill(A) { A.splice(0).forEach(function (a) { a.cancel(); try { a.effect = null; } catch (e) {} }); }
 
     // S1: one fee in, three shares out together, the planned pool stays empty
     function flow() {
@@ -68,7 +65,6 @@
                     });
                 } },
                 { at: o + 2900, run: function () {
-                    window.FlockSound && FlockSound.play('clink');
                     q('.ring').forEach(function (r) { anim(A, r, [{ opacity: .9, transform: 'none' }, { opacity: 0, transform: 'scale(1.14)' }], LONG, { fill: 'none' }); });
                     q('.duck.b1, .duck.b2').forEach(function (d) { bump(A, d, { transform: 'translateY(-9px)' }, 0, { easing: MOVE, composite: 'add' }); });
                     bump(A, q('.pj')[0], { transform: 'scale(1.08)' }, 0, { easing: MOVE });
@@ -115,7 +111,7 @@
             dot = add(tg, '<i class="tg-dot" aria-hidden="true"></i>');
             ring = add(pick, '<svg class="tg-pick" width="0" height="0" aria-hidden="true"><rect x="1" y="1" rx="11" pathLength="1"/></svg>');
         }
-        function bub(n, d) { if (n !== me && !n.classList.contains('btns')) snd('pop', d); anim(A, n, [{ opacity: 0, transform: 'scale(.96)' }, { opacity: 1, transform: 'none' }], SHORT, { delay: d }); }
+        function bub(n, d) { anim(A, n, [{ opacity: 0, transform: 'scale(.96)' }, { opacity: 1, transform: 'none' }], SHORT, { delay: d }); }
         // the draft is pasted, so it is there whole; the three marks come one after another
         function mark(t) {
             // as .marked u.on, in the order of the bot's list (link, ticker, price)
@@ -133,7 +129,6 @@
             var ex = x + w / 2 - 18, ey = y + 4, to = tr(ex, ey), from = tr(ex + 44, ey + 45), dt = tr(ex - 14, ey - 14);
             anim(A, ptr, [{ opacity: 0, transform: from }, { opacity: 1, transform: from, offset: .2 }, { opacity: 1, transform: to }], 750, { delay: t, easing: MOVE });
             t += 750;
-            snd('tap', t);
             bump(A, pick, { transform: 'scale(.94)' }, MICRO, { delay: t });
             // on a phone the pointer is a fingertip: it appears on the button and presses in
             anim(A, dot, [{ opacity: 0, transform: dt + ' scale(.6)' }, { opacity: 1, transform: dt + ' scale(1)' }], SHORT, { delay: t, easing: OUT });

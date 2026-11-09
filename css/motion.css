@@ -49,7 +49,7 @@ html[data-motion="paused"] .panel.show .tg { animation-play-state: running !impo
 .flock-side button:hover { background: rgba(255, 255, 255, 0.14); }
 .flock-side button:focus-visible { outline: 3px solid #FED801; outline-offset: 1px; }
 .flock-side svg { width: 20px; height: 20px; fill: currentColor; display: block; }
-/* phones: the buttons live in the sticky header (js/flock-motion.js moves them), so the pill is not used */
+/* 1280px and below: the buttons live in the sticky header (js/flock-motion.js moves them), so the pill is not used */
 .flock-side[hidden] { display: none; }
 .nav-right .in-nav { width: 36px; height: 36px; position: relative; flex: none; padding: 0; border: 0; background: transparent; color: rgba(0, 0, 0, 0.7); display: grid; place-items: center; cursor: pointer; border-radius: 50%; }
 body.dark-mode .nav-right .in-nav { color: rgba(255, 255, 255, 0.8); }
@@ -58,7 +58,7 @@ body.dark-mode .nav-right .in-nav { color: rgba(255, 255, 255, 0.8); }
 .nav-right .in-nav:hover { background: rgba(0, 88, 168, 0.1); }
 .nav-right .in-nav:focus-visible { outline: 3px solid #0058A8; outline-offset: 1px; }
 body.dark-mode .nav-right .in-nav:focus-visible { outline-color: #FED801; }
-@media (max-width: 600px) { .nav-right { gap: 4px; } }
+@media (max-width: 1280px) { .nav-right { gap: 4px; } }
 @media (prefers-reduced-motion: reduce) {
     .flock-side, .nav-right .in-nav { display: none; }
 }

@@ -253,11 +253,11 @@
         var pb = btn('flock-pause'), sb = S ? btn('flock-sound') : null;
         function label() {
             pb.innerHTML = F.paused ? ICON.play : ICON.pause;
-            pb.setAttribute('aria-label', F.paused ? 'Play animations' : 'Pause animations');
+            pb.setAttribute('aria-label', 'Animations');
             pb.setAttribute('aria-pressed', F.paused ? 'false' : 'true');
             if (sb) {
                 sb.innerHTML = S.on ? ICON.on : ICON.off;
-                sb.setAttribute('aria-label', S.on ? 'Sound on' : 'Sound off');
+                sb.setAttribute('aria-label', 'Sound');
                 sb.setAttribute('aria-pressed', S.on ? 'true' : 'false');
             }
         }
@@ -270,7 +270,7 @@
         label();
         doc.body.appendChild(box);
         // on phones the buttons sit in the sticky header beside the moon, so they never cover text
-        var narrow = window.matchMedia('(max-width: 600px)');
+        var narrow = window.matchMedia('(max-width: 1280px)');
         function place() {
             var nr = doc.querySelector('#nav-container .nav-right'), moon = nr && nr.querySelector('#theme-toggle');
             [pb, sb].forEach(function (b) {
@@ -343,6 +343,11 @@
         arr(doc.querySelectorAll('.top .flock use')).forEach(function (u, i) { F.rig(u, i, 'bob'); });
         arr(doc.querySelectorAll('.pics .scene-svg')).forEach(function (s) { F.ambient(s.closest('figure')); });
     }
+
+    // any tapped duck quacks (rigged ducks and the stamped ones); silent unless the visitor turned sound on
+    doc.addEventListener('click', function (e) {
+        if (window.FlockSound && e.target.closest && e.target.closest('.rig, svg .duck, use.duck')) FlockSound.play('quack');
+    });
 
     function init() {
         if (doc.body.classList.contains('road-page')) road();
