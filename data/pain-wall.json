@@ -4,9 +4,10 @@
     {
       "id": "moderator-impersonators",
       "tone": "amber",
-      "quote": "As a community moderator for Alephium, we’ve encountered numerous scammers infiltrating the chat… these scammers quickly rename themselves to impersonate well-known figures, such as team members or community moderators.",
+      "quote": "As a community moderator…, we’ve encountered numerous scammers infiltrating the chat… these scammers quickly rename themselves to impersonate well-known figures, such as team members or community moderators.",
       "checks": [
-        "As a community moderator for Alephium, we've encountered numerous scammers infiltrating the chat",
+        "As a community moderator for Alephium",
+        "we've encountered numerous scammers infiltrating the chat",
         "these scammers quickly rename themselves to impersonate well-known figures, such as team members or community moderators."
       ],
       "role": "A community moderator",
@@ -37,7 +38,7 @@
       "checks": [
         "Whales spend a lot of money to write scripts and farm hundreds of wallets. Retail users do one or two wallets so they don't get the actual prize they should get"
       ],
-      "role": "An airdrop hunter",
+      "role": "An airdrop hunter, to DL News",
       "date": "2024-06-28",
       "month": "Jun 2024",
       "url": "https://dlnews.com/articles/defi/airdrops-promise-billions-but-users-are-complaining/",
@@ -47,9 +48,9 @@
     {
       "id": "easy-to-hit-as-a-farmer",
       "tone": "red",
-      "quote": "Those criteria are easy to not hit as a real user, and easy to hit as a farmer, and had no anti-sybil program.",
+      "quote": "Those criteria are easy to not hit as a real user, and easy to hit as a farmer…",
       "checks": [
-        "Those criteria are easy to not hit as a real user, and easy to hit as a farmer, and had no anti-sybil program."
+        "Those criteria are easy to not hit as a real user, and easy to hit as a farmer"
       ],
       "role": "A venture investor, on an airdrop",
       "date": "2024-06-11",
@@ -117,9 +118,9 @@
     {
       "id": "wrongfully-excluded",
       "tone": "grey",
-      "quote": "It’s been reported that some users with high testnet participation have been wrongfully excluded from the airdrop. We want to make things right.",
+      "quote": "It’s been reported that some users with high testnet participation have been wrongfully excluded from the airdrop.",
       "checks": [
-        "It's been reported that some users with high testnet participation have been wrongfully excluded from the airdrop. We want to make things right."
+        "It's been reported that some users with high testnet participation have been wrongfully excluded from the airdrop."
       ],
       "role": "A project team, after its airdrop",
       "date": "2025-09-09",

@@ -84,6 +84,23 @@
         return step >= 24 && cards[0].offsetHeight + top <= limit;
     }
 
+    // Still layout on a wide screen: the mock's pile, placed once from the measured card heights, with no motion.
+    // Three columns that overlap by a few pixels; each card goes under the shortest column, the earlier card on top.
+    function pile() {
+        var wide = innerWidth >= 1240;
+        wall.classList.toggle('pw-pile', wide);
+        cards.forEach(function (q) { ['left', 'top'].forEach(function (k) { q.style.removeProperty(k); }); });
+        if (!wide) { wall.style.removeProperty('height'); return; }
+        var cw = 400, x0 = Math.round((wall.clientWidth - (3 * cw - 12)) / 2), start = [20, 72, 34], ys = start.slice(), jx = [0, 4, -2, 6, -4, 2, 0, 3, -3, 5];
+        cards.forEach(function (q, i) {
+            var c = ys.indexOf(Math.min.apply(null, ys));
+            q.style.left = (x0 + c * (cw - 6) + jx[i % jx.length]) + 'px';
+            q.style.top = ys[c] + 'px';
+            ys[c] += q.offsetHeight + 2;
+        });
+        wall.style.height = (Math.max.apply(null, ys) + 24) + 'px';
+    }
+
     // Lays the scene out and says whether it fits: short screens (a phone on its side) or large text
     // can leave no room for the cards or the answer, and then the page keeps the still layout
     function layout() {
@@ -171,6 +188,7 @@
         lastW = innerWidth; lastH = innerHeight;
         if (mode === 'live') { if (layout()) render(); else setMode('still'); }
         else if (wantLive()) setMode('live');  // a screen that grew may now have room for the scene
+        else pile();
     }
 
     // The element to keep in place when the layout switches, so the reader does not lose their spot
@@ -208,6 +226,8 @@
 
     function enterLive() {
         root.classList.add('pw-go');
+        wall.classList.remove('pw-pile');
+        cards.forEach(function (q) { ['left', 'top'].forEach(function (k) { q.style.removeProperty(k); }); });
         // in the scene the cards come and go on their own; render() puts a link in the tab order only while its card is fully shown
         links.forEach(function (a) { a.setAttribute('tabindex', '-1'); });
         view.appendChild(end);
@@ -226,6 +246,7 @@
         deco.forEach(function (el) { ['opacity', 'transform', 'filter'].forEach(function (k) { el.style.removeProperty(k); }); if (!el.getAttribute('style')) el.removeAttribute('style'); });
         wall.removeAttribute('style'); view.removeAttribute('style'); stage.removeAttribute('style');
         if (end.parentNode !== root) root.appendChild(end);
+        pile();
     }
 
     // Scrolls the stage to the beat where card i has arrived and sits on top, and draws it at once
@@ -269,7 +290,7 @@
         } else if (mq.addEventListener) mq.addEventListener('change', sync);
         sync();
         if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(guard(function () {
-            if (mode === 'live') { if (layout()) render(); else setMode('still'); }
+            if (mode === 'live') { if (layout()) render(); else setMode('still'); } else pile();
         }));
         // only now does the inline starter in the page know the scene runs; without it the starter undoes .pw-go
         if (!broken) root.classList.add('pw-live');
