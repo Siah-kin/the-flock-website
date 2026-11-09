@@ -208,6 +208,31 @@
         .where a { color: var(--blue); font-weight: 600; text-underline-offset: 3px; }
         body.dark-mode .where a { color: #8EC4FA; }
         @media (max-width: 900px) { .gains { grid-template-columns: 1fr; gap: 28px; } }
+
+        /* Where each tool works */
+        .gap { margin: 30px 0 0; }
+        .gap-title { font-weight: 600; font-size: 1.35rem; margin: 0 0 14px; }
+        .gap-svg { display: block; width: 100%; height: auto; }
+        .gap-v { display: none; max-width: 420px; }
+        .gap-hl { fill: rgba(254, 216, 1, .18); stroke: var(--sun); stroke-width: 2; }
+        .gap-trail { fill: none; stroke: var(--sky); stroke-width: 3; stroke-dasharray: 2 10; stroke-linecap: round; }
+        .gap-sea { fill: var(--blue); }
+        .gap-gate { fill: none; stroke: #7F8DA2; stroke-width: 6; stroke-linecap: round; }
+        .gap-bub rect, .gap-bub path { fill: #fff; stroke: var(--blue); stroke-width: 2; }
+        .gap-bub text { fill: var(--blue); font: 700 20px var(--display); stroke: none; }
+        .gap-n { fill: var(--line); }
+        .gap-n.hl { fill: var(--sun); }
+        .gap-nt { fill: var(--navy); font: 700 18px var(--display); }
+        .gap-t { fill: var(--ink); font: 600 18px var(--display); }
+        .gap-c { fill: #4A5B73; font: 400 14.5px Inter, system-ui, sans-serif; }
+        .gap-c.hl { fill: var(--blue); font-weight: 600; }
+        body.dark-mode .gap-t { fill: #E6EEF9; } body.dark-mode .gap-c { fill: #A9B9D0; } body.dark-mode .gap-c.hl { fill: #8EC4FA; }
+        body.dark-mode .gap-n { fill: #2A4670; } body.dark-mode .gap-n.hl { fill: var(--sun); }
+        body.dark-mode .gap-nt { fill: #E6EEF9; } body.dark-mode .gap-n.hl + .gap-nt { fill: var(--navy); }
+        @media (max-width: 700px) {
+            .gap-h { display: none; } .gap-v { display: block; }
+            .gap-t { font-size: 17px; } .gap-c { font-size: 15px; }
+        }
         .idx { margin-top: 40px; border-top: 1px solid var(--line); }
         .idx-group { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 20px 40px; padding: 30px 0; border-bottom: 1px solid var(--line); }
         .idx-head h3 { font-weight: 600; font-size: 1.3rem; line-height: 1.2; }
@@ -678,6 +703,11 @@
         <section class="section" aria-labelledby="does-title">
             <div class="wrap">
                 <h2 id="does-title">What does The Flock do for your community?</h2>
+                <figure class="gap">
+                    <h3 class="gap-title">Where each tool works</h3>
+                    <svg class="gap-svg gap-h" viewBox="0 0 1000 214" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Where each tool works, in the five stages a member goes through: they hear about the project, which quest boards, raid bots and ads cover; they join the group, which moderation bots cover; they ask for help, which helpdesks and The Flock cover; they meet a fake admin; and they help the next newcomer while the team sees it, which The Flock covers."><rect class="gap-hl" x="408" y="4" width="588" height="206" rx="24"/><path class="gap-trail" d="M118 124 H900"/><circle class="gap-n" cx="100" cy="34" r="17"/><text class="gap-nt" x="100" y="40" text-anchor="middle">1</text><text class="gap-t" x="100" y="156" text-anchor="middle">Hears about</text><text class="gap-t" x="100" y="177" text-anchor="middle">the project</text><text class="gap-c" x="100" y="200" text-anchor="middle">Quest boards, raid bots, ads</text><circle class="gap-n" cx="300" cy="34" r="17"/><text class="gap-nt" x="300" y="40" text-anchor="middle">2</text><text class="gap-t" x="300" y="156" text-anchor="middle">Joins</text><text class="gap-t" x="300" y="177" text-anchor="middle">the group</text><text class="gap-c" x="300" y="200" text-anchor="middle">Moderation bots</text><circle class="gap-n hl" cx="500" cy="34" r="17"/><text class="gap-nt" x="500" y="40" text-anchor="middle">3</text><text class="gap-t" x="500" y="156" text-anchor="middle">Asks</text><text class="gap-t" x="500" y="177" text-anchor="middle">for help</text><text class="gap-c hl" x="500" y="200" text-anchor="middle">Helpdesks, The Flock</text><circle class="gap-n hl" cx="700" cy="34" r="17"/><text class="gap-nt" x="700" y="40" text-anchor="middle">4</text><text class="gap-t" x="700" y="156" text-anchor="middle">Meets a</text><text class="gap-t" x="700" y="177" text-anchor="middle">fake admin</text><text class="gap-c hl" x="700" y="200" text-anchor="middle">The Flock</text><circle class="gap-n hl" cx="900" cy="34" r="17"/><text class="gap-nt" x="900" y="40" text-anchor="middle">5</text><text class="gap-t" x="900" y="156" text-anchor="middle">Helps the next</text><text class="gap-t" x="900" y="177" text-anchor="middle">newcomer</text><text class="gap-c hl" x="900" y="200" text-anchor="middle">The Flock shows your team</text><use href="#duck" x="77" y="92" width="46" height="26.5"/><path class="gap-sea" d="M52 124 C70 114 84 134 102 124 C120 114 134 134 150 124 L150 134 Q150 144 140 144 L62 144 Q52 144 52 134 Z"/><path class="gap-gate" d="M318 78 V122 M354 78 V122 M312 78 H360"/><use href="#duck" x="262" y="96" width="46" height="26.5"/><use href="#duck" x="462" y="96" width="46" height="26.5"/><g class="gap-bub"><rect x="500" y="62" width="40" height="28" rx="9"/><path d="M506 90 l-6 9 l14 -9 z"/><text x="520" y="82" text-anchor="middle">?</text></g><use href="#duck" x="650" y="96" width="46" height="26.5"/><use href="#duck" x="716" y="100" width="40" height="23.0" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity=".95"/><use href="#duck" x="838" y="96" width="46" height="26.5"/><use href="#duck" x="886" y="101" width="36" height="20.7"/><use href="#duck" x="922" y="105" width="28" height="16.1"/></svg>
+                    <svg class="gap-svg gap-v" viewBox="0 0 360 524" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Where each tool works, in the five stages a member goes through: they hear about the project, which quest boards, raid bots and ads cover; they join the group, which moderation bots cover; they ask for help, which helpdesks and The Flock cover; they meet a fake admin; and they help the next newcomer while the team sees it, which The Flock covers."><rect class="gap-hl" x="4" y="204" width="352" height="316" rx="22"/><path class="gap-trail" d="M52 70 V470"/><circle class="gap-n" cx="30" cy="44" r="15"/><text class="gap-nt" x="30" y="50" text-anchor="middle">1</text><text class="gap-t" x="124" y="38">Hears about the project</text><text class="gap-c" x="124" y="60">Quest boards, raid bots, ads</text><circle class="gap-n" cx="30" cy="148" r="15"/><text class="gap-nt" x="30" y="154" text-anchor="middle">2</text><text class="gap-t" x="124" y="142">Joins the group</text><text class="gap-c" x="124" y="164">Moderation bots</text><circle class="gap-n hl" cx="30" cy="252" r="15"/><text class="gap-nt" x="30" y="258" text-anchor="middle">3</text><text class="gap-t" x="124" y="246">Asks for help</text><text class="gap-c hl" x="124" y="268">Helpdesks, The Flock</text><circle class="gap-n hl" cx="30" cy="356" r="15"/><text class="gap-nt" x="30" y="362" text-anchor="middle">4</text><text class="gap-t" x="124" y="350">Meets a fake admin</text><text class="gap-c hl" x="124" y="372">The Flock</text><circle class="gap-n hl" cx="30" cy="460" r="15"/><text class="gap-nt" x="30" y="466" text-anchor="middle">5</text><text class="gap-t" x="124" y="454">Helps the next newcomer</text><text class="gap-c hl" x="124" y="476">The Flock shows your team</text><use href="#duck" x="52" y="38" width="46" height="26.5"/><path class="gap-sea" d="M40 66 C54 58 64 74 78 66 C90 59 98 72 104 68 L104 76 Q104 82 94 82 L50 82 Q40 82 40 76 Z"/><use href="#duck" x="52" y="142" width="46" height="26.5"/><use href="#duck" x="52" y="246" width="46" height="26.5"/><use href="#duck" x="52" y="350" width="46" height="26.5"/><use href="#duck" x="52" y="454" width="46" height="26.5"/></svg>
+                </figure>
                 <div class="gains">
                     <div>
                         <h3>For your team</h3>
