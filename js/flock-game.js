@@ -123,7 +123,7 @@
         st.lo = st.WL + 10; st.hi = Math.max(st.lo + 4, sr.top - hr.top + sr.height * .74);   // the two blue waves; the white shore below is not for stains
         info.style.top = Math.round(Math.max(c.bottom - hr.top + 18, st.WL - 150)) + 'px';
         const sp = [...sea.querySelectorAll('path')].map(x => x.getAttribute('d')), shore = sea.querySelector('.pw-shore');
-        return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(relBottom(info, hr)) + 8, water: { d: sp[0] + ' ' + (shore ? shore.getAttribute('d') : ''), tf: 'translate(0 ' + sea.offsetTop + ') scale(' + (st.W / 1440).toFixed(4) + ' ' + (sea.offsetHeight / 300).toFixed(4) + ')' } };
+        return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(relBottom(info, hr)) + 8, water: { d: sp[0] + ' ' + (shore ? shore.getAttribute('d') : ''), tf: 'translate(0 ' + (sr.top - hr.top).toFixed(2) + ') scale(' + (sr.width / 1440).toFixed(4) + ' ' + (sr.height / 300).toFixed(4) + ')' } };
       };
     }
     const footer = document.querySelector('.page-footer .wrap') || document.body;
@@ -170,7 +170,7 @@
     const mk = (tag, at, par) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); par.appendChild(e); return e; };
     gsvg.innerHTML = '<g data-l="stains"></g><g data-l="evb"></g><g data-l="ducks"></g><g data-l="extra"></g><g data-l="evf"></g><g data-l="rock"></g><g data-l="fx"></g><g data-l="aim"></g><g data-l="ui"></g>';
     // stains are clipped to the water shape of this page's waves, so none reaches the white shore or the page
-    const defs = document.createElementNS(NS, 'defs'); defs.innerHTML = '<clipPath id="game-water"><path clip-rule="evenodd" d=""/></clipPath>'; gsvg.insertBefore(defs, gsvg.firstChild);
+    const defs = document.createElementNS(NS, 'defs'); defs.innerHTML = '<clipPath id="game-water"><path clip-rule="evenodd" fill-rule="evenodd" d=""/></clipPath>'; gsvg.insertBefore(defs, gsvg.firstChild);
     const waterPath = defs.querySelector('path');
     const Ly = {}; ['stains', 'evb', 'ducks', 'extra', 'evf', 'rock', 'fx', 'aim', 'ui'].forEach(n => Ly[n] = gsvg.querySelector('[data-l="' + n + '"]'));
     Ly.stains.setAttribute('clip-path', 'url(#game-water)');
@@ -281,6 +281,20 @@
     };
     const stain = (x, y, r) => {
       if (stains.length > 60) return;
+      // The waves curve, so the same y-coordinate can fall on dry shore at a different x.
+      // Find nearby water before counting a stain; keep the existing clip for its edges.
+      const tr = waterPath.transform.baseVal.consolidate();
+      if (!tr || typeof waterPath.isPointInFill !== 'function') return;
+      const inverse = tr.matrix.inverse(), pt = gsvg.createSVGPoint();
+      const onWater = (px, py) => { pt.x = px; pt.y = py; return waterPath.isPointInFill(pt.matrixTransform(inverse)); };
+      let waterY = null;
+      for (let delta = 0; delta <= 100 && waterY === null; delta += 2) {
+        for (const testY of delta ? [y - delta, y + delta] : [y]) {
+          if (testY >= st.tb + 4 && testY <= st.H - 4 && onWater(x, testY) && onWater(x, testY - 3) && onWater(x, testY + 3)) { waterY = testY; break; }
+        }
+      }
+      if (waterY === null) return;
+      y = waterY;
       const R = r * rnd(1.4, 2.2), g = mk('g', { transform: 'translate(' + f1(x) + ' ' + f1(y) + ') rotate(' + Math.round(rnd(0, 360)) + ')' }, Ly.stains), inner = mk('g', { transform: 'scale(.2)' }, g);
       let h = '<path d="' + blob(R) + '" fill="#C81D33"/>';
       for (let i = 0, n = 2 + Math.floor(Math.random() * 4); i < n; i++) { const a = rnd(0, 6.28), dd = R * rnd(1.1, 1.6); h += '<circle cx="' + f1(Math.cos(a) * dd) + '" cy="' + f1(Math.sin(a) * dd) + '" r="' + f1(R * rnd(.12, .3)) + '" fill="#C81D33"/>'; }
