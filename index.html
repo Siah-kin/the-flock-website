@@ -84,17 +84,7 @@
         .hero-list li { font-size: 1.1rem; line-height: 1.45; color: #fff; }
         .hero-list a { color: #fff; font-weight: 600; text-underline-offset: 3px; }
         .hero-note { margin: 16px 0 0; max-width: 33em; font-size: 1.05rem; line-height: 1.5; color: #E4ECF7; }
-        .ask-cards { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-        .ask-cards li { background: #fff; border-radius: 20px; padding: 22px 22px 24px; border-top: 6px solid var(--sun); box-shadow: 0 14px 34px rgba(0, 32, 80, .10); font-size: 1.05rem; line-height: 1.45; color: #33445A; }
         p.status-pill, .stop p.status-pill, .band p.status-pill { display: inline-block; margin: 0 0 14px; padding: 4px 12px; border-radius: 999px; background: #FFF1A6; color: #12304F; font-size: .85rem; font-weight: 700; line-height: 1.3; width: fit-content; }
-        .ask-cards b { display: block; font-family: var(--display); font-size: 1.3rem; line-height: 1.2; color: var(--navy); margin-bottom: 8px; }
-        body.dark-mode .ask-cards li { background: #10244A; color: #C5D3E8; } body.dark-mode .ask-cards b { color: #fff; }
-        @media (max-width: 900px) { .ask-cards { grid-template-columns: 1fr; } }
-        .ask-list { margin: 26px 0 0; padding-left: 1.2em; display: grid; gap: 12px; max-width: 46em; }
-        .ask-list li { font-size: 1.12rem; line-height: 1.5; color: #33445A; }
-        body.dark-mode .ask-list li { color: #C5D3E8; }
-        .ask-status { margin-top: 0; margin-bottom: 14px; max-width: 46em; font-size: 1.05rem; color: #33445A; }
-        body.dark-mode .ask-status { color: #C5D3E8; }
         .hero-planned { margin: 18px 0 0; max-width: 33em; font-size: 1.1rem; line-height: 1.45; color: #fff; }
         .hero-planned b { color: #fff; }
         .hero-planned a { color: #fff; font-weight: 600; text-underline-offset: 3px; }
@@ -139,18 +129,8 @@
         body.dark-mode .lede { color: #C5D3E8; }
 
         /* Why */
-        .why { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 56px; align-items: center; }
-        .why p { font-size: 1.22rem; line-height: 1.65; margin-top: 18px; max-width: 34em; color: #E4ECF7; }
-        .why p:first-of-type { font-size: 1.4rem; line-height: 1.5; color: #fff; }
-        .why p a { color: #fff; font-weight: 600; text-underline-offset: 3px; }
-        .why .ducks-swim { width: 100%; height: auto; display: block; }
 
         /* Two ponds: volume against confirmed help */
-        .lanes { margin-top: 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px; }
-        .lane { margin: 0; }
-        .lane-label { font-family: var(--display); font-weight: 600; font-size: 1.3rem; margin-bottom: 12px; }
-        .lane-cap { margin-top: 14px; font-size: 1.05rem; line-height: 1.5; color: #33445A; }
-        body.dark-mode .lane-cap { color: #C5D3E8; }
         /* The demo: the bot's banners are the steps, one screen changes in place */
         .steps { margin-top: 42px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; }
         .step { width: 100%; display: grid; gap: 8px; text-align: left; background: transparent; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; }
@@ -187,41 +167,19 @@
         .fx .panel:not(.show) .later, .fx .panel.show.wait .later { opacity: 0; transform: translateY(8px); }
 
         /* Where fees go: Arctide's real split, then the part we are designing */
-        .fees { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 56px; align-items: start; margin-top: 44px; }
-        .scene { margin: 0; }
-        .scene-svg { display: block; width: 100%; height: auto; border-radius: 30px; box-shadow: 0 24px 50px rgba(0, 20, 40, .35); }
-        .scene-svg text { font-family: "Inter", system-ui, sans-serif; }
-        .scene-svg text.t { font-family: var(--display); }
-        .back { margin-top: 18px; font-size: 1.02rem; line-height: 1.5; color: #DDEFE4; max-width: 34em; }
-        .fees-text p { font-size: 1.12rem; line-height: 1.6; margin-top: 16px; color: #E4ECF7; }
-        .fees-text .tg { margin-top: 18px; }
-        .fees-text .note { background: rgba(0,0,0,.2); border-left: 4px solid var(--sun); padding: 14px 16px; border-radius: 0 12px 12px 0; color: #fff; }
-        .fees-text .sticky { font-family: var(--display); font-weight: 600; font-size: 1.4rem; line-height: 1.35; color: #fff; margin-top: 0; padding-left: 18px; border-left: 5px solid var(--sun); }
-        .fees-text .eg-title { margin-top: 28px; font-weight: 600; color: #fff; }
 
         /* X's rule and how we work with it */
         .pull { margin: 26px 0 0; max-width: 30em; font-family: var(--display); font-weight: 600; font-size: 1.3rem; line-height: 1.4; padding-left: 20px; border-left: 5px solid var(--sun); color: var(--navy); }
+        .x-close { margin-top: 64px; display: grid; gap: 28px; max-width: 46em; }
+        .x-close .lede { margin: 0; }
+        .band .lede a { color: #fff; text-underline-offset: 3px; }
+        .x-close .pull { margin: 0; max-width: none; }
         .band .pull { color: #fff; }
         body.dark-mode .pull { color: #fff; }
-        .rule { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 56px; align-items: start; }
-        .rule .lede a, .rule-card a { color: var(--blue); text-underline-offset: 3px; }
-        .rule-card { background: #fff; border-radius: 20px; padding: 26px 28px; box-shadow: 0 14px 34px rgba(0, 32, 80, .12); border-top: 6px solid var(--sun); }
-        .rule-card h3 { font-weight: 600; font-size: 1.35rem; }
-        .rule-card ul { margin: 14px 0 0; padding-left: 1.15em; display: grid; gap: 10px; }
-        .rule-card li { font-size: 1.06rem; line-height: 1.5; color: #33445A; }
-        body.dark-mode .rule-card { background: #10244A; } body.dark-mode .rule-card li { color: #C5D3E8; }
-        body.dark-mode .rule .lede a, body.dark-mode .rule-card a { color: #8EC4FA; }
-        @media (max-width: 900px) { .rule { grid-template-columns: 1fr; gap: 28px; } .rule-card { padding: 20px 18px; } }
 
         /* What it does: an index by job, linked into the manual */
-        .gains { margin-top: 36px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 56px; }
-        .gains h3 { font-weight: 600; font-size: 1.35rem; }
-        .gains ul { margin: 14px 0 0; padding-left: 1.2em; display: grid; gap: 12px; }
-        .gains li { font-size: 1.12rem; line-height: 1.5; color: #33445A; }
-        body.dark-mode .gains li { color: #C5D3E8; }
         .where a { color: var(--blue); font-weight: 600; text-underline-offset: 3px; }
         body.dark-mode .where a { color: #8EC4FA; }
-        @media (max-width: 900px) { .gains { grid-template-columns: 1fr; gap: 28px; } }
 
         /* Where each tool works */
         .gap { margin: 30px 0 0; }
@@ -285,9 +243,6 @@
             .section { padding-top: 70px; padding-bottom: 76px; }
             .band .wv { height: 34px; top: -33px; }
             .cta { font-size: 1.3rem; padding: 16px 30px; }
-            .why { grid-template-columns: 1fr; gap: 20px; }
-            .why .ducks-swim { max-width: 220px; }
-            .lanes { grid-template-columns: 1fr; gap: 28px; }
             .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
             .step .thumb.ticket { display: grid; align-content: center; gap: 8px; padding: 10px 12px; background: linear-gradient(160deg, #24496F, #142A44); font-size: .8rem; color: #E8EEF7; }
         .step .thumb.ticket b { color: #fff; }
@@ -296,7 +251,6 @@
         .mini-btns i.on { outline: 2px solid var(--sun); color: var(--sun); }
         .step .lbl { font-size: .98rem; }
             .panel { grid-template-columns: 1fr; gap: 24px; }
-            .fees { grid-template-columns: 1fr; gap: 36px; }
         }
         @media (prefers-reduced-motion: reduce) {
             .tg .later, .tg .me u { transition: none; }
@@ -505,52 +459,11 @@
             </div>
         </section>
 
-        <section class="band navy" aria-labelledby="why-title">
-            <div class="wrap section why">
-                <div>
-                    <h2 id="why-title">Why we built The Flock</h2>
-                    <p>We built it for the OGs: holders who stay loyal beyond the price, teach newcomers and pitch what they believe in. Their heroics are rarely credited.</p>
-                </div>
-                <svg class="ducks-swim" viewBox="0 0 210 121" aria-hidden="true" focusable="false"><use href="#duck" width="210" height="121"/></svg>
-            </div>
-        </section>
-
-        <section class="section" aria-labelledby="farm">
-            <div class="wrap">
-                <h2 id="farm">Quest platforms and raid bots get farmed.</h2>
-                    <p class="lede">Quest boards and raid bots count clicks and completed tasks, and much of that can be automated. The Flock keeps a track record of help your team confirmed: a question answered, a post your team read and graded.</p>
-                    <p class="lede">Keep your quest board for reach. The Flock looks after members once they join, in a private chat with your team.</p>
-                <div class="lanes" id="lanes">
-                    <figure class="lane"><p class="lane-label">Tools that count messages</p><svg class="scene-svg farm" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drawing: a flock of grey duck accounts and two yellow ducks, the people who helped, below a podium where a grey farming account stands first."><defs><linearGradient id="pg0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F4C80"/><stop offset="1" stop-color="#143A63"/></linearGradient><clipPath id="pc0"><rect width="600" height="250" rx="26"/></clipPath></defs><g clip-path="url(#pc0)"><rect width="600" height="250" fill="url(#pg0)"/><circle cx="64" cy="48" r="26" fill="#FED801" opacity=".9"/><path d="M0,214 C100,200 200,226 300,214 C400,202 500,226 600,210 L600,250 L0,250Z" fill="#0F2A4A"/><use class="duck gin sw s0" href="#duck" x="40" y="142" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s1" href="#duck" x="96" y="168" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s2" href="#duck" x="24" y="186" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s3" href="#duck" x="150" y="150" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s0" href="#duck" x="72" y="120" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s1" href="#duck" x="130" y="192" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s2" href="#duck" x="200" y="172" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s3" href="#duck" x="180" y="126" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><rect x="318" y="176" width="64" height="40" rx="6" fill="#5D7FA6"/><rect class="pod-rect" x="394" y="92" width="86" height="124" rx="8" fill="#E5604F"/><rect x="492" y="192" width="64" height="24" rx="6" fill="#5D7FA6"/><g class="chip" style="--at:0.0625;--dx:250px"><g class="chip-y" opacity="0" style="--dy:-55px"><path d="M172,136 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="177" y="136" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="177" y="140" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.0625;--dx:342px"><g class="chip-y" opacity="0" style="--dy:-25px"><path d="M94,106 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="99" y="106" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="99" y="110" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.10938;--dx:220px"><g class="chip-y" opacity="0" style="--dy:-35px"><path d="M202,112 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="207" y="112" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="207" y="116" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.10938;--dx:318px"><g class="chip-y" opacity="0" style="--dy:-77px"><path d="M118,154 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="123" y="154" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="123" y="158" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.15625;--dx:200px"><g class="chip-y" opacity="0" style="--dy:-85px"><path d="M222,158 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="227" y="158" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="227" y="162" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.15625;--dx:374px"><g class="chip-y" opacity="0" style="--dy:-55px"><path d="M62,128 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="67" y="128" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="67" y="132" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.20312;--dx:270px"><g class="chip-y" opacity="0" style="--dy:-109px"><path d="M152,178 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="157" y="178" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="157" y="182" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.20312;--dx:234px"><g class="chip-y" opacity="0" style="--dy:-43px"><path d="M202,112 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="207" y="112" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="207" y="116" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.25;--dx:200px"><g class="chip-y" opacity="0" style="--dy:-93px"><path d="M222,158 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="227" y="158" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="227" y="162" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.25;--dx:342px"><g class="chip-y" opacity="0" style="--dy:-41px"><path d="M94,106 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="99" y="106" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="99" y="110" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><use class="duck pod" href="#duck" x="400" y="52" width="74" height="42.6" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="1"/><use class="duck ya" href="#duck" x="326" y="148" width="48" height="27.7" style="" opacity="1"/><use class="duck yb" href="#duck" x="500" y="168" width="48" height="27.7" style="" opacity="1"/><text x="437" y="150" text-anchor="middle" font-size="26" font-weight="700" fill="#fff" class="t">1</text><text class="t pod-label" x="437" y="38" text-anchor="middle" font-size="18" font-weight="700" fill="#FFB4A8">farming account</text><text x="350" y="238" text-anchor="middle" font-size="16" fill="#BFD9F2">people who helped</text></g></svg><figcaption class="lane-cap">Every message counts the same, so the farming account tops the board.</figcaption></figure>
-                    <figure class="lane lane-b"><p class="lane-label">The Flock</p><svg class="scene-svg farm" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drawing: grey duck accounts turn back at a yellow gate marked Your team confirms. A yellow duck passes through to its track record of dated lines."><defs><linearGradient id="pg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F4C80"/><stop offset="1" stop-color="#143A63"/></linearGradient><clipPath id="pc1"><rect width="600" height="250" rx="26"/></clipPath><clipPath id="trw"><rect class="tr-wipe" x="420" y="160" width="176" height="24"/></clipPath></defs><g clip-path="url(#pc1)"><rect width="600" height="250" fill="url(#pg1)"/><circle cx="64" cy="48" r="26" fill="#FED801" opacity=".9"/><path d="M0,214 C100,200 200,226 300,214 C400,202 500,226 600,210 L600,250 L0,250Z" fill="#0F2A4A"/><use class="duck sw s0" href="#duck" x="30" y="150" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck g2" href="#duck" x="88" y="178" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s2" href="#duck" x="14" y="188" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck g1" href="#duck" x="140" y="138" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck yd" href="#duck" x="60" y="118" width="56" height="32.3" style="" opacity="1"/><use class="duck" href="#duck" x="20" y="96" width="56" height="32.3" style="" opacity="1"/><rect x="262" y="70" width="14" height="148" rx="5" fill="#FED801"/><rect x="332" y="70" width="14" height="148" rx="5" fill="#FED801"/><rect x="258" y="62" width="92" height="16" rx="8" fill="#FED801"/><text class="huh" x="238" y="150" font-size="18" font-weight="700" fill="#fff" opacity="0" aria-hidden="true">?</text><rect class="gate-bar" x="276" y="158" width="56" height="8" rx="4" fill="#FED801"/><g class="pill"><rect x="224" y="20" width="160" height="34" rx="17" fill="#FED801"/><text x="304" y="43" text-anchor="middle" font-size="17" font-weight="700" fill="#12304F" class="t">Your team confirms</text></g><rect x="412" y="66" width="172" height="136" rx="14" fill="#F6F1E3"/><rect x="412" y="66" width="172" height="28" rx="14" fill="#E3D9BD"/><text x="498" y="86" text-anchor="middle" font-size="17" font-weight="700" fill="#12304F" class="t">Track record</text><text x="424" y="124" font-size="15" fill="#12304F">12 Oct · Marked useful</text><text x="424" y="150" font-size="15" fill="#12304F">18 Oct · Post: Good</text><g class="tr-skel"><circle cx="432" cy="178" r="5" fill="#2FA866"/><rect x="446" y="174" width="96" height="8" rx="4" fill="#CBBF9C"/></g><text class="tr-new" x="424" y="176" font-size="15" fill="#12304F" opacity="0" clip-path="url(#trw)">04 Nov · Marked useful</text></g></svg><figcaption class="lane-cap">A line goes on a track record only when your team marks a request useful or reviews a post.</figcaption></figure>
-                </div>
-            </div>
-        </section>
-
-        <section class="section soft" aria-labelledby="rule-title">
-            <div class="wrap rule">
-                <div>
-                    <h2 id="rule-title">On X, paid posting drowned out the people who meant it.</h2>
-                    <p class="lede">Apps scored people for posting about projects and rewarded the top scores. Accounts chasing points flooded the replies, and paid creators often got little, depending on who took a cut.</p>
-                    <p class="lede">On 15 January 2026 X’s head of product wrote that X would “<a href="https://decrypt.co/354736/elon-musks-x-bans-access-infofi-crypto-projects-ai-slop-backlash" target="_blank" rel="noopener noreferrer">no longer allow apps that reward users for posting on X</a>”, and blamed AI slop and reply spam. Kaito then shut down Yaps, its score for posting about projects. A community that pays for posts now works against X’s own rules.</p>
-                    <blockquote class="pull">Anyone can become a professional and help pitch a project, out of loyalty or as a small business of their own. Both are fair when the work is real. But the method has to be forged, and that is where The Flock steps in.</blockquote>
-                </div>
-                <div class="rule-card">
-                    <h3>How The Flock works with X’s rule</h3>
-                    <ul>
-                        <li>Nobody is paid to post, to reply or to raid a cashtag.</li>
-                        <li>We steer members away from raids and spam, because they don’t get a project the result it needs.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
         <section class="band slate" aria-labelledby="x-title">
             <svg class="wv" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C240,4 480,4 720,26 C960,48 1200,50 1440,20 L1440,56 L0,56 Z"/></svg>
             <div class="wrap section">
                 <h2 id="x-title">Talk about a project on X without getting hidden.</h2>
                 <p class="lede">You love the project and post a link and a ticker. Then weeks of silence, and nobody tells you why: people call it a shadow ban.</p>
-                <blockquote class="pull">If you are here to advocate a project and its token, and you want to learn from professionals, you are at the right stop.</blockquote>
                 <div class="demo" data-demo>
                     <div class="steps" role="tablist" aria-label="A member's path on X">
                         <button class="step" role="tab" id="x-t1" aria-controls="x-p1" aria-selected="true"><span class="thumb"><img src="/assets/flock/screens/x_home.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">1</span>Learn what works</span></button>
@@ -644,6 +557,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="x-close">
+                    <p class="lede">On 15 January 2026 X’s head of product wrote that X would “<a href="https://decrypt.co/354736/elon-musks-x-bans-access-infofi-crypto-projects-ai-slop-backlash" target="_blank" rel="noopener noreferrer">no longer allow apps that reward users for posting on X</a>”. Nobody on The Flock is paid to post.</p>
+                    <blockquote class="pull">Anyone can become a professional and help pitch a project, out of loyalty or as a small business of their own. Both are fair when the work is real. But the method has to be forged, and that is where The Flock steps in.</blockquote>
+                    <blockquote class="pull">If you are here to advocate a project and its token, and you want to learn from professionals, you are at the right stop.</blockquote>
                 </div>
             </div>
         </section>
@@ -740,92 +658,6 @@
             </div>
         </section>
 
-        <section class="section soft" aria-labelledby="ask-title">
-            <div class="wrap">
-                <p class="status-pill">In development</p>
-                <h2 id="ask-title">Answers your team can check</h2>
-                <ul class="ask-cards">
-                    <li>The bot answers only from texts your team has approved.</li>
-                    <li>Every answer shows the passage it came from, and that text’s date.</li>
-                    <li>When your texts don’t cover a question, the bot hands it to a person on your team.</li>
-                    <li>Edit or withdraw a text, and the bot stops using the old version.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="band green" aria-labelledby="fees-title">
-            <svg class="wv" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C240,4 480,4 720,26 C960,48 1200,50 1440,20 L1440,56 L0,56 Z"/></svg>
-            <div class="wrap section">
-                <h2 id="fees-title">How Arctide splits your token’s trading fees</h2>
-                <p class="lede">If your token trades on Arctide, every trade pays a fee in USDC, and you set part of the split.</p>
-                <div class="fees">
-                    <figure class="scene" id="flow">
-<svg class="scene-svg" id="fee-svg" viewBox="0 0 560 880" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drawing of how Arctide splits a trading fee. Someone trades your token on Arctide. The fee is paid in USDC. Arctide’s router splits it in the same transaction, three ways: liquidity providers, your project’s wallet or contract, and 0.25 percent to Arctide. A planned reward and tip pool for members whose help your team confirmed sits under your project’s share.">
-<defs>
-  <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#37B88C"/><stop offset=".55" stop-color="#25986F"/><stop offset="1" stop-color="#17704F"/></linearGradient>
-  <clipPath id="fclip"><rect width="560" height="880" rx="30"/></clipPath>
-</defs>
-<g clip-path="url(#fclip)">
-<rect width="560" height="880" fill="url(#fsky)"/>
-<circle cx="478" cy="86" r="44" fill="#FED801"/>
-<path d="M0,170 C90,130 170,150 250,168 C340,186 430,150 560,160 L560,260 L0,260Z" fill="#43C195" opacity=".55"/>
-<path d="M0,215 C120,185 210,215 330,206 C430,198 500,190 560,206 L560,300 L0,300Z" fill="#2E9A6C" opacity=".7"/>
-<g><rect x="30.0" y="36" width="400" height="48" rx="24.0" fill="#fff"/><text x="230" y="66.8" text-anchor="middle" font-size="19" font-weight="600" fill="#12304F" class="t">Someone trades your token on Arctide</text></g>
-<rect x="196" y="150" width="168" height="14" rx="5" fill="#B7793B"/><rect x="208" y="164" width="9" height="22" fill="#8F5C28"/><rect x="343" y="164" width="9" height="22" fill="#8F5C28"/>
-<use class="duck bob" href="#duck" x="214" y="108" width="74" height="42.6" style="" opacity="1"/>
-<g><circle cx="322" cy="140" r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><circle cx="338" cy="142" r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/></g>
-<path d="M280,190 L280,306" fill="none" stroke="#7CC8F0" stroke-width="62" stroke-linecap="round"/><path d="M280,190 L280,306" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/>
-<g><rect x="318.0" y="216" width="224" height="38" rx="19.0" fill="#fff"/><text x="430" y="241.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">The fee is paid in USDC</text></g>
-<g class="fc fc-in" transform="translate(280 190) scale(1.4)" opacity="0"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g>
-<path d="M170,394 C170,430 105,436 105,484" fill="none" stroke="#7CC8F0" stroke-width="30" stroke-linecap="round"/><path d="M170,394 C170,430 105,436 105,484" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/><path d="M280,394 L280,486" fill="none" stroke="#7CC8F0" stroke-width="54" stroke-linecap="round"/><path d="M280,394 L280,486" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/><path d="M390,394 C390,430 465,436 465,484" fill="none" stroke="#7CC8F0" stroke-width="20" stroke-linecap="round"/><path d="M390,394 C390,430 465,436 465,484" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/>
-<g class="router"><rect x="110" y="306" width="340" height="88" rx="20" fill="#12304F"/><rect x="110" y="306" width="340" height="12" rx="6" fill="#FED801"/><rect class="lamp" x="110" y="306" width="340" height="12" rx="6" fill="#FFFBE0" opacity="0"/><text x="280" y="347" text-anchor="middle" font-size="23" font-weight="700" fill="#fff" class="t">Arctide’s router</text><text x="280" y="374" text-anchor="middle" font-size="17" fill="#BFD9F2">splits the fee in one transaction</text>
-<rect x="148" y="388" width="44" height="12" rx="4" fill="#FED801"/>
-<rect x="258" y="388" width="44" height="12" rx="4" fill="#FED801"/>
-<rect x="368" y="388" width="44" height="12" rx="4" fill="#FED801"/></g>
-<ellipse cx="100" cy="548" rx="84" ry="52" fill="#7CC8F0"/>
-<use class="duck bob b1" href="#duck" x="48" y="520" width="56" height="32.3" style="" opacity="1"/><g transform="translate(156 538) scale(-1 1)"><use class="duck bob b2" href="#duck" x="0" y="0" width="50" height="28.8" style="" opacity="1"/></g>
-<g><rect x="11.0" y="608" width="178" height="36" rx="18.0" fill="#fff"/><text x="100" y="632.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">Liquidity providers</text></g>
-<text x="100" y="664" text-anchor="middle" font-size="17" fill="#fff">Their share</text>
-<ellipse cx="465" cy="548" rx="76" ry="52" fill="#7CC8F0"/>
-<image href="/assets/flock/badge.png" x="436" y="518" width="58" height="58"/>
-<g><rect x="407.0" y="608" width="116" height="36" rx="18.0" fill="#fff"/><text x="465" y="632.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">Arctide</text></g>
-<text x="465" y="664" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" class="t">0.25%</text>
-<rect x="192" y="486" width="176" height="176" rx="48" fill="#7CC8F0" stroke="#FED801" stroke-width="5"/>
-<text x="280" y="534" text-anchor="middle" font-size="21" font-weight="700" fill="#12304F" class="t pj">Your project</text><text x="280" y="566" text-anchor="middle" font-size="17" fill="#12304F">The share you set,</text><text x="280" y="586" text-anchor="middle" font-size="17" fill="#12304F">to your wallet</text><text x="280" y="606" text-anchor="middle" font-size="17" fill="#12304F">or contract</text>
-<g><circle cx="248" cy="636" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/><circle cx="280" cy="640" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/><circle cx="312" cy="636" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/></g>
-<g fill="none" stroke="#fff" stroke-width="3"><ellipse class="ring" opacity="0" cx="100" cy="548" rx="84" ry="52"/><rect class="ring" opacity="0" x="192" y="486" width="176" height="176" rx="48"/><ellipse class="ring" opacity="0" cx="465" cy="548" rx="76" ry="52"/></g>
-<g class="fc fc-out" transform="translate(112 508) scale(1.15)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><g class="fc fc-out" transform="translate(280 500) scale(1.4)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><g class="fc fc-out" transform="translate(465 505) scale(0.8)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g>
-<path d="M280,664 L280,722" fill="none" stroke="#FED801" stroke-width="4" stroke-linecap="round" stroke-dasharray="3 11"/>
-<ellipse cx="280" cy="790" rx="190" ry="70" fill="rgba(255,255,255,.14)" stroke="#FED801" stroke-width="3" stroke-dasharray="9 9"/>
-<g class="fc-ghost" transform="translate(280 668)" opacity="0"><circle r="14" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 3.5"/></g>
-<text x="280" y="778" text-anchor="middle" font-size="21" font-weight="700" fill="#fff" class="t">A reward and tip pool</text><text x="280" y="804" text-anchor="middle" font-size="17" fill="#E6F6EE">for members whose help</text><text x="280" y="824" text-anchor="middle" font-size="17" fill="#E6F6EE">your team confirmed</text>
-<use class="duck " href="#duck" x="120" y="768" width="54" height="31.1" style="" opacity="0.55"/><g transform="translate(440 768) scale(-1 1)"><use class="duck " href="#duck" x="0" y="0" width="54" height="31.1" style="" opacity="0.55"/></g>
-<path d="M0,846 C90,830 180,858 280,846 C380,834 470,858 560,842 L560,880 L0,880Z" fill="#1B5F8C"/><path d="M0,862 C110,850 200,872 300,862 C400,852 480,872 560,860 L560,880 L0,880Z" fill="#12304F"/>
-</g></svg>
-<figcaption class="back">Credited members keep explaining the project well, and more people find it.</figcaption>
-</figure>
-                    <div class="fees-text">
-                        <p class="sticky">Your project’s share goes straight to your wallet or contract, so nobody holds it or skims it on the way.</p>
-                        <p class="status-pill">Planned</p>
-                        <p>Your project sets aside part of its fee share as a reward pool. Members whose help your team confirmed claim from it with their points. Nothing is paid per post.</p>
-                        <p class="eg-title">An example that works today: Arctide’s own token, TIDE. Its stakers claim TIDE and USDC on arctide.app, and The Flock shows each member’s position.</p>
-                        <div class="tg" role="img" aria-label="The bot's staking screen: link your wallet address to see what you have staked, when it unlocks, and the TIDE and USDC you can claim">
-                            <div class="msg">
-                                <img src="/assets/flock/screens/staking.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
-                                <div class="cap">
-                                    <p><b>🌊 Your $TIDE staking</b></p>
-                                    <p>Link your wallet address to see your staking position here: what you have staked, when it unlocks, and the TIDE + USDC you can claim.</p>
-                                    <p>Only your public address is needed. Never send a seed phrase or private key: nobody from Arctide will ever ask for it.</p>
-                                    <p>Staking, claiming and withdrawing happen on arctide.app, signed by your own wallet.</p>
-                                </div>
-                            </div>
-                            <div class="btns"><span class="btn">🔗 Link my wallet</span><span class="btn">🌐 Open arctide.app ↗</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section class="section" aria-labelledby="does-title">
             <div class="wrap">
                 <h2 id="does-title">What does The Flock do for your community?</h2>
@@ -834,23 +666,6 @@
                     <svg class="gap-svg gap-h" viewBox="0 0 1000 232" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Where each tool works, in the five stages a member goes through: they hear about the project, which quest boards, raid bots and ads cover; they join the group, which moderation bots cover; they ask for help, which helpdesks and The Flock cover; members check whether a message came from the team, and they help the next newcomer while the team sees it, which The Flock covers."><rect class="gap-hl" x="404" y="4" width="588" height="224" rx="24"/><path class="gap-trail" d="M118 124 H900"/><circle class="gap-n" cx="100" cy="34" r="17"/><text class="gap-nt" x="100" y="40" text-anchor="middle">1</text><text class="gap-t" x="100" y="156" text-anchor="middle">Hears about</text><text class="gap-t" x="100" y="177" text-anchor="middle">the project</text><text class="gap-c" x="100" y="200" text-anchor="middle">Quest boards, raid bots, ads</text><circle class="gap-n" cx="300" cy="34" r="17"/><text class="gap-nt" x="300" y="40" text-anchor="middle">2</text><text class="gap-t" x="300" y="156" text-anchor="middle">Joins</text><text class="gap-t" x="300" y="177" text-anchor="middle">the group</text><text class="gap-c" x="300" y="200" text-anchor="middle">Moderation bots</text><circle class="gap-n hl" cx="500" cy="34" r="17"/><text class="gap-nt" x="500" y="40" text-anchor="middle">3</text><text class="gap-t" x="500" y="156" text-anchor="middle">Asks</text><text class="gap-t" x="500" y="177" text-anchor="middle">for help</text><text class="gap-c hl" x="500" y="200" text-anchor="middle">Helpdesks, The Flock</text><circle class="gap-n hl" cx="700" cy="34" r="17"/><text class="gap-nt" x="700" y="40" text-anchor="middle">4</text><text class="gap-t" x="700" y="156" text-anchor="middle">Checks who</text><text class="gap-t" x="700" y="177" text-anchor="middle">sent a message</text><text class="gap-c hl" x="700" y="200" text-anchor="middle">The Flock</text><circle class="gap-n hl" cx="900" cy="34" r="17"/><text class="gap-nt" x="900" y="40" text-anchor="middle">5</text><text class="gap-t" x="900" y="156" text-anchor="middle">Helps the next</text><text class="gap-t" x="900" y="177" text-anchor="middle">newcomer</text><text class="gap-c hl" x="900" y="200" text-anchor="middle">The Flock</text><text class="gap-c hl" x="900" y="218" text-anchor="middle">shows your team</text><use href="#duck" x="77" y="92" width="46" height="26.5"/><path class="gap-sea" d="M52 124 C70 114 84 134 102 124 C120 114 134 134 150 124 L150 134 Q150 144 140 144 L62 144 Q52 144 52 134 Z"/><path class="gap-gate" d="M318 78 V122 M354 78 V122 M312 78 H360"/><use href="#duck" x="262" y="96" width="46" height="26.5"/><use href="#duck" x="462" y="96" width="46" height="26.5"/><g class="gap-bub"><rect x="500" y="62" width="40" height="28" rx="9"/><path d="M506 90 l-6 9 l14 -9 z"/><text x="520" y="82" text-anchor="middle">?</text></g><use href="#duck" x="650" y="96" width="46" height="26.5"/><use href="#duck" x="716" y="100" width="40" height="23.0" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity=".95"/><use href="#duck" x="838" y="96" width="46" height="26.5"/><use href="#duck" x="886" y="101" width="36" height="20.7"/><use href="#duck" x="922" y="105" width="28" height="16.1"/></svg>
                     <svg class="gap-svg gap-v" viewBox="0 0 360 524" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Where each tool works, in the five stages a member goes through: they hear about the project, which quest boards, raid bots and ads cover; they join the group, which moderation bots cover; they ask for help, which helpdesks and The Flock cover; members check whether a message came from the team, and they help the next newcomer while the team sees it, which The Flock covers."><rect class="gap-hl" x="4" y="204" width="352" height="316" rx="22"/><path class="gap-trail" d="M52 70 V470"/><circle class="gap-n" cx="30" cy="44" r="15"/><text class="gap-nt" x="30" y="50" text-anchor="middle">1</text><text class="gap-t" x="110" y="38">Hears about the project</text><text class="gap-c" x="110" y="60">Quest boards, raid bots, ads</text><circle class="gap-n" cx="30" cy="148" r="15"/><text class="gap-nt" x="30" y="154" text-anchor="middle">2</text><text class="gap-t" x="110" y="142">Joins the group</text><text class="gap-c" x="110" y="164">Moderation bots</text><circle class="gap-n hl" cx="30" cy="252" r="15"/><text class="gap-nt" x="30" y="258" text-anchor="middle">3</text><text class="gap-t" x="110" y="246">Asks for help</text><text class="gap-c hl" x="110" y="268">Helpdesks, The Flock</text><circle class="gap-n hl" cx="30" cy="356" r="15"/><text class="gap-nt" x="30" y="362" text-anchor="middle">4</text><text class="gap-t" x="110" y="350">Checks who sent a message</text><text class="gap-c hl" x="110" y="372">The Flock</text><circle class="gap-n hl" cx="30" cy="460" r="15"/><text class="gap-nt" x="30" y="466" text-anchor="middle">5</text><text class="gap-t" x="110" y="454">Helps the next newcomer</text><text class="gap-c hl" x="110" y="476">The Flock shows your team</text><use href="#duck" x="52" y="38" width="46" height="26.5"/><path class="gap-sea" d="M40 66 C54 58 64 74 78 66 C90 59 98 72 104 68 L104 76 Q104 82 94 82 L50 82 Q40 82 40 76 Z"/><use href="#duck" x="52" y="142" width="46" height="26.5"/><use href="#duck" x="52" y="246" width="46" height="26.5"/><use href="#duck" x="52" y="350" width="46" height="26.5"/><use href="#duck" x="52" y="454" width="46" height="26.5"/></svg>
                 </figure>
-                <div class="gains">
-                    <div>
-                        <h3>For your team</h3>
-                        <ul>
-                            <li>Members who believe in your project explain it on X, with feedback from your team.</li>
-                            <li>Real requests come first, and the bot is built to spot fake accounts and farmed activity.</li>
-                            <li>Each week, your team sees who helped and what is still waiting.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>For your members</h3>
-                        <ul>
-                            <li>Their posts on X and the help your team confirms go on a dated track record. It is theirs to download or delete.</li>
-                            <li>They get support in a private chat, and can check whether a message really came from your team.</li>
-                        </ul>
-                    </div>
-                </div>
                 <p class="where">Keep the bot you use to moderate your group. The Flock works alongside it. See <a href="/how/">how each part works</a> and <a href="/now/">what comes next</a>.</p>
             </div>
         </section>
@@ -876,70 +691,11 @@
     (function () {
         document.documentElement.classList.add('js');
         document.addEventListener('DOMContentLoaded', function () {
-            // Two ponds: one scene on one clock for both lanes, played once when it comes into view (css/flock-scenes.css)
-            function ponds(el) {
-                var n = 0, done = false;
-                // only ducks that act in the storyboard are rigged; the others stay plain drawings
-                el.querySelectorAll('use.gin, use.pod, use.ya, use.yb, use.yd, use.g1, use.g2').forEach(function (u) { Flock.rig(u, n++); });
-                var pod = el.querySelector('.pod');
-                function rig(sel, cls, on) { el.querySelectorAll(sel).forEach(function (r) { r.classList.toggle(cls, on !== false); }); }
-                function state(cls) { return function () { el.classList.add(cls); }; }
-                // a message lands: the podium grows (4 units each, 20 at most) and the duck on top bobs a little higher
-                function land(k) { return function () {
-                    el.style.setProperty('--lift', 4 * (k + 1));
-                    if (!pod) return;
-                    pod.style.setProperty('--hop', -(2 + 1.5 * k) + 'px');
-                    pod.classList.remove('hop'); void pod.getBoundingClientRect(); pod.classList.add('hop');
-                }; }
-                function clear() {
-                    el.classList.remove('pre', 'go', 'end', 's-lift', 's-lower', 's-write', 's-huh');
-                    el.style.removeProperty('--lift');
-                    el.querySelectorAll('.rig').forEach(function (r) { r.classList.remove('swim', 'drift', 'flip', 'arrive', 'look', 'confused', 'wink', 'hop'); });
-                }
-                var beats = [
-                    // left pond, 0-2.4s
-                    { at: 0, run: function () { el.classList.remove('pre'); el.classList.add('go'); rig('.gin', 'drift'); } },
-                    { at: 600, run: function () { rig('.gin', 'drift', false); } },
-                    { at: 1900, run: function () { rig('.yb', 'flip'); rig('.ya, .yb', 'look'); } },
-                    { at: 2400, run: function () { rig('.ya, .yb', 'look', false); rig('.yd', 'swim'); rig('.g2', 'drift'); } },
-                    // right pond, 2.4-6.3s
-                    { at: 3200, run: function () { rig('.g1', 'drift'); } },
-                    { at: 3600, run: function () { rig('.yd', 'swim', false); rig('.yd', 'arrive'); el.classList.add('s-lift'); } },
-                    { at: 3800, run: function () { rig('.yd', 'arrive', false); rig('.yd', 'swim'); } },
-                    { at: 4400, run: state('s-lower') },
-                    { at: 4600, run: function () { rig('.yd', 'swim', false); rig('.yd', 'arrive'); el.classList.add('s-write', 's-huh'); rig('.g1, .g2', 'drift', false); rig('.g1', 'confused'); } },
-                    { at: 5400, run: function () { rig('.g1', 'confused', false); rig('.g1', 'flip'); rig('.g1', 'drift'); } },
-                    { at: 5500, run: function () { rig('.g2', 'flip'); rig('.g2', 'drift'); } },
-                    { at: 6200, run: function () { rig('.g1', 'drift', false); } },
-                    { at: 6300, run: function () { rig('.g2', 'drift', false); done = true; } }
-                ];
-                // each message leaves at t and lands 680ms later (85% of --dur-long)
-                [400, 700, 1000, 1300, 1600].forEach(function (t, k) { beats.push({ at: t + 680, run: land(k) }); });
-                Flock.scene(el, {
-                    // start when most of the right pond shows: on phones the ponds stack and the left one is then above it
-                    mode: 'once', ambient: true, duration: 6400, beats: beats,
-                    target: el.querySelector('.lane-b svg') || el, threshold: 0.6,
-                    reset: function () { done = false; clear(); el.classList.add('pre'); void el.getBoundingClientRect(); },
-                    end: function () { clear(); el.classList.add('end'); el.style.setProperty('--lift', '20'); rig('.g1, .g2, .yb', 'flip'); done = true; }
-                });
-                // after the storyboard, heads follow the pointer; tapping a grey duck makes it confused
-                Flock.look(el, function () { return done; });
-                el.addEventListener('click', function (e) {
-                    var r = e.target.closest && e.target.closest('.rig');
-                    if (!r || !done || Flock.reduced || Flock.paused) return;
-                    var c = r.matches('.gin, .g1, .g2, .pod') ? 'confused' : 'wink';
-                    r.classList.remove(c); void r.getBoundingClientRect(); r.classList.add(c);
-                });
-            }
-
-            // Ambient loops: the hero ducks, the Why duck and both ponds (the fee scene and the demos are in js/flock-demos.js)
+            // Ambient loops: the hero ducks (the fee scene and the demos are in js/flock-demos.js, the ponds are on About)
             if (!window.Flock) return;
-            var hero = document.querySelector('.hero'), why = document.querySelector('.why');
+            var hero = document.querySelector('.hero');
             document.querySelectorAll('.hero-ducks use').forEach(function (u, i) { Flock.rig(u, i, 'bob'); });
-            var lanes = document.getElementById('lanes'), flow = document.getElementById('flow');
             if (hero) Flock.ambient(hero);
-            if (why) Flock.ambient(why);
-            if (lanes) ponds(lanes);
         });
     })();
     </script>
