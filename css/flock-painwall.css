@@ -1,7 +1,8 @@
 /* Pain wall, on the home page after the first screen. Markup in index.html, motion in js/flock-painwall.js.
    Two layouts:
    - still (default; also reduced motion, paused, no JavaScript, or a screen with no room for the scene): the lead,
-     the quotes as cards on a dark band, each with its source link, then the answer on a blue band;
+     the quotes as tilted, overlapping cards in a pile on a dark band, each with its source link, then the answer on a
+     blue band;
    - live (.pw-go, set before first paint, confirmed by .pw-live): a sticky scroll scene in four beats
      (quotes arrive, the line lands, the wall clears, the answer). */
 
@@ -15,12 +16,18 @@ body.dark-mode .pw-lead { background: #141A28; }  /* the scene's first colour, s
 body.dark-mode .pw-lead h2 { color: #fff; }
 body.dark-mode .pw-lead p { color: #C5D3E8; }
 
-/* The quotes, still layout: cards in a grid on the scene's dark colour, so lead, cards and answer read in order */
-.pw-stage { background: #141A28; padding: 44px 0 56px; }
-.pw-wall { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
-.pw-q { margin: 0; padding: 16px 18px 12px; border-radius: 14px; background: var(--pw-paper); color: var(--pw-ink); box-shadow: 0 10px 28px rgba(0, 0, 0, .35); }
+/* The quotes, still layout: tilted paper cards piled on the scene's dark colour, so lead, pile and answer read in order.
+   Two staggered columns; each card overlaps the one above it by a few pixels and sits under it (the earlier card is on
+   top), so every source link, which is at the bottom right of its card, stays uncovered. */
+.pw-stage { background: #141A28; padding: 56px 0 96px; overflow: hidden; }
+.pw-wall { max-width: 960px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+.pw-q { position: relative; z-index: calc(30 - var(--i, 0)); margin: 0 0 -14px; width: min(100%, 440px); padding: 18px 20px 14px; border-radius: 14px; background: var(--pw-paper); color: var(--pw-ink); box-shadow: 0 14px 34px rgba(0, 0, 0, .45); border-left: 6px solid #8A93A6; transform: translate(var(--dx, 0), var(--dy, 0)) rotate(var(--r, 0deg)); }
+.pw-amber { border-left-color: #E0A63A; } .pw-red { border-left-color: #E5604F; } .pw-grey { border-left-color: #8A93A6; }
+.pw-q:nth-child(odd) { justify-self: end; --dx: 4px; }
+.pw-q:nth-child(even) { justify-self: start; --dx: -4px; --dy: 56px; }
+.pw-q:nth-child(4n+1) { --dx: -12px; } .pw-q:nth-child(4n+4) { --dx: 14px; }
 .pw-q blockquote { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: calc(1.02rem * var(--pw-fs, 1)); line-height: 1.45; }
-.pw-q figcaption { margin-top: 8px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: calc(.8rem * var(--pw-fs, 1)); line-height: 1.35; color: #4F596B; }
+.pw-q figcaption { margin-top: 10px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: calc(.8rem * var(--pw-fs, 1)); line-height: 1.35; color: #4F596B; }
 .pw-q figcaption a { flex: none; color: var(--pw-link); font-weight: 700; padding: 14px 10px; margin: -14px -10px; }  /* about a 44px tap target */
 .pw-q a:focus-visible, .pw-cta:focus-visible { outline: 3px solid var(--pw-link); outline-offset: 3px; border-radius: 4px; }
 
@@ -39,19 +46,19 @@ body.dark-mode .pw-shore { fill: #08142B; }  /* meets the page below the band in
 .pw-ducks { position: absolute; z-index: -1; right: 7%; bottom: 70px; width: min(320px, 56vw); height: auto; }
 
 /* Live layout */
-.pw.pw-go .pw-stage { position: relative; height: var(--pw-h, 600vh); padding: 0; background: none; }
+.pw.pw-go .pw-stage { overflow: visible; position: relative; height: var(--pw-h, 600vh); padding: 0; background: none; }
 .pw.pw-go .pw-view { position: sticky; top: var(--pw-nav); height: calc(100vh - var(--pw-nav)); overflow: hidden; background: var(--pw-bg, #141A28); }
 @supports (height: 100svh) { .pw.pw-go .pw-view { height: calc(100svh - var(--pw-nav)); } }
 .pw.pw-go > .pw-end { display: none; }
 
-/* The wall itself never takes clicks; each card turns its own on once it is fully there (js) */
+/* The wall itself never takes clicks; each card turns its own on once it is fully there (js).
+   Cards are scattered over the view and pile up as they arrive; the newest is on top. */
 .pw.pw-go .pw-wall { position: absolute; inset: 0; z-index: 1; display: block; max-width: none; margin: 0; padding: 0; pointer-events: none; }
-.pw.pw-go .pw-q { position: absolute; left: 0; top: 0; width: var(--pw-cw, 380px); box-shadow: 0 18px 40px rgba(0, 0, 0, .45); opacity: 0; visibility: hidden; transform-origin: 50% 100%; will-change: transform, opacity; }
-.pw.pw-go .pw-q figcaption a { padding: 8px 6px; margin: -8px -6px; }
+.pw.pw-go .pw-q { position: absolute; left: 0; top: 0; margin: 0; width: var(--pw-cw, 420px); box-shadow: 0 18px 40px rgba(0, 0, 0, .45); opacity: 0; visibility: hidden; will-change: transform, opacity; }
 
 /* In the scene the answer layer fills the view and lets clicks through, except on the button once it shows */
 .pw-view > .pw-end { position: absolute; inset: 0; z-index: 2; padding: 0; background: none; overflow: hidden; pointer-events: none; display: grid; place-items: center; }
-.pw-view > .pw-end .pw-agony { position: absolute; left: 0; right: 0; bottom: 5%; margin: 0 auto; opacity: 0; text-shadow: 0 2px 18px rgba(0, 0, 0, .55); }
+.pw-view > .pw-end .pw-agony { position: absolute; left: 0; right: 0; bottom: 5%; margin: 0 auto; max-width: none; opacity: 0; text-shadow: 0 2px 18px rgba(0, 0, 0, .55); }
 .pw-view > .pw-end .pw-calm { margin: 0; opacity: 0; }
 .pw-view > .pw-end .pw-cta { pointer-events: none; }
 .pw-view > .pw-end.pw-open .pw-cta { pointer-events: auto; }
@@ -64,22 +71,23 @@ body.dark-mode .pw-shore { fill: #08142B; }  /* meets the page below the band in
 
 @media (max-width: 900px) {
     .pw-lead { padding: 48px 0 28px; }
-    .pw-stage { padding: 32px 0 40px; }
+    .pw-stage { padding: 40px 0 80px; }
     .pw-wall { padding: 0 16px; }
     .pw-end { padding: 56px 0 170px; }
     .pw-sun { left: 8%; bottom: 120px; }
     .pw-sea { height: 140px; }
     .pw-ducks { bottom: 52px; right: 4%; }
 }
-/* Phone: one quote at a time, stacked */
+/* Phone, still layout: one column, the same tilted pile, nudged left and right */
+@media (max-width: 640px) {
+    .pw-wall { grid-template-columns: minmax(0, 1fr); }
+    .pw-q { margin-bottom: -14px; width: min(100%, 440px); }
+    .pw-q:nth-child(odd) { justify-self: center; --dx: -8px; --dy: 0px; }
+    .pw-q:nth-child(even) { justify-self: center; --dx: 8px; --dy: 0px; }
+}
+/* Phone, scene: the mock's cascade, each card a little lower than the one before and on top of it */
 .pw-phone .pw-q blockquote { font-size: 1.04rem; }
 .pw-phone .pw-q figcaption { font-size: .82rem; }
-.pw.pw-go.pw-phone .pw-q figcaption a { padding: 14px 10px; margin: -14px -10px; }  /* about a 44px tap target */
-/* a covered card: a set darker paper, its words faded out, so only the edge shows behind the top card */
-.pw-phone .pw-q { transition: background-color var(--dur-short, 220ms); }
-.pw-phone .pw-q blockquote, .pw-phone .pw-q figcaption { transition: opacity var(--dur-short, 220ms); }
-.pw-phone .pw-q.pw-under { background: #B9B4A8; }
-.pw-phone .pw-q.pw-under blockquote, .pw-phone .pw-q.pw-under figcaption { opacity: 0; }
 .pw-phone .pw-view > .pw-end .pw-agony { bottom: 7%; font-size: 1.35rem; }
 .pw-phone .pw-view > .pw-end .pw-calm { padding-bottom: 18vh; }
 .pw-phone .pw-view > .pw-end .pw-calm h2 { font-size: 2rem; }

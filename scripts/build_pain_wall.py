@@ -19,7 +19,8 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, 'data', 'pain-wall.json')
 PAGE = os.path.join(ROOT, 'index.html')
-TILT = [-2, 1.5, -1, 2, -2.5, 1, -1.5, 2.5, -2, 1.5]
+TILT = [-2, 1.5, -1, 2, -2.5, 1, -1.5, 2.5, -1, 2]  # the approved mock's tilts, in card order
+TONES = ('amber', 'red', 'grey')  # the card's left stripe
 IND = '                '  # indentation inside the page
 
 
@@ -30,11 +31,13 @@ def esc(s):
 def cards(quotes):
     out = []
     for i, q in enumerate(quotes):
+        if q.get('tone') not in TONES:
+            sys.exit('quote %r needs a tone: one of %s' % (q.get('id'), ', '.join(TONES)))
         out.append(
-            '%s<figure class="pw-q" style="--r:%sdeg"><blockquote>“%s”</blockquote>'
+            '%s<figure class="pw-q pw-%s" style="--r:%sdeg;--i:%d"><blockquote>“%s”</blockquote>'
             '<figcaption><span>%s · %s</span><a href="%s" target="_blank" rel="noopener noreferrer">source</a>'
             '</figcaption></figure>' % (
-                IND + '    ', TILT[i % len(TILT)], esc(q['quote']),
+                IND + '    ', q['tone'], TILT[i % len(TILT)], i, esc(q['quote']),
                 esc(q['role']), esc(q['month']), esc(q['url'])))
     return '\n'.join(out)
 
