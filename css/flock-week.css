@@ -1,0 +1,24 @@
+/* "A week in your clubhouse": four drawn moments (home page). Fade-in is optional: js/flock-week.js adds .wk-ready
+   only when motion is allowed and not paused; without it every card is simply visible. */
+.wk { background: var(--soft); }
+.wk h2 { margin: 0; }
+.wk-grid { list-style: none; margin: 44px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.wk-card { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; --wk-sky: #DCEBFA; --wk-wave: #0058A8; --wk-wave2: #5AA0E6; --wk-paper: #fff; --wk-ink: #0058A8; }
+.wk-art { display: block; width: 100%; height: auto; }
+.wk-day { position: absolute; top: 12px; left: 12px; z-index: 1; background: var(--sun); color: var(--navy); font: 600 .9rem/1 var(--display); padding: 7px 12px; border-radius: 999px; }
+.wk-card p { margin: 0; padding: 16px 20px 22px; font-size: 1.1rem; line-height: 1.45; color: #1F3050; }
+.wk-t { font: 700 22px var(--display); fill: var(--wk-ink); }
+body.dark-mode .wk { background: #0B1B38; }
+body.dark-mode .wk h2 { color: #fff; }
+body.dark-mode .wk-card { background: #10264B; border-color: #23395C; --wk-sky: #163A6B; --wk-wave: #0A2A57; --wk-wave2: #1F5CA3; --wk-paper: #F2F7FC; }
+body.dark-mode .wk-card p { color: #D5E1F2; }
+@media (max-width: 1100px) { .wk-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .wk-grid { grid-template-columns: 1fr; gap: 18px; margin-top: 32px; } }
+
+.wk-ready .wk-card:not(.in) { opacity: 0; transform: translateY(16px); }
+.wk-ready .wk-card { transition: opacity var(--dur-long, 800ms) var(--ease-enter, ease-out), transform var(--dur-long, 800ms) var(--ease-enter, ease-out); }
+.wk-ready .wk-card:nth-child(2) { transition-delay: 90ms; }
+.wk-ready .wk-card:nth-child(3) { transition-delay: 180ms; }
+.wk-ready .wk-card:nth-child(4) { transition-delay: 270ms; }
+html[data-motion="paused"] .wk-ready .wk-card { opacity: 1; transform: none; transition: none; }
+@media (prefers-reduced-motion: reduce) { .wk-ready .wk-card { opacity: 1 !important; transform: none !important; transition: none; } }
