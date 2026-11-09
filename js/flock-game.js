@@ -1,17 +1,14 @@
-/* The Flock: mini-game in the pond at the bottom of each page, inside the navy "Try it as a member." section (rock throwing at bot ducks, weird events, wipes).
+/* The Flock: mini-game in the pond at the bottom of each page, on each page (rock throwing at bot ducks and cartoon events).
    Needs js/flock-duck.js, js/flock-lines.js and js/flock-events-1..6.js loaded first. Respects Flock.paused from js/flock-motion.js. */
 (function () {
   'use strict';
   const NSS = 'http://www.w3.org/2000/svg';
   function el(tag, css, html) { const e = document.createElement(tag); if (css) e.style.cssText = css; if (html) e.innerHTML = html; return e; }
-  const WIPES = '<svg width="92" height="64" viewBox="0 0 92 64" aria-hidden="true" style="display:block;overflow:visible"><ellipse cx="46" cy="60" rx="38" ry="4" fill="#000" opacity=".25"/><path d="M30,18 C28,6 40,0 46,4 C52,0 64,6 62,18 Z" fill="#fff" stroke="#BFD9F2" stroke-width="1.5"/><path d="M38,12 C42,9 50,9 54,12" fill="none" stroke="#DDEFFC" stroke-width="2" stroke-linecap="round"/><rect x="6" y="16" width="80" height="42" rx="12" fill="#7CC8F0" stroke="#4FA6DA" stroke-width="2"/><path d="M10,24 C30,20 62,20 82,24" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/><rect x="28" y="14" width="36" height="12" rx="6" fill="#fff" stroke="#4FA6DA" stroke-width="2"/><text x="46" y="44" text-anchor="middle" font-family="Fredoka,system-ui,sans-serif" font-weight="700" font-size="13" fill="#002050" letter-spacing="1">WIPES</text><circle cx="72" cy="48" r="3" fill="#fff" opacity=".7"/><circle cx="78" cy="42" r="2" fill="#fff" opacity=".5"/></svg>';
-  const WIPES_SM = '<svg width="64" height="46" viewBox="0 0 92 64" aria-hidden="true" style="display:block;overflow:visible"><path d="M30,18 C28,6 40,0 46,4 C52,0 64,6 62,18 Z" fill="#fff" stroke="#BFD9F2" stroke-width="1.5"/><rect x="6" y="16" width="80" height="42" rx="12" fill="#7CC8F0" stroke="#4FA6DA" stroke-width="2"/><path d="M10,24 C30,20 62,20 82,24" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/><rect x="28" y="14" width="36" height="12" rx="6" fill="#fff" stroke="#4FA6DA" stroke-width="2"/><text x="46" y="44" text-anchor="middle" font-family="Fredoka,system-ui,sans-serif" font-weight="700" font-size="13" fill="#002050" letter-spacing="1">WIPES</text></svg>';
-
   // Where the game lives. One map for every page; the road pages are picked by an attribute on the band, so the same code
   // works when a page's content moves (put data-flock-game="top" on a top band, "bottom" on the closing navy section).
   //   wave   : the home page's pain wall answer band ("We built The Flock for them."), on its wave strip
   //   top    : the top band of a road page (the yellow duck and three bots replace the static ducks)
-  //   bottom : the closing navy section ("Try it as a member."), turned into a pond
+  //   bottom : a separate pond after the How page’s bot section
   const MOUNTS = [
     { mode: 'wave', sel: '#pain-wall .pw-end' },
     { mode: 'top', sel: '[data-flock-game="top"]' },
@@ -28,9 +25,9 @@
     '.game-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}' +
     /* bottom: a pond along the foot of the section */
     '.game-host{padding-bottom:0!important}.game-host>.wrap{padding-bottom:0}' +
-    '.game-pond{position:relative;width:100%;height:320px;margin-top:36px}' +
+    '.game-pond{position:relative;width:100%;height:320px;margin:0;background:#0b3969}' +
     '.game-waves{position:absolute;left:0;top:0;width:100%;height:100%;display:block}' +
-    '.game-pond .game-info{top:16px;display:grid;gap:10px;justify-items:start}' +
+    '.game-pond .game-info{top:24px;left:max(16px,5%);right:max(16px,5%);display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px}' +
     /* top: the hero band; its text stays above the game */
     '.top.game-top{padding-bottom:214px}.game-top>.wrap{position:relative;z-index:2}.game-top .game-hint.game-hint{margin:22px 0 0}.game-top .game-hud{margin-top:10px}.game-top>.game-hud{position:absolute;right:24px;top:20px;margin:0}@media(max-width:900px){.top.game-top{padding-bottom:194px}}' +
     /* wave: the answer band; the answer text stays above the game, the call-out sits under the button */
@@ -38,11 +35,11 @@
     '.pw-end.game-end .pw-sun{display:none}' +
     '.game-end .game-info{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;left:max(16px,5%);width:calc(100% - 32px)}' +
     '.pw-end.game-end{padding-bottom:250px}' +
-    '.pw-view>.pw-end .game-layer,.pw-view>.pw-end .game-throw,.pw-view>.pw-end .game-info{transition:opacity .35s}.pw-view>.pw-end:not(.pw-open) .game-layer,.pw-view>.pw-end:not(.pw-open) .game-throw,.pw-view>.pw-end:not(.pw-open) .game-info,.pw-view>.pw-end:not(.pw-open) .game-nudge{opacity:0;visibility:hidden}' +
+    '.pw-view>.pw-end .game-layer,.pw-view>.pw-end .game-throw,.pw-view>.pw-end .game-info{transition:opacity .35s}.pw-view>.pw-end:not(.pw-open) .game-layer,.pw-view>.pw-end:not(.pw-open) .game-throw,.pw-view>.pw-end:not(.pw-open) .game-info{opacity:0;visibility:hidden}' +
     '.pw-view>.pw-end.pw-open .game-throw{pointer-events:auto}' +
     '@media (max-width:899px){.pw-end.game-end{padding-bottom:270px}}' +
-    /* phone: the score is one short line after the call-out; one number only, no floating WIPES (the footer one stays) */
-    '@media (max-width:699px){.game-key{display:none}.game-pond{height:380px;margin-top:28px}.game-pond .game-info{left:16px;right:16px}.game-nudge{display:none!important}}';
+    /* Phone: keep the pond and controls readable. */
+    '@media (max-width:699px){.game-key{display:none}.game-pond{height:320px}.game-pond .game-info{left:16px;right:16px}}';
 
   function mount() {
     const FD = window.FlockDuck, M = MOUNTS.find(m => document.querySelector(m.sel));
@@ -94,7 +91,7 @@
       g.info = wrap;
       g.measure = st => {
         st.W = host.offsetWidth; st.H = host.offsetHeight; st.HB = st.H; st.WL = st.H - 62;
-        st.lo = st.WL - 14; st.hi = st.WL + 2;   // the blue wave only: the white one below is the page
+        st.lo = st.H - 34; st.hi = st.H - 12;   // allow splashes on the white shoreline
         // the score: top right of a wide band; on a narrow one, one line after the call-out
         const narrow = host.offsetWidth < 700;
         if (narrow && hud.parentElement !== wrap) wrap.appendChild(hud);
@@ -103,7 +100,7 @@
         let top = st.WL - 130, tb = 0;
         wrap.querySelectorAll(':scope > *').forEach(e => { const b = e.getBoundingClientRect(); if (!b.height) return; tb = Math.max(tb, b.bottom - hr.top); if (b.left - hr.left < tx + 70 && b.right - hr.left > tx - 70) top = Math.max(top, b.bottom - hr.top + 4); });
         const sp = sea ? [...sea.querySelectorAll('path')].map(x => x.getAttribute('d')) : [];
-        return { top, textBottom: Math.ceil(tb) + 8, water: sea && sp.length > 1 ? { d: sp[0] + ' ' + sp[1], tf: 'translate(0 ' + (st.H - 120) + ') scale(' + (st.W / 1440).toFixed(4) + ' 1)' } : null };
+        return { top, textBottom: Math.ceil(tb) + 8, water: sea && sp.length > 1 ? { d: sp[0], tf: 'translate(0 ' + (st.H - 120) + ') scale(' + (st.W / 1440).toFixed(4) + ' 1)' } : null };
       };
     } else {
       // wave: the answer band of the home page's pain wall. Its three ducks give way to the game's bots on the same wave.
@@ -126,22 +123,14 @@
         return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(relBottom(info, hr)) + 8, water: { d: sp[0] + ' ' + (shore ? shore.getAttribute('d') : ''), tf: 'translate(0 ' + (sr.top - hr.top).toFixed(2) + ') scale(' + (sr.width / 1440).toFixed(4) + ' ' + (sr.height / 300).toFixed(4) + ')' } };
       };
     }
-    const footer = document.querySelector('.page-footer .wrap') || document.body;
-    const wipe = el('button', 'display:none;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;min-height:44px;cursor:pointer;color:#BFD9F2;font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.06em', WIPES + '<span></span>');
-    wipe.type = 'button'; wipe.className = 'game-wipes'; wipe.title = 'Please leave the place clean';
-    const links = footer.querySelector('.links'); footer.insertBefore(wipe, links || null);
-    const nudge = el('button', 'position:absolute;right:16px;bottom:10px;z-index:8;pointer-events:auto;display:none;align-items:center;gap:12px;background:#fff;border:2px solid #7CC8F0;border-radius:20px;padding:6px 16px 6px 6px;min-height:44px;box-shadow:0 10px 24px rgba(0,32,80,.3);cursor:pointer;font:600 1rem Fredoka,system-ui,sans-serif;color:#002050;text-align:left',
-      '<span style="position:relative;display:block;flex:none">' + WIPES_SM + '<span data-n aria-hidden="true" style="position:absolute;right:-8px;top:-8px;min-width:22px;height:22px;padding:0 5px;box-sizing:border-box;border-radius:11px;background:#D7263D;color:#fff;font:700 12px/22px Fredoka,system-ui,sans-serif;text-align:center">0</span></span><span class="game-nudge-t" style="display:grid;gap:1px"><span data-t style="font-size:1rem">Please leave the place clean</span><span style="font:500 12px Inter,system-ui,sans-serif;color:#4A5B72">Tap to wipe up after yourself</span></span>');
-    nudge.type = 'button'; nudge.className = 'game-nudge'; g.root.appendChild(nudge);
-    const o = { g, section: host, gsvg, layer, hero: g.root, hit, hud, hint, live, wipe, wipeLabel: wipe.querySelector('span'), nudge, nudgeTxt: nudge.querySelector('[data-t]'), nudgeCount: nudge.querySelector('[data-n]'), reduced: !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) };
-    o.wipeLabel.textContent = 'Please leave the place clean';
+    const o = { g, section: host, gsvg, layer, hero: g.root, hit, hud, hint, live, reduced: !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) };
     game(FD, E, cl, g.root, o);
   }
 
   function game(FD, E, cl, root, o) {
-    const NS = 'http://www.w3.org/2000/svg', gsvg = o.gsvg, hero = o.hero, hit = o.hit, hud = o.hud, wipe = o.wipe, wlab = o.wipeLabel;
-    const G = 980, nudge = o.nudge, ntxt = o.nudgeTxt, ncount = o.nudgeCount;
-    let red = o.reduced, secSeen = false, inView = false;
+    const NS = 'http://www.w3.org/2000/svg', gsvg = o.gsvg, hero = o.hero, hit = o.hit, hud = o.hud;
+    const G = 980;
+    let red = o.reduced, inView = false;
     // the pain wall's answer band only plays once the scene has reached its end (or in the still layout)
     const on = () => inView && (!o.g.live || o.g.live());
     // Pause and reduced motion: read live. The game's own Web Animations are tracked so Pause can hold them.
@@ -156,20 +145,10 @@
     };
     const later = (fn, ms) => { if (red) { fn(); return; } pending.push({ at: stage.R + ms, fn }); wake(); };
     const tickLater = R => { for (let i = 0; i < pending.length; i++) if (R >= pending[i].at) { const t = pending.splice(i--, 1)[0]; try { t.fn(); } catch (e) { console.warn(e); } } };
-    // The floating WIPES nudge: only after the visitor has thrown, only while the game area is on screen, never on a phone
-    // (there the footer button stays), and never next to the footer button: one of the two at a time.
-    const syncNudge = () => {
-      const has = stains.length > 0 && st.thrown, floating = has && secSeen && window.innerWidth >= 700;
-      nudge.style.display = floating ? 'flex' : 'none'; wipe.style.display = has && !floating ? 'flex' : 'none'; ncount.textContent = stains.length;
-    };
-    addEventListener('resize', () => syncNudge());
-    // the floating WIPES nudge shows only while the game section is on screen
-    const fio = new IntersectionObserver(es => { secSeen = es[es.length - 1].isIntersecting; syncNudge(); }, { threshold: 0 });
-    fio.observe(o.section);
     const L = c => window.FlockLine ? window.FlockLine(c) : 'gm', pick = a => a[Math.floor(Math.random() * a.length)], rnd = (a, b) => a + Math.random() * (b - a), f1 = v => v.toFixed(1);
     const mk = (tag, at, par) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); par.appendChild(e); return e; };
     gsvg.innerHTML = '<g data-l="stains"></g><g data-l="evb"></g><g data-l="ducks"></g><g data-l="extra"></g><g data-l="evf"></g><g data-l="rock"></g><g data-l="fx"></g><g data-l="aim"></g><g data-l="ui"></g>';
-    // stains are clipped to the water shape of this page's waves, so none reaches the white shore or the page
+    // Keep stains inside the scene; top scenes include their white shoreline.
     const defs = document.createElementNS(NS, 'defs'); defs.innerHTML = '<clipPath id="game-water"><path clip-rule="evenodd" fill-rule="evenodd" d=""/></clipPath>'; gsvg.insertBefore(defs, gsvg.firstChild);
     const waterPath = defs.querySelector('path');
     const Ly = {}; ['stains', 'evb', 'ducks', 'extra', 'evf', 'rock', 'fx', 'aim', 'ui'].forEach(n => Ly[n] = gsvg.querySelector('[data-l="' + n + '"]'));
@@ -178,7 +157,7 @@
     hud.innerHTML = '<div>BONKED <b data-s style="font:700 15px Fredoka,system-ui,sans-serif;color:#FED801;margin-left:4px">0</b></div>';
     const hudS = hud.querySelector('[data-s]'), live = o.live; let liveFlip = false;
     const announce = () => { liveFlip = !liveFlip; live.textContent = 'Bonked: ' + st.score + (liveFlip ? '' : '.'); };
-    const st = { W: 0, H: 0, WL: 0, HB: 0, tx: 0, ox: 0, oy: 0, sc: .44, score: 0, combo: 0, wind: 0, aiming: false, ptr: null, thrown: false, nextSay: 2500, banner: null, cleaning: null, auto: null, attracted: false };
+    const st = { W: 0, H: 0, WL: 0, HB: 0, tx: 0, ox: 0, oy: 0, sc: .44, score: 0, combo: 0, wind: 0, aiming: false, ptr: null, thrown: false, nextSay: 2500, banner: null, auto: null, attracted: false };
     const thrower = { id: 'thr', k: 'y', s: .5, d0: 1, water: '#2F6FC4', posFn: () => [st.tx, st.WL, 0] };
     const slots = [0, 1, 2].map(i => ({ i, st: 'float', x: 0, y: 0, rot: 0, bx: 0, by: 0, vx: 0, vy: 0, spin: 0, t0: 0, sayT: -1e9, landed: false }));
     slots.forEach(s => { s.duck = { id: 'b' + s.i, k: 'g', s: .44, d0: -1, water: '#2F6FC4', posFn: () => [s.x, s.y, 0], extra: (T, o) => { o.rot = s.rot; } }; });
@@ -239,7 +218,7 @@
     };
     const targets = () => slots.filter(s => s.st === 'float').map(s => ({ s, x: s.x, y: s.y, k: st.sc / .44, hit: false }));
     const vel = p => { const dx = st.ox - p[0], dy = st.oy - p[1], len = Math.min(180, Math.hypot(dx, dy)), a = Math.atan2(dy, dx), pw = len / 180, sp = (300 + 1150 * pw) * Math.sqrt(Math.max(.35, st.W / 1280)); return { vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, pw, len, a }; };
-    const say = (s, t) => { if (red) return; s.X.bt.textContent = t; const w = [...t].length * 7.4 + 24; s.bw = w; s.X.br.setAttribute('x', -w / 2); s.X.br.setAttribute('width', w); s.sayT = stage.R; };
+    const say = (s, t) => { if (red || slots.some(o => o !== s && o.st === 'float' && stage.R - o.sayT < Math.max(2000, 900 + (o.X.bt.textContent || '').length * 45))) return false; s.X.bt.textContent = t; const w = [...t].length * 7.4 + 24; s.bw = w; s.X.br.setAttribute('x', -w / 2); s.X.br.setAttribute('width', w); s.sayT = stage.R; return true; };
     const snd = n => { try { window.FlockSound && FlockSound.play(n); } catch (e) {} };
     const throwIt = p => { const v = vel(p); if (v.pw < .08) return false; st.throws = (st.throws || 0) + 1; snd('whoosh'); Object.assign(rock, { st: 'fly', x: st.ox, y: st.oy, vx: v.vx, vy: v.vy, skips: 0, dead: 0 }); st.combo = 0; thrower.react = { type: 'dip', start: stage.R, dur: 380 }; if (red) settleThrow(); return true; };
     // Reduced motion: a throw is worked out at once and shown as its result (score, a stain), with no flight, particles or respawn
@@ -249,7 +228,7 @@
       while (!rock.dead && g++ < 3000) step(rock, 1 / 120, tg, cb);
       if (n === 0) { const f = slots.filter(s => s.st === 'float'); if (f.length) say(pick(f), L('miss')); }
 
-      Object.assign(rock, { st: 'ready', t0: -1e4, dead: 0 }); st.combo = 0; announce(); syncNudge(); wake();
+      Object.assign(rock, { st: 'ready', t0: -1e4, dead: 0 }); st.combo = 0; announce(); wake();
     };
     const solve = () => {
       let best = null; const base = targets(); if (!base.length) return null;
@@ -300,7 +279,13 @@
       for (let i = 0, n = 2 + Math.floor(Math.random() * 4); i < n; i++) { const a = rnd(0, 6.28), dd = R * rnd(1.1, 1.6); h += '<circle cx="' + f1(Math.cos(a) * dd) + '" cy="' + f1(Math.sin(a) * dd) + '" r="' + f1(R * rnd(.12, .3)) + '" fill="#C81D33"/>'; }
       h += '<ellipse cx="' + f1(-R * .3) + '" cy="' + f1(-R * .3) + '" rx="' + f1(R * .35) + '" ry="' + f1(R * .18) + '" fill="#fff" opacity=".22"/>';
       inner.innerHTML = h;
-      stains.push({ g, inner, x, y, born: stage.R, done: red }); if (red) inner.setAttribute('transform', 'scale(1)'); syncNudge();
+      const spot = { g, inner, x, y, born: stage.R, done: red }; stains.push(spot);
+      if (red) {
+        inner.setAttribute('transform', 'scale(1)');
+        const expire = () => { if (held()) { setTimeout(expire, 1000); return; } g.remove(); stains = stains.filter(s => s !== spot); };
+        setTimeout(expire, 6500);
+      }
+
     };
     const shake = () => { if (calm()) return; const k = [{ transform: 'translate(0,0)' }, { transform: 'translate(-6px,3px)' }, { transform: 'translate(5px,-3px)' }, { transform: 'translate(-2px,2px)' }, { transform: 'none' }]; anim(gsvg, k, { duration: 260 }); };
     const liveCb = {
@@ -336,19 +321,6 @@
     });
     hit.addEventListener('pointerup', () => { hit.style.cursor = 'grab'; if (!st.aiming || st.auto) return; st.aiming = false; if (!throwIt(st.ptr)) snd('quack'); });
     hit.addEventListener('pointercancel', () => { st.aiming = false; });
-    const instantClean = () => {
-      if (st.cleaning) { st.cleaning.cloth.remove(); st.cleaning = null; }
-      stains.forEach(s => s.g.remove()); stains = []; wlab.textContent = ntxt.textContent = 'Please leave the place clean'; syncNudge();
-    };
-    const clean = () => {
-      if (red) { instantClean(); return; }
-      if (st.cleaning || !stains.length) return;
-      const list = stains.slice().sort((a, b) => (Math.round(a.y / 60) - Math.round(b.y / 60)) || (a.x - b.x)), cloth = mk('g', {}, Ly.ui);
-      cloth.innerHTML = '<rect x="-20" y="-15" width="40" height="30" rx="6" fill="#fff" stroke="#9CC8E8" stroke-width="2"/><path d="M-13,-6 h26 M-13,0 h26 M-13,6 h18" stroke="#BFE6FA" stroke-width="2" stroke-linecap="round"/>';
-      st.cleaning = { t0: stage.R, list, cloth }; wlab.textContent = 'Scrubbing…'; ntxt.textContent = 'Scrubbing…'; wake();
-    };
-    wipe.addEventListener('click', clean); nudge.addEventListener('click', clean);
-
     const frame = (R, dt) => {
       // slots
       slots.forEach(s => {
@@ -415,24 +387,18 @@
         else if (p.kind === 'blood') { p.vy += G * dt; p.x += p.vx * dt; p.y += p.vy * dt; const sp = Math.hypot(p.vx, p.vy); p.el.setAttribute('transform', 'translate(' + f1(p.x) + ' ' + f1(p.y) + ') rotate(' + f1(Math.atan2(p.vy, p.vx) * 57.3) + ')'); p.el.setAttribute('rx', f1(p.r * (1 + Math.min(1.4, sp / 700)))); if (p.vy > 0 && p.y >= p.land) { if (p.x > 0 && p.x < st.W) stain(p.x, p.y, p.r); p.age = p.life; } }
         if (p.age >= p.life) { p.el.remove(); fx.splice(i, 1); }
       }
-      stains.forEach(s => { const k = Math.min(1, (R - s.born) / 220); if (!s.done) { s.inner.setAttribute('transform', 'scale(' + Math.max(.2, E.back(k)).toFixed(3) + ')'); if (k >= 1) s.done = true; } });
+      stains = stains.filter(s => {
+        const age = R - s.born;
+        if (!s.done) { const k = Math.min(1, age / 220); s.inner.setAttribute('transform', 'scale(' + Math.max(.2, E.back(k)).toFixed(3) + ')'); if (k >= 1) s.done = true; }
+        if (!red && age >= 6500) { s.g.remove(); return false; }
+        if (!red && age > 5500) s.g.setAttribute('opacity', ((6500 - age) / 1000).toFixed(2));
+        return true;
+      });
       // banner
       // one banner at a time, in the pond strip, at least 24px below the score and no wider than the area
       if (st.banner) { const k = (R - st.banner.t0) / 1800; if (k > 1) { st.banner = null; ban.setAttribute('opacity', 0); } else { const bw = b1.getBBox().width + 24, sc2 = Math.min(1, (st.W - 32) / bw), hw = bw * sc2 / 2, cx = Math.min(st.W - 16 - hw, Math.max(16 + hw, (slots[0].bx + slots[2].bx) / 2)), by = Math.max((st.tb || 0) + 24 + 34, st.WL - 120); ban.setAttribute('opacity', k > .85 ? ((1 - k) / .15).toFixed(2) : 1); ban.setAttribute('transform', 'translate(' + f1(cx) + ' ' + f1(by) + ') rotate(' + f1(Math.sin(R / 120) * 3) + ') scale(' + (E.back(Math.min(1, k * 6)) * sc2).toFixed(3) + ')'); } }
-      // cleaning
-      if (st.cleaning) {
-        const c = st.cleaning, per = 130, el = R - c.t0, j = Math.floor(el / per), k = (el % per) / per;
-        c.list.forEach((s, i) => { if (i < j) s.g.setAttribute('opacity', 0); else if (i === j) s.g.setAttribute('opacity', (1 - k).toFixed(2)); });
-        const a = c.list[Math.min(j, c.list.length - 1)], b = c.list[Math.min(j + 1, c.list.length - 1)];
-        c.cloth.setAttribute('transform', 'translate(' + f1(a.x + (b.x - a.x) * E.io(k)) + ' ' + f1(a.y + (b.y - a.y) * E.io(k) + Math.sin(el / 40) * 3) + ') rotate(' + f1(Math.sin(el / 55) * 18) + ')');
-        if (j >= c.list.length) {
-          c.list.forEach(s => s.g.remove()); stains = stains.filter(s => !c.list.includes(s)); c.cloth.remove(); st.cleaning = null;
-          wlab.textContent = 'Thanks'; ntxt.textContent = 'Thanks'; ncount.textContent = '✓';
-          later(() => { ntxt.textContent = wlab.textContent = 'Please leave the place clean'; syncNudge(); }, 1600);
-        }
-      }
       // keep the loop awake a moment after anything is still moving (reduced motion and off-screen stop when idle)
-      if ((st.aiming && !st.kbd) || st.auto || rock.st !== 'ready' || R - rock.t0 < 320 || fx.length || st.cleaning || st.banner || cur || convo || pending.length || slots.some(s => s.st !== 'float' || (s.landed && R - s.t0 < 420) || R - s.sayT < Math.max(2000, 900 + (s.X.bt.textContent || '').length * 45))) st.wakeUntil = R + 1000;
+      if ((st.aiming && !st.kbd) || st.auto || rock.st !== 'ready' || R - rock.t0 < 320 || fx.length || st.banner || cur || convo || pending.length || slots.some(s => s.st !== 'float' || (s.landed && R - s.t0 < 420) || R - s.sayT < Math.max(2000, 900 + (s.X.bt.textContent || '').length * 45))) st.wakeUntil = R + 1000;
     };
     let cur = null, nextEv = 6000, eid = 0; const recent = [];
     let convo = null;
@@ -443,7 +409,8 @@
       const f = slots.filter(o => o.st === 'float'); if (!f.length) { convo.next = R + 800; return; }
       let sp = f.length > 1 ? f.filter(o => o !== convo.last) : f; sp = sp[convo.i % sp.length] || f[0];
       const line = convo.lines[convo.i];
-      say(sp, line); sp.duck.react = { type: convo.i % 2 ? 'quack' : 'dip', start: R, dur: 300 };
+      if (!say(sp, line)) { convo.next = R + 150; return; }
+      sp.duck.react = { type: convo.i % 2 ? 'quack' : 'dip', start: R, dur: 300 };
       f.forEach(o => { if (o !== sp) o.duck.look = [[0, sp.x, sp.y - 20]]; }); sp.duck.look = null;
       convo.last = sp; convo.i++; st.nextSay = R + 5000;
       convo.next = R + 1100 + line.length * 38;
@@ -491,12 +458,12 @@
         let t = (R - cur.t0) / 1000;
         try { cur.def.frame(C, Math.min(1, t / cur.def.dur), t, dt, cur.s); } catch (e) { console.warn(cur.def.id, e); t = 1e9; }
         if (t >= cur.def.dur) endEv();
-      } else if (!calm() && R > nextEv && on() && !st.aiming && !st.cleaning) startEv();
+      } else if (!calm() && R > nextEv && on() && !st.aiming) startEv();
     };
     const stage = new FD.Stage({ observe: root, threshold: .01, end: 0, frame: (T, R, dtms) => { const dt = Math.min(.05, dtms / 1000); tickLater(R); tickEv(R, dt); frame(R, dt); } });
     // Runs while the tab is shown and nothing is paused, and then only while the hero is on screen (idle animation, not under
-    // reduced motion) or something is still moving. A cleaning started from the footer always finishes.
-    stage.run = () => !red && !document.hidden && !isPaused() && (!!st.cleaning || (stage.visible && (stage.R < st.wakeUntil || (!red && on()))));
+    // reduced motion) or something is still moving.
+    stage.run = () => !red && !document.hidden && !isPaused() && (stage.visible && (stage.R < st.wakeUntil || (!red && on())));
     // Reduced motion: no loop at all. Every state change paints one static frame (the clock does not move, so nothing bobs or grows).
     const wake = () => { if (red) { stage.frame(0); return; } st.wakeUntil = Math.max(st.wakeUntil || 0, stage.R + 1000); stage.kick(); };
     stage.reduced = red;
@@ -517,7 +484,7 @@
       if (cur) endEv(); convo = null; st.auto = null; st.aiming = false; st.banner = null; ban.setAttribute('opacity', 0);
       Object.assign(rock, { st: 'ready', t0: -1e4, dead: 0 }); st.combo = 0;
       slots.forEach(s => { if (s.st !== 'float') { s.st = 'float'; s.rot = 0; s.landed = false; s.x = s.bx; s.y = s.by; } });
-      if (stains.length || st.cleaning) instantClean();
+      stains.forEach(s => s.g.remove()); stains = [];
       stage.frame(0); wake();
     };
     if (window.matchMedia) { const mq = matchMedia('(prefers-reduced-motion: reduce)'), onMq = () => { red = stage.reduced = mq.matches; if (red) settleAll(); else wake(); }; if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq); }
