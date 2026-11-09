@@ -150,19 +150,19 @@
         .panels { margin-top: 40px; }
         .panel { display: grid; grid-template-columns: minmax(0, 460px) minmax(0, 1fr); gap: 56px; align-items: center; }
         .panel + .panel { margin-top: 56px; }
-        .js .panel + .panel { margin-top: 0; }
-        .js .panel[hidden] { display: none; }
+        .fx .panel + .panel { margin-top: 0; }
+        .fx .panel[hidden] { display: none; }
         .panel .tg { justify-self: center; }
         .panel h3 { font-weight: 600; font-size: 1.7rem; line-height: 1.15; }
         .panel p { font-size: 1.15rem; line-height: 1.6; margin-top: 14px; max-width: 30em; color: #E4ECF7; }
         .next-step { margin-top: 22px; background: transparent; color: var(--sun); border: 2px solid var(--sun); font: 600 1.05rem var(--display); padding: 10px 20px; border-radius: 999px; cursor: pointer; display: none; }
-        .js .next-step { display: inline-block; }
+        .fx .next-step { display: inline-block; }
         .next-step:hover { background: rgba(254,216,1,.12); }
         .next-step:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
         /* Check my reply: the notes light up the words they are about */
         .marked u.on { background: rgba(229, 96, 79, .45); box-shadow: 0 0 0 2px rgba(255, 140, 120, .7); }
         .tg .later { opacity: 1; transition: opacity .5s, transform .5s; }
-        .js .panel:not(.show) .later, .js .panel.show.wait .later { opacity: 0; transform: translateY(8px); }
+        .fx .panel:not(.show) .later, .fx .panel.show.wait .later { opacity: 0; transform: translateY(8px); }
 
         /* Where fees go: Arctide's real split, then the part we are designing */
         .fees { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 56px; align-items: start; margin-top: 44px; }
@@ -558,7 +558,7 @@
                 <p class="lede">If your token trades on Arctide, every trade pays a fee in USDC, and you set part of the split. Arctide pays each share out in the same trade.</p>
                 <div class="fees">
                     <figure class="scene" id="flow">
-<svg class="scene-svg" id="fee-svg" viewBox="0 0 560 880" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drawing of how Arctide splits a trading fee. Someone trades your token on Arctide. The fee is paid in USDC. Arctide’s router splits it in the same transaction, three ways: liquidity providers, your project’s wallet or contract, and 0.25 percent to Arctide. A reward and tip pool for members whose help your team confirmed would sit under your project’s share.">
+<svg class="scene-svg" id="fee-svg" viewBox="0 0 560 880" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drawing of how Arctide splits a trading fee. Someone trades your token on Arctide. The fee is paid in USDC. Arctide’s router splits it in the same transaction, three ways: liquidity providers, your project’s wallet or contract, and 0.25 percent to Arctide. A planned reward and tip pool for members whose help your team confirmed would sit under your project’s share.">
 <defs>
   <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#37B88C"/><stop offset=".55" stop-color="#25986F"/><stop offset="1" stop-color="#17704F"/></linearGradient>
   <clipPath id="fclip"><rect width="560" height="880" rx="30"/></clipPath>

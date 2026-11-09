@@ -77,6 +77,12 @@
             return b;
         }
         function rest(on) { return function () { kill(A); rate(1); svg.classList.toggle('run', on); }; }
+        // off screen the runtime holds the beat clock (and drops .play); hold this scene's animations with it
+        var held = [];
+        if (window.MutationObserver) new MutationObserver(function () {
+            if (fig.classList.contains('play')) held.splice(0).forEach(function (a) { a.play(); });
+            else A.forEach(function (a) { if (a.playState === 'running') { a.pause(); held.push(a); } });
+        }).observe(fig, { attributes: true, attributeFilter: ['class'] });
         dbg.flow = F.scene(fig, { mode: 'once', ambient: true, threshold: 0.35, beats: cycle(0).concat(cycle(9000), cycle(18000, 1)), reset: rest(true), end: rest(false) });
     }
 
@@ -165,7 +171,6 @@
         var tabs = arr(d.querySelectorAll('[role="tab"]')), box = d.querySelector('.panels'), n = tabs.length;
         var panels = tabs.map(function (t) { return doc.getElementById(t.getAttribute('aria-controls')); });
         var cur = -1, seen = !window.IntersectionObserver, pend = null, hs = null;
-        d.classList.add('fx');
         var scenes = panels.map(panel);
         function put(i) { panels.forEach(function (p, j) { p.hidden = i !== j; p.classList.toggle('show', i === j); }); cur = i; }
         function select(i) { tabs.forEach(function (t, j) { t.setAttribute('aria-selected', i === j ? 'true' : 'false'); t.tabIndex = i === j ? 0 : -1; }); }
@@ -201,7 +206,8 @@
             if (b) b.addEventListener('click', function () { show((i + 1) % n, true); });
             dbg[p.id] = { el: p, seek: function (ms) { seen = true; settle(); select(i); put(i); scenes[i].seek(ms); } };
         });
-        select(0); put(0); play(0);
+        // .fx turns on the tabbed layout (index.html, css/flock-demos.css): without this script every panel stays readable
+        select(0); put(0); d.classList.add('fx'); play(0);
         // the first panel builds itself when the demo comes into view
         if (!seen) {
             var io = new IntersectionObserver(function (e) {
