@@ -71,7 +71,8 @@
                 } },
                 { at: o + 3200, run: function () {
                     var g = at(ghost), a = tr(g[0], g[1]), z = tr(g[0], g[1] + 26);
-                    anim(A, ghost, [{ opacity: 0, transform: a, easing: MOVE }, { opacity: 1, offset: .15 }, { opacity: 1, transform: z, offset: .6 }, { opacity: 1, offset: .75 }, { opacity: 0, transform: z }], 1300, { easing: 'linear', fill: 'none' });
+                    anim(A, ghost, [{ opacity: 0, transform: a, easing: MOVE }, { opacity: 1, offset: .15 }, { opacity: 1, transform: z, offset: .6 }, { opacity: 1, offset: .75 }, { opacity: last ? .5 : 0, transform: z }], 1300, { easing: 'linear', fill: last ? 'forwards' : 'none' });
+                    // the last run settles on the end frame: the ghost stays at its halfway stop, half faded
                 } }
             ];
             // between runs the coins fade; after the third they stay in their pools (the end frame)
@@ -137,7 +138,7 @@
             anim(A, r, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], MED, { delay: t, easing: MOVE });
             anim(A, pick, [{ color: '#8EC4FA' }, { color: '#FED801' }], SHORT, { delay: t });
             anim(A, ptr, fade(1, 0), SHORT, { delay: t + MED + 200, fill: 'forwards' });
-            anim(A, dot, [{ opacity: 1, transform: dt }, { opacity: 0, transform: dt }], SHORT, { delay: t + MED + 200 });
+            anim(A, dot, [{ opacity: 1, transform: dt }, { opacity: 0, transform: dt }], SHORT, { delay: t + MED + 200, fill: 'forwards' });
         }
         function run() {
             var t = 0, last = 0;
@@ -240,7 +241,7 @@
         function go() { if (done || !seen || !risen) return; done = true; if (F.paused || F.reduced) h.end(); else h.replay(); }
         (rise ? rise.finished : Promise.resolve()).then(function () { risen = true; go(); }, function () { risen = true; done = true; h.end(); });
         if (!seen) {
-            var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { io.disconnect(); seen = true; go(); } }, { threshold: 0.6 });
+            var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting && e[0].intersectionRatio >= 0.6) { io.disconnect(); seen = true; go(); } }, { threshold: 0.6 });
             io.observe(card);
         } else go();
     }
