@@ -40,13 +40,13 @@
 @keyframes swim { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(26px); } }
 
 /* Two ponds (home #lanes): plays once when it comes into view, then idles. Beats are in index.html; this is what each
-   beat starts. Times are fractions of --scene-ponds (6s), so the CSS and the beat clock read the same storyboard.
-   Left: grey ducks swim in, message chips rise to the podium, the duck on top bobs higher each time, the yellow ducks
-   look up, then at each other. Right: the yellow duck swims to the gate, the bar lifts, it passes, a dated line writes
-   into the Track record card; the first grey duck reaches the closed gate, is confused and turns away; the second
-   turns without reaching it. Frame 0 (.pre) applies only while motion can run, so a paused page hides nothing. */
+   beat starts. Times are fractions of --scene-ponds, so the CSS and the beat clock read the same storyboard.
+   Left, 0-2.4s: grey ducks swim in, message bubbles rise and land on the podium, which grows with each one while the
+   duck on top bobs higher; the yellow ducks look up, then at each other. Right, 2.4-6.3s: the yellow duck swims to the
+   gate, the bar lifts, it passes, a dated line writes into the Track record card; the first grey duck reaches the
+   closed gate, is confused, bumps back and turns away; the second turns without reaching it. */
 html:not([data-motion="paused"]) #lanes.pre .gin .move { transform: translateX(-48px); opacity: 0; }
-#lanes.go .gin .move { animation: ponds-in calc(var(--scene-ponds) * .1) var(--ease-move) both; }
+#lanes.go .gin .move { animation: ponds-in calc(var(--scene-ponds) * 0.09375) var(--ease-move) both; }
 @keyframes ponds-in { from { transform: translateX(-48px); opacity: 0; } to { transform: none; opacity: 1; } }
 #lanes .chip-y { transform-box: fill-box; transform-origin: center; }
 #lanes.go .chip { animation: ponds-chip-x var(--dur-long) var(--ease-move) calc(var(--scene-ponds) * var(--at)) both; }
@@ -57,8 +57,12 @@ html:not([data-motion="paused"]) #lanes.pre .gin .move { transform: translateX(-
     15% { opacity: 1; }
     45% { transform: translateY(calc(var(--dy) - 46px)) scale(1); }
     85% { transform: translateY(var(--dy)) scale(1); opacity: 1; }
-    100% { transform: translateY(var(--dy)) scale(.7); opacity: 0; }
+    100% { transform: translateY(var(--dy)) scale(.8); opacity: 0; }
 }
+/* The podium grows by --lift (set per landed message) from its bottom edge; the duck rides up, its label part way */
+#lanes .pod-rect { transform-box: fill-box; transform-origin: bottom; transform: scaleY(calc(1 + var(--lift, 0) / 124)); transition: transform var(--dur-med) var(--ease-pop); }
+#lanes .pod { transform: translateY(calc(var(--lift, 0) * -1px)); transition: transform var(--dur-med) var(--ease-pop); }
+#lanes .pod-label { transform: translateY(calc(var(--lift, 0) * -.6px)); transition: transform var(--dur-med) var(--ease-pop); }
 #lanes .pod.hop .move { animation: ponds-hop var(--dur-med) ease-in-out both; }
 @keyframes ponds-hop { 0%, 100% { transform: none; } 35% { transform: translateY(var(--hop, -3px)); } }
 #lanes .pill { transform-box: fill-box; transform-origin: center; }
@@ -69,15 +73,18 @@ html:not([data-motion="paused"]) #lanes.pre .gin .move { transform: translateX(-
 @keyframes ponds-lift { from { transform: none; } to { transform: translateY(-20px); } }
 @keyframes ponds-lower { from { transform: translateY(-20px); } to { transform: none; } }
 /* Each leg of a swim is its own animation (token easing per leg); a later leg holds only once it starts */
-#lanes.go .yd .move { animation: ponds-yd-1 calc(var(--scene-ponds) * .2333) var(--ease-move) both, ponds-yd-2 calc(var(--scene-ponds) * .1667) var(--ease-move) calc(var(--scene-ponds) * .2667) forwards; }
+#lanes.go .yd .move { animation: ponds-yd-1 calc(var(--scene-ponds) * 0.1875) var(--ease-move) calc(var(--scene-ponds) * 0.375) both, ponds-yd-2 calc(var(--scene-ponds) * 0.125) var(--ease-move) calc(var(--scene-ponds) * 0.59375) forwards; }
 @keyframes ponds-yd-1 { from { transform: none; } to { transform: translate(140px, 32px); } }
 @keyframes ponds-yd-2 { from { transform: translate(140px, 32px); } to { transform: translate(288px, 32px); } }
-#lanes.go .g1 .move { animation: ponds-g1-1 calc(var(--scene-ponds) * .4) var(--ease-move) calc(var(--scene-ponds) * .1) both, ponds-g1-2 calc(var(--scene-ponds) * .2) var(--ease-move) calc(var(--scene-ponds) * .6333) forwards; }
-@keyframes ponds-g1-1 { from { transform: none; } to { transform: translate(66px, 14px); } }
-@keyframes ponds-g1-2 { from { transform: translate(66px, 14px); } to { transform: none; } }
-#lanes.go .g2 .move { animation: ponds-g2-1 calc(var(--scene-ponds) * .6333) var(--ease-move) both, ponds-g2-2 calc(var(--scene-ponds) * .2) var(--ease-move) calc(var(--scene-ponds) * .7) forwards; }
-@keyframes ponds-g2-1 { from { transform: none; } to { transform: translate(56px, -4px); } }
-@keyframes ponds-g2-2 { from { transform: translate(56px, -4px); } to { transform: none; } }
+#lanes.go .g1 .move { animation: ponds-g1-1 calc(var(--scene-ponds) * 0.21875) var(--ease-move) calc(var(--scene-ponds) * 0.5) both, ponds-g1-bump var(--dur-short) var(--ease-exit) calc(var(--scene-ponds) * 0.79688) forwards, ponds-g1-2 calc(var(--scene-ponds) * 0.125) var(--ease-move) calc(var(--scene-ponds) * 0.84375) forwards; }
+@keyframes ponds-g1-1 { from { transform: none; } to { transform: translate(60px, 20px); } }
+@keyframes ponds-g1-bump { from { transform: translate(60px, 20px); } to { transform: translate(54px, 20px); } }
+@keyframes ponds-g1-2 { from { transform: translate(54px, 20px); } to { transform: none; } }
+#lanes.go .g2 .move { animation: ponds-g2-1 calc(var(--scene-ponds) * 0.34375) var(--ease-move) calc(var(--scene-ponds) * 0.375) both, ponds-g2-2 calc(var(--scene-ponds) * 0.125) var(--ease-move) calc(var(--scene-ponds) * 0.85938) forwards; }
+@keyframes ponds-g2-1 { from { transform: none; } to { transform: translate(40px, -4px); } }
+@keyframes ponds-g2-2 { from { transform: translate(40px, -4px); } to { transform: none; } }
+#lanes.go.s-huh .huh { animation: ponds-huh var(--dur-long) var(--ease-enter) both; }
+@keyframes ponds-huh { 0% { opacity: 0; transform: translateY(4px); } 15%, 75% { opacity: 1; transform: none; } 100% { opacity: 0; transform: none; } }
 #lanes .tr-wipe { transform-box: fill-box; transform-origin: left center; }
 #lanes.go.s-write .tr-new { opacity: 1; }
 #lanes.go.s-write .tr-wipe { animation: ponds-wipe var(--dur-long) var(--ease-move) both; }
@@ -119,7 +126,7 @@ html:not([data-motion="paused"]) #lanes.pre .gin .move { transform: translateX(-
    beak_top, beak_bottom, eye_white, pupil, eyelid, brow. Wake, eyelid and brow exist only on rigged ducks and are
    invisible at rest. Origins sit at the joints, in the duck's own 210 x 121 units. At rest every part is where the <use>
    duck draws it: idle parts move only while an ancestor has .play, so a paused or reduced-motion duck is the drawing. */
-.rig .pose { transform-origin: 105px 84px; transition: scale var(--dur-short) var(--ease-move), rotate var(--dur-med) var(--ease-move); }
+.rig .pose { transform-origin: 105px 84px; transition: scale var(--dur-micro) var(--ease-move), rotate var(--dur-med) var(--ease-move); }
 .rig .act { transform-origin: 100px 118px; }
 .rig .head { transform-origin: 138px 68px; rotate: var(--look, 0deg); transition: rotate var(--dur-med) var(--ease-move); }
 .rig .pupil { translate: var(--look-x, 0px) 0; transition: translate var(--dur-short) var(--ease-move); }
@@ -127,9 +134,9 @@ html:not([data-motion="paused"]) #lanes.pre .gin .move { transform: translateX(-
 .rig .eyelid { transform-origin: 164px 21.8px; transform: scaleY(0); }
 .rig .brow { opacity: 0; }
 .rig .wake { transform-origin: 100px 117px; opacity: 0; transform: scaleX(.3); transition: opacity var(--dur-med), transform var(--dur-med) var(--ease-move); }
-/* Idle: wing shuffle and blink at irregular intervals; ducks that bob (.bob) also get the head following the body */
-.play .rig .wing { animation: rig-shuffle calc(var(--amb-flick) + var(--amb-flick-spread) * var(--r1, .5)) ease-in-out infinite; }
-.play .rig .eyelid { animation: rig-blink calc(var(--amb-blink) + var(--amb-blink-spread) * var(--r2, .5)) linear infinite; }
+/* Idle (not in the ponds, whose ducks act out a storyboard): wing shuffle and blink at irregular intervals; ducks that bob (.bob) also get the head following the body */
+.play:not(#lanes) .rig .wing { animation: rig-shuffle calc(var(--amb-flick) + var(--amb-flick-spread) * var(--r1, .5)) ease-in-out infinite; }
+.play:not(#lanes) .rig .eyelid { animation: rig-blink calc(var(--amb-blink) + var(--amb-blink-spread) * var(--r2, .5)) linear infinite; }
 .play .rig.bob .head { animation: rig-follow var(--amb-bob) ease-in-out calc(var(--phase, 0s) + var(--rig-lag)) infinite; }
 @keyframes rig-shuffle { 0%, 90%, 100% { transform: none; } 93% { transform: rotate(-10deg); } 96% { transform: rotate(3deg); } }
 @keyframes rig-blink { 0%, 96%, 100% { transform: scaleY(0); } 98% { transform: scaleY(1); } }

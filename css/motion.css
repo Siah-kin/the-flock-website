@@ -21,7 +21,7 @@
     --amb-blink: 4s;
     --amb-blink-spread: 3s;
     /* Scene lengths: keyframe percentages inside a scene are its storyboard times */
-    --scene-ponds: 6s;
+    --scene-ponds: 6.4s;
 }
 @media (prefers-reduced-motion: reduce) {
     :root { --dur-micro: 0ms; --dur-short: 0ms; --dur-med: 0ms; --dur-long: 0ms; }
