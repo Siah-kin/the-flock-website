@@ -23,9 +23,11 @@
     <link rel="stylesheet" href="/css/motion.css?v=20261109play3">
     <link rel="stylesheet" href="/css/flock-scenes.css?v=20261109scenes1">
     <link rel="stylesheet" href="/css/flock-road.css?v=20261109road1">
+    <link rel="stylesheet" href="/css/flock-demos.css?v=20261109demos2">
     <script src="/js/nav-loader.js?v=20260703full6" defer></script>
     <script src="/js/flock-motion.js?v=20261109play3" defer></script>
     <script src="/js/flock-sound.js?v=20261109play3" defer></script>
+    <script src="/js/flock-demos.js?v=20261109play3" defer></script>
     <script src="/js/flock-road.js?v=20261109road1" defer></script>
     <script src="/js/flock-duck.js?v=20261109game2" defer></script>
     <script src="/js/flock-lines.js?v=20261109game2" defer></script>
@@ -95,6 +97,45 @@
         .page-footer .brand img { width: 40px; height: 40px; border-radius: 50%; }
         .page-footer .links { display: flex; gap: 22px; }
 
+
+        /* Answers and the fee split, moved here from Home */
+        .stop.solo { grid-template-columns: minmax(0, 1fr); }
+        .stop.solo > div { min-width: 0; }
+        .stop .intro { max-width: 34em; }
+        .ask-cards { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; max-width: 46em; }
+        .ask-cards li { background: #fff; border-radius: 20px; padding: 22px 22px 24px; border-top: 6px solid var(--sun); box-shadow: 0 14px 34px rgba(0, 32, 80, .10); font-size: 1.05rem; line-height: 1.45; color: #33445A; }
+        body.dark-mode .ask-cards li { background: #10244A; color: #C5D3E8; }
+        .fees { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 48px; align-items: start; margin-top: 32px; }
+        .scene { margin: 0; }
+        .scene-svg { display: block; width: 100%; height: auto; border-radius: 30px; box-shadow: 0 24px 50px rgba(0, 20, 40, .35); }
+        .scene-svg text { font-family: "Inter", system-ui, sans-serif; }
+        .scene-svg text.t { font-family: var(--display); }
+        .back { margin-top: 18px; font-size: 1.02rem; line-height: 1.5; color: var(--muted); max-width: 34em; }
+        .stop .fees-text p { font-size: 1.1rem; line-height: 1.6; margin-top: 16px; color: #33445A; max-width: none; }
+        .stop .fees-text p.status-pill { margin-top: 24px; }
+        .fees-text .tg { margin-top: 18px; }
+        .stop .fees-text .sticky { font-family: var(--display); font-weight: 600; font-size: 1.3rem; line-height: 1.35; color: var(--navy); margin-top: 0; padding-left: 18px; border-left: 5px solid var(--sun); }
+        .stop .fees-text .eg-title { margin-top: 28px; font-weight: 600; color: var(--navy); }
+        body.dark-mode .stop .fees-text p, body.dark-mode .back { color: #C5D3E8; }
+        body.dark-mode .stop .fees-text .sticky, body.dark-mode .stop .fees-text .eg-title { color: #fff; }
+        .tg { background: #0E1621; border: 1px solid rgba(142, 196, 250, .3); border-radius: 22px; padding: 16px; max-width: 460px; width: 100%; box-shadow: 0 26px 56px rgba(0, 0, 0, .34), 0 4px 10px rgba(0, 0, 0, .16); color: #E8EEF7; font-size: .95rem; line-height: 1.45; text-align: left; }
+        .tg .msg { background: #182533; border-radius: 16px 16px 16px 4px; overflow: hidden; }
+        .tg .msg + .msg, .tg .me + .msg, .tg .msg + .me { margin-top: 10px; }
+        .tg .msg img { display: block; width: 100%; height: auto; }
+        .tg .cap { padding: 12px 14px 15px; }
+        .tg .cap p { margin: 10px 0 0; color: inherit; font-size: inherit; line-height: inherit; max-width: none; }
+        .tg .cap p:first-child { margin-top: 0; }
+        .tg .cap b { color: #fff; }
+        .tg .cap .quiet { color: #A9B8CC; }
+        .tg .cap ul { margin: 8px 0 0 1.1em; padding: 0; }
+        .tg mark { background: rgba(254, 216, 1, .2); color: #fff; padding: 2px 6px; border-radius: 6px; display: block; margin: 2px -6px; }
+        .tg .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+        .tg .btn { background: #223A55; color: #8EC4FA; text-align: center; font-size: .9rem; font-weight: 600; padding: 10px 8px; border-radius: 10px; }
+        .tg .btn.wide { grid-column: 1 / -1; }
+        .tg .btn.pick { outline: 2px solid var(--sun); color: var(--sun); }
+        .tg .me { margin-left: auto; max-width: 86%; background: #2B5278; color: #fff; border-radius: 16px 16px 4px 16px; padding: 11px 14px; }
+        .tg .me .who { display: block; font-size: .8rem; color: #A9C7E8; margin-bottom: 3px; }
+        @media (max-width: 900px) { .ask-cards, .fees { grid-template-columns: 1fr; gap: 28px; } }
         @media (max-width: 900px) {
             .wrap { padding: 0 16px; }
             .top { padding: 56px 0 130px; }
@@ -198,6 +239,92 @@
                         </svg>
                     </figure>
                 </section>
+
+                <section class="stop test solo" aria-labelledby="ask-title">
+                    <div>
+                        <p class="status-pill">In development</p>
+                        <h2 id="ask-title">Answers your team can check</h2>
+                        <ul class="ask-cards">
+                            <li>The bot answers only from texts your team has approved.</li>
+                            <li>Every answer shows the passage it came from, and that text’s date.</li>
+                            <li>When your texts don’t cover a question, the bot hands it to a person on your team.</li>
+                            <li>Edit or withdraw a text, and the bot stops using the old version.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="stop plan solo" aria-labelledby="fees-title">
+                    <div>
+                        <h2 id="fees-title">How Arctide splits your token’s trading fees</h2>
+                <p class="intro">If your token trades on Arctide, every trade pays a fee in USDC, and you set part of the split.</p>
+                        <div class="fees">
+                    <figure class="scene" id="flow">
+<svg class="scene-svg" id="fee-svg" viewBox="0 0 560 880" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drawing of how Arctide splits a trading fee. Someone trades your token on Arctide. The fee is paid in USDC. Arctide’s router splits it in the same transaction, three ways: liquidity providers, your project’s wallet or contract, and 0.25 percent to Arctide. A planned reward and tip pool for members whose help your team confirmed sits under your project’s share.">
+<defs>
+  <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#37B88C"/><stop offset=".55" stop-color="#25986F"/><stop offset="1" stop-color="#17704F"/></linearGradient>
+  <clipPath id="fclip"><rect width="560" height="880" rx="30"/></clipPath>
+</defs>
+<g clip-path="url(#fclip)">
+<rect width="560" height="880" fill="url(#fsky)"/>
+<circle cx="478" cy="86" r="44" fill="#FED801"/>
+<path d="M0,170 C90,130 170,150 250,168 C340,186 430,150 560,160 L560,260 L0,260Z" fill="#43C195" opacity=".55"/>
+<path d="M0,215 C120,185 210,215 330,206 C430,198 500,190 560,206 L560,300 L0,300Z" fill="#2E9A6C" opacity=".7"/>
+<g><rect x="30.0" y="36" width="400" height="48" rx="24.0" fill="#fff"/><text x="230" y="66.8" text-anchor="middle" font-size="19" font-weight="600" fill="#12304F" class="t">Someone trades your token on Arctide</text></g>
+<rect x="196" y="150" width="168" height="14" rx="5" fill="#B7793B"/><rect x="208" y="164" width="9" height="22" fill="#8F5C28"/><rect x="343" y="164" width="9" height="22" fill="#8F5C28"/>
+<use class="duck bob" href="#duck" x="214" y="108" width="74" height="42.6" style="" opacity="1"/>
+<g><circle cx="322" cy="140" r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><circle cx="338" cy="142" r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/></g>
+<path d="M280,190 L280,306" fill="none" stroke="#7CC8F0" stroke-width="62" stroke-linecap="round"/><path d="M280,190 L280,306" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/>
+<g><rect x="318.0" y="216" width="224" height="38" rx="19.0" fill="#fff"/><text x="430" y="241.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">The fee is paid in USDC</text></g>
+<g class="fc fc-in" transform="translate(280 190) scale(1.4)" opacity="0"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g>
+<path d="M170,394 C170,430 105,436 105,484" fill="none" stroke="#7CC8F0" stroke-width="30" stroke-linecap="round"/><path d="M170,394 C170,430 105,436 105,484" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/><path d="M280,394 L280,486" fill="none" stroke="#7CC8F0" stroke-width="54" stroke-linecap="round"/><path d="M280,394 L280,486" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/><path d="M390,394 C390,430 465,436 465,484" fill="none" stroke="#7CC8F0" stroke-width="20" stroke-linecap="round"/><path d="M390,394 C390,430 465,436 465,484" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/>
+<g class="router"><rect x="110" y="306" width="340" height="88" rx="20" fill="#12304F"/><rect x="110" y="306" width="340" height="12" rx="6" fill="#FED801"/><rect class="lamp" x="110" y="306" width="340" height="12" rx="6" fill="#FFFBE0" opacity="0"/><text x="280" y="347" text-anchor="middle" font-size="23" font-weight="700" fill="#fff" class="t">Arctide’s router</text><text x="280" y="374" text-anchor="middle" font-size="17" fill="#BFD9F2">splits the fee in one transaction</text>
+<rect x="148" y="388" width="44" height="12" rx="4" fill="#FED801"/>
+<rect x="258" y="388" width="44" height="12" rx="4" fill="#FED801"/>
+<rect x="368" y="388" width="44" height="12" rx="4" fill="#FED801"/></g>
+<ellipse cx="100" cy="548" rx="84" ry="52" fill="#7CC8F0"/>
+<use class="duck bob b1" href="#duck" x="48" y="520" width="56" height="32.3" style="" opacity="1"/><g transform="translate(156 538) scale(-1 1)"><use class="duck bob b2" href="#duck" x="0" y="0" width="50" height="28.8" style="" opacity="1"/></g>
+<g><rect x="11.0" y="608" width="178" height="36" rx="18.0" fill="#fff"/><text x="100" y="632.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">Liquidity providers</text></g>
+<text x="100" y="664" text-anchor="middle" font-size="17" fill="#fff">Their share</text>
+<ellipse cx="465" cy="548" rx="76" ry="52" fill="#7CC8F0"/>
+<image href="/assets/flock/badge.png" x="436" y="518" width="58" height="58"/>
+<g><rect x="407.0" y="608" width="116" height="36" rx="18.0" fill="#fff"/><text x="465" y="632.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">Arctide</text></g>
+<text x="465" y="664" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" class="t">0.25%</text>
+<rect x="192" y="486" width="176" height="176" rx="48" fill="#7CC8F0" stroke="#FED801" stroke-width="5"/>
+<text x="280" y="534" text-anchor="middle" font-size="21" font-weight="700" fill="#12304F" class="t pj">Your project</text><text x="280" y="566" text-anchor="middle" font-size="17" fill="#12304F">The share you set,</text><text x="280" y="586" text-anchor="middle" font-size="17" fill="#12304F">to your wallet</text><text x="280" y="606" text-anchor="middle" font-size="17" fill="#12304F">or contract</text>
+<g><circle cx="248" cy="636" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/><circle cx="280" cy="640" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/><circle cx="312" cy="636" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/></g>
+<g fill="none" stroke="#fff" stroke-width="3"><ellipse class="ring" opacity="0" cx="100" cy="548" rx="84" ry="52"/><rect class="ring" opacity="0" x="192" y="486" width="176" height="176" rx="48"/><ellipse class="ring" opacity="0" cx="465" cy="548" rx="76" ry="52"/></g>
+<g class="fc fc-out" transform="translate(112 508) scale(1.15)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><g class="fc fc-out" transform="translate(280 500) scale(1.4)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><g class="fc fc-out" transform="translate(465 505) scale(0.8)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g>
+<path d="M280,664 L280,722" fill="none" stroke="#FED801" stroke-width="4" stroke-linecap="round" stroke-dasharray="3 11"/>
+<ellipse cx="280" cy="790" rx="190" ry="70" fill="rgba(255,255,255,.14)" stroke="#FED801" stroke-width="3" stroke-dasharray="9 9"/>
+<g class="fc-ghost" transform="translate(280 668)" opacity="0"><circle r="14" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 3.5"/></g>
+<text x="280" y="778" text-anchor="middle" font-size="21" font-weight="700" fill="#fff" class="t">A reward and tip pool</text><text x="280" y="804" text-anchor="middle" font-size="17" fill="#E6F6EE">for members whose help</text><text x="280" y="824" text-anchor="middle" font-size="17" fill="#E6F6EE">your team confirmed</text>
+<use class="duck " href="#duck" x="120" y="768" width="54" height="31.1" style="" opacity="0.55"/><g transform="translate(440 768) scale(-1 1)"><use class="duck " href="#duck" x="0" y="0" width="54" height="31.1" style="" opacity="0.55"/></g>
+<path d="M0,846 C90,830 180,858 280,846 C380,834 470,858 560,842 L560,880 L0,880Z" fill="#1B5F8C"/><path d="M0,862 C110,850 200,872 300,862 C400,852 480,872 560,860 L560,880 L0,880Z" fill="#12304F"/>
+</g></svg>
+<figcaption class="back">Credited members keep explaining the project well, and more people find it.</figcaption>
+</figure>
+                    <div class="fees-text">
+                        <p class="sticky">Your project’s share goes straight to your wallet or contract, so nobody holds it or skims it on the way.</p>
+                        <p class="status-pill">Planned</p>
+                        <p>Your project sets aside part of its fee share as a reward pool. Members whose help your team confirmed claim from it with their points. Nothing is paid per post.</p>
+                        <p class="eg-title">An example that works today: Arctide’s own token, TIDE. Its stakers claim TIDE and USDC on arctide.app, and The Flock shows each member’s position.</p>
+                        <div class="tg" role="img" aria-label="The bot's staking screen: link your wallet address to see what you have staked, when it unlocks, and the TIDE and USDC you can claim">
+                            <div class="msg">
+                                <img src="/assets/flock/screens/staking.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                <div class="cap">
+                                    <p><b>🌊 Your $TIDE staking</b></p>
+                                    <p>Link your wallet address to see your staking position here: what you have staked, when it unlocks, and the TIDE + USDC you can claim.</p>
+                                    <p>Only your public address is needed. Never send a seed phrase or private key: nobody from Arctide will ever ask for it.</p>
+                                    <p>Staking, claiming and withdrawing happen on arctide.app, signed by your own wallet.</p>
+                                </div>
+                            </div>
+                            <div class="btns"><span class="btn">🔗 Link my wallet</span><span class="btn">🌐 Open arctide.app ↗</span></div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
         </div>
 
