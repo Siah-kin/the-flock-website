@@ -238,32 +238,37 @@
         if (F.reduced) F.scenes.forEach(function (h) { h.end(); });
     });
 
-    // The pause toggle: one button in the nav, one in the mobile menu, or the footer links as a fallback
+    // The side control: a play/pause button and a sound button, fixed on the right edge of every page
+    var ICON = {
+        play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>',
+        pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"/></svg>',
+        off: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9.5l5 5m0-5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+        on: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15 9a4 4 0 0 1 0 6M17.4 6.6a7.4 7.4 0 0 1 0 10.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
+    };
     function toggle() {
-        var btns = [];
+        if (doc.querySelector('.flock-side')) return;
+        var S = window.FlockSound;
+        var box = doc.createElement('div'); box.className = 'flock-side'; box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'Animation and sound');
+        function btn(cls) { var b = doc.createElement('button'); b.type = 'button'; b.className = cls; box.appendChild(b); return b; }
+        var pb = btn('flock-pause'), sb = S ? btn('flock-sound') : null;
         function label() {
-            btns.forEach(function (b) {
-                b.textContent = F.paused ? 'Play animations' : 'Pause animations';
-            });
+            pb.innerHTML = F.paused ? ICON.play : ICON.pause;
+            pb.setAttribute('aria-label', F.paused ? 'Play animations' : 'Pause animations');
+            pb.setAttribute('aria-pressed', F.paused ? 'false' : 'true');
+            if (sb) {
+                sb.innerHTML = S.on ? ICON.on : ICON.off;
+                sb.setAttribute('aria-label', S.on ? 'Sound on' : 'Sound off');
+                sb.setAttribute('aria-pressed', S.on ? 'true' : 'false');
+            }
         }
-        function add(host, before) {
-            if (!host || host.querySelector('.flock-pause')) return;
-            var b = doc.createElement('button');
-            b.type = 'button'; b.className = 'flock-pause';
-            b.addEventListener('click', function () {
-                if (F.paused) F.resumeAll(); else F.pauseAll();
-                try { localStorage.setItem(KEY, F.paused ? 'paused' : 'running'); } catch (e) {}
-                label();
-            });
-            host.insertBefore(b, before || null); btns.push(b); label();
-        }
-        function mount() {
-            var nav = doc.querySelector('#nav-container .nav-right');
-            if (nav) { add(nav, nav.querySelector('#theme-toggle')); add(doc.querySelector('#mobile-menu'), doc.querySelector('#mobile-menu .mobile-lang-flags')); }
-            else if (!doc.getElementById('nav-container')) add(doc.querySelector('.page-footer .links'));
-            return !!nav;
-        }
-        if (!mount()) doc.addEventListener('nav:loaded', mount, { once: true });
+        pb.addEventListener('click', function () {
+            if (F.paused) F.resumeAll(); else F.pauseAll();
+            try { localStorage.setItem(KEY, F.paused ? 'paused' : 'running'); } catch (e) {}
+            label();
+        });
+        if (sb) { sb.addEventListener('click', function () { S.set(!S.on); }); doc.addEventListener('flock:sound', label); }
+        label();
+        doc.body.appendChild(box);
     }
 
     // Road pages (now/, why/): the tap and loop-to-X scenes, their replay buttons and the filling rail
@@ -327,7 +332,8 @@
 
     function init() {
         if (doc.body.classList.contains('road-page')) road();
-        toggle();
+        // flock-sound.js is deferred after this file: build the control once it has run
+        if (doc.readyState === 'complete') toggle(); else doc.addEventListener('DOMContentLoaded', toggle, { once: true });
     }
     if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', init); else init();
 })();

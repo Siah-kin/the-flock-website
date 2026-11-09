@@ -21,12 +21,13 @@
     <link rel="icon" href="/bonzi-logo.png" type="image/png">
     <link rel="stylesheet" href="/css/nav.css?v=20260619routes5">
     <link rel="stylesheet" href="/css/bonzi-design.css">
-    <link rel="stylesheet" href="/css/motion.css?v=20261109scenes1">
+    <link rel="stylesheet" href="/css/motion.css?v=20261109play1">
     <link rel="stylesheet" href="/css/flock-scenes.css?v=20261109scenes1">
     <script src="/js/nav-loader.js?v=20260703full6" defer></script>
-    <script src="/js/flock-motion.js?v=20261109scenes1" defer></script>
+    <script src="/js/flock-motion.js?v=20261109play1" defer></script>
+    <script src="/js/flock-sound.js?v=20261109play1" defer></script>
     <link rel="stylesheet" href="/css/flock-demos.css?v=20261109demos2">
-    <script src="/js/flock-demos.js?v=20261109demos2" defer></script>
+    <script src="/js/flock-demos.js?v=20261109play1" defer></script>
     <link rel="stylesheet" href="/css/flock-painwall.css?v=20261109painwall2">
     <script src="/js/flock-painwall.js?v=20261109painwall2" defer></script>
     <style>
@@ -767,6 +768,7 @@
                     if (!r || !done || Flock.reduced || Flock.paused) return;
                     var c = r.matches('.gin, .g1, .g2, .pod') ? 'confused' : 'wink';
                     r.classList.remove(c); void r.getBoundingClientRect(); r.classList.add(c);
+                    window.FlockSound && FlockSound.play('quack');
                 });
             }
 
