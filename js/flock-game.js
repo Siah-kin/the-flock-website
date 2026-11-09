@@ -23,7 +23,7 @@
     '.game-layer{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:1}' +
     /* the call-out and the score sit above the game layer */
     '.game-info{position:absolute;z-index:3;pointer-events:none;grid-template-columns:minmax(0,1fr)}' +
-    '.game-hint.game-hint{white-space:nowrap;display:flex;align-items:center;gap:10px;width:fit-content;max-width:100%;box-sizing:border-box;margin:0;padding:6px 16px 6px 6px;border-radius:22px;background:rgba(0,16,48,.45);color:#fff;font:500 14.5px/1.4 Inter,system-ui,sans-serif;letter-spacing:0;text-align:left;overflow:hidden}.game-hint>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis}' +
+    '.game-hint.game-hint{display:flex;align-items:center;gap:8px;width:fit-content;max-width:100%;box-sizing:border-box;margin:0;padding:6px 12px 6px 6px;border-radius:22px;background:rgba(0,16,48,.45);color:#fff;font:500 14.5px/1.4 Inter,system-ui,sans-serif;letter-spacing:0;text-align:left}.game-hint>span:last-child{min-width:0}' +
     '.game-hud{display:flex;gap:4px 16px;align-items:baseline;font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#BFD9F2;z-index:3}' +
     '.game-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}' +
     /* bottom: a pond along the foot of the section */
@@ -35,12 +35,12 @@
     '.game-top>.wrap{position:relative;z-index:2}.game-top .game-hint.game-hint{margin:22px 0 0}.game-top .game-hud{margin-top:10px}.game-top>.game-hud{position:absolute;right:24px;top:20px;margin:0}' +
     /* wave: the answer band; the answer text stays above the game, the call-out sits under the button */
     '.game-end .pw-calm{position:relative;z-index:2}.game-end .pw-ducks{visibility:hidden}' +
-    '.pw-end.game-end .pw-sun{bottom:230px}.pw-view>.pw-end.game-end .pw-sun{bottom:32%}' +
-    '.game-end .game-info{display:grid;justify-items:center;gap:10px;left:50%;transform:translateX(-50%);width:min(540px,calc(100% - 32px))}' +
-    '.pw-end.game-end{padding-bottom:290px}' +
+    '.pw-end.game-end .pw-sun{display:none}' +
+    '.game-end .game-info{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;left:max(16px,5%);width:calc(100% - 32px)}' +
+    '.pw-end.game-end{padding-bottom:250px}' +
     '.pw-view>.pw-end .game-layer,.pw-view>.pw-end .game-throw,.pw-view>.pw-end .game-info{transition:opacity .35s}.pw-view>.pw-end:not(.pw-open) .game-layer,.pw-view>.pw-end:not(.pw-open) .game-throw,.pw-view>.pw-end:not(.pw-open) .game-info,.pw-view>.pw-end:not(.pw-open) .game-nudge{opacity:0;visibility:hidden}' +
     '.pw-view>.pw-end.pw-open .game-throw{pointer-events:auto}' +
-    '@media (max-width:899px){.pw-end.game-end{padding-bottom:330px}.pw-end.game-end .pw-sun{bottom:190px}}' +
+    '@media (max-width:899px){.pw-end.game-end{padding-bottom:270px}}' +
     /* phone: the score is one short line after the call-out; one number only, no floating WIPES (the footer one stays) */
     '@media (max-width:699px){.game-key{display:none}.game-pond{height:380px;margin-top:28px}.game-pond .game-info{left:16px;right:16px}.game-nudge{display:none!important}}';
 
@@ -53,7 +53,7 @@
     // The instruction as a call-out: sun-yellow "i" badge, white text on a darker pill. "or press T" only where there is a keyboard pointer.
     const hint = el('p', ''); hint.className = 'game-hint';
     hint.innerHTML = '<span aria-hidden="true" style="flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#FED801;color:#002050;font:700 17px/1 Fredoka,system-ui,sans-serif">i</span><span></span>';
-    hint.lastChild.textContent = 'Pull back on the yellow duck and let go.';
+    hint.lastChild.textContent = 'Pull the duck back, then let go.';
     const hud = el('div', ''); hud.className = 'game-hud';
     // one hidden live node: it announces the score, and only after a throw the visitor made
     const live = el('div', ''); live.className = 'game-sr'; live.setAttribute('role', 'status'); live.setAttribute('aria-live', 'polite');
@@ -121,7 +121,7 @@
         const hr = host.getBoundingClientRect(), d = ducks.getBoundingClientRect(), c = cta.getBoundingClientRect(), sr = sea.getBoundingClientRect();
         st.WL = Math.min(st.H - 30, Math.max(st.H * .5, d.bottom - hr.top - 14));
         st.lo = st.WL + 10; st.hi = Math.max(st.lo + 4, sr.top - hr.top + sr.height * .74);   // the two blue waves; the white shore below is not for stains
-        info.style.top = Math.round(c.bottom - hr.top + 24) + 'px';
+        info.style.top = Math.round(Math.max(c.bottom - hr.top + 18, st.WL - 150)) + 'px';
         const sp = [...sea.querySelectorAll('path')].map(x => x.getAttribute('d')), shore = sea.querySelector('.pw-shore');
         return { top: Math.max(0, st.WL - 84), textBottom: Math.ceil(relBottom(info, hr)) + 8, water: { d: sp[0] + ' ' + (shore ? shore.getAttribute('d') : ''), tf: 'translate(0 ' + sea.offsetTop + ') scale(' + (st.W / 1440).toFixed(4) + ' ' + (sea.offsetHeight / 300).toFixed(4) + ')' } };
       };
