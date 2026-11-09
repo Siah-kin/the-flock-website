@@ -269,6 +269,20 @@
         if (sb) { sb.addEventListener('click', function () { S.set(!S.on); }); doc.addEventListener('flock:sound', label); }
         label();
         doc.body.appendChild(box);
+        // on phones the buttons sit in the sticky header beside the moon, so they never cover text
+        var narrow = window.matchMedia('(max-width: 600px)');
+        function place() {
+            var nr = doc.querySelector('#nav-container .nav-right'), moon = nr && nr.querySelector('#theme-toggle');
+            [pb, sb].forEach(function (b) {
+                if (!b) return;
+                if (narrow.matches && nr) { b.classList.add('in-nav'); nr.insertBefore(b, moon); }
+                else { b.classList.remove('in-nav'); box.appendChild(b); }
+            });
+            box.hidden = narrow.matches && !!nr;
+        }
+        if (narrow.addEventListener) narrow.addEventListener('change', place);
+        place();
+        if (!doc.querySelector('#nav-container .nav-right')) doc.addEventListener('nav:loaded', place, { once: true });
     }
 
     // Road pages (now/, why/): the tap and loop-to-X scenes, their replay buttons and the filling rail
