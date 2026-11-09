@@ -289,8 +289,5 @@
         if (map[h] && !document.getElementById(h)) { history.replaceState(null, '', '#' + map[h]); var el = document.getElementById(map[h]); if (el) el.scrollIntoView(); }
     })();
     </script>
-    <script>
-    document.addEventListener('nav:loaded', function () { document.querySelectorAll('a[data-nav="how"]').forEach(function (a) { a.href = 'https://t.me/Arctide_TheFlock_Bot'; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = 'Open the bot'; }); });
-    </script>
 </body>
 </html>

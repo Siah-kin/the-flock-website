@@ -89,7 +89,8 @@
         const cleanPath = pathname.split('?')[0].split('#')[0];
 
         if (pathMatches(cleanPath, '/page_1') || pathMatches(cleanPath, '/demo')) return 'how';
-        if (pathMatches(cleanPath, '/why') || pathMatches(cleanPath, '/page_2') || pathMatches(cleanPath, '/alpha')) return 'why';
+        if (pathMatches(cleanPath, '/why') || pathMatches(cleanPath, '/page_2')) return 'about';
+        if (pathMatches(cleanPath, '/alpha')) return 'why';
         if (pathMatches(cleanPath, '/page_3') || pathMatches(cleanPath, '/specs')) return 'what';
         if (pathMatches(cleanPath, '/now') || pathMatches(cleanPath, '/page_4')) return 'now';
         if (pathMatches(cleanPath, '/how') || pathMatches(cleanPath, '/manual')) return 'how';

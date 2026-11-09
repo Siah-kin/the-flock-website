@@ -1,5 +1,5 @@
 {
-  "about": "Quotes for the pain wall at the top of /why/. Each quote is the speaker's own words, copied from the source. '…' marks words left out and [it] marks one word replaced; every entry in `checks` is an exact run of words on the source page, which scripts/check_pain_wall_links.py looks for. Roles only, never names. After editing, run: python3 scripts/build_pain_wall.py (writes the list and the cards into why/index.html) and python3 scripts/check_pain_wall_links.py.",
+  "about": "Quotes for the pain wall on the home page, after the hero. Each quote is the speaker's own words, copied from the source. '…' marks words left out and [it] marks one word replaced; every entry in `checks` is an exact run of words on the source page, which scripts/check_pain_wall_links.py looks for. Roles only, never names. After editing, run: python3 scripts/build_pain_wall.py (writes the list and the cards into index.html) and python3 scripts/check_pain_wall_links.py.",
   "quotes": [
     {
       "id": "moderator-impersonators",
