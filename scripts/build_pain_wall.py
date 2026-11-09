@@ -32,7 +32,7 @@ def cards(quotes):
     for i, q in enumerate(quotes):
         out.append(
             '%s<figure class="pw-q" style="--r:%sdeg"><blockquote>“%s”</blockquote>'
-            '<figcaption><span>%s · %s</span><a href="%s" target="_blank" rel="noopener noreferrer"">source</a>'
+            '<figcaption><span>%s · %s</span><a href="%s" target="_blank" rel="noopener noreferrer">source</a>'
             '</figcaption></figure>' % (
                 IND + '    ', TILT[i % len(TILT)], esc(q['quote']),
                 esc(q['role']), esc(q['month']), esc(q['url'])))

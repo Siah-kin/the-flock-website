@@ -103,11 +103,15 @@
     // Cards only fade and move: filters on many cards are slow on cheap phones
     function setCard(q, op, tf, live, z) {
         q.style.opacity = op.toFixed(3);
-        q.style.visibility = op < 0.02 ? 'hidden' : 'visible';
+        // the first card stays focusable even while unseen: its link is where Tab enters the scene, and focus brings the card in
+        q.style.visibility = op < 0.02 && z > 1 ? 'hidden' : 'visible';
         q.style.transform = tf;
         q.style.zIndex = z;
         // only a card that is fully there takes clicks, so nothing half-faded sits over a link
         q.style.pointerEvents = live ? 'auto' : 'none';
+        // the source link is in the tab order only while its card is fully shown
+        var a = q.querySelector('a');
+        if (a) a.setAttribute('tabindex', live || z === 1 ? '0' : '-1');
     }
 
     function render() {
@@ -119,7 +123,7 @@
         var ag = ease(span(s, T.ag0, T.ag1)), cl = ease(span(s, T.cl0, T.cl1)), ca = ease(span(s, T.ca0, T.ca1));
         var arr = cards.map(function (q, i) { return ease(span(s, T.a0 + i * T.step, T.a0 + i * T.step + T.dur)); });
         cards.forEach(function (q, i) {
-            var a = arr[i], p = pos[i], r = 'rotate(var(--r))', op, tf, live;
+            var a = arr[i], p = pos[i], r = 'rotate(var(--r, 0deg))', op, tf, live;
             if (phone) {
                 var depth = 0;
                 for (var j = i + 1; j < arr.length; j++) depth += arr[j];
@@ -216,7 +220,7 @@
 
     function enterLive() {
         root.classList.add('pw-go');
-        // in the scene the cards come and go on their own; their links stay off the tab order so focus never lands on a faded card
+        // in the scene the cards come and go on their own; render() puts a link in the tab order only while its card is fully shown
         links.forEach(function (a) { a.setAttribute('tabindex', '-1'); });
         view.appendChild(end);
         return layout();
@@ -227,10 +231,23 @@
         root.classList.remove('pw-go', 'pw-phone');
         end.classList.remove('pw-open');
         links.forEach(function (a) { a.removeAttribute('tabindex'); });
-        deco.concat(cards).forEach(function (el) { el.removeAttribute('style'); el.classList.remove('pw-under'); });
+        // take off only what the scene set: a card keeps its --r tilt, which the still layout and a later Play need
+        cards.forEach(function (el) {
+            ['opacity', 'visibility', 'transform', 'z-index', 'pointer-events', 'filter'].forEach(function (k) { el.style.removeProperty(k); });
+            el.classList.remove('pw-under');
+        });
+        deco.forEach(function (el) { ['opacity', 'transform', 'filter'].forEach(function (k) { el.style.removeProperty(k); }); if (!el.getAttribute('style')) el.removeAttribute('style'); });
         wall.removeAttribute('style'); view.removeAttribute('style'); stage.removeAttribute('style');
         if (end.parentNode !== root) root.appendChild(end);
     }
+
+    // Scrolls the stage to the beat where card i has arrived and sits on top, and draws it at once
+    function showCard(i) {
+        var top = stage.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+        scrollTo({ top: top - NAV + (T.a0 + i * T.step + T.dur + 0.02) * H, behavior: 'instant' });
+        lastS = -1; render();
+    }
+    function linkIndex(a) { return links.indexOf(a); }
 
     var sync = guard(function () { setMode(wantLive() ? 'live' : 'still'); });
 
@@ -240,6 +257,22 @@
             if (mode !== 'live' || end.classList.contains('pw-open')) return;
             var top = stage.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
             scrollTo(0, top - NAV + (T.ca1 + 0.2) * H);
+        }));
+        // Tab walks the sources in order: before focus moves on, the next (or previous) card is brought into view
+        links.forEach(function (a, i) {
+            a.addEventListener('focus', guard(function () {
+                if (mode !== 'live') return;
+                lastS = -1; render();  // the page may not have drawn the latest scroll yet
+                if (a.closest('.pw-q').style.pointerEvents !== 'auto') showCard(i);
+            }));
+            a.addEventListener('keydown', guard(function (e) {
+                if (e.key !== 'Tab' || mode !== 'live' || e.altKey || e.ctrlKey || e.metaKey) return;
+                var j = i + (e.shiftKey ? -1 : 1);
+                if (j >= 0 && j < links.length) showCard(j);
+            }));
+        });
+        cta.addEventListener('keydown', guard(function (e) {
+            if (e.key === 'Tab' && e.shiftKey && mode === 'live' && links.length) showCard(links.length - 1);
         }));
         addEventListener('resize', guard(onResize));
         if (F && F.ambient) {
