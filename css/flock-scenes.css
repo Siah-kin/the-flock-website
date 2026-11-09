@@ -60,15 +60,15 @@ html:not([data-motion="paused"]) #lanes.pre .gin .move { transform: translateX(-
     100% { transform: translateY(var(--dy)) scale(.8); opacity: 0; }
 }
 /* The podium grows by --lift (set per landed message) from its bottom edge; the duck rides up, its label part way */
-#lanes .pod-rect { transform-box: fill-box; transform-origin: bottom; transform: scaleY(calc(1 + var(--lift, 0) / 124)); transition: transform var(--dur-med) var(--ease-pop); }
-#lanes .pod { transform: translateY(calc(var(--lift, 0) * -1px)); transition: transform var(--dur-med) var(--ease-pop); }
-#lanes .pod-label { transform: translateY(calc(var(--lift, 0) * -.6px)); transition: transform var(--dur-med) var(--ease-pop); }
+#lanes .pod-rect { transform-box: fill-box; transform-origin: bottom; transform: scaleY(calc(1 + var(--lift, 0) / 124)); transition: transform var(--dur-med) var(--ease-enter); }
+#lanes .pod { transform: translateY(calc(var(--lift, 0) * -1px)); transition: transform var(--dur-med) var(--ease-enter); }
+#lanes .pod-label { transform: translateY(calc(var(--lift, 0) * -.6px)); transition: transform var(--dur-med) var(--ease-enter); }
 #lanes .pod.hop .move { animation: ponds-hop var(--dur-med) ease-in-out both; }
 @keyframes ponds-hop { 0%, 100% { transform: none; } 35% { transform: translateY(var(--hop, -3px)); } }
 #lanes .pill { transform-box: fill-box; transform-origin: center; }
-#lanes.go.s-lift .pill { animation: ponds-nudge var(--dur-med) var(--ease-pop) both; }
+#lanes.go.s-lift .pill { animation: ponds-nudge var(--dur-med) var(--ease-enter) both; }
 @keyframes ponds-nudge { 0%, 100% { transform: none; } 40% { transform: rotate(-3deg) scale(1.04); } }
-#lanes.go.s-lift .gate-bar { animation: ponds-lift var(--dur-med) var(--ease-pop) both; }
+#lanes.go.s-lift .gate-bar { animation: ponds-lift var(--dur-med) var(--ease-enter) both; }
 #lanes.go.s-lift.s-lower .gate-bar { animation: ponds-lower var(--dur-med) var(--ease-move) both; }
 @keyframes ponds-lift { from { transform: none; } to { transform: translateY(-20px); } }
 @keyframes ponds-lower { from { transform: translateY(-20px); } to { transform: none; } }

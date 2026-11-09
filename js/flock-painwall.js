@@ -37,7 +37,8 @@
     // the sea, sun and ducks come in at 76-86%
     var TRAVEL = 4.2;
     function timeline() {
-        var f = TRAVEL;
+        // a phone gets a shorter runway (3.2 views, not 4.2) so the wall does not feel endless under a thumb
+        var f = phone ? 3.2 : TRAVEL;
         T = { a0: 0.04 * f, step: 0.058 * f, dur: 0.06 * f, ag0: 0.6 * f, ag1: 0.66 * f, ago0: 0.7 * f, ago1: 0.76 * f, cl0: 0.68 * f, cl1: 0.78 * f, ca0: 0.76 * f, ca1: 0.86 * f, end: f };
     }
 

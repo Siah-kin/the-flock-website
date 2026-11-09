@@ -29,6 +29,47 @@
     }
     function unwatch(el, th) { var w = ios[th]; if (w) { w.m.delete(el); w.io.unobserve(el); } }
 
+    // One scene at a time. Ambient hosts that fill a good part of the screen (a scene, a band, the hero) compete: the one
+    // with the most of itself in view, at least 60%, plays and the others hold still. Small hosts (a button) keep the plain
+    // 20% rule. The election runs from IntersectionObserver callbacks only, never from a scroll listener.
+    var hosts = [], sio, sdirty = false, SPOT = 0.6;
+    function cover(r, vw, vh) {
+        var vis = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0)) * Math.max(0, Math.min(r.right, vw) - Math.max(r.left, 0));
+        var den = Math.min(r.width * r.height, vw * vh);
+        return den > 0 ? vis / den : 0;
+    }
+    function elect() {
+        sdirty = false;
+        var vw = innerWidth, vh = innerHeight, best = null, cur = null;
+        hosts.forEach(function (h) {
+            var r = h.el.getBoundingClientRect();
+            h.c = cover(r, vw, vh);
+            h.mid = Math.abs((r.top + r.bottom) / 2 - vh / 2);
+            h.big = r.width * r.height >= 0.15 * vw * vh;
+            if (h.on && h.big) cur = h;
+        });
+        hosts.forEach(function (h) {
+            if (!h.big || h.c < SPOT) return;
+            if (!best || h.c > best.c + 0.001 || (Math.abs(h.c - best.c) <= 0.001 && h.mid < best.mid)) best = h;
+        });
+        // keep the current winner unless another is clearly more in view (no flicker on the way past)
+        if (cur && best && cur !== best && cur.c >= SPOT && best.c - cur.c < 0.15) best = cur;
+        hosts.forEach(function (h) {
+            var on = h.big ? h === best : h.c >= 0.2;
+            if (on !== h.on) { h.on = on; h.set(on); }
+        });
+    }
+    function queue() { if (!sdirty) { sdirty = true; requestAnimationFrame(elect); } }
+    function spot(el, set) {
+        if (!('IntersectionObserver' in window)) { set(true); return; }
+        if (!sio) {
+            sio = new IntersectionObserver(queue, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
+            addEventListener('resize', queue);
+        }
+        hosts.push({ el: el, set: set, on: false, c: 0 });
+        sio.observe(el); queue();
+    }
+
     // Duck rig: an animated duck is stamped as inline parts (named as in the duck brief), because parts inside a
     // <use> cannot move per instance. Same drawing as #duck; static ducks keep using <use>. Returns the new group.
     function svg(tag, cls) { var e = doc.createElementNS('http://www.w3.org/2000/svg', tag); if (cls) e.setAttribute('class', cls); return e; }
@@ -67,7 +108,7 @@
             if (o && o.onchange) o.onchange(on);
         }
         a.sync = sync; amb.push(a); sync();
-        watch(el, 0.2, function (v) { a.seen = v; sync(); });
+        spot(el, function (v) { a.seen = v; sync(); });
         return a;
     };
 
@@ -207,7 +248,7 @@
         else {
             // an ambient scene runs its loops from 20% in view, and starts its storyboard when `th` of o.target (or el) shows
             var tg = o.target || el;
-            if (o.ambient) watch(el, 0.2, function (v) { s.seen = v; sa.sync(); });
+            if (o.ambient) spot(el, function (v) { s.seen = v; sa.sync(); });
             if (th !== null) watch(tg, th, function (v) {
                 if (!o.ambient) s.seen = v;
                 if (o.mode === 'loop') { if (v && s.st !== 1) play(); else if (!v) { drop(); s.st = 0; } return; }
