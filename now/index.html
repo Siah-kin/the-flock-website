@@ -84,7 +84,6 @@
         .replay { flex: none; background: none; border: 0; padding: 2px 0; font: 600 .98rem var(--display); color: var(--blue); cursor: pointer; }
         .js .replay { visibility: visible; } .replay { visibility: hidden; }
 
-
         .finish { background: var(--navy); color: #fff; padding: 76px 0 84px; }
         .finish h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.8rem, 3vw, 2.4rem); }
         .finish p { margin-top: 14px; font-size: 1.18rem; line-height: 1.6; max-width: 34em; color: #DCE8F7; }
@@ -96,7 +95,6 @@
         .page-footer .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 1.2rem; }
         .page-footer .brand img { width: 40px; height: 40px; border-radius: 50%; }
         .page-footer .links { display: flex; gap: 22px; }
-
 
         /* Answers and the fee split, moved here from Home */
         .stop.solo { grid-template-columns: minmax(0, 1fr); }
@@ -180,7 +178,7 @@
                                 <li>A dated History that members can download or delete</li>
                                 <li>The weekly brief and scheduled posts</li>
                             </ul>
-                            <p><a href="/#does-title">The full list, with links to the manual</a></p>
+                            <p><a href="/how/">How each part works</a></p>
                         </details>
                     </div>
                     <figure class="pic">
@@ -210,11 +208,24 @@
                     </figure>
                 </section>
 
+                <section class="stop test solo" aria-labelledby="ask-title">
+                    <div>
+                        <p class="status-pill">In development</p>
+                        <h2 id="ask-title">Answers your team can check</h2>
+                        <ul class="ask-cards">
+                            <li>The bot answers only from texts your team has approved.</li>
+                            <li>Every answer shows the passage it came from, and that text’s date.</li>
+                            <li>When your texts don’t cover a question, the bot hands it to a person on your team.</li>
+                            <li>Edit or withdraw a text, and the bot stops using the old version.</li>
+                        </ul>
+                    </div>
+                </section>
+
                 <section class="stop plan" aria-labelledby="plan-title">
                     <div>
                         <p class="status-pill">Planned</p>
                         <h2 id="plan-title">What comes next?</h2>
-                        <p>An AI coach helps members write in their own words. Members get points for help your team confirmed. Your project funds a reward pool from part of its trading fees.</p>
+                        <p>An AI coach helps members write in their own words. Members get points for help your team confirmed.</p>
                         <details class="more"><summary>More on what comes next</summary>
                             <ul>
                                 <li>Zeal: a member’s standing, built from help that other people confirmed</li>
@@ -238,19 +249,6 @@
                             <use href="#duck" x="138" y="168" width="56" height="32"/>
                         </svg>
                     </figure>
-                </section>
-
-                <section class="stop test solo" aria-labelledby="ask-title">
-                    <div>
-                        <p class="status-pill">In development</p>
-                        <h2 id="ask-title">Answers your team can check</h2>
-                        <ul class="ask-cards">
-                            <li>The bot answers only from texts your team has approved.</li>
-                            <li>Every answer shows the passage it came from, and that text’s date.</li>
-                            <li>When your texts don’t cover a question, the bot hands it to a person on your team.</li>
-                            <li>Edit or withdraw a text, and the bot stops using the old version.</li>
-                        </ul>
-                    </div>
                 </section>
 
                 <section class="stop plan solo" aria-labelledby="fees-title">
