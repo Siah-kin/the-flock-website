@@ -110,6 +110,7 @@
                 track(ring, 'opacity', [[600, 0], [600, .9, 'ease-out'], [1600, 0]], T, L);
                 track(ring, 'transform', [[600, 'scale(.4)', 'ease-out'], [1600, 'scale(1.8)']], T, L);
                 track(on, 'opacity', [[1050, 0, 'ease-out'], [1350, 1]], T, L);
+                track(txt, 'opacity', [[1050, 1, 'ease-out'], [1350, 0]], T, L);
                 track(line, 'opacity', [[1700, 0, E.enter], [2300, 1]], T, L);
                 track(line, 'transform', [[1700, 'translateY(-10px)', E.enter], [2300, 'none']], T, L);
                 var mark = line.querySelector('rect'), card = svg.querySelector('rect[fill="#F6F1E3"]');
@@ -120,7 +121,8 @@
 
     /* Loop to X: the trail draws under the duck on one playhead. The duck hops to X (300-1300ms), X presses as it
        lands, a reply appears at X (1500), the duck hops back to the bot (2200-3200), the grade appears (3300).
-       On the tall variant the path runs down, so the duck turns to face down while it travels. */
+       On the tall variant the path runs down, so the duck tilts nose-down while it travels and lands upright.
+       Without offset-path (older WebKit) the duck waits at the end of the path, where the markup draws it. */
     var OFFSET = window.CSS && CSS.supports && CSS.supports('offset-path', 'path("M0 0")');
     function loopx(fig) {
         var T = 3720, A0 = 300, A1 = 1300, B = 1500, C0 = 2200, C1 = 3200, G = 3300;
@@ -132,12 +134,18 @@
                 var tile = svg.querySelector('rect[fill="#000"]');
                 if (!trail || !u || !tile) return;
                 svg._duck = u; u.classList.add('road-duck');
-                if (OFFSET) u.style.offsetPath = 'path("' + trail.getAttribute('d') + '")';
+                if (OFFSET && !u.style.offsetPath) {
+                    // the markup puts the duck at the end of the path; offset-path wants it drawn around the path's origin
+                    var end = trail.getPointAtLength(trail.getTotalLength());
+                    u.setAttribute('x', Math.round(+u.getAttribute('x') - end.x));
+                    u.setAttribute('y', Math.round(+u.getAttribute('y') - end.y));
+                    u.style.offsetPath = 'path("' + trail.getAttribute('d') + '")';
+                }
                 if (svg.querySelector('.road-reply')) return;
                 // a wordless reply bubble, pinned at its tail; tall puts it beside X, wide above it
                 var tall = svg.classList.contains('tall');
                 var b = { x: +tile.getAttribute('x'), y: +tile.getAttribute('y'), w: +tile.getAttribute('width') };
-                var tipX = b.x + b.w - (tall ? 2 : 14), tipY = b.y + (tall ? 2 : 6);
+                var tipX = b.x + b.w - (tall ? 2 : 14), tipY = b.y + (tall ? 2 : 18);
                 var g = make('g', { 'class': 'road-reply-at', transform: 'translate(' + tipX + ' ' + tipY + ')', 'aria-hidden': 'true' }, svg);
                 var r = make('g', { 'class': 'road-reply' }, g);
                 var box = tall ? { x: 10, y: -14, w: 60 } : { x: 2, y: -30, w: 62 };
@@ -158,29 +166,27 @@
                     if (p.x >= tb.x + 8 && p.x <= tb.x + tb.width - 8 && p.y >= tb.y + 8 && p.y <= tb.y + tb.height - 8) { land = i / 400; break; }
                 }
                 var pc = (land * 100).toFixed(2) + '%';
-                if (OFFSET) {
-                    track(u, 'offsetDistance', [[A0, '0%', E.move], [A1, pc], [C0, pc, E.move], [C1, '100%']], T, L);
-                } else {
-                    var e = trail.getPointAtLength(len);
-                    u.setAttribute('transform', 'translate(' + e.x + ' ' + e.y + ')');
-                }
+                if (OFFSET) track(u, 'offsetDistance', [[A0, '0%', E.move], [A1, pc], [C0, pc, E.move], [C1, '100%']], T, L);
                 track(trail, 'strokeDashoffset', [[A0, '1', E.move], [A1, String(1 - land)], [C0, String(1 - land), E.move], [C1, '0']], T, L);
-                // small hops: up is screen-up on the wide path, and the duck's back (screen-right) on the tall one
-                var up = tall ? '4px 0px' : '0px -7px', hop = [[0, '0px 0px']];
-                [[A0, A1, land], [C0, C1, 1 - land]].forEach(function (leg) {
-                    var n = Math.max(2, Math.round(leg[2] * len / 36)), st = (leg[1] - leg[0]) / n;
-                    for (var j = 0; j < n; j++) { hop.push([leg[0] + j * st, '0px 0px', E.enter]); hop.push([leg[0] + (j + .5) * st, up, E.exit]); }
-                    hop.push([leg[1], '0px 0px']);
-                });
-                track(u, 'translate', hop, T, L);
-                // arrive: a short squash, then settle
-                var sq = 'scale(1.06,.9)';
-                track(u, 'transform', [[A1, 'none'], [A1 + 60, sq, E.pop], [A1 + 60 + short, 'none'],
-                    [C1, 'none'], [C1 + 60, sq, E.pop], [C1 + 60 + short, 'none']], T, L);
-                if (tall) {
-                    var turn = 180;
-                    track(u, 'offsetRotate', [[A0, '0deg', E.move], [A0 + turn, '90deg'], [A1 - turn, '90deg', E.move], [A1, '0deg'],
-                        [C0, '0deg', E.move], [C0 + turn, '90deg'], [C1 - turn, '90deg', E.move], [C1, '0deg']], T, L);
+                // small hops (up and a little forward on the tall path), a squash on arrival, the tall tilt;
+                // all of it rides on offset-path, so without it the duck simply waits at the end
+                if (OFFSET) {
+                    var up = tall ? '3px -3px' : '0px -7px', hop = [[0, '0px 0px']];
+                    [[A0, A1, land], [C0, C1, 1 - land]].forEach(function (leg) {
+                        var n = Math.max(2, Math.round(leg[2] * len / 36)), st = (leg[1] - leg[0]) / n;
+                        for (var j = 0; j < n; j++) { hop.push([leg[0] + j * st, '0px 0px', E.enter]); hop.push([leg[0] + (j + .5) * st, up, E.exit]); }
+                        hop.push([leg[1], '0px 0px']);
+                    });
+                    track(u, 'translate', hop, T, L);
+                    // arrive: a short squash, then settle
+                    var sq = 'scale(1.06,.9)';
+                    track(u, 'transform', [[A1, 'none'], [A1 + 60, sq, E.pop], [A1 + 60 + short, 'none'],
+                        [C1, 'none'], [C1 + 60, sq, E.pop], [C1 + 60 + short, 'none']], T, L);
+                    if (tall) {
+                        var turn = 180, tilt = '40deg';
+                        track(u, 'offsetRotate', [[A0, '0deg', E.move], [A0 + turn, tilt], [A1 - turn, tilt, E.move], [A1, '0deg'],
+                            [C0, '0deg', E.move], [C0 + turn, tilt], [C1 - turn, tilt, E.move], [C1, '0deg']], T, L);
+                    }
                 }
                 // X presses as the duck lands
                 var tc = centre(tile);
@@ -201,23 +207,23 @@
 
     /* Road: the "here" duck rides the rail at the fill, and each stop's ring pulses once when the fill reaches it.
        Same measure as the rail in js/flock-motion.js. Scroll-linked, so it follows the reader even when paused;
-       pulses are skipped while paused, hidden or reduced. */
+       pulses are skipped while paused, hidden or reduced. Pages without a riding duck (why/) skip all of it,
+       and the scroll listener is attached only while the road is on screen. */
     function road() {
-        var rd = doc.querySelector('.road'), rail = rd && rd.querySelector('.rail');
-        if (!rd || !rail) return;
+        var rd = doc.querySelector('.road'), rail = rd && rd.querySelector('.rail'), here = rd && rd.querySelector('.here');
+        if (!rd || !rail || !here) return;
         var stops = arr(rd.querySelectorAll('.stop')).map(function (el) { return { el: el, done: false }; });
         var H = 1, first = true, pend = false;
         function measure() {
             H = rail.offsetHeight || 1;
-            rd.style.setProperty('--rail-h', H + 'px');
-            // a stop's dot sits on the rail's top line: dot top 6px + radius 13px, the rail starts 19px down
-            stops.forEach(function (s) { s.p = (s.el.offsetTop + 19 - rail.offsetTop) / H; });
+            // a stop's dot is 38px (26 + two 6px borders) from 6px down, so its centre is 25px below the stop's top
+            stops.forEach(function (s) { s.p = (s.el.offsetTop + 25 - rail.offsetTop) / H; });
         }
         function tick() {
             pend = false;
             if (F.reduced) return;
             var r = rd.getBoundingClientRect(), p = Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / r.height));
-            rd.style.setProperty('--ride', (p * H).toFixed(1) + 'px');
+            here.style.translate = '0 ' + (p * H).toFixed(1) + 'px';
             rd.classList.toggle('road-riding', p * H > 2);
             stops.forEach(function (s) {
                 if (s.done || p <= s.p) return;
@@ -228,8 +234,15 @@
             first = false;
         }
         function later() { if (!pend) { pend = true; requestAnimationFrame(tick); } }
+        var on = false;
+        function listen(v) {
+            if (v && !on) addEventListener('scroll', later, { passive: true });
+            if (!v && on) removeEventListener('scroll', later);
+            on = v; later();
+        }
         measure(); tick();
-        addEventListener('scroll', later, { passive: true });
+        if ('IntersectionObserver' in window) new IntersectionObserver(function (l) { listen(l[l.length - 1].isIntersecting); }).observe(rd);
+        else listen(true);
         addEventListener('resize', function () { measure(); later(); });
         if (window.ResizeObserver) new ResizeObserver(function () { measure(); later(); }).observe(rd);
     }

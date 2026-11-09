@@ -2,17 +2,18 @@
    Timing comes from css/motion.css (link that first); js/flock-road.js drives the scene beats.
    Keyframes here are named road-* so they never shadow the shared ones in css/flock-scenes.css. */
 
-/* Road: the "here" duck rides the rail at the fill (js sets --ride); it stays above the later stops */
-.road .here { z-index: 2; translate: 0 var(--ride, 0px); }
-/* Each stop's ring pulses once in its own colour when the fill reaches it */
-.stop::after { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; box-sizing: border-box; border: 4px solid var(--c); opacity: 0; pointer-events: none; }
+/* Road: the "here" duck rides the rail at the fill (js sets its translate); it stays above the later stops */
+.road .here { z-index: 2; }
+/* Each stop's ring pulses once in its own colour when the fill reaches it. Same 38px box as the dot
+   (::before is 26px plus two 6px borders), so the ring is centred on it */
+.stop::after { content: ""; position: absolute; left: 30px; top: 6px; width: 38px; height: 38px; border-radius: 50%; box-sizing: border-box; border: 4px solid var(--c); opacity: 0; pointer-events: none; }
 .stop.road-hit::after { animation: road-ping var(--dur-long) var(--ease-enter) both; }
 @keyframes road-ping { 0% { opacity: 1; transform: scale(1); } 50% { opacity: .75; } 100% { opacity: 0; transform: scale(2.3); } }
 /* On narrow screens the gutter is narrower than the duck: while it rides it shrinks to fit, so it never covers text */
 @media (max-width: 900px) {
     .stop::after { left: 12px; }
     .road .here { transform-origin: 50% 100%; transition: scale var(--dur-short) var(--ease-move); }
-    .road.road-riding .here { scale: .78; }
+    .road.road-riding .here { scale: .68; }
 }
 
 /* One tap: the pointer is drawn by js and hidden until the scene shows it */
@@ -23,6 +24,6 @@
 .road-reply { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
-    .road .here { translate: none; scale: none; }
+    .road .here { translate: none !important; scale: none !important; }
     .stop::after { display: none; }
 }
