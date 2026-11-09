@@ -17,14 +17,15 @@ body.dark-mode .pw-lead h2 { color: #fff; }
 body.dark-mode .pw-lead p { color: #C5D3E8; }
 
 /* The quotes, still layout: tilted paper cards piled on the scene's dark colour, so lead, pile and answer read in order.
-   Two staggered columns; each card overlaps the one above it by a few pixels and sits under it (the earlier card is on
-   top), so every source link, which is at the bottom right of its card, stays uncovered. */
+   Two staggered columns. The cards' tilt makes the corners overlap; the vertical gap is sized so that a tilted corner
+   (up to ~10px at 440px wide) never reaches the next card's first line (it starts 18px down), and the earlier card
+   is on top, so no first line and no source link, at the bottom right of its card, is covered. */
 .pw-stage { background: #141A28; padding: 56px 0 96px; overflow: hidden; }
 .pw-wall { max-width: 960px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
-.pw-q { position: relative; z-index: calc(30 - var(--i, 0)); margin: 0 0 -14px; width: min(100%, 440px); padding: 18px 20px 14px; border-radius: 14px; background: var(--pw-paper); color: var(--pw-ink); box-shadow: 0 14px 34px rgba(0, 0, 0, .45); border-left: 6px solid #8A93A6; transform: translate(var(--dx, 0), var(--dy, 0)) rotate(var(--r, 0deg)); }
+.pw-q { position: relative; z-index: calc(30 - var(--i, 0)); margin: 0 0 8px; width: min(100%, 440px); padding: 18px 20px 14px; border-radius: 14px; background: var(--pw-paper); color: var(--pw-ink); box-shadow: 0 14px 34px rgba(0, 0, 0, .45); border-left: 6px solid #8A93A6; transform: translate(var(--dx, 0), var(--dy, 0)) rotate(var(--r, 0deg)); }
 .pw-amber { border-left-color: #E0A63A; } .pw-red { border-left-color: #E5604F; } .pw-grey { border-left-color: #8A93A6; }
-.pw-q:nth-child(odd) { justify-self: end; --dx: 4px; }
-.pw-q:nth-child(even) { justify-self: start; --dx: -4px; --dy: 56px; }
+.pw-q:nth-child(odd) { justify-self: end; --dx: 8px; }
+.pw-q:nth-child(even) { justify-self: start; --dx: -8px; --dy: 56px; }
 .pw-q:nth-child(4n+1) { --dx: -12px; } .pw-q:nth-child(4n+4) { --dx: 14px; }
 .pw-q blockquote { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: calc(1.02rem * var(--pw-fs, 1)); line-height: 1.45; }
 .pw-q figcaption { margin-top: 10px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: calc(.8rem * var(--pw-fs, 1)); line-height: 1.35; color: #4F596B; }
@@ -81,7 +82,7 @@ body.dark-mode .pw-shore { fill: #08142B; }  /* meets the page below the band in
 /* Phone, still layout: one column, the same tilted pile, nudged left and right */
 @media (max-width: 640px) {
     .pw-wall { grid-template-columns: minmax(0, 1fr); }
-    .pw-q { margin-bottom: -14px; width: min(100%, 440px); }
+    .pw-q { margin-bottom: 6px; width: min(100%, 440px); }
     .pw-q:nth-child(odd) { justify-self: center; --dx: -8px; --dy: 0px; }
     .pw-q:nth-child(even) { justify-self: center; --dx: 8px; --dy: 0px; }
 }

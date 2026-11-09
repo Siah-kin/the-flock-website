@@ -133,8 +133,9 @@
             // on a phone the cards are close together, so an arriving card turns opaque early and the words never show through
             setCard(q, i, (phone ? clamp(a * 3) : a) * (1 - cl), tf, a > 0.95 && cl < 0.05, i === topIdx && cl < 0.05);
         });
-        // the pile blurs away as one layer (cheaper than a filter on every card)
-        var blur = cl > 0 ? 'blur(' + (cl * 6).toFixed(1) + 'px)' : '';
+        // desktop: the pile blurs away as one layer. A phone only fades and slides: a screen-sized blur over ten
+        // shadowed cards is slow on cheap phones
+        var blur = !phone && cl > 0 ? 'blur(' + (cl * 6).toFixed(1) + 'px)' : '';
         if (wall.style.filter !== blur) wall.style.filter = blur;
         agony.style.opacity = ag.toFixed(3);
         calm.style.opacity = ca.toFixed(3);
