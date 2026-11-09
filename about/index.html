@@ -47,6 +47,7 @@
         .road { position: relative; padding: 80px 0 40px; }
         .road .wrap { position: relative; }
         .rail { position: absolute; left: 80px; top: 19px; bottom: 96px; width: 6px; border-radius: 3px; background: var(--line); }
+        .road-page h2[id] { scroll-margin-top: 76px; }
         .stop { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: 48px; align-items: start; padding: 0 0 96px 96px; }
         .stop::before { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 6px solid var(--c); box-shadow: 0 0 0 6px #fff; }
         body.dark-mode .stop::before { background: #08142B; box-shadow: 0 0 0 6px #08142B; }
@@ -104,8 +105,10 @@
             .here { left: -12px; width: 76px; top: -42px; }
         }
         @media (prefers-reduced-motion: reduce) {
-            .js .replay { visibility: hidden; }
+            .js .replay { display: none; }
         }
+        @media (min-width: 901px) { .stop:not(.solo) { grid-template-columns: minmax(0,1fr) minmax(0,440px); } .stop:not(.solo) > .pics, .stop:not(.solo) > .pic { position: sticky; top: 88px; } }
+        @media (max-width: 900px) { .pic figcaption { flex-direction: column; align-items: flex-start; gap: 6px; } }
     </style>
 </head>
 <body class="road-page" data-theme-default="light">
@@ -148,7 +151,7 @@
                     <div>
                         <h2 id="instead">What The Flock does instead</h2>
                         <p>The Flock counts something harder to fake: help that a person on your team confirmed. A member reports a bug or shares a useful idea, your team taps Useful, and it goes on that member’s track record with the date. The track record belongs to them, and they can download it and take it with them.</p>
-                        <details class="more"><summary>What else goes on a track record?</summary><ul><li>Reviewed X posts go on it too.</li><li>Members can delete their track record from the bot.</li></ul></details>
+                        <details class="more"><summary>What else goes on a track record, and can it be deleted?</summary><ul><li>Reviewed X posts go on it too.</li><li>Members can delete their track record from the bot.</li></ul></details>
                     </div>
                     <figure class="pic">
                         <svg class="tap wide" viewBox="0 0 520 300" role="img" aria-label="Animation: a request card in the team chat. Someone on the team taps Useful, and a new dated line appears on the member's History: Request 14 marked useful."><defs><linearGradient id="tbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E3F66"/><stop offset="1" stop-color="#132B47"/></linearGradient></defs><rect width="520" height="300" rx="26" fill="url(#tbg)"/><text x="26" y="40" font-size="15" fill="#A9C7E8">Your team chat</text><rect x="22" y="54" width="232" height="176" rx="16" fill="#182533"/><text x="38" y="86" font-size="16" font-weight="700" fill="#fff">🎫 Ticket #0014</text><text x="38" y="116" font-size="15" fill="#E8EEF7">The sign-up page froze</text><text x="38" y="137" font-size="15" fill="#E8EEF7">at the second step.</text><rect x="34" y="170" width="70" height="40" rx="9" fill="#223A55"/><text x="69.0" y="194.7" text-anchor="middle" font-size="13" font-weight="600" fill="#8EC4FA">Done</text><rect x="109" y="170" width="70" height="40" rx="9" fill="#223A55"/><text x="144.0" y="194.7" text-anchor="middle" font-size="13" font-weight="600" fill="#8EC4FA">Useful</text><g class="useful-on"><rect x="109" y="170" width="70" height="40" rx="9" fill="#2A3B22" stroke="#FED801" stroke-width="2.5"/><text x="144.0" y="194.7" text-anchor="middle" font-size="13" font-weight="700" fill="#FED801">⭐ Useful</text></g><circle class="ring" cx="144.0" cy="190.0" r="22" fill="none" stroke="#FED801" stroke-width="3"/><rect x="184" y="170" width="70" height="40" rx="9" fill="#223A55"/><text x="219.0" y="194.7" text-anchor="middle" font-size="13" font-weight="600" fill="#8EC4FA">Spam</text><path d="M262,140 L284,140" fill="none" stroke="#FED801" stroke-width="3" stroke-dasharray="4 7" stroke-linecap="round"/><path d="M278,132 L288,140 L278,148" fill="none" stroke="#FED801" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="298" y="40" font-size="15" fill="#A9C7E8">Ana’s chat with the bot</text><rect x="296" y="54" width="204" height="226" rx="16" fill="#F6F1E3"/><path d="M296,70 a16,16 0 0 1 16,-16 h172 a16,16 0 0 1 16,16 v20 h-204 z" fill="#2FA866"/><text x="398.0" y="79" text-anchor="middle" font-size="15" font-weight="700" fill="#fff" class="t">📜 History · Ana</text><g class="newline"><rect x="306" y="104" width="184" height="66" rx="10" fill="#FFF3B0"/><text x="318" y="126" font-size="13" fill="#5B6B80">04 Nov</text><text x="318" y="148" font-size="14" font-weight="700" fill="#12304F">🎫 Request #0014</text><text x="318" y="164" font-size="14" font-weight="700" fill="#12304F">marked useful</text></g><text x="318" y="196" font-size="13" fill="#5B6B80">18 Oct</text><text x="318" y="216" font-size="14" fill="#12304F">📤 Post reviewed: 👍 Good</text></svg>
@@ -159,7 +162,7 @@
                 <section class="stop solo" aria-labelledby="ai">
                     <div>
                         <h2 id="ai">The AI we want</h2>
-                        <p>A lot of the internet has become a poor place to spend time. AI writes much of what we read, and bots farm the replies.</p>
+                        <p>A lot of the internet has become a poor place to spend time. AI writes much of what we read, and bots farm the replies, so the people who actually explain a project get buried.</p>
                         <p>The good AI is the AI you don’t notice: AI in the human loop, making the human experience more intuitive and preventing the pitfalls that have been choking society. We want it to boost human creativity instead of farming it. It should help a person say what they mean in their own words, and point out what reads as farmed.</p>
                     </div>
                     
@@ -167,10 +170,10 @@
                 <section class="stop calm solo" aria-labelledby="who">
                     <div>
                         <h2 id="who">Who is behind it</h2>
-                        <p>My crypto business went bankrupt in 2025, after the long bear market in altcoins. All my work was washed away. The help I gave and the results I delivered were scattered in chats nobody uses any more.</p>
+                        <p>Built by a founder who ran a crypto business until 2025.</p>
                         <p>Looking for a new job was close to impossible. Former business owners like me are not favoured; we read as overqualified.</p>
                         <p>Real work in a community should leave a track record that outlives the job, the project and the market cycle, and that belongs to the person who did it. So we are building that track record: who actually helped, confirmed by the people they helped.</p>
-                        <!-- Owner's open item: public name, role, photo; who else is named; Arctide's OK. Do not fill without his word. -->
+                        <!-- Name, role and photo go here. -->
                     </div>
                 </section>
             </div>

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Save a still of every Flock scene beat, for /, /now/ and /why/.
+"""Save a still of every Flock scene beat, for /, /now/ and /about/.
 
 Setup:  pip install playwright && playwright install chromium
 Run:    python3 scripts/motion_snapshots.py
@@ -20,7 +20,7 @@ from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'motion-snapshots')
-PAGES = {'home': '/', 'now': '/now/', 'why': '/why/'}
+PAGES = {'home': '/', 'now': '/now/', 'about': '/about/'}
 SIZES = [(1280, 800), (390, 844)]
 END_MS = 6000  # past the longest beat sequence in these pages (two ponds: 6s)
 
