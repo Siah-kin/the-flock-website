@@ -13,32 +13,39 @@
 .pw-lead p { margin: 18px 0 0; font-size: 1.2rem; line-height: 1.6; color: #33445A; max-width: 34em; }
 .pw-lead .pw-jump { margin-top: 10px; font-size: 1rem; }
 .pw-jump a, .pw-sources a { color: var(--pw-link); font-weight: 700; }
-body.dark-mode .pw-lead { background: #08142B; }
+body.dark-mode .pw-lead { background: #141A28; }  /* the scene's first colour, so lead and scene read as one */
 body.dark-mode .pw-lead h1 { color: #fff; }
 body.dark-mode .pw-lead p { color: #C5D3E8; }
 body.dark-mode .pw-jump a, body.dark-mode .pw-sources a { color: #8EC4FA; }
 
 /* The source list (always in the page) */
-.pw-sources { padding: 28px 0 56px; scroll-margin-top: 72px; }
-.pw-sources h2 { margin: 0 0 16px; font-family: var(--display); font-weight: 700; font-size: 1.6rem; }
-.pw-sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 16px; max-width: 46em; }
-.pw-sources li { line-height: 1.5; color: var(--ink); }
-.pw-sources q { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 1.08rem; }
-.pw-sources li > span { color: #4A5B72; font-size: .92rem; margin-right: 12px; }
-.pw-sources li > a { font-size: .92rem; display: inline-block; padding: 6px 0; }
+/* Compact: it follows the scene, so it reads as a reference list, with every source one click away */
+.pw-sources { padding: 28px 0 48px; scroll-margin-top: 72px; }
+.pw-sources h2 { margin: 0 0 14px; font-family: var(--display); font-weight: 700; font-size: 1.45rem; line-height: 1.15; }
+.pw-sources ol { margin: 0; padding-left: 1.4em; display: grid; gap: 10px 48px; max-width: 46em; }
+.pw-sources li { line-height: 1.45; color: var(--ink); }
+.pw-sources q { display: block; font-family: Georgia, "Times New Roman", serif; font-size: .95rem; }
+/* role, date and link on one line; on a narrow phone the link moves under the role */
+.pw-sources li { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; }
+.pw-sources li > q { flex: 0 0 100%; }
+.pw-sources li > span { color: #4A5B72; font-size: .84rem; }
+.pw-sources li > a { font-size: .84rem; display: inline-block; padding: 4px 0; }
+@media (min-width: 1000px) { .pw-sources ol { grid-template-columns: 1fr 1fr; max-width: none; } }
 body.dark-mode .pw-sources li { color: #E7EEF9; }
 body.dark-mode .pw-sources li > span { color: #A9B8CC; }
 .pw-jump a:focus-visible, .pw-sources a:focus-visible, .pw-q a:focus-visible { outline: 3px solid var(--pw-link); outline-offset: 3px; border-radius: 4px; }
 
 /* The answer, still layout: a blue band after the list */
 .pw-end { position: relative; overflow: hidden; isolation: isolate; color: #fff; background: linear-gradient(180deg, #1B2B4A 0%, #004A94 38%, #0058A8 100%); padding: 72px 0 200px; text-align: center; }
-.pw-agony { margin: 0 auto; padding: 0 16px; max-width: 26em; font-family: var(--display); font-weight: 600; font-size: clamp(1.4rem, 3vw, 2.1rem); line-height: 1.25; color: #fff; }
+.pw-agony { margin: 0 auto; padding: 0 16px; max-width: 26em; font-family: var(--display); font-weight: 600; font-size: clamp(1.4rem, 3vw, 2.1rem); line-height: 1.25; color: #fff; text-wrap: balance; }
 .pw-calm { padding: 0 16px; margin-top: 56px; }
 .pw-calm h2 { margin: 0 auto; max-width: 15em; font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.08; color: #fff; }
 .pw-calm p { margin: 18px auto 0; max-width: 32em; font-size: clamp(1.05rem, 2vw, 1.3rem); line-height: 1.55; color: #E4ECF7; }
 .pw-cta { display: inline-block; margin-top: 26px; background: var(--sun); color: var(--navy); font-family: var(--display); font-weight: 600; font-size: 1.3rem; padding: 15px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 8px 20px rgba(0, 0, 0, .28); }
 .pw-cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .pw-sun { position: absolute; z-index: -1; width: 18vmin; height: 18vmin; max-width: 150px; max-height: 150px; border-radius: 50%; background: var(--sun); left: 12%; bottom: 150px; opacity: .95; }
+.pw-shore { fill: #fff; }
+body.dark-mode .pw-shore { fill: #08142B; }  /* meets the page below the band in either theme */
 .pw-sea { position: absolute; z-index: -1; left: 0; bottom: 0; width: 100%; height: 170px; display: block; }
 .pw-ducks { position: absolute; z-index: -1; right: 7%; bottom: 70px; width: min(320px, 56vw); height: auto; }
 
@@ -53,11 +60,11 @@ body.dark-mode .pw-sources li > span { color: #A9B8CC; }
 
 /* The wall itself never takes clicks; each card turns its own on once it is fully there (js) */
 .pw-wall { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-.pw-q { position: absolute; left: 0; top: 0; margin: 0; width: var(--pw-cw, 380px); padding: 16px 18px 12px; border-radius: 14px; background: var(--pw-paper); color: var(--pw-ink); box-shadow: 0 18px 40px rgba(0, 0, 0, .45); opacity: 0; visibility: hidden; transform-origin: 50% 100%; will-change: transform, opacity; }
+.pw-q { position: absolute; left: 0; top: 0; margin: 0; width: var(--pw-cw, 380px); padding: 16px 18px 12px; border-radius: 14px; background: var(--pw-paper); color: var(--pw-ink); box-shadow: 0 18px 40px rgba(0, 0, 0, .45); opacity: 0; visibility: hidden; transform-origin: 50% 100%; }
+.pw.pw-go .pw-q { will-change: transform, opacity; }
 .pw-q blockquote { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: calc(1.02rem * var(--pw-fs, 1)); line-height: 1.45; }
 .pw-q figcaption { margin-top: 8px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: calc(.8rem * var(--pw-fs, 1)); line-height: 1.35; color: #4F596B; }
 .pw-q figcaption a { flex: none; color: var(--pw-link); font-weight: 700; padding: 8px 6px; margin: -8px -6px; }
-.pw-q.pw-red { border-left: 6px solid #E5604F; } .pw-q.pw-grey { border-left: 6px solid #8A93A6; } .pw-q.pw-amber { border-left: 6px solid #E0A63A; }
 
 /* In the scene the answer layer fills the view and lets clicks through, except on the button once it shows */
 .pw-view > .pw-end { position: absolute; inset: 0; z-index: 2; padding: 0; background: none; overflow: hidden; pointer-events: none; display: grid; place-items: center; }
@@ -68,7 +75,6 @@ body.dark-mode .pw-sources li > span { color: #A9B8CC; }
 .pw-view > .pw-end .pw-sun, .pw-view > .pw-end .pw-sea, .pw-view > .pw-end .pw-ducks { opacity: 0; }
 .pw-view > .pw-end .pw-sun { bottom: 24%; }
 .pw-view > .pw-end .pw-sea { height: 30%; }
-.pw-view > .pw-end .pw-shore { display: none; }
 .pw-view > .pw-end .pw-ducks { bottom: 13%; }
 .pw-view.play .pw-ducks use { animation: bob-flock var(--amb-bob, 4s) ease-in-out infinite; }
 .pw-view.play .pw-ducks use:nth-child(2) { animation-delay: -1.3s; } .pw-view.play .pw-ducks use:nth-child(3) { animation-delay: -2.6s; }
@@ -83,6 +89,12 @@ body.dark-mode .pw-sources li > span { color: #A9B8CC; }
 /* Phone: one quote at a time, stacked */
 .pw-phone .pw-q blockquote { font-size: 1.04rem; }
 .pw-phone .pw-q figcaption { font-size: .82rem; }
+.pw-phone .pw-q figcaption a { padding: 14px 10px; margin: -14px -10px; }  /* about a 44px tap target */
+/* a covered card: a set darker paper, its words faded out, so only the edge shows behind the top card */
+.pw-phone .pw-q { transition: background-color var(--dur-short, 220ms); }
+.pw-phone .pw-q blockquote, .pw-phone .pw-q figcaption { transition: opacity var(--dur-short, 220ms); }
+.pw-phone .pw-q.pw-under { background: #B9B4A8; }
+.pw-phone .pw-q.pw-under blockquote, .pw-phone .pw-q.pw-under figcaption { opacity: 0; }
 .pw-phone .pw-view > .pw-end .pw-agony { bottom: 7%; font-size: 1.35rem; }
 .pw-phone .pw-view > .pw-end .pw-calm { padding-bottom: 18vh; }
 .pw-phone .pw-view > .pw-end .pw-calm h2 { font-size: 2rem; }

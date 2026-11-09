@@ -35,7 +35,7 @@
     // Timeline, in heights of the view scrolled: each card's arrival, then the line, the clearing and the answer
     function timeline() {
         // the first card starts while the stage is still scrolling in (progress is negative until it pins)
-        var n = cards.length, step = phone ? 0.65 : 0.3, dur = phone ? 0.25 : 0.22, a0 = -0.6;
+        var n = cards.length, step = phone ? 0.45 : 0.3, dur = phone ? 0.25 : 0.22, a0 = -0.6;
         var tail = a0 + (n - 1) * step + dur;
         T = { a0: a0, step: step, dur: dur, ag0: tail + 0.25, ag1: tail + 0.5, cl0: tail + 0.85, cl1: tail + 1.35 };
         T.ca0 = T.cl1 - 0.1; T.ca1 = T.ca0 + 0.5; T.end = T.ca1 + 0.75;
@@ -87,11 +87,11 @@
 
     function progress() { return Math.max(-1, Math.min(T.end, (NAV - stage.getBoundingClientRect().top) / H)); }
 
-    function setCard(q, i, op, tf, blur, live, z) {
+    // Cards only fade and move: filters on many cards are slow on cheap phones
+    function setCard(q, op, tf, live, z) {
         q.style.opacity = op.toFixed(3);
         q.style.visibility = op < 0.02 ? 'hidden' : 'visible';
         q.style.transform = tf;
-        q.style.filter = blur ? blur : '';
         q.style.zIndex = z;
         // only a card that is fully there takes clicks, so nothing half-faded sits over a link
         q.style.pointerEvents = live ? 'auto' : 'none';
@@ -112,17 +112,24 @@
                 for (var j = i + 1; j < arr.length; j++) depth += arr[j];
                 var d = Math.min(depth, 4);
                 // an arriving card turns opaque early and slides up, so two quotes never show through each other
-                op = clamp(a * 3) * (1 - cl) * (depth > 4.5 ? 0 : 1);
+                // while the stack clears, covered cards go first so they never show through the top card
+                op = clamp(a * 3) * (depth > 0.5 ? 1 - clamp(cl * 2) : 1 - cl) * (depth > 4.5 ? 0 : 1);
                 tf = 'translate(' + p.x + 'px,' + (p.y - d * 10 + (1 - a) * 90 - cl * 60) + 'px) scale(' + (1 - d * 0.035 - cl * 0.08).toFixed(4) + ')';
                 live = a > 0.95 && depth < 0.3 && cl < 0.05;
-                setCard(q, i, op, tf, cl > 0 ? 'blur(' + (cl * 6).toFixed(1) + 'px)' : (d > 0.05 ? 'brightness(' + (1 - d * 0.1).toFixed(3) + ')' : ''), live, i + 1);
+                // a covered card turns a darker paper with its words faded, so only its edge shows
+                q.classList.toggle('pw-under', depth > 0.5);
+                setCard(q, op, tf, live, i + 1);
             } else {
                 op = a * (1 - cl) * (1 - ag * 0.45);
                 tf = 'translate(' + p.x + 'px,' + (p.y + (1 - a) * 40 - cl * 90) + 'px) ' + r + ' scale(' + (1 - cl * 0.12).toFixed(4) + ')';
                 live = a > 0.95 && cl < 0.05;
-                setCard(q, i, op, tf, cl > 0 ? 'blur(' + (cl * 6).toFixed(1) + 'px)' : '', live, i + 1);
+                q.classList.remove('pw-under');
+                setCard(q, op, tf, live, i + 1);
             }
         });
+        // desktop: the wall blurs away as one layer; the phone stack only fades and slides
+        var blur = !phone && cl > 0 ? 'blur(' + (cl * 6).toFixed(1) + 'px)' : '';
+        if (wall.style.filter !== blur) wall.style.filter = blur;
         var agOut = span(s, T.cl0 + 0.1, T.cl0 + 0.4);
         agony.style.opacity = (ag * (1 - agOut)).toFixed(3);
         agony.style.transform = 'translateY(' + ((1 - ag) * 18) + 'px)';

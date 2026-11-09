@@ -13,8 +13,7 @@
       "month": "Mar 2025",
       "url": "https://blog.notrustverify.ch/catch-impersonators-on-telegram",
       "site": "blog.notrustverify.ch",
-      "text_from": "page",
-      "tone": "amber"
+      "text_from": "page"
     },
     {
       "id": "twelve-dms",
@@ -27,8 +26,7 @@
       "month": "Jan 2025",
       "url": "https://forum.polkadot.network/t/polkadex-is-a-scam/11451/1",
       "site": "forum.polkadot.network",
-      "text_from": "page",
-      "tone": "amber"
+      "text_from": "page"
     },
     {
       "id": "easy-to-hit-as-a-farmer",
@@ -41,8 +39,7 @@
       "month": "Jun 2024",
       "url": "https://x.com/adamscochran/status/1800521951384879469",
       "site": "x.com",
-      "text_from": "x-oembed",
-      "tone": "red"
+      "text_from": "x-oembed"
     },
     {
       "id": "in-tears",
@@ -55,8 +52,7 @@
       "month": "Jun 2024",
       "url": "https://x.com/ahrlien/status/1800425508989182172",
       "site": "x.com",
-      "text_from": "x-oembed",
-      "tone": "red"
+      "text_from": "x-oembed"
     },
     {
       "id": "small-accounts-winning",
@@ -69,8 +65,7 @@
       "month": "Aug 2025",
       "url": "https://x.com/Telloo55/status/1954251216352862537",
       "site": "x.com",
-      "text_from": "x-oembed",
-      "tone": "red"
+      "text_from": "x-oembed"
     },
     {
       "id": "wrongfully-excluded",
@@ -83,8 +78,7 @@
       "month": "Sep 2025",
       "url": "https://x.com/theblessnetwork/status/1965487310696579229",
       "site": "x.com",
-      "text_from": "x-oembed",
-      "tone": "red"
+      "text_from": "x-oembed"
     },
     {
       "id": "would-go-unrecognized",
@@ -97,8 +91,7 @@
       "month": "Oct 2024",
       "url": "https://gov.optimism.io/t/appeal-to-the-optimism-foundation-request-to-update-retrofunding-round-6-application/9208/1",
       "site": "gov.optimism.io",
-      "text_from": "page",
-      "tone": "grey"
+      "text_from": "page"
     },
     {
       "id": "sleepless-nights",
@@ -111,8 +104,7 @@
       "month": "Oct 2024",
       "url": "https://forum.polkadot.network/t/resignation-of-the-head-ambassador-title-six/10367/1",
       "site": "forum.polkadot.network",
-      "text_from": "page",
-      "tone": "grey"
+      "text_from": "page"
     }
   ]
 }
