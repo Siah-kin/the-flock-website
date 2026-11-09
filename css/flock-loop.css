@@ -48,3 +48,9 @@ body.dark-mode .lp-q { fill: #8EC4FA; }
     .lp-arm .lp-draw { stroke-dashoffset: 0; }
     .lp-arm .lp-headfade { opacity: 1; }
 }
+
+/* Pause pressed mid-sequence: show the finished drawing, same as reduced motion */
+html[data-motion="paused"] .lp-n1, html[data-motion="paused"] .lp-n2, html[data-motion="paused"] .lp-n3, html[data-motion="paused"] .lp-n4, html[data-motion="paused"] .lp-plan, html[data-motion="paused"] .lp-draw, html[data-motion="paused"] .lp-headfade { transition: none !important; }
+html[data-motion="paused"] .lp-arm .lp-n1, html[data-motion="paused"] .lp-arm .lp-n2, html[data-motion="paused"] .lp-arm .lp-n3, html[data-motion="paused"] .lp-arm .lp-n4, html[data-motion="paused"] .lp-arm .lp-plan { opacity: 1; transform: none; }
+html[data-motion="paused"] .lp-arm .lp-draw { stroke-dashoffset: 0; }
+html[data-motion="paused"] .lp-arm .lp-headfade { opacity: 1; }
