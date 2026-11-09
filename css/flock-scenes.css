@@ -125,7 +125,7 @@ html:not([data-motion="paused"]) #lanes.pre .gin .move { transform: translateX(-
 /* Duck rig (Flock.rig in js/flock-motion.js). Layers are named as in the duck brief: wake, tail, body, wing, neck, head,
    beak_top, beak_bottom, eye_white, pupil, eyelid, brow. Wake, eyelid and brow exist only on rigged ducks and are
    invisible at rest. Origins sit at the joints, in the duck's own 210 x 121 units. At rest every part is where the <use>
-   duck draws it: idle parts move only while an ancestor has .play, so a paused or reduced-motion duck is the drawing. */
+   duck draws it: idle parts run only while their host has .play and freeze in place otherwise; a reduced-motion duck stays the drawing. */
 .rig .pose { transform-origin: 105px 84px; transition: scale var(--dur-micro) var(--ease-move), rotate var(--dur-med) var(--ease-move); }
 .rig .act { transform-origin: 100px 118px; }
 .rig .head { transform-origin: 138px 68px; rotate: var(--look, 0deg); transition: rotate var(--dur-med) var(--ease-move); }
@@ -134,10 +134,12 @@ html:not([data-motion="paused"]) #lanes.pre .gin .move { transform: translateX(-
 .rig .eyelid { transform-origin: 164px 21.8px; transform: scaleY(0); }
 .rig .brow { opacity: 0; }
 .rig .wake { transform-origin: 100px 117px; opacity: 0; transform: scaleX(.3); transition: opacity var(--dur-med), transform var(--dur-med) var(--ease-move); }
+/* Idle motion stays attached (.amb marks an ambient host); a host without .play (paused, out of view, hidden tab) freezes it in place, so Play continues from the same point */
+.amb:not(.play) .rig * { animation-play-state: paused !important; }
 /* Idle (not in the ponds, whose ducks act out a storyboard): wing shuffle and blink at irregular intervals; ducks that bob (.bob) also get the head following the body */
-.play:not(#lanes) .rig .wing { animation: rig-shuffle calc(var(--amb-flick) + var(--amb-flick-spread) * var(--r1, .5)) ease-in-out infinite; }
-.play:not(#lanes) .rig .eyelid { animation: rig-blink calc(var(--amb-blink) + var(--amb-blink-spread) * var(--r2, .5)) linear infinite; }
-.play .rig.bob .head { animation: rig-follow var(--amb-bob) ease-in-out calc(var(--phase, 0s) + var(--rig-lag)) infinite; }
+.amb:not(#lanes) .rig .wing { animation: rig-shuffle calc(var(--amb-flick) + var(--amb-flick-spread) * var(--r1, .5)) ease-in-out infinite; }
+.amb:not(#lanes) .rig .eyelid { animation: rig-blink calc(var(--amb-blink) + var(--amb-blink-spread) * var(--r2, .5)) linear infinite; }
+.amb .rig.bob .head { animation: rig-follow var(--amb-bob) ease-in-out calc(var(--phase, 0s) + var(--rig-lag)) infinite; }
 @keyframes rig-shuffle { 0%, 90%, 100% { transform: none; } 93% { transform: rotate(-10deg); } 96% { transform: rotate(3deg); } }
 @keyframes rig-blink { 0%, 96%, 100% { transform: scaleY(0); } 98% { transform: scaleY(1); } }
 @keyframes rig-follow { 0%, 100% { transform: none; } 25% { transform: rotate(1.5deg); } 75% { transform: rotate(-1.5deg); } }

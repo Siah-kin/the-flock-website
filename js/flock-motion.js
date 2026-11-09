@@ -60,6 +60,7 @@
     // Ambient: el gets .play while it is in view, the tab is visible and nothing is paused
     F.ambient = function (el, o) {
         var a = { seen: false };
+        el.classList.add('amb');
         function sync() {
             var on = a.seen && !doc.hidden && !F.paused && !F.reduced;
             el.classList.toggle('play', on);
@@ -101,7 +102,7 @@
     function tick(now) {
         raf = 0;
         running.slice().forEach(function (s) {
-            if (!s.held) { s.pos += Math.min(Math.max(now - s.last, 0), 100); s.step(); }
+            if (!s.held) { s.pos += Math.max(now - s.last, 0); s.step(); }
             s.last = now;
         });
         kick();
@@ -120,7 +121,7 @@
             el.classList.toggle('play', live());
             if (s.st === 1 && s.held !== hold()) { s.held = !s.held; s.last = performance.now(); kick(); }
         } };
-        if (o.ambient) amb.push(sa);
+        if (o.ambient) { amb.push(sa); el.classList.add('amb'); }
 
         function ctx() {
             var all = o.variants ? arr(el.querySelectorAll(o.variants)) : [el];
@@ -129,7 +130,12 @@
         function svgs() { return arr(el.querySelectorAll('svg')).concat(el.pauseAnimations ? [el] : []); }
         function drop() { var k = running.indexOf(s); if (k > -1) running.splice(k, 1); }
         s.step = function () {
-            while (s.st === 1 && s.i < beats.length && beats[s.i].at <= s.pos) beats[s.i++].run(ctx());
+            while (s.st === 1 && s.i < beats.length && beats[s.i].at <= s.pos) {
+                // a beat that runs late (slow frame) starts its CSS animations as old as it is late, so ducks and gate stay together
+                var lag = s.pos - beats[s.i].at, was = lag > 20 && el.getAnimations ? el.getAnimations({ subtree: true }) : 0;
+                beats[s.i++].run(ctx());
+                if (was) el.getAnimations({ subtree: true }).forEach(function (a) { if (was.indexOf(a) < 0 && a.currentTime !== null) a.currentTime += lag; });
+            }
             if (s.st !== 1) return;
             if (s.i < beats.length) return;
             if (o.mode === 'loop') { if (s.pos >= len) { if (o.reset) o.reset(ctx()); s.pos = 0; s.i = 0; } }
