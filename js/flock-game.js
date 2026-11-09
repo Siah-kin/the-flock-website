@@ -32,7 +32,7 @@
     '.game-waves{position:absolute;left:0;top:0;width:100%;height:100%;display:block}' +
     '.game-pond .game-info{top:16px;display:grid;gap:10px;justify-items:start}' +
     /* top: the hero band; its text stays above the game */
-    '.game-top>.wrap{position:relative;z-index:2}.game-top .game-hint.game-hint{margin:22px 0 0}.game-top .game-hud{margin-top:10px}.game-top>.game-hud{position:absolute;right:24px;top:20px;margin:0}' +
+    '.top.game-top{padding-bottom:214px}.game-top>.wrap{position:relative;z-index:2}.game-top .game-hint.game-hint{margin:22px 0 0}.game-top .game-hud{margin-top:10px}.game-top>.game-hud{position:absolute;right:24px;top:20px;margin:0}@media(max-width:900px){.top.game-top{padding-bottom:194px}}' +
     /* wave: the answer band; the answer text stays above the game, the call-out sits under the button */
     '.game-end .pw-calm{position:relative;z-index:2}.game-end .pw-ducks{visibility:hidden}' +
     '.pw-end.game-end .pw-sun{display:none}' +
@@ -403,7 +403,7 @@
         let co = 0, cs = 1; if (s.st === 'para') co = 1; else if (s.st === 'float' && s.landed && R - s.t0 < 420) { const k = (R - s.t0) / 420; co = 1 - k; cs = 1 - k; }
         X.chute.setAttribute('opacity', co.toFixed(2)); X.chute.setAttribute('transform', 'translate(' + f1(s.x) + ' ' + f1(s.y - 72 * sc) + ') rotate(' + f1(s.rot) + ') scale(' + sc.toFixed(3) + ' ' + Math.max(.001, sc * cs).toFixed(3) + ')');
         const bk = (R - s.sayT) / Math.max(2000, 900 + ((s.X.bt.textContent || '').length * 45)), bo = s.st === 'float' && bk >= 0 && bk < 1 ? 1 : 0;
-        X.bub.setAttribute('opacity', bo); if (bo) X.bub.setAttribute('transform', 'translate(' + f1(Math.min(st.W - 8 - (s.bw || 0) / 2, Math.max(8 + (s.bw || 0) / 2, s.x))) + ' ' + f1(s.y - 58 * sc) + ') scale(' + E.back(Math.min(1, bk * 8)).toFixed(3) + ')');
+        X.bub.setAttribute('opacity', bo); if (bo) X.bub.setAttribute('transform', 'translate(' + f1(Math.min(st.W - 8 - (s.bw || 0) / 2, Math.max(8 + (s.bw || 0) / 2, s.x))) + ' ' + f1(Math.max((st.tb || 0) + 40, s.y - 58 * sc)) + ') scale(' + E.back(Math.min(1, bk * 8)).toFixed(3) + ')');
       });
       // fx
       for (let i = fx.length - 1; i >= 0; i--) {
