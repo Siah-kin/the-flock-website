@@ -25,10 +25,10 @@
     <link rel="stylesheet" href="/css/flock-road.css?v=20261109road1">
     <link rel="stylesheet" href="/css/flock-demos.css?v=20261109demos2">
     <script src="/js/nav-loader.js?v=20261110hyg3" defer></script>
-    <script src="/js/flock-motion.js?v=20261109play3" defer></script>
+    <script src="/js/flock-motion.js?v=20261110hyg6" defer></script>
     <script src="/js/flock-sound.js?v=20261109play3" defer></script>
     <script src="/js/flock-demos.js?v=20261109play3" defer></script>
-    <script src="/js/flock-road.js?v=20261109road1" defer></script>
+    <script src="/js/flock-road.js?v=20261110hyg6" defer></script>
     <script src="/js/flock-duck.js?v=20261109game2" defer></script>
     <script src="/js/flock-lines.js?v=20261110fake2" defer></script>
     <script src="/js/flock-events-1.js?v=20261109game2" defer></script>
@@ -56,13 +56,14 @@
         /* The path: one line down the page that fills in as you read */
         .road { position: relative; padding: 80px 0 40px; }
         .road .wrap { position: relative; }
-        .rail { position: absolute; left: 80px; top: 19px; bottom: 96px; width: 6px; border-radius: 3px; background: var(--line); }
+        .rail { position: absolute; left: 86px; top: 19px; bottom: 96px; width: 6px; border-radius: 3px; background: var(--line); }
         .stop { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 48px; align-items: start; padding: 0 0 96px 96px; }
         /* below 1100px the picture goes under the words, so the text keeps a readable line */
         @media (max-width: 1100px) { .stop { grid-template-columns: minmax(0, 1fr); gap: 26px; } .stop > .pic { max-width: 520px; } }
         .stop::before { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 6px solid var(--c); box-shadow: 0 0 0 6px #fff; }
         body.dark-mode .stop::before { background: #08142B; box-shadow: 0 0 0 6px #08142B; }
-        .stop.now { --c: #2FA866; } .stop.test { --c: #3E8FD8; } .stop.plan { --c: #E0B800; }
+        /* ring colour = status: works today green, testing blue, in development coral, planned yellow */
+        .stop.now { --c: #2FA866; } .stop.test { --c: #3E8FD8; } .stop.dev { --c: #E5604F; } .stop.plan { --c: #E0B800; }
         .here { position: absolute; left: -6px; top: -50px; width: 96px; height: auto; }
         .stop p a { color: var(--blue); }
         p.status-pill, .stop p.status-pill, .band p.status-pill { display: inline-block; margin: 0 0 12px; padding: 4px 12px; border-radius: 999px; background: #FFF1A6; color: #12304F; font-size: .85rem; font-weight: 700; line-height: 1.3; width: fit-content; max-width: none; }
@@ -140,7 +141,7 @@
             .wrap { padding: 0 16px; }
             .top { padding: 56px 0 130px; }
             .top .flock { width: 200px; right: 4%; bottom: 36px; }
-            .rail { left: 38px; top: 19px; }
+            .rail { left: 44px; top: 19px; }
             .stop { grid-template-columns: 1fr; gap: 26px; padding: 0 0 72px 58px; }
             .stop::before { left: 12px; }
             .here { left: -12px; width: 76px; top: -42px; }
@@ -210,7 +211,7 @@
                     </figure>
                 </section>
 
-                <section class="stop test solo" aria-labelledby="ask-title">
+                <section class="stop dev solo" aria-labelledby="ask-title">
                     <div>
                         <p class="status-pill">In development</p>
                         <h2 id="ask-title">Answers your team can check</h2>
@@ -254,7 +255,7 @@
                     </figure>
                 </section>
 
-                <section class="stop plan solo" aria-labelledby="fees-title">
+                <section class="stop now solo" aria-labelledby="fees-title">
                     <div>
                         <h2 id="fees-title">How Arctide splits your token’s trading fees</h2>
                 <p class="intro">If your token trades on Arctide, every trade pays a fee in USDC, and you set part of the split.</p>
