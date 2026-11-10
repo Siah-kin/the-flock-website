@@ -10,7 +10,7 @@
     if (!F.reduced && !F.paused) el.classList.add('lp-arm');
     F.scene(el, {
         threshold: 0.6,
-        beats: order.map(function (q, i) { return { at: i * 440, run: function () { var p = el.querySelector(q); if (p) p.classList.add('on'); } }; }),
+        beats: order.map(function (q, i) { return { at: i * 300, run: function () { var p = el.querySelector(q); if (p) p.classList.add('on'); } }; }),
         reset: function () { clear(); el.classList.add('lp-arm'); },
         end: function () { el.classList.remove('lp-arm'); clear(); }
     });
