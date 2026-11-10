@@ -1,13 +1,17 @@
 (() => {
-    // English only: the page language is always "en", and an old saved language choice is cleared on load.
+    // English only: the page language is always "en".
     document.documentElement.lang = 'en';
-    ['bonzi_lang', 'bonzi-lang', 'bonzi_site_lang'].forEach((k) => {
+
+    // The site keeps three things in the browser, nothing else:
+    //   bonzi_theme   light or dark (set here)
+    //   flock-motion  animations paused or running (flock-motion.js)
+    //   flock-sound   sound on or off (flock-sound.js)
+    // Anything older (a language choice, the old theme key, a private-access flag, a cockpit key) is cleared on load.
+    const THEME_KEY = 'bonzi_theme';
+    ['bonzi_lang', 'bonzi-lang', 'bonzi_site_lang', 'bonzi-theme', 'bonzi_private_access', 'bonzi_cockpit_key'].forEach((k) => {
         try { localStorage.removeItem(k); } catch (e) {}
         try { sessionStorage.removeItem(k); } catch (e) {}
     });
-
-    const THEME_KEY = 'bonzi_theme';
-    const LEGACY_THEME_KEY = 'bonzi-theme';
 
     // The menu, the active link, the theme switch and the phone menu. The animation and sound buttons
     // are built by flock-motion.js and flock-sound.js, which wait for the "nav:loaded" event sent below.
@@ -20,7 +24,7 @@
         if (!navContainer || !menuContainer) return;
 
         try {
-            const _v = '20261110hyg2';
+            const _v = '20261110hyg3';
             const [navRes, menuRes] = await Promise.all([
                 fetch('/includes/nav.html?v=' + _v),
                 fetch('/includes/mobile-menu.html?v=' + _v)
@@ -62,7 +66,7 @@
 
     function initTheme() {
         let saved = null;
-        try { saved = localStorage.getItem(THEME_KEY) || localStorage.getItem(LEGACY_THEME_KEY); } catch (e) {}
+        try { saved = localStorage.getItem(THEME_KEY); } catch (e) {}
         const defaultSetting = document.body.dataset.themeDefault || 'light';
         const defaultTheme = defaultSetting === 'system'
             ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
@@ -82,10 +86,7 @@
         const isDark = theme === 'dark';
         document.body.classList.toggle('dark-mode', isDark);
         document.body.classList.toggle('light-mode', !isDark);
-        try {
-            localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
-            localStorage.setItem(LEGACY_THEME_KEY, isDark ? 'dark' : 'light');
-        } catch (e) {}
+        try { localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light'); } catch (e) {}
     }
 
     function initMobileMenu() {
