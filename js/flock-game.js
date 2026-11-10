@@ -56,7 +56,7 @@
     // The instruction as a call-out: sun-yellow "i" badge, white text on a darker pill. "or press T" only where there is a keyboard pointer.
     const hint = el('p', ''); hint.className = 'game-hint';
     hint.innerHTML = '<span aria-hidden="true" style="flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#FED801;color:#002050;font:700 17px/1 Fredoka,system-ui,sans-serif">i</span><span></span>';
-    hint.lastChild.textContent = 'Pull the duck back, then let go.';
+    hint.lastChild.textContent = ((window.FlockLines && window.FlockLines.ui) || {}).hint || 'Pull the duck back, then let go.';
     const hud = el('div', ''); hud.className = 'game-hud';
     const bar = el('div', ''); bar.className = 'game-bar'; const row = el('div', ''); row.className = 'game-row'; row.appendChild(hint); row.appendChild(hud); bar.appendChild(row);
     // one hidden live node: it announces the score, and only after a throw the visitor made
@@ -64,8 +64,8 @@
     const layer = el('div', ''); layer.className = 'game-layer';
     const gsvg = document.createElementNS(NSS, 'svg'); gsvg.setAttribute('aria-hidden', 'true'); gsvg.style.cssText = 'position:absolute;left:0;top:0;pointer-events:none;overflow:visible'; layer.appendChild(gsvg);
     const hit = el('div', 'position:absolute;z-index:6;touch-action:none;cursor:grab;border-radius:50%');
-    const help = el('span', 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap'); help.id = 'game-throw-help'; help.textContent = 'Arrow keys aim. Enter or Space throws.';
-    hit.className = 'game-throw'; hit.tabIndex = 0; hit.setAttribute('role', 'button'); hit.setAttribute('aria-label', 'Throw a rock at a bot duck'); hit.setAttribute('aria-describedby', help.id);
+    const help = el('span', 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap'); help.id = 'game-throw-help'; help.textContent = ((window.FlockLines && window.FlockLines.ui) || {}).help || 'Arrow keys aim. Enter or Space throws.';
+    hit.className = 'game-throw'; hit.tabIndex = 0; hit.setAttribute('role', 'button'); hit.setAttribute('aria-label', ((window.FlockLines && window.FlockLines.ui) || {}).throwLabel || 'Throw a rock at a bot duck'); hit.setAttribute('aria-describedby', help.id);
     // g: how this mount measures itself. measure(st) fills st.W/H/HB/WL and the stain band, and returns the drag area's top and
     // textBottom: the lowest text, button, call-out or score box. The layer is clipped to everything below it.
     const WATER_DEFS = {};
@@ -173,7 +173,7 @@
       o.g.bar.classList.add('game-bar-end'); if (o.hint.offsetHeight > 54) o.g.bar.classList.add('game-bar-tight'); barUntil = stage.R + ms;   // a very narrow phone: drop the badge so the line stays on two lines
        live.textContent = text; wake();
     };
-    const announce = () => { liveFlip = !liveFlip; live.textContent = 'Bonked: ' + st.score + (liveFlip ? '' : '.'); };
+    const announce = () => { liveFlip = !liveFlip; live.textContent = (((window.FlockLines && window.FlockLines.ui) || {}).live || 'Bonked: ') + st.score + (liveFlip ? '' : '.'); };
     const st = { W: 0, H: 0, WL: 0, HB: 0, tx: 0, ox: 0, oy: 0, sc: .44, score: 0, combo: 0, wind: 0, aiming: false, ptr: null, thrown: false, nextSay: 2500, banner: null, auto: null, attracted: false };
     st.score = loadScore(); hudS.textContent = st.score;
     window.addEventListener('storage', e => { if (e.key === SCORE_KEY) { st.score = loadScore(); hudS.textContent = st.score; } });

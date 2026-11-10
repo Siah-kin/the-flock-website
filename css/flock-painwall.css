@@ -97,6 +97,7 @@ body.dark-mode .pw-lead p { color: #C5D3E8; }
 }
 /* Phone, scene: the mock's cascade, each card a little lower than the one before and on top of it */
 .pw-phone .pw-q blockquote { font-size: 1.04rem; }
+.pw-q blockquote .pw-tr { display: block; margin-top: .55em; font-family: Inter, system-ui, sans-serif; font-size: .88em; line-height: 1.45; color: #3B4A5E; }
 .pw-phone .pw-q figcaption { font-size: .82rem; }
 .pw-phone .pw-view > .pw-end .pw-agony { bottom: 7%; font-size: 1.35rem; }
 .pw-phone .pw-view > .pw-end .pw-calm { padding-bottom: 18vh; }

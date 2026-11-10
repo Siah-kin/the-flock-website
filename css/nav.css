@@ -433,4 +433,14 @@ body.dark-mode .menu-gated {
 .nav-flag:hover { background: rgba(0, 88, 168, .08); }
 .nav-flag.is-current { border-color: currentColor; background: rgba(0, 88, 168, .10); }
 .nav-flag:focus-visible { outline: 3px solid var(--sun, #FED801); outline-offset: 2px; }
-@media (max-width: 900px) { .nav-right .nav-lang { display: none; } }
+/* In the phone menu the flags keep their own look (".mobile-menu a" would add a rule line and 18px text). */
+.mobile-menu .mobile-lang { padding: 4px 0 8px; gap: 8px; }
+.mobile-menu a.nav-flag { padding: 0 12px; font-size: 14px; border-bottom: 1px solid transparent; }
+.mobile-menu a.nav-flag.is-current { border-color: currentColor; }
+
+/* Phone header: flags only (the letters stay for screen readers), so the switch fits beside the menu and theme buttons. */
+@media (max-width: 600px) {
+    .nav-right .nav-flag { padding: 0 6px; gap: 0; }
+    .nav-right .nav-flag-code { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .nav-right .nav-lang { gap: 2px; }
+}

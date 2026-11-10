@@ -35,12 +35,11 @@
     if (!isPt) {
         const saved = savedLang();
         const browserPt = (navigator.language || '').toLowerCase().indexOf('pt') === 0;
-        if (saved === 'pt' || (!saved && browserPt)) {
+        const fromPt = (document.referrer || '').indexOf(window.location.origin + PT_PREFIX + '/') === 0;
+        if (!fromPt && (saved === 'pt' || (!saved && browserPt))) {
             saveLang('pt');
             window.location.replace(otherLangUrl('pt'));
         }
-    } else {
-        saveLang('pt');
     }
 
     // The menu, the active link, the theme switch and the phone menu. The animation and sound buttons
