@@ -33,7 +33,7 @@
     '.game-waves{position:absolute;left:0;top:0;width:100%;height:100%;display:block}' +
     '.game-host>.game-bar{background:#1B4F9A;padding:12px 0 16px}' +
     /* top: the hero band; its text stays above the game */
-    '.top.game-top{padding-bottom:214px}.game-top>.wrap{position:relative;z-index:2}.game-bar.game-bar-page{background:#fff;padding:14px 0 6px}.game-bar-page .game-hint.game-hint{background:#12304F}.game-bar-page .game-hud b{color:#12304F!important}body.dark-mode .game-bar-page .game-hud b{color:#FED801!important}.game-bar-page .game-hud{color:#0058A8}body.dark-mode .game-bar.game-bar-page{background:#08142B}body.dark-mode .game-bar-page .game-hud{color:#BFD9F2}@media(max-width:900px){.top.game-top{padding-bottom:194px}}' +
+    '.top.game-top{padding-bottom:214px}.game-top>.wrap{position:relative;z-index:2}.game-bar.game-bar-page{background:#fff;padding:20px 0}.game-bar-page .game-hint.game-hint{margin-left:96px}.game-bar-page + .road{padding-top:120px}.game-bar-page .game-hint.game-hint{background:#12304F}.game-bar-page .game-hud b{color:#12304F!important}body.dark-mode .game-bar-page .game-hud b{color:#FED801!important}.game-bar-page .game-hud{color:#0058A8}body.dark-mode .game-bar.game-bar-page{background:#08142B}body.dark-mode .game-bar-page .game-hud{color:#BFD9F2}@media(max-width:900px){.top.game-top{padding-bottom:194px}.game-bar-page .game-hint.game-hint{margin-left:58px}.game-bar-page + .road{padding-top:96px}}' +
     /* wave: the answer band; the answer text stays above the game, the call-out sits under the button */
     '.game-end .pw-calm{position:relative;z-index:2}.game-end .pw-ducks{visibility:hidden}' +
     '.pw-end.game-end .pw-sun{display:none}' +
