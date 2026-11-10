@@ -42,7 +42,7 @@ window.FlockLines = {
     { fake: 'Claim your airdrop, link below', real: 'Announcements are pinned in the group', tell: 'Real news is in the pinned post' },
     { fake: 'Saw your question. Message me privately', real: 'Support never DMs first. Ask in the group', tell: 'Real admins never DM first' },
     { fake: 'Group admin: pay 20 USDC to get help', real: 'Support is free, ask us in the bot', tell: 'Paying for help is the scam' },
-    { fake: 'Support bot here. Send your login code', real: 'Send /status to see where it stands', tell: 'Keep login codes to yourself' }
+    { fake: 'Support bot here. Send your login code', real: 'Your request gets a number in the bot', tell: 'Keep login codes to yourself' }
   ],
   fakeSoft: 'That was the real team',
   fakeLink: 'Check a message with the bot',
