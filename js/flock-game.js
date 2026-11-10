@@ -25,7 +25,7 @@
     /* while the end line shows, the score stays beside it on one row (the line wraps inside its pill); the row keeps room for two lines on a phone, so nothing below moves */
     '.game-bar.game-bar-end .game-row{flex-wrap:nowrap}.game-bar.game-bar-end .game-hint.game-hint{flex:0 1 auto;min-width:0}.game-bar.game-bar-end .game-hud{flex:none}.game-bar.game-bar-tight .game-hint>span:first-child{display:none!important}@media (max-width:899px){.game-bar .game-row{min-height:53px}}' +
     '.game-hint a{color:#FED801;font-weight:600;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;pointer-events:auto;border-radius:3px}.game-hint a:hover{color:#fff}.game-hint a:focus-visible{outline:3px solid #fff;outline-offset:2px}' +
-    '.game-hud{display:flex;gap:4px 16px;align-items:baseline;font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#BFD9F2;z-index:3}' +
+    '.game-hud{display:flex;gap:4px 16px;align-items:baseline;font:600 13px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#BFD9F2;z-index:3}' +
     '.game-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}' +
     /* bottom: a pond along the foot of the section */
     '.game-host{padding-bottom:0!important}.game-host>.wrap{padding-bottom:0}' +
