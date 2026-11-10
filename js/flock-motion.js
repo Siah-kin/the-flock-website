@@ -289,16 +289,17 @@
     function toggle() {
         if (doc.querySelector('.flock-side')) return;
         var S = window.FlockSound;
-        var box = doc.createElement('div'); box.className = 'flock-side'; box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'Animation and sound');
+        var PT = (doc.documentElement.lang || '').indexOf('pt') === 0;
+        var box = doc.createElement('div'); box.className = 'flock-side'; box.setAttribute('role', 'group'); box.setAttribute('aria-label', PT ? 'Animação e som' : 'Animation and sound');
         function btn(cls) { var b = doc.createElement('button'); b.type = 'button'; b.className = cls; box.appendChild(b); return b; }
         var pb = btn('flock-pause'), sb = S ? btn('flock-sound') : null;
         function label() {
             pb.innerHTML = F.paused ? ICON.play : ICON.pause;
-            pb.setAttribute('aria-label', 'Animations');
+            pb.setAttribute('aria-label', PT ? 'Animações' : 'Animations');
             pb.setAttribute('aria-pressed', F.paused ? 'false' : 'true');
             if (sb) {
                 sb.innerHTML = S.on ? ICON.on : ICON.off;
-                sb.setAttribute('aria-label', 'Sound');
+                sb.setAttribute('aria-label', PT ? 'Som' : 'Sound');
                 sb.setAttribute('aria-pressed', S.on ? 'true' : 'false');
             }
         }

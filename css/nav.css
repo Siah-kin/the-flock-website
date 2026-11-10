@@ -443,4 +443,12 @@ body.dark-mode .menu-gated {
     .nav-right .nav-flag { padding: 0 6px; gap: 0; }
     .nav-right .nav-flag-code { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .nav-right .nav-lang { gap: 2px; }
+    /* The page language is already marked in the menu; the header shows the flag that switches. */
+    .nav-right .nav-flag.is-current { display: none; }
+    .nav-logo { white-space: nowrap; }
+    .hamburger { flex: none; }
+}
+@media (max-width: 380px) {
+    .nav-right { gap: 0; }
+    .nav-right .nav-flag { min-width: 40px; padding: 0; }
 }

@@ -53,7 +53,7 @@
         if (!navContainer || !menuContainer) return;
 
         try {
-            const _v = '20261110lang1';
+            const _v = '20261110pt2';
             const dir = isPt ? '/includes/pt/' : '/includes/';
             const [navRes, menuRes] = await Promise.all([
                 fetch(dir + 'nav.html?v=' + _v),
