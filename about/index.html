@@ -127,7 +127,9 @@
         @media (prefers-reduced-motion: reduce) {
             .js .replay { display: none; }
         }
-        @media (min-width: 901px) { .stop:not(.solo) { grid-template-columns: minmax(0,1fr) minmax(0,440px); } .stop:not(.solo) > .pics, .stop:not(.solo) > .pic { position: sticky; top: 88px; } }
+        /* below 1100px the picture goes under the words, so the text keeps a readable line (as on Where it is now and How) */
+        @media (max-width: 1100px) { .stop:not(.solo) { grid-template-columns: minmax(0, 1fr); gap: 26px; } .stop:not(.solo) > .pic { max-width: 520px; } }
+        @media (min-width: 1101px) { .stop:not(.solo) { grid-template-columns: minmax(0,1fr) minmax(0,440px); } .stop:not(.solo) > .pics, .stop:not(.solo) > .pic { position: sticky; top: 88px; } }
         @media (max-width: 900px) { .pic figcaption { flex-direction: column; align-items: flex-start; gap: 6px; } }
     </style>
 </head>

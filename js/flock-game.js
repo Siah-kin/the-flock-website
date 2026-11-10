@@ -21,13 +21,13 @@
     /* ONE bar on every page with the game (Home, About, Where it is now, How): a blue strip directly BELOW the playfield, in the colour of the lowest wave.
        The call-out and the score are one group on the left edge of the page's content column (the row is the page's .wrap), score 16px after the call-out; they wrap on a phone.
        --gb-h is the bar's height: 64px with one row, 77px under 900px (room for the two-line end text), 92px under 388px where the score drops under the call-out. */
-    ':root{--gb-h:64px}@media (max-width:899px){:root{--gb-h:77px}}@media (max-width:387px){:root{--gb-h:92px}}' +
+    ':root{--gb-h:64px}@media (max-width:899px){:root{--gb-h:77px}}@media (max-width:429px){:root{--gb-h:92px}}' +
     '.game-bar{position:relative;z-index:3;pointer-events:none;box-sizing:border-box;display:flex;align-items:center;min-height:var(--gb-h);background:#1B4F9A;text-align:left}.game-bar .game-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:8px 16px;box-sizing:border-box;width:100%;padding-top:12px;padding-bottom:12px}' +
     '.game-hint.game-hint{display:flex;align-items:center;gap:8px;width:fit-content;max-width:100%;box-sizing:border-box;margin:0;padding:6px 12px 6px 6px;border-radius:22px;background:#0F336A;color:#fff;font:500 14.5px/1.4 Inter,system-ui,sans-serif;letter-spacing:0;text-align:left}.game-hint>span:last-child{min-width:0}' +
     /* the end line of the fake-admin round puts one link in the call-out; the bar itself ignores the pointer, the link does not */
     /* while the end line shows, the score stays beside it on one row (the line wraps inside its pill); the bar keeps room for two lines on a phone, so nothing below moves */
     '.game-bar.game-bar-end .game-row{flex-wrap:nowrap}.game-bar.game-bar-end .game-hint.game-hint{flex:0 1 auto;min-width:0}.game-bar.game-bar-end .game-hud{flex:none}.game-bar.game-bar-tight .game-hint>span:first-child{display:none!important}' +
-    '.game-hint a{color:#FED801;font-weight:600;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;pointer-events:auto;border-radius:3px}.game-hint a:hover{color:#fff}.game-hint a:focus-visible{outline:3px solid #fff;outline-offset:2px}' +
+    '.game-hint a{color:#FED801;font-weight:600;text-decoration:underline;text-underline-offset:3px;white-space:normal;pointer-events:auto;border-radius:3px}.game-hint a:hover{color:#fff}.game-hint a:focus-visible{outline:3px solid #fff;outline-offset:2px}' +
     '.game-hud{display:flex;gap:4px 16px;align-items:baseline;font:600 13px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#BFD9F2;z-index:3}' +
     '.game-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}' +
     /* bottom: a pond along the foot of the section */
