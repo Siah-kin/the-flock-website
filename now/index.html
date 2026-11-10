@@ -57,7 +57,9 @@
         .road { position: relative; padding: 80px 0 40px; }
         .road .wrap { position: relative; }
         .rail { position: absolute; left: 80px; top: 19px; bottom: 96px; width: 6px; border-radius: 3px; background: var(--line); }
-        .stop { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: 48px; align-items: start; padding: 0 0 96px 96px; }
+        .stop { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 48px; align-items: start; padding: 0 0 96px 96px; }
+        /* below 1100px the picture goes under the words, so the text keeps a readable line */
+        @media (max-width: 1100px) { .stop { grid-template-columns: minmax(0, 1fr); gap: 26px; } .stop > .pic { max-width: 520px; } }
         .stop::before { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 6px solid var(--c); box-shadow: 0 0 0 6px #fff; }
         body.dark-mode .stop::before { background: #08142B; box-shadow: 0 0 0 6px #08142B; }
         .stop.now { --c: #2FA866; } .stop.test { --c: #3E8FD8; } .stop.plan { --c: #E0B800; }
