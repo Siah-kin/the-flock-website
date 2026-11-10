@@ -84,6 +84,8 @@
         .js .replay { visibility: visible; } .replay { visibility: hidden; }
 
 
+        /* Status pill: said once, at the start of its own line (same look as Home and Where it is now) */
+        .status-pill { display: inline-block; margin: 0 8px 0 0; padding: 2px 10px; border-radius: 999px; background: #FFF1A6; color: #12304F; font-size: .8rem; font-weight: 700; line-height: 1.3; vertical-align: baseline; }
         .pics { display: grid; gap: 22px; }
         .stop.solo { grid-template-columns: minmax(0, 1fr); }
         .stop + .stop p + p { margin-top: 14px; }
@@ -186,6 +188,14 @@
                         <p>The good AI is the AI you don’t notice: AI in the human loop, making the human experience more intuitive and preventing the pitfalls that have been choking society. We want it to boost human creativity instead of farming it. It should help a person say what they mean in their own words, and point out what reads as farmed.</p>
                     </div>
                     
+                </section>
+                <section class="stop solo" aria-labelledby="together">
+                    <div>
+                        <h2 id="together">How people and AI work together</h2>
+                        <p><span class="status-pill">In development</span> People decide what is kept. What is kept stays the community’s own, with credit to the member who wrote it. <a href="/now/#ask-title">The assistant</a> answers the next person from it, and anything missing, old or disputed goes back to a person.</p>
+                        <p>Members choose what to share. Their track record is theirs to download or delete.</p>
+                        <p><span class="status-pill">Planned</span> Proofs confirm something about a member without exposing the details. People and AI use what the community learns to keep getting better at spotting tricks such as fake admins, so the community gets safer over time. Members and their community benefit from what their help makes possible.</p>
+                    </div>
                 </section>
                 <section class="stop calm solo" aria-labelledby="who">
                     <div>
