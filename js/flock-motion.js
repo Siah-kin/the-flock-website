@@ -360,13 +360,23 @@
             });
         });
         // the path fills as you read: one measurement per frame, and only while the road is on screen
-        var rd = doc.querySelector('.road'), fill = doc.querySelector('.rail i');
+        var rd = doc.querySelector('.road'), fill = doc.querySelector('.rail i'), rail = fill && fill.parentNode;
         if (rd && fill) {
             var pend = false, on = false;
+            // the path ends on the last stop's ring (its centre is 25px below the stop's top), not in the space under it
+            var endRail = function () {
+                var stops = rd.querySelectorAll('.stop'), wrap = rail.offsetParent;
+                if (!stops.length || !wrap) return;
+                rail.style.bottom = Math.max(0, wrap.offsetHeight - (stops[stops.length - 1].offsetTop + 25)) + 'px';
+            };
+            endRail();
+            if (window.ResizeObserver) new ResizeObserver(endRail).observe(rd);
+            addEventListener('resize', endRail);
+            // the fill follows the reading line (60% down the screen) along the rail itself
             var tickRail = function () {
                 pend = false;
                 if (F.reduced) return;
-                var r = rd.getBoundingClientRect(), p = Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / r.height));
+                var r = rail.getBoundingClientRect(), p = Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / (r.height || 1)));
                 fill.style.setProperty('--fill', p.toFixed(3));
             };
             var onScroll = function () { if (!pend && !F.reduced) { pend = true; requestAnimationFrame(tickRail); } };

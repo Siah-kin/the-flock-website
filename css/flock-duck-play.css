@@ -2,8 +2,9 @@
 .top .duck-play-control { position: absolute; right: 7%; bottom: 60px; width: 340px; min-height: 116px; padding: 0; border: 0; border-radius: 18px; background: transparent; color: #fff; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .top .duck-play-control .flock { position: static; width: 100%; height: auto; display: block; overflow: visible; }
 .duck-play-control:focus-visible { outline: 3px solid #FED801; outline-offset: 5px; }
-.duck-play-hint { display: flex; align-items: center; gap: 8px; width: max-content; max-width: 100%; margin: 8px auto 0; padding: 6px 14px 6px 7px; border-radius: 999px; background: rgba(0, 32, 80, .78); color: #fff; font: 600 1rem/1.2 var(--display); }
-.duck-play-hint i { flex: none; display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #FED801; color: #002050; font: 700 .9rem/1 Georgia, serif; font-style: italic; }
+/* The same pill as the game's call-out (.game-hint in js/flock-game.js): size, colour, font and the yellow "i" badge */
+.duck-play-hint { display: flex; align-items: center; gap: 8px; width: fit-content; max-width: 100%; box-sizing: border-box; margin: 8px auto 0; padding: 6px 12px 6px 6px; border-radius: 22px; background: #0F336A; color: #fff; font: 500 14.5px/1.4 Inter, system-ui, sans-serif; letter-spacing: 0; text-align: left; }
+.duck-play-hint i { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #FED801; color: #002050; font: 700 17px/1 Fredoka, system-ui, sans-serif; font-style: normal; }
 .duck-gas ellipse { opacity: 0; transform-box: fill-box; transform-origin: center; }
 .duck-pffft { opacity: 0; font-family: var(--display); }
 .duck-play-still .duck-gas ellipse { opacity: .8; }

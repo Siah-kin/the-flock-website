@@ -224,11 +224,11 @@
         function tick() {
             pend = false;
             if (F.reduced || F.paused) return;
-            var r = rd.getBoundingClientRect(), p = Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / r.height));
+            var r = rail.getBoundingClientRect(), p = Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / (r.height || 1)));
             here.style.translate = '0 ' + (p * H).toFixed(1) + 'px';
             rd.classList.toggle('road-riding', p * H > 2);
             stops.forEach(function (s) {
-                if (s.done || p <= s.p) return;
+                if (s.done || p < s.p) return;
                 s.done = true;
                 if (first || F.paused || doc.hidden) return;
                 s.el.classList.add('road-hit');
