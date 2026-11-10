@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre o The Flock | Por que criamos, e quem está por trás</title>
+    <meta name="description" content="Sua comunidade inteira cresce pelos membros que ajudam, mas o trabalho deles é difícil de ver. Por que criamos o The Flock, e quem está por trás dele.">
+    <link rel="canonical" href="https://arcflock.com/pt/about/">
+    <link rel="alternate" hreflang="en" href="https://arcflock.com/about/">
+    <link rel="alternate" hreflang="pt-BR" href="https://arcflock.com/pt/about/">
+    <link rel="alternate" hreflang="x-default" href="https://arcflock.com/about/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="The Flock">
+    <meta property="og:title" content="Sobre o The Flock | Por que criamos, e quem está por trás">
+    <meta property="og:description" content="Sua comunidade inteira cresce pelos membros que ajudam, mas o trabalho deles é difícil de ver. Por que criamos o The Flock, e quem está por trás dele.">
+    <meta property="og:url" content="https://arcflock.com/pt/about/">
+    <meta property="og:image" content="https://arcflock.com/assets/og/about.jpg">
+    <meta property="og:image:alt" content="O The Flock: por que criamos, e quem está por trás">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="/assets/flock/favicon-duck-tongue.png?v=20261109" type="image/png">
+    <link rel="stylesheet" href="/css/nav.css?v=20261110hyg2">
+    <link rel="stylesheet" href="/css/bonzi-design.css">
+    <link rel="stylesheet" href="/css/motion.css?v=20261109play3">
+    <link rel="stylesheet" href="/css/flock-scenes.css?v=20261109scenes1">
+    <link rel="stylesheet" href="/css/flock-road.css?v=20261109road1">
+    <script src="/js/nav-loader.js?v=20261110hyg3" defer></script>
+    <script src="/js/flock-motion.js?v=20261110hyg6" defer></script>
+    <script src="/js/flock-sound.js?v=20261109play3" defer></script>
+    <script src="/js/flock-duck.js?v=20261109game2" defer></script>
+    <script src="/js/flock-lines.js?v=20261110fake2" defer></script>
+    <script src="/js/flock-events-1.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-2.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-3.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-4.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-5.js?v=20261110fake2" defer></script>
+    <script src="/js/flock-events-6.js?v=20261109game2" defer></script>
+    <script src="/js/flock-game.js?v=20261110score1" defer></script>
+    <script src="/js/flock-road.js?v=20261110hyg6" defer></script>
+    <style>
+        @font-face { font-family: "Fredoka"; src: url("/assets/fonts/fredoka-latin.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
+        :root { --navy: #002050; --blue: #0058A8; --sky: #7CC8F0; --sun: #FED801; --ink: #0E1B33; --muted: #4A5B72; --soft: #F2F7FC; --line: #D6E4F3; --display: "Fredoka", "Inter", system-ui, sans-serif; }
+        .road-page { background: #fff; color: var(--ink); }
+        body.dark-mode.road-page { background: #08142B; color: #E7EEF9; }
+        .road-page h1, .road-page h2, .road-page h3 { font-family: var(--display); text-wrap: balance; }
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+
+        /* Opening: the same sky and sea as the home page */
+        .top { position: relative; overflow: hidden; color: #fff; background: linear-gradient(180deg, #004A94 0%, #0058A8 70%, #1F68B8 100%); padding: 84px 0 150px; isolation: isolate; }
+        .top h1 { font-weight: 700; font-size: clamp(2.2rem, 4.2vw, 3.4rem); line-height: 1.08; max-width: 16em; }
+        .top p { margin-top: 20px; font-size: 1.22rem; line-height: 1.6; max-width: 34em; color: #fff; }
+        .top .sea { position: absolute; left: 0; bottom: 0; width: 100%; height: 120px; z-index: -1; }
+        .top .flock { position: absolute; right: 7%; bottom: 46px; width: 300px; height: auto; z-index: -1; }
+
+        /* The path: one line down the page that fills in as you read */
+        .road { position: relative; padding: 80px 0 40px; }
+        .road .wrap { position: relative; }
+        .rail { position: absolute; left: 86px; top: 19px; bottom: 96px; width: 6px; border-radius: 3px; background: var(--line); }
+        .road-page h2[id] { scroll-margin-top: 76px; }
+        .stop { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: 48px; align-items: start; padding: 0 0 96px 96px; }
+        .stop::before { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 6px solid var(--c); box-shadow: 0 0 0 6px #fff; }
+        body.dark-mode .stop::before { background: #08142B; box-shadow: 0 0 0 6px #08142B; }
+        .stop.calm, .stop.solo { --c: #3E8FD8; }
+        .stop.now { --c: #2FA866; } .stop.test { --c: #3E8FD8; } .stop.plan { --c: #E0B800; }
+        .here { position: absolute; left: -6px; top: -50px; width: 96px; height: auto; }
+        .stop p a { color: var(--blue); }
+        .stop h2 { margin-top: 0; font-weight: 700; font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.12; }
+        .stop p { margin-top: 14px; font-size: 1.15rem; line-height: 1.6; color: #33445A; max-width: 30em; }
+        body.dark-mode .stop p, body.dark-mode .more li { color: #C5D3E8; }
+        .more { margin-top: 18px; }
+        .more > summary { cursor: pointer; display: inline-block; list-style: none; font-weight: 600; color: var(--blue); padding: 4px 0; }
+        .more > summary::-webkit-details-marker { display: none; }
+        .more > summary::after { content: " +"; } .more[open] > summary::after { content: " −"; }
+        .more > summary:focus-visible, .more a:focus-visible, .replay:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+        .more ul { margin: 12px 0 0; padding-left: 1.15em; display: grid; gap: 8px; max-width: 30em; }
+        .more li { font-size: 1.04rem; line-height: 1.5; color: #33445A; }
+        .more a { color: var(--blue); }
+        body.dark-mode .more > summary, body.dark-mode .more a { color: #8EC4FA; }
+        .pic { margin: 0; }
+        .pic svg { display: block; width: 100%; height: auto; border-radius: 26px; box-shadow: 0 22px 46px rgba(0, 32, 80, .22); }
+        .pic svg text { font-family: "Inter", system-ui, sans-serif; } .pic svg .t { font-family: var(--display); }
+        .pic figcaption { margin-top: 12px; font-size: 1rem; line-height: 1.5; color: var(--muted); display: flex; gap: 14px; align-items: baseline; justify-content: space-between; }
+        body.dark-mode .pic figcaption { color: #A9B8CC; }
+        .replay { flex: none; background: none; border: 0; padding: 12px 0; min-height: 44px; margin: -10px 0; font: 600 .98rem var(--display); color: var(--blue); cursor: pointer; }
+        .js .replay { visibility: visible; } .replay { visibility: hidden; }
+
+
+        /* Status pill: said once, at the start of its own line (same look as Home and Where it is now) */
+        .status-pill { display: inline-block; margin: 0 8px 0 0; padding: 2px 10px; border-radius: 999px; background: #FFF1A6; color: #12304F; font-size: .8rem; font-weight: 700; line-height: 1.3; vertical-align: baseline; }
+        .pics { display: grid; gap: 22px; }
+        .stop.solo { grid-template-columns: minmax(0, 1fr); }
+        .stop + .stop p + p { margin-top: 14px; }
+        .scene { margin: 0; }
+        .scene-svg { display: block; width: 100%; height: auto; border-radius: 30px; box-shadow: 0 24px 50px rgba(0, 20, 40, .35); }
+        .scene-svg text { font-family: "Inter", system-ui, sans-serif; }
+        .scene-svg text.t { font-family: var(--display); }
+        .finish { background: var(--navy); color: #fff; padding: 76px 0 84px; }
+        .finish h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.8rem, 3vw, 2.4rem); }
+        .finish p { margin-top: 14px; font-size: 1.18rem; line-height: 1.6; max-width: 34em; color: #DCE8F7; }
+        .cta { display: inline-block; margin-top: 26px; background: var(--sun); color: var(--navy); font-family: var(--display); font-weight: 600; font-size: 1.35rem; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 8px 20px rgba(0,0,0,.28); }
+        .cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+        .page-footer { background: #001536; color: #fff; padding: 28px 0 32px; }
+        .page-footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; justify-content: space-between; }
+        .page-footer a { color: #fff; text-decoration: none; font-weight: 600; }
+        .page-footer .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 1.2rem; }
+        .page-footer .brand img { width: 40px; height: 40px; border-radius: 50%; }
+        .page-footer .links { display: flex; gap: 22px; }
+        .page-footer .links a { padding: 12px 0; }
+        .page-footer .brand { min-height: 44px; }
+
+        /* Two ponds: volume against confirmed help (moved here from Home) */
+        .lanes { margin-top: 28px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px; max-width: none; }
+        .stop .lanes + p { margin-top: 28px; }
+        .lane { margin: 0; }
+        .lane-label { font-family: var(--display); font-weight: 600; font-size: 1.3rem; margin-bottom: 12px; }
+        .lane-cap { margin-top: 14px; font-size: 1.05rem; line-height: 1.5; color: #33445A; }
+        body.dark-mode .lane-cap { color: #C5D3E8; }
+        @media (max-width: 900px) { .lanes { grid-template-columns: 1fr; gap: 28px; } }
+        @media (max-width: 900px) {
+            .wrap { padding: 0 16px; }
+            .top { padding: 56px 0 130px; }
+            .top .flock { width: 200px; right: 4%; bottom: 36px; }
+            .rail { left: 44px; top: 19px; }
+            .stop { grid-template-columns: 1fr; gap: 26px; padding: 0 0 72px 58px; }
+            .stop::before { left: 12px; }
+            .here { left: -12px; width: 76px; top: -42px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .js .replay { display: none; }
+        }
+        /* below 1100px the picture goes under the words, so the text keeps a readable line (as on Where it is now and How) */
+        @media (max-width: 1100px) { .stop:not(.solo) { grid-template-columns: minmax(0, 1fr); gap: 26px; } .stop:not(.solo) > .pic { max-width: 520px; } }
+        @media (min-width: 1101px) { .stop:not(.solo) { grid-template-columns: minmax(0,1fr) minmax(0,440px); } .stop:not(.solo) > .pics, .stop:not(.solo) > .pic { position: sticky; top: 88px; } }
+        @media (max-width: 900px) { .pic figcaption { flex-direction: column; align-items: flex-start; gap: 6px; } }
+    </style>
+</head>
+<body class="road-page" data-theme-default="light">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="duck" viewBox="0 0 210 121"><path class="tail" d="M52,66 C40,63 28,58 17,49 C11,44 5,46 6,53 C8,67 17,80 30,88 C38,93 47,93 55,89 Z" fill="var(--duck-body,#FFCB2B)"/><g class="body"><path d="M22,82 C21,63 44,54 78,54 C104,54 124,58 146,61 C171,64 186,79 184,96 C182,111 163,119 128,119 L66,119 C39,119 23,105 22,82 Z" fill="var(--duck-body,#FFCB2B)"/><path d="M30,100 C42,111 62,115 92,115 L130,115 C155,115 171,111 180,103 C175,114 159,119 128,119 L66,119 C47,119 35,112 30,100 Z" fill="#000" opacity=".06"/><ellipse cx="96" cy="61" rx="28" ry="3.6" transform="rotate(-2 96 61)" fill="#fff" opacity=".24"/></g><g class="wing"><path d="M52,85 C57,71 80,65 104,68 C121,70 129,80 122,89 C114,98 94,101 77,98 C70,100 61,99 57,95 C51,94 49,90 52,85 Z" fill="var(--duck-wing,#F2B705)"/><path d="M66,88 C80,90 98,90 112,86" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="2.4" stroke-linecap="round"/></g><ellipse class="neck" cx="138" cy="66" rx="20" ry="14" fill="var(--duck-body,#FFCB2B)"/><g class="head"><path d="M119,50 C115,26 133,7 157,7 C181,7 197,25 194,48 C192,66 177,78 156,78 C136,78 122,68 119,50 Z" fill="var(--duck-body,#FFCB2B)"/><ellipse cx="143" cy="22" rx="13" ry="6" transform="rotate(-28 143 22)" fill="#fff" opacity=".32"/><path class="beak_bottom" d="M186,47 C195,47 203,48 207,50 C203,56 193,57 184,54 Z" fill="var(--duck-beak-low,var(--duck-beak,#1E5FAF))"/><path d="M186,47 C195,47 203,48 207,50 C203,56 193,57 184,54 Z" fill="#000" opacity=".14"/><path class="beak_top" d="M183,37 C193,33 205,36 209,43 C207,48 196,49 185,48 Z" fill="var(--duck-beak,#3A8CE0)"/><ellipse class="eye_white" cx="164" cy="30" rx="6.6" ry="7.4" fill="#fff"/><g class="pupil"><circle cx="165.6" cy="31" r="4.3" fill="#1B2A3A"/><circle cx="167.2" cy="29.2" r="1.4" fill="#fff"/></g></g></symbol></defs></svg>
+        <nav id="nav-container"></nav>
+    <div id="mobile-menu-container"></div>
+
+    <main>
+        <section class="top" data-flock-game="top" aria-labelledby="road-title">
+            <svg class="sea" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,50 C240,10 480,14 720,44 C960,74 1200,72 1440,34 L1440,120 L0,120 Z" fill="#2F6FC4"/><path d="M0,84 C300,58 560,66 820,82 C1080,98 1260,94 1440,72 L1440,120 L0,120 Z" fill="#1B4F9A"/></svg>
+            <svg class="flock" viewBox="0 0 520 120" aria-hidden="true" focusable="false"><use href="#duck" x="0" y="20" width="170" height="98"/><use href="#duck" x="185" y="46" width="130" height="75"/><use href="#duck" x="330" y="34" width="150" height="86"/></svg>
+            <div class="wrap">
+                <h1 id="road-title">Sobre o The&nbsp;Flock</h1>
+                <p>Sua comunidade inteira cresce pelos membros que ajudam, mas o trabalho deles passa despercebido.</p>
+            </div>
+        </section>
+
+        <div class="road">
+            <div class="wrap">
+                <div class="rail" aria-hidden="true"><i></i></div>
+                <section class="stop solo" aria-labelledby="why-built">
+                    <div>
+                        <h2 id="why-built">Por que criamos o The Flock</h2>
+                        <p>No grupo de Telegram de uma comunidade de token, dez membros escreveram mais da metade de cerca de 8,000 mensagens entre agosto e o início de novembro de 2026. Eles respondem novatos, avisam sobre golpes e explicam o projeto.</p>
+                        <p>Quase metade desse chat era de cumprimentos e conversa sobre preço. Por isso a ajuda deles é difícil de ver. As ferramentas que as equipes usam contam mensagens. Nenhuma das ferramentas que comparamos guarda um histórico datado da ajuda que a equipe confirmou, e que o membro pode baixar ou apagar.</p>
+                        <p>Estamos construindo isso para os OGs, os veteranos leais: quem segura o token e continua fiel a um projeto além do preço, passa meses ensinando novatos e defendendo a tecnologia em que acredita. Esse heroísmo quase nunca é reconhecido.</p>
+                    </div>
+                    
+                </section>
+                <section class="stop calm solo" aria-labelledby="problem">
+                    <div>
+                        <h2 id="problem">O problema dos programas de recompensa</h2>
+                        <p>Em outubro de 2026 estudamos 14 programas de recompensa, com base na documentação pública e na cobertura da imprensa. Os que pagavam por atividade visível, como posts, missões ou mensagens, foram explorados por farm. Os painéis de missões e os bots de raid contam cliques e tarefas concluídas, e grande parte disso pode ser automatizada. No X, criadores pagos costumavam receber pouco, dependendo de quem ficava com uma fatia.</p>
+                        <div class="lanes" id="lanes">
+                    <figure class="lane"><p class="lane-label">Ferramentas que contam mensagens</p><svg class="scene-svg farm" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Desenho: um bando de contas-pato cinzas e dois patos amarelos, as pessoas que ajudaram, abaixo de um pódio onde uma conta cinza de farm está em primeiro."><defs><linearGradient id="pg0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F4C80"/><stop offset="1" stop-color="#143A63"/></linearGradient><clipPath id="pc0"><rect width="600" height="250" rx="26"/></clipPath></defs><g clip-path="url(#pc0)"><rect width="600" height="250" fill="url(#pg0)"/><circle cx="64" cy="48" r="26" fill="#FED801" opacity=".9"/><path d="M0,214 C100,200 200,226 300,214 C400,202 500,226 600,210 L600,250 L0,250Z" fill="#0F2A4A"/><use class="duck gin sw s0" href="#duck" x="40" y="142" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s1" href="#duck" x="96" y="168" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s2" href="#duck" x="24" y="186" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s3" href="#duck" x="150" y="150" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s0" href="#duck" x="72" y="120" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s1" href="#duck" x="130" y="192" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s2" href="#duck" x="200" y="172" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck gin sw s3" href="#duck" x="180" y="126" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><rect x="318" y="176" width="64" height="40" rx="6" fill="#5D7FA6"/><rect class="pod-rect" x="394" y="92" width="86" height="124" rx="8" fill="#E5604F"/><rect x="492" y="192" width="64" height="24" rx="6" fill="#5D7FA6"/><g class="chip" style="--at:0.0625;--dx:250px"><g class="chip-y" opacity="0" style="--dy:-55px"><path d="M172,136 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="177" y="136" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="177" y="140" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.0625;--dx:342px"><g class="chip-y" opacity="0" style="--dy:-25px"><path d="M94,106 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="99" y="106" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="99" y="110" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.10938;--dx:220px"><g class="chip-y" opacity="0" style="--dy:-35px"><path d="M202,112 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="207" y="112" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="207" y="116" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.10938;--dx:318px"><g class="chip-y" opacity="0" style="--dy:-77px"><path d="M118,154 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="123" y="154" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="123" y="158" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.15625;--dx:200px"><g class="chip-y" opacity="0" style="--dy:-85px"><path d="M222,158 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="227" y="158" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="227" y="162" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.15625;--dx:374px"><g class="chip-y" opacity="0" style="--dy:-55px"><path d="M62,128 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="67" y="128" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="67" y="132" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.20312;--dx:270px"><g class="chip-y" opacity="0" style="--dy:-109px"><path d="M152,178 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="157" y="178" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="157" y="182" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.20312;--dx:234px"><g class="chip-y" opacity="0" style="--dy:-43px"><path d="M202,112 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="207" y="112" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="207" y="116" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.25;--dx:200px"><g class="chip-y" opacity="0" style="--dy:-93px"><path d="M222,158 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="227" y="158" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="227" y="162" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><g class="chip" style="--at:0.25;--dx:342px"><g class="chip-y" opacity="0" style="--dy:-41px"><path d="M94,106 a4,4 0 0 1 4,-4 h16 a4,4 0 0 1 4,4 v6 a4,4 0 0 1 -4,4 h-11 l-5,4 v-4 h-4 a4,4 0 0 1 -4,-4 z" fill="#fff"/><rect x="99" y="106" width="13" height="2" rx="1" fill="#9AA7B8"/><rect x="99" y="110" width="8" height="2" rx="1" fill="#9AA7B8"/></g></g><use class="duck pod" href="#duck" x="400" y="52" width="74" height="42.6" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="1"/><use class="duck ya" href="#duck" x="326" y="148" width="48" height="27.7" style="" opacity="1"/><use class="duck yb" href="#duck" x="500" y="168" width="48" height="27.7" style="" opacity="1"/><text x="437" y="150" text-anchor="middle" font-size="26" font-weight="700" fill="#fff" class="t">1</text><text class="t pod-label" x="437" y="38" text-anchor="middle" font-size="18" font-weight="700" fill="#FFB4A8">conta de farm</text><text x="350" y="238" text-anchor="middle" font-size="16" fill="#BFD9F2">pessoas que ajudaram</text></g></svg><figcaption class="lane-cap">Toda mensagem vale igual, então a conta de farm lidera o placar.</figcaption></figure>
+                    <figure class="lane lane-b"><p class="lane-label">The Flock</p><svg class="scene-svg farm" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Desenho: contas-pato cinzas voltam diante de um portão amarelo com a frase Sua equipe confirma. Um pato amarelo passa e chega ao histórico de ajuda, com as linhas datadas."><defs><linearGradient id="pg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F4C80"/><stop offset="1" stop-color="#143A63"/></linearGradient><clipPath id="pc1"><rect width="600" height="250" rx="26"/></clipPath><clipPath id="trw"><rect class="tr-wipe" x="420" y="160" width="176" height="24"/></clipPath></defs><g clip-path="url(#pc1)"><rect width="600" height="250" fill="url(#pg1)"/><circle cx="64" cy="48" r="26" fill="#FED801" opacity=".9"/><path d="M0,214 C100,200 200,226 300,214 C400,202 500,226 600,210 L600,250 L0,250Z" fill="#0F2A4A"/><use class="duck sw s0" href="#duck" x="30" y="150" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck g2" href="#duck" x="88" y="178" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck sw s2" href="#duck" x="14" y="188" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck g1" href="#duck" x="140" y="138" width="46" height="26.5" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity="0.95"/><use class="duck yd" href="#duck" x="60" y="118" width="56" height="32.3" style="" opacity="1"/><use class="duck" href="#duck" x="20" y="96" width="56" height="32.3" style="" opacity="1"/><rect x="262" y="70" width="14" height="148" rx="5" fill="#FED801"/><rect x="332" y="70" width="14" height="148" rx="5" fill="#FED801"/><rect x="258" y="62" width="92" height="16" rx="8" fill="#FED801"/><text class="huh" x="238" y="150" font-size="18" font-weight="700" fill="#fff" opacity="0" aria-hidden="true">?</text><rect class="gate-bar" x="276" y="158" width="56" height="8" rx="4" fill="#FED801"/><g class="pill"><rect x="224" y="20" width="160" height="34" rx="17" fill="#FED801"/><text x="304" y="43" text-anchor="middle" font-size="17" font-weight="700" fill="#12304F" class="t">Sua equipe confirma</text></g><rect x="412" y="66" width="172" height="136" rx="14" fill="#F6F1E3"/><rect x="412" y="66" width="172" height="28" rx="14" fill="#E3D9BD"/><text x="498" y="86" text-anchor="middle" font-size="17" font-weight="700" fill="#12304F" class="t">Histórico de ajuda</text><text x="424" y="124" font-size="15" fill="#12304F">12 out · Marcado como útil</text><text x="424" y="150" font-size="15" fill="#12304F">18 out · Post: Good</text><g class="tr-skel"><circle cx="432" cy="178" r="5" fill="#2FA866"/><rect x="446" y="174" width="96" height="8" rx="4" fill="#CBBF9C"/></g><text class="tr-new" x="424" y="176" font-size="15" fill="#12304F" opacity="0" clip-path="url(#trw)">04 nov · Marcado como útil</text></g></svg><figcaption class="lane-cap">Uma linha só entra no histórico quando sua equipe marca um pedido como útil ou revisa um post.</figcaption></figure>
+                </div>
+                        <p>Os OGs acabam abaixo de quem faz farm. Quando o programa ou o projeto termina, quem ajudou não fica com nada para mostrar.</p>
+                        <p>Grupos de farm não são novidade. Caçadores de bounty e caçadores de airdrop já existiam muito antes da IA. Todo mundo odiava, mesmo quando uma onda deles era sinal de que o mercado de alta tinha voltado. De um jeito ou de outro, eles roubavam as recompensas destinadas a quem ajudava. Agora a IA joga o mesmo jogo, só que turbinado: ela faz engenharia reversa das regras e engenharia social com as pessoas. Isso é uma ameaça real para comunidades online, e é aí que o The Flock entra.</p>
+                    </div>
+                </section>
+                <section class="stop calm" aria-labelledby="instead">
+                    <div>
+                        <h2 id="instead">O que o The Flock faz no lugar</h2>
+                        <p>O The Flock conta algo mais difícil de falsificar: a ajuda que uma pessoa da sua equipe confirmou. Ela entra no histórico de ajuda do membro, com a data. O histórico é dele, e ele pode baixar.</p>
+                        <details class="more"><summary>O que mais entra no histórico, e dá para apagar?</summary><ul><li>Posts revisados no X também entram.</li><li>Membros podem apagar o próprio histórico de ajuda pelo bot.</li></ul></details>
+                        <p>Mantenha seu painel de missões para alcançar mais gente. O The Flock cuida dos membros depois que eles entram, em um chat privado com a sua equipe.</p>
+                    </div>
+                    <figure class="pic">
+                        <svg class="tap wide" viewBox="0 0 520 300" role="img" aria-label="Animação: um cartão de pedido no chat da equipe. Alguém da equipe toca em Useful, e uma nova linha datada aparece no Histórico do membro: Pedido 14 marcado como útil."><defs><linearGradient id="tbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E3F66"/><stop offset="1" stop-color="#132B47"/></linearGradient></defs><rect width="520" height="300" rx="26" fill="url(#tbg)"/><text x="26" y="40" font-size="15" fill="#A9C7E8">Chat da equipe</text><rect x="22" y="54" width="232" height="176" rx="16" fill="#182533"/><text x="38" y="86" font-size="16" font-weight="700" fill="#fff">🎫 Ticket #0014</text><text x="38" y="116" font-size="15" fill="#E8EEF7">A página de cadastro travou</text><text x="38" y="137" font-size="15" fill="#E8EEF7">no segundo passo.</text><rect x="34" y="170" width="70" height="40" rx="9" fill="#223A55"/><text x="69.0" y="194.7" text-anchor="middle" font-size="13" font-weight="600" fill="#8EC4FA">Done</text><rect x="109" y="170" width="70" height="40" rx="9" fill="#223A55"/><text x="144.0" y="194.7" text-anchor="middle" font-size="13" font-weight="600" fill="#8EC4FA">Useful</text><g class="useful-on"><rect x="109" y="170" width="70" height="40" rx="9" fill="#2A3B22" stroke="#FED801" stroke-width="2.5"/><text x="144.0" y="194.7" text-anchor="middle" font-size="13" font-weight="700" fill="#FED801">⭐ Useful</text></g><circle class="ring" cx="144.0" cy="190.0" r="22" fill="none" stroke="#FED801" stroke-width="3"/><rect x="184" y="170" width="70" height="40" rx="9" fill="#223A55"/><text x="219.0" y="194.7" text-anchor="middle" font-size="13" font-weight="600" fill="#8EC4FA">Spam</text><path d="M262,140 L284,140" fill="none" stroke="#FED801" stroke-width="3" stroke-dasharray="4 7" stroke-linecap="round"/><path d="M278,132 L288,140 L278,148" fill="none" stroke="#FED801" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="298" y="40" font-size="15" fill="#A9C7E8">Chat da Ana com o bot</text><rect x="296" y="54" width="204" height="226" rx="16" fill="#F6F1E3"/><path d="M296,70 a16,16 0 0 1 16,-16 h172 a16,16 0 0 1 16,16 v20 h-204 z" fill="#2FA866"/><text x="398.0" y="79" text-anchor="middle" font-size="15" font-weight="700" fill="#fff" class="t">📜 Histórico · Ana</text><g class="newline"><rect x="306" y="104" width="184" height="66" rx="10" fill="#FFF3B0"/><text x="318" y="126" font-size="13" fill="#5B6B80">04 nov</text><text x="318" y="148" font-size="14" font-weight="700" fill="#12304F">🎫 Pedido #0014</text><text x="318" y="164" font-size="14" font-weight="700" fill="#12304F">marcado como útil</text></g><text x="318" y="196" font-size="13" fill="#5B6B80">18 out</text><text x="318" y="216" font-size="14" fill="#12304F">📤 Post revisado: 👍 Good</text></svg>
+                        <svg class="tap tall" viewBox="0 0 320 470" role="img" aria-label="Animação: um cartão de pedido no chat da equipe. Alguém da equipe toca em Useful, e uma nova linha datada aparece no Histórico do membro: Pedido 14 marcado como útil."><defs><linearGradient id="tbg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E3F66"/><stop offset="1" stop-color="#132B47"/></linearGradient></defs><rect width="320" height="470" rx="24" fill="url(#tbg2)"/><text x="22" y="34" font-size="16" fill="#A9C7E8">Chat da equipe</text><rect x="18" y="46" width="284" height="160" rx="16" fill="#182533"/><text x="34" y="80" font-size="18" font-weight="700" fill="#fff">🎫 Ticket #0014</text><text x="34" y="110" font-size="17" fill="#E8EEF7">A página de cadastro travou.</text><rect x="30" y="138" width="82" height="46" rx="9" fill="#223A55"/><text x="71.0" y="166.4" text-anchor="middle" font-size="15" font-weight="600" fill="#8EC4FA">Done</text><rect x="120" y="138" width="82" height="46" rx="9" fill="#223A55"/><text x="161.0" y="166.4" text-anchor="middle" font-size="15" font-weight="600" fill="#8EC4FA">Useful</text><g class="useful-on"><rect x="120" y="138" width="82" height="46" rx="9" fill="#2A3B22" stroke="#FED801" stroke-width="2.5"/><text x="161.0" y="166.4" text-anchor="middle" font-size="15" font-weight="700" fill="#FED801">⭐ Useful</text></g><circle class="ring" cx="161.0" cy="161.0" r="22" fill="none" stroke="#FED801" stroke-width="3"/><rect x="210" y="138" width="82" height="46" rx="9" fill="#223A55"/><text x="251.0" y="166.4" text-anchor="middle" font-size="15" font-weight="600" fill="#8EC4FA">Spam</text><path d="M160,216 L160,236" fill="none" stroke="#FED801" stroke-width="3" stroke-dasharray="4 7" stroke-linecap="round"/><path d="M152,232 L160,242 L168,232" fill="none" stroke="#FED801" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="18" y="252" width="284" height="200" rx="16" fill="#F6F1E3"/><path d="M18,268 a16,16 0 0 1 16,-16 h252 a16,16 0 0 1 16,16 v20 h-284 z" fill="#2FA866"/><text x="160.0" y="277" text-anchor="middle" font-size="17" font-weight="700" fill="#fff" class="t">📜 Histórico · Ana</text><g class="newline"><rect x="28" y="302" width="264" height="66" rx="10" fill="#FFF3B0"/><text x="40" y="324" font-size="15" fill="#5B6B80">04 nov</text><text x="40" y="346" font-size="16" font-weight="700" fill="#12304F">🎫 Pedido #0014</text><text x="40" y="362" font-size="16" font-weight="700" fill="#12304F">marcado como útil</text></g><text x="40" y="394" font-size="15" fill="#5B6B80">18 out</text><text x="40" y="414" font-size="16" fill="#12304F">📤 Post revisado: 👍 Good</text></svg>
+                        <figcaption>Um toque em Useful, e a ajuda entra no histórico do membro. <button class="replay" type="button" data-for="tap">Ver de novo</button></figcaption>
+                    </figure>
+                </section>
+                <section class="stop solo" aria-labelledby="ai">
+                    <div>
+                        <h2 id="ai">A IA que queremos</h2>
+                        <p>Boa parte da internet virou um lugar ruim para passar tempo. A IA escreve grande parte do que lemos, e bots fazem farm das respostas. Assim, quem de fato explica um projeto acaba soterrado.</p>
+                        <p>Uma boa IA é a que você nem percebe: uma IA em que a pessoa continua no centro, deixando a experiência humana mais natural e evitando as armadilhas que vêm sufocando a sociedade. Queremos que ela potencialize a criatividade humana, em vez de fazer farm com ela. Ela deve ajudar a pessoa a dizer o que quer dizer com as próprias palavras, e apontar o que parece farm.</p>
+                    </div>
+                    
+                </section>
+                <section class="stop solo" aria-labelledby="together">
+                    <div>
+                        <h2 id="together">Como pessoas e IA trabalham juntas</h2>
+                        <p><span class="status-pill">Em desenvolvimento</span> As pessoas decidem o que fica guardado. O que fica guardado continua sendo da comunidade, com crédito para o membro que escreveu. <a href="/pt/now/#ask-title">O assistente</a> responde a próxima pessoa com base nisso, e tudo que estiver faltando, desatualizado ou em disputa volta para uma pessoa.</p>
+                        <p><span class="status-pill">Planejado</span> Os membros entram no papel de golpista em um chat de teste seguro. Eles tentam enganar o assistente com um admin falso ou um link clonado. Cada truque que encontram entra no histórico de ajuda deles. Pessoas e o assistente aprendem a reconhecer o truque, e a comunidade inteira fica mais segura com o tempo.</p>
+                    </div>
+                </section>
+                <section class="stop calm solo" aria-labelledby="who">
+                    <div>
+                        <h2 id="who">Quem está por trás</h2>
+                        <p>Criado por um fundador que tocou um negócio de cripto até 2025.</p>
+                        <p>Meu negócio de cripto faliu em 2025, depois do longo mercado de baixa em altcoins. Todo o meu trabalho sumiu. A ajuda que dei e os resultados que entreguei ficaram espalhados em chats que ninguém usa mais.</p>
+                        <p>Procurar emprego novo era quase impossível. Ex-donos de negócio como eu não são bem vistos: no currículo, parecemos qualificados demais para a vaga.</p>
+                        <p>Um trabalho de verdade numa comunidade deveria deixar um histórico de ajuda que sobrevive ao emprego, ao projeto e ao ciclo do mercado, e que pertence a quem fez o trabalho. Por isso estamos construindo esse histórico: quem realmente ajudou, confirmado pelas pessoas que foram ajudadas.</p>
+                        <!-- Name, role and photo go here. -->
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <section class="finish" id="talk" aria-labelledby="try-title">
+            <div class="wrap">
+                <h2 id="try-title">Fale com a gente.</h2>
+                <p>Abra o bot, toque em “Help” e depois em “Ask the team”. Uma pessoa responde no seu chat privado.</p>
+                <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer" aria-label="Site footer">
+        <div class="wrap">
+            <a class="brand" href="/pt/"><img src="/bonzi-logo.png?v=20261104" alt="" width="40" height="40"><span>The Flock</span></a>
+            <div class="links"><a href="/pt/privacy/">Seus dados</a><a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a></div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (!window.Flock) return;
+            // Two ponds: one scene on one clock for both lanes, played once when it comes into view (css/flock-scenes.css)
+            function ponds(el) {
+                var n = 0, done = false;
+                // only ducks that act in the storyboard are rigged; the others stay plain drawings
+                el.querySelectorAll('use.gin, use.pod, use.ya, use.yb, use.yd, use.g1, use.g2').forEach(function (u) { Flock.rig(u, n++); });
+                var pod = el.querySelector('.pod');
+                function rig(sel, cls, on) { el.querySelectorAll(sel).forEach(function (r) { r.classList.toggle(cls, on !== false); }); }
+                function state(cls) { return function () { el.classList.add(cls); }; }
+                // a message lands: the podium grows (4 units each, 20 at most) and the duck on top bobs a little higher
+                function land(k) { return function () {
+                    el.style.setProperty('--lift', 4 * (k + 1));
+                    if (!pod) return;
+                    pod.style.setProperty('--hop', -(2 + 1.5 * k) + 'px');
+                    pod.classList.remove('hop'); void pod.getBoundingClientRect(); pod.classList.add('hop');
+                }; }
+                function clear() {
+                    el.classList.remove('pre', 'go', 'end', 's-lift', 's-lower', 's-write', 's-huh');
+                    el.style.removeProperty('--lift');
+                    el.querySelectorAll('.rig').forEach(function (r) { r.classList.remove('swim', 'drift', 'flip', 'arrive', 'look', 'confused', 'wink', 'hop'); });
+                }
+                var beats = [
+                    // left pond, 0-2.4s
+                    { at: 0, run: function () { el.classList.remove('pre'); el.classList.add('go'); rig('.gin', 'drift'); } },
+                    { at: 600, run: function () { rig('.gin', 'drift', false); } },
+                    { at: 1900, run: function () { rig('.yb', 'flip'); rig('.ya, .yb', 'look'); } },
+                    { at: 2400, run: function () { rig('.ya, .yb', 'look', false); rig('.yd', 'swim'); rig('.g2', 'drift'); } },
+                    // right pond, 2.4-6.3s
+                    { at: 3200, run: function () { rig('.g1', 'drift'); } },
+                    { at: 3600, run: function () { rig('.yd', 'swim', false); rig('.yd', 'arrive'); el.classList.add('s-lift'); } },
+                    { at: 3800, run: function () { rig('.yd', 'arrive', false); rig('.yd', 'swim'); } },
+                    { at: 4400, run: state('s-lower') },
+                    { at: 4600, run: function () { rig('.yd', 'swim', false); rig('.yd', 'arrive'); el.classList.add('s-write', 's-huh'); rig('.g1, .g2', 'drift', false); rig('.g1', 'confused'); } },
+                    { at: 5400, run: function () { rig('.g1', 'confused', false); rig('.g1', 'flip'); rig('.g1', 'drift'); } },
+                    { at: 5500, run: function () { rig('.g2', 'flip'); rig('.g2', 'drift'); } },
+                    { at: 6200, run: function () { rig('.g1', 'drift', false); } },
+                    { at: 6300, run: function () { rig('.g2', 'drift', false); done = true; } }
+                ];
+                // each message leaves at t and lands 680ms later (85% of --dur-long)
+                [400, 700, 1000, 1300, 1600].forEach(function (t, k) { beats.push({ at: t + 680, run: land(k) }); });
+                Flock.scene(el, {
+                    // start when most of the right pond shows: on phones the ponds stack and the left one is then above it
+                    mode: 'once', ambient: true, duration: 6400, beats: beats,
+                    target: el.querySelector('.lane-b svg') || el, threshold: 0.6,
+                    reset: function () { done = false; clear(); el.classList.add('pre'); void el.getBoundingClientRect(); },
+                    end: function () { clear(); el.classList.add('end'); el.style.setProperty('--lift', '20'); rig('.g1, .g2, .yb', 'flip'); done = true; }
+                });
+                // after the storyboard, heads follow the pointer; tapping a grey duck makes it confused
+                Flock.look(el, function () { return done; });
+                el.addEventListener('click', function (e) {
+                    var r = e.target.closest && e.target.closest('.rig');
+                    if (!r || !done || Flock.reduced || Flock.paused) return;
+                    var c = r.matches('.gin, .g1, .g2, .pod') ? 'confused' : 'wink';
+                    r.classList.remove(c); void r.getBoundingClientRect(); r.classList.add(c);
+                });
+            }
+        var lanes = document.getElementById('lanes');
+        if (lanes) ponds(lanes);
+    });
+    </script>
+    <script>document.documentElement.classList.add('js');</script>
+    <script>(function(){var m={a1:"who",a2:"who",a3:"ai",w1:"why-built",w2:"problem",w3:"instead",w4:"ai"};var h=location.hash.slice(1);if(m[h]){history.replaceState(null,"","#"+m[h]);var e=document.getElementById(m[h]);if(e)e.scrollIntoView();}})();</script>
+</body>
+</html>

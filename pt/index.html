@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Flock | Faça crescer toda a sua comunidade com as pessoas que já a sustentam</title>
+<meta name="description" content="O The Flock é um bot do Telegram que guarda o histórico de ajuda que a sua equipe confirma. Os membros pedem suporte em privado e revisam seus rascunhos do X antes de postar.">
+    <link rel="canonical" href="https://arcflock.com/pt/">
+    <link rel="alternate" hreflang="en" href="https://arcflock.com/">
+    <link rel="alternate" hreflang="pt-BR" href="https://arcflock.com/pt/">
+    <link rel="alternate" hreflang="x-default" href="https://arcflock.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="The Flock">
+    <meta property="og:title" content="The Flock | Faça crescer toda a sua comunidade com as pessoas que já a sustentam">
+    <meta property="og:description" content="O The Flock é um bot do Telegram que guarda o histórico de ajuda que a sua equipe confirma. Os membros pedem suporte em privado e revisam seus rascunhos do X antes de postar.">
+    <meta property="og:url" content="https://arcflock.com/pt/">
+    <meta property="og:image" content="https://arcflock.com/assets/og/home.jpg">
+    <meta property="og:image:alt" content="The Flock: faça crescer toda a sua comunidade com as pessoas que já a sustentam">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="/assets/flock/favicon-duck-tongue.png?v=20261109" type="image/png">
+    <link rel="stylesheet" href="/css/nav.css?v=20261110hyg2">
+    <link rel="stylesheet" href="/css/bonzi-design.css">
+    <link rel="stylesheet" href="/css/motion.css?v=20261109play3">
+    <link rel="stylesheet" href="/css/flock-scenes.css?v=20261109scenes1">
+    <script src="/js/nav-loader.js?v=20261110hyg3" defer></script>
+    <script src="/js/flock-motion.js?v=20261110hyg6" defer></script>
+    <script src="/js/flock-sound.js?v=20261109play3" defer></script>
+    <link rel="stylesheet" href="/css/flock-demos.css?v=20261109demos2">
+    <script src="/js/flock-demos.js?v=20261109play3" defer></script>
+    <link rel="stylesheet" href="/css/flock-painwall.css?v=20261109painwall2">
+    <script src="/js/flock-painwall.js?v=20261109painwall2" defer></script>
+    <link rel="stylesheet" href="/css/flock-loop.css?v=story2">
+    <link rel="stylesheet" href="/css/flock-week.css?v=20261109week1">
+    <link rel="stylesheet" href="/css/flock-twoducks.css?v=fix1">
+    <script src="/js/flock-week.js?v=20261109week1" defer></script>
+    <script src="/js/flock-loop.js?v=story2" defer></script>
+    <script src="/js/flock-duck.js?v=20261109game2" defer></script>
+    <script src="/js/flock-lines-pt.js?v=20261110fake2" defer></script>
+    <script src="/js/flock-events-1.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-2.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-3.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-4.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-5.js?v=20261110fake2" defer></script>
+    <script src="/js/flock-events-6.js?v=20261109game2" defer></script>
+    <script src="/js/flock-game.js?v=20261110score1" defer></script>
+    <style>
+        @font-face {
+            font-family: "Fredoka";
+            src: url("/assets/fonts/fredoka-latin.woff2") format("woff2");
+            font-weight: 500 700;
+            font-display: swap;
+        }
+        :root {
+            --navy: #002050;
+            --blue: #0058A8;
+            --sky: #5AA0E6;
+            --sun: #FED801;
+            --ink: #0E1B33;
+            --soft: #F2F7FC;
+            --line: #D6E4F3;
+            --slate: #1F2735;
+            --sea-green: #11603D;
+            --coral: #A63A2C;
+            --usdc: #2775CA;
+            --display: "Fredoka", "Inter", system-ui, sans-serif;
+        }
+        .home-page { background: #FFFFFF; color: var(--ink); }
+        body.dark-mode.home-page { background: #08142B; color: #E7EEF9; }
+        .home-page h1, .home-page h2, .home-page h3 { font-family: var(--display); text-wrap: balance; }
+        .wrap { max-width: 1140px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+
+        /* First screen: sky, sun on the horizon, waves, ducks */
+        .hero { position: relative; overflow: hidden; color: #fff; background: linear-gradient(180deg, #004A94 0%, #0058A8 55%, #1F68B8 100%); isolation: isolate; }
+        .hero-sun { position: absolute; z-index: -3; width: 380px; height: 380px; border-radius: 50%; background: var(--sun); left: 27%; bottom: -170px; }
+        .hero-waves { position: absolute; z-index: -2; left: 0; right: 0; bottom: 0; width: 100%; height: 300px; }
+        .hero-ducks { position: absolute; z-index: -1; right: 6%; bottom: 62px; width: 420px; height: auto; }
+        .hero-front { position: absolute; z-index: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 90px; pointer-events: none; }
+        .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr); gap: 56px; align-items: start; padding-top: 80px; padding-bottom: 170px; }
+        .hero h1 { font-weight: 700; font-size: clamp(2.3rem, 4.3vw, 3.7rem); line-height: 1.06; letter-spacing: -0.01em; }
+        .hero .sub { font-size: 1.4rem; line-height: 1.4; margin-top: 22px; max-width: 24em; color: #FFFFFF; }
+        .cta { display: inline-block; margin-top: 30px; background: var(--sun); color: var(--navy); font-family: var(--display); font-weight: 600; font-size: 1.45rem; padding: 18px 36px; border-radius: 999px; text-decoration: none; transition: transform var(--dur-short) var(--ease-hover), box-shadow var(--dur-short); box-shadow: 0 8px 20px rgba(0, 0, 0, .28); }
+        .cta:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(0, 0, 0, .32); }
+        .cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+        .hero-list { margin: 18px 0 0; padding-left: 1.2em; display: grid; gap: 8px; max-width: 33em; }
+        .hero-list li { font-size: 1.1rem; line-height: 1.45; color: #fff; }
+        .hero-list a { color: #fff; font-weight: 600; text-underline-offset: 3px; }
+        .hero-note { margin: 16px 0 0; max-width: 33em; font-size: 1.05rem; line-height: 1.5; color: #E4ECF7; }
+        p.status-pill, span.status-pill, .stop p.status-pill, .band p.status-pill { display: inline-block; margin: 0 0 14px; padding: 4px 12px; border-radius: 999px; background: #FFF1A6; color: #12304F; font-size: .85rem; font-weight: 700; line-height: 1.3; width: fit-content; }
+        .hero-planned { margin: 18px 0 0; max-width: 33em; font-size: 1.1rem; line-height: 1.45; color: #fff; }
+        .hero-planned b { color: #fff; }
+        .hero-planned a { color: #fff; font-weight: 600; text-underline-offset: 3px; }
+        .hero .small { margin-top: 12px; font-size: 1.05rem; color: #FFFFFF; }
+        .hero figure { margin: 0; }
+
+        /* The bot's own screens, drawn the way Telegram shows them */
+        .tg { background: #0E1621; border: 1px solid rgba(142, 196, 250, .3); border-radius: 22px; padding: 16px; max-width: 460px; width: 100%; box-shadow: 0 26px 56px rgba(0, 0, 0, .34), 0 4px 10px rgba(0, 0, 0, .16); color: #E8EEF7; font-size: .95rem; line-height: 1.45; text-align: left; }
+        .tg .msg { background: #182533; border-radius: 16px 16px 16px 4px; overflow: hidden; }
+        .tg .msg + .msg, .tg .me + .msg, .tg .msg + .me { margin-top: 10px; }
+        .tg .msg img { display: block; width: 100%; height: auto; }
+        .tg .cap { padding: 12px 14px 15px; }
+        .tg .cap p { margin: 10px 0 0; color: inherit; font-size: inherit; line-height: inherit; max-width: none; }
+        .tg .cap p:first-child { margin-top: 0; }
+        .tg .cap b { color: #fff; }
+        .tg .cap .quiet { color: #A9B8CC; }
+        .tg .cap ul { margin: 8px 0 0 1.1em; padding: 0; }
+        .tg mark { background: rgba(254, 216, 1, .2); color: #fff; padding: 2px 6px; border-radius: 6px; display: block; margin: 2px -6px; }
+        .tg .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+        .tg .btn { background: #223A55; color: #8EC4FA; text-align: center; font-size: .9rem; font-weight: 600; padding: 10px 8px; border-radius: 10px; }
+        .tg .btn.wide { grid-column: 1 / -1; }
+        .tg .btn.pick { outline: 2px solid var(--sun); color: var(--sun); }
+        /* The member's own message, on the right as Telegram shows it */
+        .tg .me { margin-left: auto; max-width: 86%; background: #2B5278; color: #fff; border-radius: 16px 16px 4px 16px; padding: 11px 14px; }
+        .tg .me .who { display: block; font-size: .8rem; color: #A9C7E8; margin-bottom: 3px; }
+        .tg .me u { text-decoration: none; border-radius: 5px; padding: 0 2px; transition: background-color .4s, box-shadow .4s; }
+
+        /* Bands that wear the colour of the bot's banner for that part */
+        .band { position: relative; color: #fff; }
+        .band .wv { position: absolute; left: 0; width: 100%; height: 56px; top: -55px; display: block; color: inherit; }
+        .band.navy { background: var(--navy); } .band.navy .wv { color: var(--navy); }
+        .band.slate { background: var(--slate); } .band.slate .wv { color: var(--slate); }
+        .band.coral { background: var(--coral); } .band.coral .wv { color: var(--coral); }
+        .band.green { background: var(--sea-green); } .band.green .wv { color: var(--sea-green); }
+        .band .wv path { fill: currentColor; }
+        .section { padding-top: 120px; padding-bottom: 128px; }
+        .section h2 { font-weight: 700; font-size: clamp(1.9rem, 3.3vw, 2.6rem); line-height: 1.1; max-width: 22em; }
+        .lede { font-size: 1.2rem; line-height: 1.6; margin-top: 18px; max-width: 38em; color: #33445A; }
+        .band .lede { color: #E4ECF7; }
+        .soft { background: var(--soft); }
+        body.dark-mode .soft { background: #0B1B38; }
+        body.dark-mode .lede { color: #C5D3E8; }
+
+        /* Why */
+
+        /* Two ponds: volume against confirmed help */
+        /* The demo: the bot's banners are the steps, one screen changes in place */
+        .steps { margin-top: 42px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; }
+        .step { width: 100%; display: grid; gap: 8px; text-align: left; background: transparent; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; }
+        .step .thumb { display: block; aspect-ratio: 2 / 1; border-radius: 12px; overflow: hidden; background: #2A3A55; box-shadow: 0 0 0 2px rgba(255,255,255,.14); transition: box-shadow var(--dur-short), transform var(--dur-short) var(--ease-hover); }
+        .step .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .step .thumb.blank { display: grid; place-items: center; font-size: 2.8rem; background: linear-gradient(160deg, #24496F, #142A44); }
+        .step .thumb.ticket { display: grid; align-content: center; gap: 8px; padding: 10px 12px; background: linear-gradient(160deg, #24496F, #142A44); font-size: .8rem; color: #E8EEF7; }
+        .step .thumb.ticket b { color: #fff; }
+        .mini-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+        .mini-btns i { font-style: normal; text-align: center; background: #223A55; color: #8EC4FA; border-radius: 6px; padding: 3px 0; font-size: .68rem; font-weight: 700; }
+        .mini-btns i.on { outline: 2px solid var(--sun); color: var(--sun); }
+        .step .lbl { font-family: var(--display); font-weight: 600; font-size: 1.05rem; line-height: 1.25; display: flex; gap: 8px; align-items: flex-start; }
+        .step { align-content: start; }
+        .step .n { flex: none; width: 1.6em; height: 1.6em; border-radius: 50%; display: inline-grid; place-items: center; font-size: .8rem; background: rgba(255,255,255,.16); }
+        .step:hover .thumb { transform: translateY(-2px); }
+        .step[aria-selected="true"] .thumb { box-shadow: 0 0 0 3px var(--sun); }
+        .step[aria-selected="true"] .n { background: var(--sun); color: var(--navy); }
+        .step:focus-visible { outline: 3px solid var(--sun); outline-offset: 4px; border-radius: 12px; }
+        .panels { margin-top: 40px; }
+        .panel { display: grid; grid-template-columns: minmax(0, 460px) minmax(0, 1fr); gap: 56px; align-items: center; }
+        .panel + .panel { margin-top: 56px; }
+        .fx .panel + .panel { margin-top: 0; }
+        .fx .panel[hidden] { display: none; }
+        .panel .tg { justify-self: center; }
+        .panel h3 { font-weight: 600; font-size: 1.7rem; line-height: 1.15; }
+        .panel p { font-size: 1.15rem; line-height: 1.6; margin-top: 14px; max-width: 30em; color: #E4ECF7; }
+        .next-step { margin-top: 22px; background: transparent; color: var(--sun); border: 2px solid var(--sun); font: 600 1.05rem var(--display); padding: 10px 20px; border-radius: 999px; cursor: pointer; display: none; }
+        .fx .next-step { display: inline-block; }
+        .next-step:hover { background: rgba(254,216,1,.12); }
+        .next-step:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+        /* Revisar minha resposta: the notes light up the words they are about */
+        .marked u.on { background: rgba(229, 96, 79, .45); box-shadow: 0 0 0 2px rgba(255, 140, 120, .7); }
+        .tg .later { opacity: 1; transition: opacity .5s, transform .5s; }
+        .fx .panel:not(.show) .later, .fx .panel.show.wait .later { opacity: 0; transform: translateY(8px); }
+
+        /* Where fees go: Arctide's real split, then the part we are designing */
+
+        /* X's rule and how we work with it */
+        .pull { margin: 26px 0 0; max-width: 30em; font-family: var(--display); font-weight: 600; font-size: 1.3rem; line-height: 1.4; padding-left: 20px; border-left: 5px solid var(--sun); color: var(--navy); }
+        span.status-pill { margin: 0 4px 0 2px; padding: 2px 10px; vertical-align: baseline; font-size: .8rem; }
+        .fin-note { display: flex; gap: 14px; align-items: flex-start; margin-top: 22px; max-width: 34em; }
+        .fin-i { flex: none; display: grid; place-items: center; width: 28px; height: 28px; margin-top: 2px; border-radius: 50%; background: #FED801; color: #002050; font: 700 17px/1 var(--display); }
+        .fin-note p { margin: 0; }
+        .fin-steps { list-style: none; counter-reset: fs; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+        .fin-steps li { counter-increment: fs; font-size: 1.12rem; line-height: 1.45; }
+        .fin-steps li::before { content: counter(fs) "."; display: inline-block; min-width: 1.5em; font-weight: 700; color: var(--sun); }
+        .x-close { margin-top: 64px; display: grid; gap: 28px; max-width: 46em; }
+        .x-close .lede { margin: 0; }
+        .band .lede a { color: #fff; text-underline-offset: 3px; }
+        .x-close .pull { margin: 0; max-width: none; }
+        .band .pull { color: #fff; }
+        body.dark-mode .pull { color: #fff; }
+
+        /* What it does: an index by job, linked into the manual */
+        .where a { color: var(--blue); font-weight: 600; text-underline-offset: 3px; }
+        body.dark-mode .where a { color: #8EC4FA; }
+
+        /* Where each tool works */
+        .gap { margin: 30px 0 0; }
+        .gap-title { font-weight: 600; font-size: 1.35rem; margin: 0 0 14px; }
+        .gap-svg { display: block; width: 100%; height: auto; }
+        .gap-v { display: none; max-width: 420px; }
+        .gap-hl { fill: rgba(254, 216, 1, .18); stroke: var(--sun); stroke-width: 2; }
+        .gap-trail { fill: none; stroke: var(--sky); stroke-width: 3; stroke-dasharray: 2 10; stroke-linecap: round; }
+        .gap-sea { fill: var(--blue); }
+        .gap-gate { fill: none; stroke: #7F8DA2; stroke-width: 6; stroke-linecap: round; }
+        .gap-bub rect, .gap-bub path { fill: #fff; stroke: var(--blue); stroke-width: 2; }
+        .gap-bub text { fill: var(--blue); font: 700 20px var(--display); stroke: none; }
+        .gap-n { fill: var(--line); }
+        .gap-n.hl { fill: var(--sun); }
+        .gap-nt { fill: var(--navy); font: 700 18px var(--display); }
+        .gap-t { fill: var(--ink); font: 600 18px var(--display); }
+        .gap-c { fill: #4A5B73; font: 400 14.5px Inter, system-ui, sans-serif; }
+        .gap-c.hl { fill: var(--blue); font-weight: 600; }
+        body.dark-mode .gap-t { fill: #E6EEF9; } body.dark-mode .gap-c { fill: #A9B9D0; } body.dark-mode .gap-c.hl { fill: #8EC4FA; }
+        body.dark-mode .gap-n { fill: #2A4670; } body.dark-mode .gap-n.hl { fill: var(--sun); }
+        body.dark-mode .gap-nt { fill: #E6EEF9; } body.dark-mode .gap-n.hl + .gap-nt { fill: var(--navy); }
+        @media (max-width: 900px) {
+            .gap-h { display: none; } .gap-v { display: block; }
+            .gap-t { font-size: 17px; } .gap-c { font-size: 15px; }
+        }
+        .idx { margin-top: 40px; border-top: 1px solid var(--line); }
+        .idx-group { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 20px 40px; padding: 30px 0; border-bottom: 1px solid var(--line); }
+        .idx-head h3 { font-weight: 600; font-size: 1.3rem; line-height: 1.2; }
+        .idx-head .shown { display: inline-block; margin-top: 10px; font-weight: 600; font-size: .98rem; color: var(--blue); text-underline-offset: 3px; }
+        .idx-items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 34px; align-content: start; }
+        .idx-items li { display: grid; gap: 5px; align-content: start; }
+        .idx-items b { font-weight: 600; font-size: 1.08rem; line-height: 1.3; color: var(--ink); }
+        .idx-items a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+        .idx-items a:hover { text-decoration-thickness: 2px; }
+        .idx-items a:focus-visible, .idx-head .shown:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+        .idx-items .st { font-weight: 500; color: #5A6B82; }
+        .idx-items .ln { font-size: 1rem; line-height: 1.5; color: #4A5B72; }
+        body.dark-mode .idx, body.dark-mode .idx-group { border-color: #23395C; }
+        body.dark-mode .idx-items b { color: #E7EEF9; } body.dark-mode .idx-items a, body.dark-mode .idx-head .shown { color: #8EC4FA; }
+        body.dark-mode .idx-items .ln, body.dark-mode .idx-items .st { color: #A9B8CC; }
+        @media (max-width: 900px) { .idx-group { grid-template-columns: 1fr; padding: 26px 0; } .idx-items { grid-template-columns: 1fr; gap: 22px; } }
+        .where { margin-top: 44px; padding-top: 28px; font-size: 1.1rem; line-height: 1.6; max-width: 46em; color: #33445A; }
+        body.dark-mode .where { color: #C5D3E8; border-color: #23395C; }
+
+        .finish h2 { font-weight: 700; font-size: clamp(1.9rem, 3.2vw, 2.5rem); }
+        .finish p { font-size: 1.2rem; line-height: 1.6; margin-top: 16px; max-width: 34em; color: #DCE8F7; }
+        .page-footer { background: #001536; color: #fff; padding-top: 28px; padding-bottom: 32px; }
+        .page-footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; justify-content: space-between; }
+        .page-footer a { color: #fff; text-decoration: none; font-weight: 600; }
+        .page-footer a:hover { text-decoration: underline; }
+        .page-footer .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 1.2rem; }
+        .page-footer .brand img { width: 40px; height: 40px; border-radius: 50%; }
+        .page-footer .links { display: flex; gap: 22px; }
+        .page-footer .links a { padding: 12px 0; }
+        .page-footer .brand { min-height: 44px; }
+
+        @media (max-width: 900px) {
+            .wrap { padding-left: 16px; padding-right: 16px; }
+            .hero-inner { grid-template-columns: 1fr; padding-top: 52px; padding-bottom: 150px; gap: 34px; }
+            .hero-sun { width: 260px; height: 260px; left: -50px; bottom: -120px; }
+            .hero-ducks { width: 250px; right: 4%; bottom: 50px; }
+            .hero-front { height: 70px; }
+            .section { padding-top: 84px; padding-bottom: 92px; }
+            .band .wv { height: 34px; top: -33px; }
+            .cta { font-size: 1.3rem; padding: 16px 30px; }
+            .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
+            .step .thumb.ticket { display: grid; align-content: center; gap: 8px; padding: 10px 12px; background: linear-gradient(160deg, #24496F, #142A44); font-size: .8rem; color: #E8EEF7; }
+        .step .thumb.ticket b { color: #fff; }
+        .mini-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+        .mini-btns i { font-style: normal; text-align: center; background: #223A55; color: #8EC4FA; border-radius: 6px; padding: 3px 0; font-size: .68rem; font-weight: 700; }
+        .mini-btns i.on { outline: 2px solid var(--sun); color: var(--sun); }
+        .step .lbl { font-size: .98rem; }
+            .panel { grid-template-columns: 1fr; gap: 24px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .tg .later, .tg .me u { transition: none; }
+            .cta { transition: none; }
+        }
+    </style>
+</head>
+<body class="home-page" data-theme-default="light">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="duck" viewBox="0 0 210 121"><path class="tail" d="M52,66 C40,63 28,58 17,49 C11,44 5,46 6,53 C8,67 17,80 30,88 C38,93 47,93 55,89 Z" fill="var(--duck-body,#FFCB2B)"/><g class="body"><path d="M22,82 C21,63 44,54 78,54 C104,54 124,58 146,61 C171,64 186,79 184,96 C182,111 163,119 128,119 L66,119 C39,119 23,105 22,82 Z" fill="var(--duck-body,#FFCB2B)"/><path d="M30,100 C42,111 62,115 92,115 L130,115 C155,115 171,111 180,103 C175,114 159,119 128,119 L66,119 C47,119 35,112 30,100 Z" fill="#000" opacity=".06"/><ellipse cx="96" cy="61" rx="28" ry="3.6" transform="rotate(-2 96 61)" fill="#fff" opacity=".24"/></g><g class="wing"><path d="M52,85 C57,71 80,65 104,68 C121,70 129,80 122,89 C114,98 94,101 77,98 C70,100 61,99 57,95 C51,94 49,90 52,85 Z" fill="var(--duck-wing,#F2B705)"/><path d="M66,88 C80,90 98,90 112,86" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="2.4" stroke-linecap="round"/></g><ellipse class="neck" cx="138" cy="66" rx="20" ry="14" fill="var(--duck-body,#FFCB2B)"/><g class="head"><path d="M119,50 C115,26 133,7 157,7 C181,7 197,25 194,48 C192,66 177,78 156,78 C136,78 122,68 119,50 Z" fill="var(--duck-body,#FFCB2B)"/><ellipse cx="143" cy="22" rx="13" ry="6" transform="rotate(-28 143 22)" fill="#fff" opacity=".32"/><path class="beak_bottom" d="M186,47 C195,47 203,48 207,50 C203,56 193,57 184,54 Z" fill="var(--duck-beak-low,var(--duck-beak,#1E5FAF))"/><path d="M186,47 C195,47 203,48 207,50 C203,56 193,57 184,54 Z" fill="#000" opacity=".14"/><path class="beak_top" d="M183,37 C193,33 205,36 209,43 C207,48 196,49 185,48 Z" fill="var(--duck-beak,#3A8CE0)"/><ellipse class="eye_white" cx="164" cy="30" rx="6.6" ry="7.4" fill="#fff"/><g class="pupil"><circle cx="165.6" cy="31" r="4.3" fill="#1B2A3A"/><circle cx="167.2" cy="29.2" r="1.4" fill="#fff"/></g></g></symbol><symbol id="twoducks" viewBox="0 0 160 100"><clipPath id="td-clip"><rect width="160" height="100" rx="20"/></clipPath><g clip-path="url(#td-clip)"><rect width="160" height="100" fill="var(--td-sky,#DCEBFA)"/><path d="M0 70 C22 62 40 76 62 69 S104 62 124 69 S150 74 160 67 V100 H0Z" fill="var(--td-wave2,#5AA0E6)"/><use href="#duck" x="6" y="46" width="68" height="39.2"/><g transform="translate(154 46) scale(-1 1)"><use href="#duck" width="68" height="39.2"/></g><path d="M0 79 C24 72 44 86 68 79 S112 72 134 79 S152 83 160 77 V100 H0Z" fill="var(--td-wave,#0058A8)"/></g><path d="M14 40 C22 4 62 -4 70 38" fill="none" stroke="var(--td-arc,#0058A8)" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 9"/><path d="M66 56 C64 46 71 39 80 39 C90 39 97 46 96 54 C95 62 88 66 80 66 C72 66 67 62 66 56Z" fill="var(--td-rock,#6E7D93)"/><path d="M67 57 C69 63 74 65 80 65 C88 65 94 62 95 55 C90 60 85 61 80 61 C74 61 69 60 67 57Z" fill="#000" opacity=".16"/><ellipse cx="74.5" cy="45.5" rx="5.4" ry="2.7" transform="rotate(-28 74.5 45.5)" fill="#fff" opacity=".4"/><path d="M58 42 l-7 -6 M64 35 l-3 -7 M102 42 l7 -6 M96 35 l3 -7" fill="none" stroke="#FED801" stroke-width="3.4" stroke-linecap="round"/><path d="M112 10 l2.4 5.6 5.6 2.4 -5.6 2.4 -2.4 5.6 -2.4-5.6 -5.6-2.4 5.6-2.4z" fill="#FED801" stroke="var(--td-edge,#0058A8)" stroke-width="1.2" stroke-linejoin="round"/></symbol></defs></svg>
+    <nav id="nav-container"></nav>
+    <div id="mobile-menu-container"></div>
+
+    <main>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-sun" aria-hidden="true"></div>
+            <svg class="hero-waves" viewBox="0 0 1440 300" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0,150 C240,90 480,90 720,140 C960,190 1200,190 1440,120 L1440,300 L0,300 Z" fill="#2F6FC4"/>
+                <path d="M0,205 C260,150 520,160 760,198 C1000,236 1220,232 1440,180 L1440,300 L0,300 Z" fill="#1B4F9A"/>
+            </svg>
+            <svg class="hero-ducks" viewBox="0 0 730 149" aria-hidden="true" focusable="false"><use class="hd h1" href="#duck" x="0" y="26" width="200" height="115"/><use class="hd h2" href="#duck" x="215" y="62" width="150" height="86"/><use class="hd h3" href="#duck" x="385" y="42" width="150" height="86"/><use class="hd h4" href="#duck" x="545" y="36" width="185" height="106"/></svg>
+            <svg class="hero-front" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0,40 C300,8 560,24 820,40 C1080,56 1260,50 1440,26 L1440,90 L0,90 Z" fill="#002050"/>
+            </svg>
+            <div class="wrap hero-inner">
+                <div>
+                    <h1 id="hero-title">Faça crescer toda a sua comunidade com as pessoas que já a sustentam.<br><small>Grow your whole community through the people who already carry it.</small></h1>
+                    <p class="sub">Um clube entre pares no Telegram. Quando um membro relata um problema real ou faz um bom post sobre o seu projeto no X, a sua equipe marca a ajuda, quem ajudou fica com o crédito, e a comunidade inteira fica mais forte.</p>
+                    <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a>
+                </div>
+                <figure>
+                    <div class="tg" role="img" aria-label="Tela Histórico do bot da Ana, uma membro: dois pedidos marcados como úteis pela equipe, um post avaliado como Bom e um agradecimento recebido">
+                        <div class="msg">
+                            <img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="">
+                            <div class="cap">
+                                <p><b>📜 Histórico</b> · Ana</p>
+                                <p class="quiet">Estes são os registros salvos da sua conta no bot. Os registros antigos mostram atividade passada; eles não prometem nada para o futuro.</p>
+                                <p>🙏 Thanks: 1 recebido · 0 enviados</p>
+                                <p><b>Avaliado pela equipe</b><br>
+                                <mark>• 29 out 2026 · 🎫 Pedido #0014 marcado como útil</mark>
+                                • 18 out 2026 · 📤 Post avaliado: 👍 Bom<br>
+                                • 12 out 2026 · 🎫 Pedido #0009 marcado como útil</p>
+                                <p class="quiet">Algo parece errado? Toque em Falar com a equipe.</p>
+                            </div>
+                        </div>
+                        <div class="btns"><span class="btn">🎫 Falar com a equipe</span><span class="btn">◀ Voltar</span></div>
+                    </div>
+                </figure>
+            </div>
+        </section>
+
+        <!-- Pain wall: quotes come from data/pain-wall.json through scripts/build_pain_wall.py; edit the JSON, not the
+             cards below. Live: a scroll scene (js/flock-painwall.js). Reduced motion, paused or no JavaScript: the
+             quotes as cards with their links, then the answer. -->
+        <section class="pw" id="pain-wall" aria-labelledby="pw-title">
+            <script>(function(){var s=document.getElementById('pain-wall'),r=false,p=false;try{r=matchMedia('(prefers-reduced-motion: reduce)').matches;p=localStorage.getItem('flock-motion')==='paused';}catch(e){}if(r||p||!window.requestAnimationFrame)return;s.classList.add('pw-go');setTimeout(function(){if(!s.classList.contains('pw-live'))s.classList.remove('pw-go');},4000);})();</script>
+            <div class="pw-lead">
+                <div class="wrap">
+                    <h2 id="pw-title">Pergunte a qualquer pessoa que já ajudou uma comunidade.</h2>
+                    <p>São pessoas reais, com as próprias palavras, de 2024 e 2025.</p>
+                </div>
+            </div>
+            <div class="pw-stage" role="region" aria-label="Queixas reais de membros e moderadores de comunidades, e como o The Flock responde a elas">
+                <div class="pw-view">
+                    <div class="pw-wall">
+                <!-- pain-wall:cards -->
+                    <figure class="pw-q pw-amber" style="--r:-2deg;--i:0"><blockquote>“As a community moderator…, we’ve encountered numerous scammers infiltrating the chat… these scammers quickly rename themselves to impersonate well-known figures, such as team members or community moderators.”<br>Como moderador de uma comunidade, encontramos muitos golpistas infiltrando o chat. Eles rapidamente trocam o nome para se passar por figuras conhecidas, como membros da equipe ou moderadores.</blockquote><figcaption><span>Moderador de uma comunidade · mar. 2025</span><a href="https://blog.notrustverify.ch/catch-impersonators-on-telegram" target="_blank" rel="noopener noreferrer">fonte</a></figcaption></figure>
+                    <figure class="pw-q pw-amber" style="--r:1.5deg;--i:1"><blockquote>“Here I reached out for help and instantly 12 dms from strangers claiming they could help.”<br>Pedi ajuda aqui e recebi 12 mensagens privadas de estranhos dizendo que podiam ajudar, na hora.</blockquote><figcaption><span>Usuário pedindo ajuda no Telegram de um projeto · jan. 2025</span><a href="https://forum.polkadot.network/t/polkadex-is-a-scam/11451/1" target="_blank" rel="noopener noreferrer">fonte</a></figcaption></figure>
+                    <figure class="pw-q pw-red" style="--r:-1deg;--i:2"><blockquote>“Whales spend a lot of money to write scripts and farm hundreds of wallets. Retail users do one or two wallets so they don’t get the actual prize they should get.”<br>Baleias gastam muito para escrever scripts e criar centenas de carteiras. Quem usa uma ou duas carteiras não recebe o prêmio que deveria.</blockquote><figcaption><span>Caçador de airdrops, para a DL News · jun. 2024</span><a href="https://dlnews.com/articles/defi/airdrops-promise-billions-but-users-are-complaining/" target="_blank" rel="noopener noreferrer">fonte</a></figcaption></figure>
+                    <figure class="pw-q pw-red" style="--r:2deg;--i:3"><blockquote>“Those criteria are easy to not hit as a real user, and easy to hit as a farmer…”<br>Esses critérios são fáceis de não cumprir para um usuário real, e fáceis de cumprir para quem faz farming…</blockquote><figcaption><span>Investidor de venture capital, sobre um airdrop · jun. 2024</span><a href="https://x.com/adamscochran/status/1800521951384879469" target="_blank" rel="noopener noreferrer">fonte</a></figcaption></figure>
+                    <figure class="pw-q pw-grey" style="--r:-2.5deg;--i:4"><blockquote>“How tf am I not eligible? I’m in tears seriously.. been using only one wallet, checked out and used different protocols.”<br>Como assim eu não sou elegível? Estou chorando, sério. Usei só uma carteira, conferi e usei protocolos diferentes.</blockquote><figcaption><span>Membro de uma comunidade, após um airdrop · jun. 2024</span><a href="https://x.com/ahrlien/status/1800425508989182172" target="_blank" rel="noopener noreferrer">fonte</a></figcaption></figure>
+                    <figure class="pw-q pw-grey" style="--r:1deg;--i:5"><blockquote>“What made [it] famous and trendy in the first place was small accounts winning.”<br>O que tornou [isso] famoso e popular, desde o começo, foi ver contas pequenas ganhando.</blockquote><figcaption><span>Usuário do ranking, após uma mudança de regra · ago. 2025</span><a href="https://x.com/Telloo55/status/1954251216352862537" target="_blank" rel="noopener noreferrer">fonte</a></figcaption></figure>
+                    <figure class="pw-q pw-grey" style="--r:-1.5deg;--i:6"><blockquote>“…most of our contributors’ significant impact over the past year would go unrecognized.”<br>…a contribuição importante da maioria dos nossos colaboradores no último ano ficaria sem reconhecimento.</blockquote><figcaption><span>Líder de uma equipe de governança · out. 2024</span><a href="https://gov.optimism.io/t/appeal-to-the-optimism-foundation-request-to-update-retrofunding-round-6-application/9208/1" target="_blank" rel="noopener noreferrer">fonte</a></figcaption></figure>
+                    <figure class="pw-q pw-grey" style="--r:2.5deg;--i:7"><blockquote>“I’ve spent too many weekends and sleepless nights mediating between people and groups…”<br>Passei fins de semana e noites sem dormir mediando conflitos entre pessoas e grupos…</blockquote><figcaption><span>Embaixador-chefe, pedindo demissão sem remuneração · out. 2024</span><a href="https://forum.polkadot.network/t/resignation-of-the-head-ambassador-title-six/10367/1" target="_blank" rel="noopener noreferrer">fonte</a></figcaption></figure>
+                    <figure class="pw-q pw-grey" style="--r:-1deg;--i:8"><blockquote>“It’s been reported that some users with high testnet participation have been wrongfully excluded from the airdrop.”<br>Foi relatado que alguns usuários com alta participação na testnet foram excluídos do airdrop injustamente.</blockquote><figcaption><span>Equipe de um projeto, após o airdrop · set. 2025</span><a href="https://x.com/theblessnetwork/status/1965487310696579229" target="_blank" rel="noopener noreferrer">fonte</a></figcaption></figure>
+                    <figure class="pw-q pw-amber" style="--r:2deg;--i:9"><blockquote>“An imposter pretending to be me has sadly scammed someone out of €23,000.”<br>Infelizmente, um impostor se passando por mim golpeou alguém em €23.000.</blockquote><figcaption><span>Membro da equipe de um projeto, sobre golpes no Telegram · mar. 2024</span><a href="https://x.com/AnitaPosch/status/1766479349769748484" target="_blank" rel="noopener noreferrer">fonte</a></figcaption></figure>
+                <!-- /pain-wall:cards -->
+                    </div>
+                </div>
+            </div>
+            <div class="pw-end">
+                <div class="pw-sun" aria-hidden="true"></div>
+                <svg class="pw-sea" viewBox="0 0 1440 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,120 C240,70 480,70 720,110 C960,150 1200,150 1440,96 L1440,300 L0,300 Z" fill="#2F6FC4"/><path d="M0,180 C260,140 520,150 760,178 C1000,206 1220,204 1440,160 L1440,300 L0,300 Z" fill="#1B4F9A"/><path class="pw-shore" d="M0,262 C300,236 560,244 820,260 C1080,276 1260,272 1440,250 L1440,300 L0,300 Z" fill="#ffffff"/></svg>
+                <svg class="pw-ducks" viewBox="0 0 520 120" aria-hidden="true" focusable="false"><use href="#duck" x="0" y="20" width="170" height="98"/><use href="#duck" x="185" y="46" width="130" height="75"/><use href="#duck" x="330" y="34" width="150" height="86"/></svg>
+                <p class="pw-agony">Quem faz farming ganha. Quem ajuda se esgota. Golpistas usam o nome da equipe.</p>
+                <div class="pw-calm">
+                    <h2>É aí que o The Flock entra.</h2>
+                    <p>Quem ajuda finalmente recebe o crédito.</p>
+                    <a class="pw-cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- The loop: a garden that grows (css/flock-loop.css, js/flock-loop.js). Five beds. Only the first arrow is solid: the team
+             confirming help works today. The helper's OK, a person's approval, the assistant's answer and the way back to a person
+             are in development (see now/#ask-title), so their arrows are dashed and one In development pill leads their line. -->
+        <section class="section lp" aria-labelledby="loop-title">
+            <div class="wrap lp-grid">
+                <div class="lp-copy">
+                    <h2 id="loop-title">Quando as pessoas ajudam, a comunidade inteira fica mais forte.</h2>
+                    <p>Cada pedido que a sua equipe marca como útil entra no histórico de ajuda daquele membro.</p>
+                    <p class="lp-dev"><span class="status-pill">Em desenvolvimento</span> A sua equipe vai creditar as respostas que os membros dão uns aos outros. Com o OK de quem ajudou e a aprovação de uma pessoa, a resposta fica guardada. <a href="/pt/now/#ask-title">O assistente</a> mostra a resposta ao próximo membro que perguntar, com a origem dela.</p>
+                </div>
+                <figure class="lp-fig">
+                    <svg class="lp-svg" viewBox="0 6 600 592" role="img" aria-label="Desenho de um ciclo em jardim, em cinco etapas. Um pato ajuda outro pato. A equipe confirma a ajuda, e quem ajudou fica com o crédito. Hoje isso funciona para pedidos que um membro envia; creditar respostas entre membros está em desenvolvimento. As próximas etapas também estão em desenvolvimento, por isso as setas são tracejadas. Quem ajudou diz que a resposta pode ser reutilizada. Uma pessoa aprova. O assistente mostra a resposta ao próximo pato, com a origem dela. Se a resposta estiver faltando ou for antiga, ela volta para uma pessoa, e o ciclo continua." focusable="false"><g class="lp-step lp-n1"><g transform="translate(300.0 85.0)"><clipPath id="lpc1"><circle r="74"/></clipPath><circle r="74" class="lp-bed"/><g clip-path="url(#lpc1)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" fill="#2FA866"/><rect x="-60" y="-56" width="40" height="26" rx="7" fill="#fff"/><path d="M-52,-31 l-3,8 l11,-8z" fill="#fff"/><rect x="-53" y="-49" width="26" height="3.5" rx="1.75" fill="#9AA7B8"/><rect x="-53" y="-42" width="16" height="3.5" rx="1.75" fill="#9AA7B8"/><use href="#duck" x="-64" y="-6" width="54" height="31.1"/><g transform="translate(62 -2) scale(-1 1)"><use href="#duck" x="0" y="0" width="46" height="26.5"/></g><text x="40" y="-14" font-size="22" font-weight="700" fill="#0058A8" text-anchor="middle" class="lp-q">?</text></g></g><circle r="74" class="lp-rim"/></g><text x="300.0" y="191.0" text-anchor="middle" class="lp-t">Um membro ajuda</text></g><g class="lp-step lp-a1"><path d="M389.2,104.4 A215.0,215.0 0 0 1 458.5,154.7" pathLength="100" class="lp-ln lp-draw"/><path d="M455.6,139.0 L458.5,154.7 L443.1,150.5" class="lp-hd lp-headfade"/></g><g class="lp-step lp-n2"><g transform="translate(504.5 233.6)"><clipPath id="lpc2"><circle r="74"/></clipPath><circle r="74" class="lp-bed"/><g clip-path="url(#lpc2)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" fill="#2FA866"/><use href="#duck" x="-62" y="-6" width="54" height="31.1"/><rect x="8" y="-6" width="52" height="44" rx="6" fill="#F6F1E3"/><rect x="8" y="-6" width="52" height="11" rx="6" fill="#E3D9BD"/><rect x="15" y="14" width="36" height="3.5" rx="1.75" fill="#CBBF9C"/><rect x="15" y="22" width="26" height="3.5" rx="1.75" fill="#CBBF9C"/><circle cx="56" cy="-8" r="14" fill="#2FA866"/><path d="M49,-8 l5,5.5 l9,-11" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(-26 -20)"><path d="M0,-9 L2.6,-3 L9,-2.8 L4.1,1.4 L5.6,7.6 L0,4.2 L-5.6,7.6 L-4.1,1.4 L-9,-2.8 L-2.6,-3Z" fill="#FED801" stroke="#F2B705" stroke-width="2" stroke-linejoin="round"/></g></g></g><circle r="74" class="lp-rim"/></g><text text-anchor="end" class="lp-t" x="424.5"><tspan x="424.5" y="239.6">Sua equipe</tspan><tspan x="424.5" y="265.6">confirma</tspan></text></g><g class="lp-step lp-a2 lp-plan"><path d="M513.6,324.3 A215.0,215.0 0 0 1 487.1,405.9" class="lp-ln lp-dash"/><path d="M501.2,398.2 L487.1,405.9 L486.4,389.9" class="lp-hd"/></g><g class="lp-step lp-n3"><g transform="translate(426.4 473.9)"><clipPath id="lpc3"><circle r="74"/></clipPath><circle r="74" class="lp-bed"/><g clip-path="url(#lpc3)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" fill="#2FA866"/><use href="#duck" x="-64" y="-6" width="54" height="31.1"/><rect x="-6" y="-48" width="52" height="32" rx="7" fill="#fff"/><path d="M0,-17 l-9,12 l16,-12z" fill="#fff"/><rect x="1" y="-39" width="26" height="3.5" rx="1.75" fill="#9AA7B8"/><rect x="1" y="-32" width="16" height="3.5" rx="1.75" fill="#9AA7B8"/><circle cx="46" cy="-14" r="13" fill="#FED801" stroke="#F2B705" stroke-width="2"/><path d="M40,-14 l4.5,5 l9,-11" fill="none" stroke="#12304F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g></g><circle r="74" class="lp-rim"/></g><text x="426.4" y="581.9" text-anchor="middle" class="lp-t">Quem ajudou dá o OK</text></g><g class="lp-step lp-a3 lp-plan"><path d="M342.9,510.7 A215.0,215.0 0 0 1 257.1,510.7" class="lp-ln lp-dash"/><path d="M268.7,521.7 L257.1,510.7 L272.1,505.1" class="lp-hd"/></g><g class="lp-step lp-n4"><g transform="translate(173.6 473.9)"><clipPath id="lpc4"><circle r="74"/></clipPath><circle r="74" class="lp-bed"/><g clip-path="url(#lpc4)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" fill="#2FA866"/><path d="M-22,34 L-22,-28" stroke="#2FA866" stroke-width="4" stroke-linecap="round"/><ellipse cx="-32" cy="4" rx="9" ry="4.5" transform="rotate(-30 -32 4)" fill="#2FA866"/><ellipse cx="-12" cy="-8" rx="9" ry="4.5" transform="rotate(30 -12 -8)" fill="#2FA866"/><rect x="-44" y="-60" width="44" height="28" rx="7" fill="#fff"/><path d="M-36,-33 l-3,8 l11,-8z" fill="#fff"/><rect x="-37" y="-53" width="30" height="3.5" rx="1.75" fill="#9AA7B8"/><rect x="-37" y="-46" width="20" height="3.5" rx="1.75" fill="#9AA7B8"/><g transform="translate(64 -2) scale(-1 1)"><use href="#duck" x="0" y="0" width="46" height="26.5"/></g><circle cx="4" cy="-40" r="13" fill="#0058A8"/><path d="M-2,-40 l4.5,5 l9,-11" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g></g><circle r="74" class="lp-rim"/></g><text x="173.6" y="581.9" text-anchor="middle" class="lp-t">Uma pessoa aprova</text></g><g class="lp-step lp-a4 lp-plan"><path d="M112.9,405.9 A215.0,215.0 0 0 1 86.4,324.3" class="lp-ln lp-dash"/><path d="M79.5,338.8 L86.4,324.3 L96.3,336.9" class="lp-hd"/></g><g class="lp-step lp-n5"><g transform="translate(95.5 233.6)"><clipPath id="lpc5"><circle r="74"/></clipPath><circle r="74" class="lp-bed"/><g clip-path="url(#lpc5)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" fill="#2FA866"/><use href="#duck" x="-68" y="4" width="42" height="24.2"/><text x="-50" y="-12" font-size="22" font-weight="700" fill="#0058A8" text-anchor="middle" class="lp-q">?</text><g transform="translate(64 -4) scale(-1 1)"><use href="#duck" x="0" y="0" width="52" height="30.0" style="--duck-body:#9CCBF6;--duck-wing:#5AA0E6"/></g><rect x="-8" y="-54" width="50" height="35" rx="7" fill="#fff"/><path d="M18,-20 l3,16 l9,-16z" fill="#fff"/><rect x="-1" y="-47" width="28" height="3.5" rx="1.75" fill="#9AA7B8"/><rect x="-1" y="-40" width="18" height="3.5" rx="1.75" fill="#9AA7B8"/><circle cx="1" cy="-29" r="5.5" fill="#FFCB2B"/><path d="M5.5,-30 l5,1.4 l-5,1.8z" fill="#3A8CE0"/><circle cx="1.8" cy="-30.4" r="1" fill="#1B2A3A"/><rect x="14" y="-30.8" width="20" height="3.5" rx="1.75" fill="#9AA7B8"/></g></g><circle r="74" class="lp-rim"/></g><text text-anchor="start" class="lp-t" x="175.5"><tspan x="175.5" y="239.6">O assistente</tspan><tspan x="175.5" y="265.6">responde</tspan></text></g><g class="lp-step lp-a5 lp-plan"><path d="M141.5,154.7 A215.0,215.0 0 0 1 210.8,104.4" class="lp-ln lp-dash"/><path d="M195.0,102.3 L210.8,104.4 L202.0,117.7" class="lp-hd"/><text class="lp-cap" x="4" y="98">Faltando ou antiga?</text><text class="lp-cap" x="4" y="122">Volta para uma pessoa</text></g></svg>
+                </figure>
+            </div>
+        </section>
+
+        <!-- Uma semana no seu clube: four moments, each true today (css/flock-week.css, js/flock-week.js). -->
+        <section class="section wk" aria-labelledby="wk-title">
+            <div class="wrap">
+                <h2 id="wk-title">Uma semana no seu clube</h2>
+                <ul class="wk-grid">
+                    <li class="wk-card">
+                        <span class="wk-day">Segunda</span>
+                        <svg class="wk-art" viewBox="0 0 300 190" role="img" aria-label="Desenho: um pato da equipe lê o resumo semanal, onde quem ajudou aparece destacado em amarelo-sol.">
+                            <rect width="300" height="190" fill="var(--wk-sky)"/>
+                            <circle cx="244" cy="58" r="26" fill="#FED801"/>
+                            <path d="M0 150 C40 140 80 160 120 150 S200 140 240 150 S285 156 300 148 V190 H0Z" fill="var(--wk-wave2)"/>
+                            <path d="M0 160 C45 150 85 170 125 160 S205 150 245 160 S285 166 300 158 V190 H0Z" fill="var(--wk-wave)"/>
+                            <rect x="30" y="44" width="150" height="92" rx="12" fill="var(--wk-paper)" stroke="#5AA0E6" stroke-width="2"/>
+                            <rect x="44" y="57" width="58" height="8" rx="4" fill="#0058A8"/>
+                            <rect x="39" y="74" width="132" height="24" rx="9" fill="#FED801" opacity=".38"/>
+                            <circle cx="56" cy="86" r="8" fill="#FED801"/>
+                            <rect x="72" y="82" width="78" height="8" rx="4" fill="#0058A8"/>
+                            <path d="M160 79 l2.2 5 5.2.5 -4 3.4 1.3 5.1 -4.7-2.8 -4.7 2.8 1.3-5.1 -4-3.4 5.2-.5z" fill="#FED801" stroke="#0058A8" stroke-width="1"/>
+                            <circle cx="56" cy="110" r="8" fill="#5AA0E6"/>
+                            <rect x="72" y="106" width="60" height="8" rx="4" fill="#D6E4F3"/>
+                            <g transform="translate(272 100) scale(-1 1)"><use href="#duck" width="88" height="50.6"/></g>
+                        </svg>
+                        <p>Toda segunda, uma mensagem no chat da equipe mostra quem carregou a semana e o que ainda está esperando.</p>
+                        <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg><span class="td-tag">Dois patos, uma pedra</span></div>
+                    </li>
+                    <li class="wk-card">
+                        <span class="wk-day">Terça</span>
+                        <svg class="wk-art" viewBox="0 0 300 190" role="img" aria-label="Desenho: um celular mostra uma mensagem com um anzol de um admin falso, e a resposta do bot marcando como falsa, enquanto um pato segura uma lupa sobre a tela.">
+                            <rect width="300" height="190" fill="var(--wk-sky)"/>
+                            <circle cx="250" cy="42" r="22" fill="#FED801"/>
+                            <path d="M0 150 C40 140 80 160 120 150 S200 140 240 150 S285 156 300 148 V190 H0Z" fill="var(--wk-wave2)"/>
+                            <path d="M0 160 C45 150 85 170 125 160 S205 150 245 160 S285 166 300 158 V190 H0Z" fill="var(--wk-wave)"/>
+                            <rect x="36" y="22" width="100" height="124" rx="16" fill="var(--wk-paper)" stroke="#0058A8" stroke-width="3"/>
+                            <rect x="48" y="38" width="68" height="26" rx="9" fill="#F3D3CE"/>
+                            <path d="M84 44 V54 a5 5 0 0 1 -10 0 M74 54 l-2.5-3" fill="none" stroke="#A63A2C" stroke-width="2.6" stroke-linecap="round"/>
+                            <rect x="56" y="76" width="68" height="30" rx="9" fill="#DCEBFA"/>
+                            <circle cx="72" cy="91" r="9" fill="#A63A2C"/>
+                            <path d="M68 87 l8 8 M76 87 l-8 8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+                            <rect x="87" y="84" width="30" height="6" rx="3" fill="#0058A8"/>
+                            <rect x="87" y="94" width="20" height="6" rx="3" fill="#5AA0E6"/>
+                            <rect x="50" y="122" width="72" height="12" rx="6" fill="#D6E4F3"/>
+                            <g transform="translate(276 98) scale(-1 1)"><use href="#duck" width="92" height="53"/></g>
+                            <circle cx="150" cy="82" r="17" fill="#fff" fill-opacity=".45" stroke="#FED801" stroke-width="4.5"/>
+                            <path d="M162 95 L184 112" stroke="#FED801" stroke-width="5" stroke-linecap="round"/>
+                        </svg>
+                        <p>Um admin falso manda mensagem privada para um membro. Encaminhar para o bot mostra que ela é falsa.</p>
+                    </li>
+                    <li class="wk-card">
+                        <span class="wk-day">Quinta</span>
+                        <svg class="wk-art" viewBox="0 0 300 190" role="img" aria-label="Desenho: um membro relata um problema, a equipe responde, e um visto amarelo-sol entre eles mostra que a equipe marcou a ajuda como útil.">
+                            <rect width="300" height="190" fill="var(--wk-sky)"/>
+                            <path d="M0 150 C40 140 80 160 120 150 S200 140 240 150 S285 156 300 148 V190 H0Z" fill="var(--wk-wave2)"/>
+                            <path d="M0 160 C45 150 85 170 125 160 S205 150 245 160 S285 166 300 158 V190 H0Z" fill="var(--wk-wave)"/>
+                            <rect x="22" y="46" width="52" height="38" rx="12" fill="var(--wk-paper)" stroke="#0058A8" stroke-width="2.5"/>
+                            <path d="M34 84 l-4 12 14-12z" fill="var(--wk-paper)" stroke="#0058A8" stroke-width="2.5" stroke-linejoin="round"/>
+                            <rect x="30" y="82" width="22" height="4" fill="var(--wk-paper)"/>
+                            <text x="48" y="74" text-anchor="middle" class="wk-t">?</text>
+                            <use href="#duck" x="22" y="110" width="62" height="35.7"/>
+                            <rect x="178" y="22" width="84" height="46" rx="14" fill="var(--wk-paper)" stroke="#0058A8" stroke-width="2.5"/>
+                            <path d="M240 68 l8 14 -22-14z" fill="var(--wk-paper)" stroke="#0058A8" stroke-width="2.5" stroke-linejoin="round"/>
+                            <rect x="232" y="64" width="14" height="6" fill="var(--wk-paper)"/>
+                            <rect x="192" y="36" width="50" height="7" rx="3.5" fill="#0058A8"/>
+                            <rect x="192" y="48" width="34" height="7" rx="3.5" fill="#5AA0E6"/>
+                            <g transform="translate(274 90) scale(-1 1)"><use href="#duck" width="106" height="61"/></g>
+                            <circle cx="128" cy="76" r="19" fill="#FED801"/>
+                            <path d="M118 77 l7 7 13-14" fill="none" stroke="#002050" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M128 48 v-7 M104 56 l-5-5 M152 56 l5-5" stroke="#FED801" stroke-width="3.4" stroke-linecap="round"/>
+                        </svg>
+                        <p>Um membro relata um bug que a sua equipe deixou passar. A equipe marca como útil, e quem ajudou fica com o crédito.</p>
+                    </li>
+                    <li class="wk-card">
+                        <span class="wk-day">Sábado</span>
+                        <svg class="wk-art" viewBox="0 0 300 190" role="img" aria-label="Desenho: um primeiro post no X com as anotações a lápis da equipe, e uma seta leva a um segundo post, mais limpo, que brilha em amarelo-sol, com um pato observando embaixo.">
+                            <rect width="300" height="190" fill="var(--wk-sky)"/>
+                            <path d="M0 150 C40 140 80 160 120 150 S200 140 240 150 S285 156 300 148 V190 H0Z" fill="var(--wk-wave2)"/>
+                            <path d="M0 160 C45 150 85 170 125 160 S205 150 245 160 S285 166 300 158 V190 H0Z" fill="var(--wk-wave)"/>
+                            <g transform="rotate(-6 78 78)">
+                                <rect x="28" y="38" width="100" height="82" rx="10" fill="var(--wk-paper)" stroke="#5AA0E6" stroke-width="2"/>
+                                <circle cx="46" cy="56" r="8" fill="#5AA0E6"/>
+                                <rect x="60" y="52" width="48" height="7" rx="3.5" fill="#D6E4F3"/>
+                                <rect x="40" y="74" width="76" height="6" rx="3" fill="#D6E4F3"/>
+                                <rect x="40" y="86" width="60" height="6" rx="3" fill="#D6E4F3"/>
+                                <path d="M40 98 q9 -5 18 0 t18 0 t18 0" fill="none" stroke="#A63A2C" stroke-width="2.6" stroke-linecap="round"/>
+                                <rect x="40" y="104" width="44" height="6" rx="3" fill="#D6E4F3"/>
+                            </g>
+                            <path d="M136 66 C146 52 158 52 166 62" fill="none" stroke="#0058A8" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M158 54 l9 8 -12 3" fill="none" stroke="#0058A8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="170" y="26" width="108" height="92" rx="12" fill="#FED801" opacity=".35"/>
+                            <rect x="176" y="32" width="96" height="80" rx="10" fill="var(--wk-paper)" stroke="#FED801" stroke-width="3"/>
+                            <circle cx="194" cy="50" r="8" fill="#0058A8"/>
+                            <rect x="208" y="46" width="46" height="7" rx="3.5" fill="#0058A8"/>
+                            <rect x="188" y="68" width="72" height="6" rx="3" fill="#5AA0E6"/>
+                            <rect x="188" y="80" width="56" height="6" rx="3" fill="#5AA0E6"/>
+                            <rect x="188" y="92" width="64" height="6" rx="3" fill="#5AA0E6"/>
+                            <path d="M268 20 l3 7 7 3 -7 3 -3 7 -3-7 -7-3 7-3z" fill="#FED801"/>
+                            <g transform="translate(176 122) scale(-1 1)"><use href="#duck" width="58" height="33.4"/></g>
+                        </svg>
+                        <p>A sua equipe avalia o post de um membro no X e diz por quê, para que o próximo fique melhor.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="band slate" aria-labelledby="x-title">
+            <svg class="wv" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,30 C240,4 480,4 720,26 C960,48 1200,50 1440,20 L1440,56 L0,56 Z"/></svg>
+            <div class="wrap section">
+                <h2 id="x-title">Fale sobre um projeto no X sem ter seus posts escondidos.</h2>
+                <p class="lede">Você gosta do projeto, posta um link e um ticker. Aí vêm semanas de silêncio, e ninguém diz o motivo. As pessoas chamam isso de shadow ban.</p>
+                <div class="demo" data-demo>
+                    <div class="steps" role="tablist" aria-label="O caminho de um membro no X">
+                        <button class="step" role="tab" id="x-t1" aria-controls="x-p1" aria-selected="true"><span class="thumb"><img src="/assets/flock/screens/x_home.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">1</span>Aprenda o que funciona</span></button>
+                        <button class="step" role="tab" id="x-t2" aria-controls="x-p2" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">2</span>Revise um rascunho</span></button>
+                        <button class="step" role="tab" id="x-t3" aria-controls="x-p3" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">3</span>Retorno da equipe</span></button>
+                        <button class="step" role="tab" id="x-t4" aria-controls="x-p4" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">4</span>Guarde o histórico de ajuda</span></button>
+                    </div>
+                    <div class="panels">
+                        <div class="panel" role="tabpanel" id="x-p1" aria-labelledby="x-t1">
+                            <div class="tg" role="img" aria-label="Tela Ser notado no X do bot, com botões para revisar uma resposta, ver meus posts, aprender a responder bem e voltar ao início">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/x_home.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>📣 Escreva respostas que as pessoas querem responder</b></p>
+                                        <p>Escolha um post que você quer responder e acrescente um detalhe útil, uma experiência ou uma pergunta bem pensada.</p>
+                                        <p>Leia → Acrescente valor → Responda</p>
+                                        <p>✍️ <b>Tem um rascunho?</b> Revise minha resposta antes de postar.</p>
+                                        <p>📤 <b>Já postou?</b> Envie em Meus posts. Se a equipe avaliar, o retorno chega neste chat.</p>
+                                        <p>💬 <b>Não sabe como?</b> Como responder bem mostra um exemplo e dicas.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">✍️ Revisar minha resposta</span><span class="btn">📤 Meus posts</span><span class="btn">💬 Como responder bem</span><span class="btn">🏠 Início</span></div>
+                            </div>
+                            <div>
+                                <h3>Comece com um post que vale a pena responder</h3>
+                                <p>O membro responde com um detalhe, uma experiência ou uma pergunta. O guia de respostas, de dez páginas, mostra como o X decide quais respostas são vistas.</p>
+                                <button class="next-step" type="button">Próximo: revise um rascunho</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="x-p2" aria-labelledby="x-t2">
+                            <div class="tg marked" role="img" aria-label="Um membro cola um rascunho de resposta. O bot responde que tem um link, que tem o ticker, que fala de preço ou de ganho prometido, e diz que não guardou o texto">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>✍️ Revisar minha resposta</b></p>
+                                        <p>Envie o texto que você pensa em postar como resposta no X. Eu verifico problemas como tamanho, links, menções de ticker e promessas de preço.</p>
+                                    </div>
+                                </div>
+                                <div class="me"><span class="who">Seu rascunho</span><u data-k="1">$COIN</u> vai <u data-k="2">dar 10x</u>, entre antes que suba 🚀 <u data-k="0">coin.app</u></div>
+                                <div class="msg later">
+                                    <div class="cap">
+                                        <p><b>✍️ Revisar minha resposta</b></p>
+                                        <ul><li>Tem um link.</li><li>Tira o ticker.</li><li>Fala de preço ou de ganho prometido.</li></ul>
+                                        <p class="quiet"><i>Não guardei o seu texto.</i></p>
+                                    </div>
+                                </div>
+                                <div class="btns later"><span class="btn wide">❓ Por que estes?</span><span class="btn">✍️ Revisar outro</span><span class="btn">✍️ Ser notado no X</span></div>
+                            </div>
+                            <div>
+                                <h3>Veja o que faz uma resposta ser escondida, antes de postar</h3>
+                                <p>O bot aponta o que costuma esconder respostas: um link, um ticker, falas de preço, pedidos de curtidas e cerca de dez frases feitas que as ferramentas de IA adoram. Ele nunca reescreve o texto e não guarda nada.</p>
+                                <button class="next-step" type="button">Próximo: o retorno da equipe</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="x-p3" aria-labelledby="x-t3">
+                            <div class="tg" role="img" aria-label="Tela Retorno sobre seu post do bot: Bom, por Ben. Um post enviado, um bom">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>📣 Retorno sobre seu post</b></p>
+                                        <p><b>👍 Bom</b>, por Ben.</p>
+                                        <p>1 enviado · 1 bom</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">📤 Meus posts</span><span class="btn">✍️ Ser notado no X</span></div>
+                            </div>
+                            <div>
+                                <h3>Uma pessoa da sua equipe avalia o post</h3>
+                                <p>Depois de postar, o membro envia o link. A equipe avalia como Bom, Precisa melhorar ou Não permitido, e diz o motivo.</p>
+                                <button class="next-step" type="button">Próximo: o histórico de ajuda</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="x-p4" aria-labelledby="x-t4">
+                            <div class="tg" role="img" aria-label="Tela Histórico do bot da Maya, com um post avaliado como Bom em 7 de outubro de 2026">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>📜 Histórico</b> · Maya</p>
+                                        <p class="quiet">Estes são os registros salvos da sua conta no bot. Os registros antigos mostram atividade passada; eles não prometem nada para o futuro.</p>
+                                        <p>🙏 Thanks: 0 recebidos · 0 enviados</p>
+                                        <p><b>Avaliado pela equipe</b><br><mark>• 07 out 2026 · 📤 Post avaliado: 👍 Bom</mark></p>
+                                        <p class="quiet">Algo parece errado? Toque em Falar com a equipe.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">🎫 Falar com a equipe</span><span class="btn">◀ Voltar</span></div>
+                            </div>
+                            <div>
+                                <h3>A avaliação entra no histórico de ajuda</h3>
+                                <p>Cada post avaliado entra com a data. Meses depois, quem explicou bem o seu projeto pode mostrar isso. A pessoa pode baixar o próprio histórico de ajuda ou apagá-lo quando quiser.</p>
+                                <button class="next-step" type="button">Voltar ao início</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="x-close">
+                    <p class="lede">Em 15 de janeiro de 2026, o chefe de produto do X escreveu que o X “<a href="https://decrypt.co/354736/elon-musks-x-bans-access-infofi-crypto-projects-ai-slop-backlash" target="_blank" rel="noopener noreferrer">no longer allow apps that reward users for posting on X</a>” (“não vai mais permitir apps que recompensem usuários por postar no X”). Ninguém no The Flock é pago para postar.</p>
+                    <div class="pull-row">
+                        <blockquote class="pull">Anyone can become a professional and help pitch a project, out of loyalty or as a small business of their own. Both are fair when the work is real. But the method has to be forged, and that is where The Flock steps in.<br>Qualquer pessoa pode virar profissional e ajudar a apresentar um projeto, por lealdade ou como um pequeno negócio próprio. As duas coisas são justas quando o trabalho é real. Mas o método precisa ser forjado, e é aí que o The Flock entra.</blockquote>
+                        <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg><span class="td-tag">Dois patos, uma pedra</span></div>
+                    </div>
+                    <blockquote class="pull">If you are here to advocate a project and its token, and you want to learn from professionals, you are at the right stop.<br>Se você está aqui para defender um projeto e o seu token, e quer aprender com profissionais, está no lugar certo.</blockquote>
+                </div>
+            </div>
+        </section>
+
+        <section class="band coral" aria-labelledby="help-title">
+            <svg class="wv" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,24 C220,50 500,52 760,28 C1020,4 1240,6 1440,30 L1440,56 L0,56 Z"/></svg>
+            <div class="wrap section">
+                <h2 id="help-title">O que acontece quando um membro precisa de ajuda, ou encontra um admin falso?</h2>
+                <p class="lede">Dúvidas de suporte se perdem em um grupo movimentado, e golpistas esperam ali fingindo ser da equipe. O The Flock leva cada dúvida para um chat privado com a sua equipe.</p>
+                <div class="demo" data-demo>
+                    <div class="steps" role="tablist" aria-label="Suporte e segurança">
+                        <button class="step" role="tab" id="h-t1" aria-controls="h-p1" aria-selected="true"><span class="thumb"><img src="/assets/flock/screens/ask.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">1</span>Um membro pergunta</span></button>
+                        <button class="step" role="tab" id="h-t2" aria-controls="h-p2" aria-selected="false" tabindex="-1"><span class="thumb ticket" aria-hidden="true"><span>🎫 <b>Ticket #0001</b></span><span class="mini-btns"><i>Feito</i><i class="on">Útil</i><i>Spam</i></span></span><span class="lbl"><span class="n">2</span>Sua equipe responde</span></button>
+                        <button class="step" role="tab" id="h-t3" aria-controls="h-p3" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/profile.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">3</span>A ajuda útil fica salva</span></button>
+                        <button class="step" role="tab" id="h-t4" aria-controls="h-p4" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/staffcheck.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">4</span>Isso é mesmo da equipe?</span></button>
+                    </div>
+                    <div class="panels">
+                        <div class="panel" role="tabpanel" id="h-p1" aria-labelledby="h-t1">
+                            <div class="tg" role="img" aria-label="Tela Falar com a equipe do bot, com botões para um problema, uma reclamação e uma ideia ou proposta">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/ask.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>🎫 Falar com a equipe</b></p>
+                                        <p>Envie um pedido privado quando precisar de ajuda, quiser registrar uma reclamação ou tiver uma ideia ou proposta. Um conjunto curto de perguntas ajuda a equipe a entender o que aconteceu e do que você precisa.</p>
+                                        <p>Nunca inclua frase de recuperação ou chave privada. Escolha o tema mais próximo do seu pedido.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">🛠 Um problema</span><span class="btn">⚠️ Reclamação</span><span class="btn">💡 Ideia ou proposta</span><span class="btn">◀ Ajuda</span></div>
+                            </div>
+                            <div>
+                                <h3>Um pedido privado com número</h3>
+                                <p>Cada pedido recebe um número, e a resposta chega no mesmo chat privado. /status mostra em que pé ele está.</p>
+                                <button class="next-step" type="button">Próximo: sua equipe responde</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="h-p2" aria-labelledby="h-t2">
+                            <div class="tg" role="img" aria-label="Cartão do pedido no chat da equipe, depois de tocar em Fechar: os botões são Feito, Útil, Spam e Voltar, com Útil destacado">
+                                <div class="msg">
+                                    <div class="cap">
+                                        <p>🎫 <b>Pedido #0001</b> · 💡 Ideia · ✅ limpo (pontuação 0)</p>
+                                        <p>De: Maya</p>
+                                        <p><b>Ideia:</b> Acrescentar um guia curto para novos membros sobre onde encontrar os links oficiais do projeto.</p>
+                                        <p><b>Por quê:</b> Novos membros seguem perguntando a mesma coisa no grupo.</p>
+                                        <p>↩️ <b>Responda este membro</b><br>Toque em 💬 Responder, ou responda a esta mensagem. Sua resposta vai para o chat privado dele.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">✅ Feito</span><span class="btn pick">⭐ Útil</span><span class="btn">🚫 Spam</span><span class="btn">◀ Voltar</span></div>
+                            </div>
+                            <div>
+                                <h3>Um chat privado para toda a sua equipe</h3>
+                                <p>Qualquer pessoa da equipe pode responder, assumir um pedido ou fechá-lo como Feito, Útil ou Spam. Mensagens com cara de spam ficam na lista de retidos.</p>
+                                <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg><span class="td-tag">Dois patos, uma pedra</span></div>
+                                <p>Um toque em Útil fecha o pedido e envia um agradecimento ao membro.</p>
+                                <button class="next-step" type="button">Próximo: a ajuda útil fica salva</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="h-p3" aria-labelledby="h-t3">
+                            <div class="tg" role="img" aria-label="Tela Meu perfil do bot da Maya: o histórico de ajuda dela no The Flock, com botões para Histórico, Medalhas, Conta e Início">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/profile.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p>👤 <b>Maya</b></p>
+                                        <p>Seu histórico de ajuda no The Flock: o que você contribuiu e o que outros confirmaram.</p>
+                                        <p>📜 <b>Histórico</b> lista o que você fez aqui, com datas. 🏅 <b>Medalhas</b> mostra o reconhecimento na sua conta.<br>🔐 <b>Conta</b> guarda sua carteira e seus dados: você pode baixá-los ou apagá-los a qualquer momento.</p>
+                                        <p>Este histórico é seu.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">📜 Histórico</span><span class="btn">🏅 Medalhas</span><span class="btn">🔐 Conta</span><span class="btn">🏠 Início</span></div>
+                            </div>
+                            <div>
+                                <h3>Um toque, e a ajuda fica registrada</h3>
+                                <p>Um bom relato de bug ou uma ideia afiada também é ajuda. Quando a equipe marca como Útil, ela entra no Histórico do membro, com a data. Ninguém precisa lembrar quem achou aquele bug no ano passado.</p>
+                                <button class="next-step" type="button">Próximo: isso é mesmo da equipe?</button>
+                            </div>
+                        </div>
+                        <div class="panel" role="tabpanel" id="h-p4" aria-labelledby="h-t4">
+                            <div class="tg" role="img" aria-label="Resposta do bot a uma mensagem encaminhada: escrita por alguém da equipe, com um aviso para ter cuidado">
+                                <div class="msg">
+                                    <img src="/assets/flock/screens/staffcheck.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                    <div class="cap">
+                                        <p><b>🛡 Escrita por alguém da equipe.</b></p>
+                                        <p>Cuidado: se o seu chat mostrar “Encaminhada de”, quem enviou a mensagem para você pode não fazer parte da equipe. Mesmo uma conta real da equipe pode ser invadida, então isso não prova que a mensagem é segura.</p>
+                                        <p>Você nunca precisa conectar uma carteira ou pagar para receber suporte. As respostas do suporte chegam por este bot. Nunca pedimos sua frase de recuperação, chave privada, senha ou código de login.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">🎫 Falar com a equipe</span><span class="btn">Revisar outro</span></div>
+                            </div>
+                            <div>
+                                <h3>Encaminhe a mensagem, e o bot avisa você</h3>
+                                <p>Aqui, alguém da sua equipe escreveu a mensagem, e mesmo assim o bot avisa para ter cuidado. Ele nunca pede frase de recuperação, senha ou conexão de carteira, e apaga uma chave privada se alguém colar uma.</p>
+                                <button class="next-step" type="button">Voltar ao início</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="does-title">
+            <div class="wrap">
+                <h2 id="does-title">Onde cada ferramenta atua</h2>
+                <figure class="gap">
+                    <svg class="gap-svg gap-h" viewBox="0 0 1000 232" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Onde cada ferramenta atua, nas cinco etapas que um membro percorre: ele fica sabendo do projeto, etapa coberta por quadros de missões, bots de raid e anúncios; entra no grupo, etapa coberta por bots de moderação; pede ajuda, etapa coberta por centrais de suporte e pelo The Flock; confere se uma mensagem veio da equipe, e ajuda o próximo recém-chegado enquanto a equipe acompanha, etapa coberta pelo The Flock."><rect class="gap-hl" x="404" y="4" width="588" height="224" rx="24"/><path class="gap-trail" d="M118 124 H900"/><circle class="gap-n" cx="100" cy="34" r="17"/><text class="gap-nt" x="100" y="40" text-anchor="middle">1</text><text class="gap-t" x="100" y="156" text-anchor="middle">Fica sabendo</text><text class="gap-t" x="100" y="177" text-anchor="middle">do projeto</text><text class="gap-c" x="100" y="200" text-anchor="middle">Quadros de missões, bots de raid, anúncios</text><circle class="gap-n" cx="300" cy="34" r="17"/><text class="gap-nt" x="300" y="40" text-anchor="middle">2</text><text class="gap-t" x="300" y="156" text-anchor="middle">Entra</text><text class="gap-t" x="300" y="177" text-anchor="middle">no grupo</text><text class="gap-c" x="300" y="200" text-anchor="middle">Bots de moderação</text><circle class="gap-n hl" cx="500" cy="34" r="17"/><text class="gap-nt" x="500" y="40" text-anchor="middle">3</text><text class="gap-t" x="500" y="156" text-anchor="middle">Pede</text><text class="gap-t" x="500" y="177" text-anchor="middle">ajuda</text><text class="gap-c hl" x="500" y="200" text-anchor="middle">Central de suporte, The Flock</text><circle class="gap-n hl" cx="700" cy="34" r="17"/><text class="gap-nt" x="700" y="40" text-anchor="middle">4</text><text class="gap-t" x="700" y="156" text-anchor="middle">Confere quem</text><text class="gap-t" x="700" y="177" text-anchor="middle">enviou a mensagem</text><text class="gap-c hl" x="700" y="200" text-anchor="middle">The Flock</text><circle class="gap-n hl" cx="900" cy="34" r="17"/><text class="gap-nt" x="900" y="40" text-anchor="middle">5</text><text class="gap-t" x="900" y="156" text-anchor="middle">Ajuda o próximo</text><text class="gap-t" x="900" y="177" text-anchor="middle">recém-chegado</text><text class="gap-c hl" x="900" y="200" text-anchor="middle">The Flock</text><text class="gap-c hl" x="900" y="218" text-anchor="middle">mostra à sua equipe</text><use href="#duck" x="77" y="92" width="46" height="26.5"/><path class="gap-sea" d="M52 124 C70 114 84 134 102 124 C120 114 134 134 150 124 L150 134 Q150 144 140 144 L62 144 Q52 144 52 134 Z"/><path class="gap-gate" d="M318 78 V122 M354 78 V122 M312 78 H360"/><use href="#duck" x="262" y="96" width="46" height="26.5"/><use href="#duck" x="462" y="96" width="46" height="26.5"/><g class="gap-bub"><rect x="500" y="62" width="40" height="28" rx="9"/><path d="M506 90 l-6 9 l14 -9 z"/><text x="520" y="82" text-anchor="middle">?</text></g><use href="#duck" x="650" y="96" width="46" height="26.5"/><use href="#duck" x="716" y="100" width="40" height="23.0" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity=".95"/><use href="#duck" x="838" y="96" width="46" height="26.5"/><use href="#duck" x="886" y="101" width="36" height="20.7"/><use href="#duck" x="922" y="105" width="28" height="16.1"/></svg>
+                    <svg class="gap-svg gap-v" viewBox="0 0 360 524" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Onde cada ferramenta atua, nas cinco etapas que um membro percorre: ele fica sabendo do projeto, etapa coberta por quadros de missões, bots de raid e anúncios; entra no grupo, etapa coberta por bots de moderação; pede ajuda, etapa coberta por centrais de suporte e pelo The Flock; confere se uma mensagem veio da equipe, e ajuda o próximo recém-chegado enquanto a equipe acompanha, etapa coberta pelo The Flock."><rect class="gap-hl" x="4" y="204" width="352" height="316" rx="22"/><path class="gap-trail" d="M52 70 V470"/><circle class="gap-n" cx="30" cy="44" r="15"/><text class="gap-nt" x="30" y="50" text-anchor="middle">1</text><text class="gap-t" x="110" y="38">Fica sabendo do projeto</text><text class="gap-c" x="110" y="60">Quadros de missões, bots de raid, anúncios</text><circle class="gap-n" cx="30" cy="148" r="15"/><text class="gap-nt" x="30" y="154" text-anchor="middle">2</text><text class="gap-t" x="110" y="142">Entra no grupo</text><text class="gap-c" x="110" y="164">Bots de moderação</text><circle class="gap-n hl" cx="30" cy="252" r="15"/><text class="gap-nt" x="30" y="258" text-anchor="middle">3</text><text class="gap-t" x="110" y="246">Pede ajuda</text><text class="gap-c hl" x="110" y="268">Central de suporte, The Flock</text><circle class="gap-n hl" cx="30" cy="356" r="15"/><text class="gap-nt" x="30" y="362" text-anchor="middle">4</text><text class="gap-t" x="110" y="350">Confere quem enviou a mensagem</text><text class="gap-c hl" x="110" y="372">The Flock</text><circle class="gap-n hl" cx="30" cy="460" r="15"/><text class="gap-nt" x="30" y="466" text-anchor="middle">5</text><text class="gap-t" x="110" y="454">Ajuda o próximo recém-chegado</text><text class="gap-c hl" x="110" y="476">O The Flock mostra à sua equipe</text><use href="#duck" x="52" y="38" width="46" height="26.5"/><path class="gap-sea" d="M40 66 C54 58 64 74 78 66 C90 59 98 72 104 68 L104 76 Q104 82 94 82 L50 82 Q40 82 40 76 Z"/><use href="#duck" x="52" y="142" width="46" height="26.5"/><use href="#duck" x="52" y="246" width="46" height="26.5"/><use href="#duck" x="52" y="350" width="46" height="26.5"/><use href="#duck" x="52" y="454" width="46" height="26.5"/></svg>
+                </figure>
+                <p class="where">Mantenha o bot que você usa para moderar seu grupo. O The Flock funciona junto com ele. Veja <a href="/pt/how/">como cada parte funciona</a> e <a href="/pt/now/">o que vem a seguir</a>.</p>
+            </div>
+        </section>
+
+        <section class="band navy finish" aria-labelledby="start">
+            <svg class="wv" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0,24 C220,50 500,52 760,28 C1020,4 1240,6 1440,30 L1440,56 L0,56 Z"/></svg>
+            <div class="wrap section">
+                <h2 id="start">Teste como membro.</h2>
+                <p>Abra o bot e toque em Start para ver como os seus membros veem.</p>
+                <div class="fin-note">
+                    <span class="fin-i" aria-hidden="true">i</span>
+                    <div>
+                        <p>O The Flock funciona hoje na comunidade da Arctide. Para levá-lo à sua comunidade, envie uma proposta de parceria:</p>
+                        <ol class="fin-steps"><li>Toque em Ajuda</li><li>Toque em Falar com a equipe</li><li>Toque em Ideia ou proposta</li></ol>
+                    </div>
+                </div>
+                <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer" aria-label="Rodapé do site">
+        <div class="wrap">
+            <a class="brand" href="/pt/"><img src="/bonzi-logo.png?v=20261104" alt="" width="40" height="40"><span>The Flock</span></a>
+            <div class="links"><a href="/pt/privacy/">Seus dados</a><a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a></div>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        document.documentElement.classList.add('js');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ambient loops: the hero ducks (the fee scene and the demos are in js/flock-demos.js, the ponds are on About)
+            if (!window.Flock) return;
+            var hero = document.querySelector('.hero');
+            document.querySelectorAll('.hero-ducks use').forEach(function (u, i) { Flock.rig(u, i, 'bob'); });
+            if (hero) Flock.ambient(hero);
+        });
+    })();
+    </script>
+</body>
+</html>

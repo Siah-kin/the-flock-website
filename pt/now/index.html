@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Flock | Onde estamos agora</title>
+    <meta name="description" content="Onde o The Flock está agora: o que funciona hoje no bot, o que está em teste e o que vem depois.">
+    <link rel="canonical" href="https://arcflock.com/pt/now/">
+    <link rel="alternate" hreflang="en" href="https://arcflock.com/now/">
+    <link rel="alternate" hreflang="pt-BR" href="https://arcflock.com/pt/now/">
+    <link rel="alternate" hreflang="x-default" href="https://arcflock.com/now/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="The Flock">
+    <meta property="og:title" content="The Flock | Onde estamos agora">
+    <meta property="og:description" content="Onde o The Flock está agora: o que funciona hoje no bot, o que está em teste e o que vem depois.">
+    <meta property="og:url" content="https://arcflock.com/pt/now/">
+    <meta property="og:image" content="https://arcflock.com/assets/og/now.jpg">
+    <meta property="og:image:alt" content="The Flock: onde estamos agora">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="/assets/flock/favicon-duck-tongue.png?v=20261109" type="image/png">
+    <link rel="stylesheet" href="/css/nav.css?v=20261110hyg2">
+    <link rel="stylesheet" href="/css/bonzi-design.css">
+    <link rel="stylesheet" href="/css/motion.css?v=20261109play3">
+    <link rel="stylesheet" href="/css/flock-scenes.css?v=20261109scenes1">
+    <link rel="stylesheet" href="/css/flock-road.css?v=20261109road1">
+    <link rel="stylesheet" href="/css/flock-demos.css?v=20261109demos2">
+    <script src="/js/nav-loader.js?v=20261110hyg3" defer></script>
+    <script src="/js/flock-motion.js?v=20261110hyg6" defer></script>
+    <script src="/js/flock-sound.js?v=20261109play3" defer></script>
+    <script src="/js/flock-demos.js?v=20261109play3" defer></script>
+    <script src="/js/flock-road.js?v=20261110hyg6" defer></script>
+    <script src="/js/flock-duck.js?v=20261109game2" defer></script>
+    <script src="/js/flock-lines.js?v=20261110fake2" defer></script>
+    <script src="/js/flock-events-1.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-2.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-3.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-4.js?v=20261109game2" defer></script>
+    <script src="/js/flock-events-5.js?v=20261110fake2" defer></script>
+    <script src="/js/flock-events-6.js?v=20261109game2" defer></script>
+    <script src="/js/flock-game.js?v=20261110score1" defer></script>
+    <style>
+        @font-face { font-family: "Fredoka"; src: url("/assets/fonts/fredoka-latin.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
+        :root { --navy: #002050; --blue: #0058A8; --sky: #7CC8F0; --sun: #FED801; --ink: #0E1B33; --muted: #4A5B72; --soft: #F2F7FC; --line: #D6E4F3; --display: "Fredoka", "Inter", system-ui, sans-serif; }
+        .road-page { background: #fff; color: var(--ink); }
+        body.dark-mode.road-page { background: #08142B; color: #E7EEF9; }
+        .road-page h1, .road-page h2, .road-page h3 { font-family: var(--display); text-wrap: balance; }
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+
+        /* Opening: the same sky and sea as the home page */
+        .top { position: relative; overflow: hidden; color: #fff; background: linear-gradient(180deg, #004A94 0%, #0058A8 70%, #1F68B8 100%); padding: 84px 0 150px; isolation: isolate; }
+        .top h1 { font-weight: 700; font-size: clamp(2.2rem, 4.2vw, 3.4rem); line-height: 1.08; max-width: 16em; }
+        .top p { margin-top: 20px; font-size: 1.22rem; line-height: 1.6; max-width: 34em; color: #fff; }
+        .top .sea { position: absolute; left: 0; bottom: 0; width: 100%; height: 120px; z-index: -1; }
+        .top .flock { position: absolute; right: 7%; bottom: 46px; width: 300px; height: auto; z-index: -1; }
+
+        /* The path: one line down the page that fills in as you read */
+        .road { position: relative; padding: 80px 0 40px; }
+        .road .wrap { position: relative; }
+        .rail { position: absolute; left: 86px; top: 19px; bottom: 96px; width: 6px; border-radius: 3px; background: var(--line); }
+        .stop { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 48px; align-items: start; padding: 0 0 96px 96px; }
+        /* below 1100px the picture goes under the words, so the text keeps a readable line */
+        @media (max-width: 1100px) { .stop { grid-template-columns: minmax(0, 1fr); gap: 26px; } .stop > .pic { max-width: 520px; } }
+        .stop::before { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 6px solid var(--c); box-shadow: 0 0 0 6px #fff; }
+        body.dark-mode .stop::before { background: #08142B; box-shadow: 0 0 0 6px #08142B; }
+        /* ring colour = status: works today green, testing blue, in development coral, planned yellow */
+        .stop.now { --c: #2FA866; } .stop.test { --c: #3E8FD8; } .stop.dev { --c: #E5604F; } .stop.plan { --c: #E0B800; }
+        .here { position: absolute; left: -8px; top: -46px; width: 88px; height: auto; }
+        .stop p a { color: var(--blue); }
+        p.status-pill, .stop p.status-pill, .band p.status-pill { display: inline-block; margin: 0 0 12px; padding: 4px 12px; border-radius: 999px; background: #FFF1A6; color: #12304F; font-size: .85rem; font-weight: 700; line-height: 1.3; width: fit-content; max-width: none; }
+        .stop h2 { margin-top: 0; font-weight: 700; font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.12; }
+        .stop p { margin-top: 14px; font-size: 1.15rem; line-height: 1.6; color: #33445A; max-width: 30em; }
+        body.dark-mode .stop p, body.dark-mode .more li { color: #C5D3E8; }
+        .more { margin-top: 18px; }
+        .more > summary { cursor: pointer; display: inline-block; list-style: none; font-weight: 600; color: var(--blue); padding: 4px 0; }
+        .more > summary::-webkit-details-marker { display: none; }
+        .more > summary::after { content: " +"; } .more[open] > summary::after { content: " −"; }
+        .more > summary:focus-visible, .more a:focus-visible, .replay:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+        .more ul { margin: 12px 0 0; padding-left: 1.15em; display: grid; gap: 8px; max-width: 30em; }
+        .more li { font-size: 1.04rem; line-height: 1.5; color: #33445A; }
+        .more a { color: var(--blue); }
+        body.dark-mode .more > summary, body.dark-mode .more a { color: #8EC4FA; }
+        .pic { margin: 0; }
+        .pic svg { display: block; width: 100%; height: auto; border-radius: 26px; box-shadow: 0 22px 46px rgba(0, 32, 80, .22); }
+        .pic svg text { font-family: "Inter", system-ui, sans-serif; } .pic svg .t { font-family: var(--display); }
+        .pic figcaption { margin-top: 12px; font-size: 1rem; line-height: 1.5; color: var(--muted); display: flex; gap: 14px; align-items: baseline; justify-content: space-between; }
+        body.dark-mode .pic figcaption { color: #A9B8CC; }
+        .replay { flex: none; background: none; border: 0; padding: 12px 0; min-height: 44px; margin: -10px 0; font: 600 .98rem var(--display); color: var(--blue); cursor: pointer; }
+        .js .replay { visibility: visible; } .replay { visibility: hidden; }
+
+        .finish { background: var(--navy); color: #fff; padding: 76px 0 84px; }
+        .finish h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.8rem, 3vw, 2.4rem); }
+        .finish p { margin-top: 14px; font-size: 1.18rem; line-height: 1.6; max-width: 34em; color: #DCE8F7; }
+        .cta { display: inline-block; margin-top: 26px; background: var(--sun); color: var(--navy); font-family: var(--display); font-weight: 600; font-size: 1.35rem; padding: 16px 32px; border-radius: 999px; text-decoration: none; box-shadow: 0 8px 20px rgba(0,0,0,.28); }
+        .cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+        .page-footer { background: #001536; color: #fff; padding: 28px 0 32px; }
+        .page-footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; justify-content: space-between; }
+        .page-footer a { color: #fff; text-decoration: none; font-weight: 600; }
+        .page-footer .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 1.2rem; }
+        .page-footer .brand img { width: 40px; height: 40px; border-radius: 50%; }
+        .page-footer .links { display: flex; gap: 22px; }
+        .page-footer .links a { padding: 12px 0; }
+        .page-footer .brand { min-height: 44px; }
+
+        /* Answers and the fee split, moved here from Home */
+        .stop.solo { grid-template-columns: minmax(0, 1fr); }
+        .stop.solo > div { min-width: 0; }
+        .stop .intro { max-width: 34em; }
+        .ask-cards { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; max-width: 46em; }
+        .ask-cards li { background: #fff; border-radius: 20px; padding: 22px 22px 24px; border-top: 6px solid var(--sun); box-shadow: 0 14px 34px rgba(0, 32, 80, .10); font-size: 1.05rem; line-height: 1.45; color: #33445A; }
+        body.dark-mode .ask-cards li { background: #10244A; color: #C5D3E8; }
+        .fees { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 48px; align-items: start; margin-top: 32px; }
+        .scene { margin: 0; }
+        .scene-svg { display: block; width: 100%; height: auto; border-radius: 30px; box-shadow: 0 24px 50px rgba(0, 20, 40, .35); }
+        .scene-svg text { font-family: "Inter", system-ui, sans-serif; }
+        .scene-svg text.t { font-family: var(--display); }
+        .back { margin-top: 18px; font-size: 1.02rem; line-height: 1.5; color: var(--muted); max-width: 34em; }
+        .stop .fees-text p { font-size: 1.1rem; line-height: 1.6; margin-top: 16px; color: #33445A; max-width: none; }
+        .stop .fees-text p.status-pill { margin-top: 24px; }
+        .fees-text .tg { margin-top: 18px; }
+        .stop .fees-text .sticky { font-family: var(--display); font-weight: 600; font-size: 1.3rem; line-height: 1.35; color: var(--navy); margin-top: 0; padding-left: 18px; border-left: 5px solid var(--sun); }
+        .stop .fees-text .eg-title { margin-top: 28px; font-weight: 600; color: var(--navy); }
+        body.dark-mode .stop .fees-text p, body.dark-mode .back { color: #C5D3E8; }
+        body.dark-mode .stop .fees-text .sticky, body.dark-mode .stop .fees-text .eg-title { color: #fff; }
+        .tg { background: #0E1621; border: 1px solid rgba(142, 196, 250, .3); border-radius: 22px; padding: 16px; max-width: 460px; width: 100%; box-shadow: 0 26px 56px rgba(0, 0, 0, .34), 0 4px 10px rgba(0, 0, 0, .16); color: #E8EEF7; font-size: .95rem; line-height: 1.45; text-align: left; }
+        .tg .msg { background: #182533; border-radius: 16px 16px 16px 4px; overflow: hidden; }
+        .tg .msg + .msg, .tg .me + .msg, .tg .msg + .me { margin-top: 10px; }
+        .tg .msg img { display: block; width: 100%; height: auto; }
+        .tg .cap { padding: 12px 14px 15px; }
+        .tg .cap p { margin: 10px 0 0; color: inherit; font-size: inherit; line-height: inherit; max-width: none; }
+        .tg .cap p:first-child { margin-top: 0; }
+        .tg .cap b { color: #fff; }
+        .tg .cap .quiet { color: #A9B8CC; }
+        .tg .cap ul { margin: 8px 0 0 1.1em; padding: 0; }
+        .tg mark { background: rgba(254, 216, 1, .2); color: #fff; padding: 2px 6px; border-radius: 6px; display: block; margin: 2px -6px; }
+        .tg .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+        .tg .btn { background: #223A55; color: #8EC4FA; text-align: center; font-size: .9rem; font-weight: 600; padding: 10px 8px; border-radius: 10px; }
+        .tg .btn.wide { grid-column: 1 / -1; }
+        .tg .btn.pick { outline: 2px solid var(--sun); color: var(--sun); }
+        .tg .me { margin-left: auto; max-width: 86%; background: #2B5278; color: #fff; border-radius: 16px 16px 4px 16px; padding: 11px 14px; }
+        .tg .me .who { display: block; font-size: .8rem; color: #A9C7E8; margin-bottom: 3px; }
+        @media (max-width: 900px) { .ask-cards, .fees { grid-template-columns: 1fr; gap: 28px; } }
+        @media (max-width: 900px) {
+            .wrap { padding: 0 16px; }
+            .top { padding: 56px 0 130px; }
+            .top .flock { width: 200px; right: 4%; bottom: 36px; }
+            .rail { left: 44px; top: 19px; }
+            .stop { grid-template-columns: 1fr; gap: 26px; padding: 0 0 72px 58px; }
+            .stop::before { left: 12px; }
+            .here { left: -8px; width: 64px; top: -35px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .js .replay { visibility: hidden; }
+        }
+    </style>
+</head>
+<body class="road-page" data-theme-default="light">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="duck" viewBox="0 0 210 121"><path class="tail" d="M52,66 C40,63 28,58 17,49 C11,44 5,46 6,53 C8,67 17,80 30,88 C38,93 47,93 55,89 Z" fill="var(--duck-body,#FFCB2B)"/><g class="body"><path d="M22,82 C21,63 44,54 78,54 C104,54 124,58 146,61 C171,64 186,79 184,96 C182,111 163,119 128,119 L66,119 C39,119 23,105 22,82 Z" fill="var(--duck-body,#FFCB2B)"/><path d="M30,100 C42,111 62,115 92,115 L130,115 C155,115 171,111 180,103 C175,114 159,119 128,119 L66,119 C47,119 35,112 30,100 Z" fill="#000" opacity=".06"/><ellipse cx="96" cy="61" rx="28" ry="3.6" transform="rotate(-2 96 61)" fill="#fff" opacity=".24"/></g><g class="wing"><path d="M52,85 C57,71 80,65 104,68 C121,70 129,80 122,89 C114,98 94,101 77,98 C70,100 61,99 57,95 C51,94 49,90 52,85 Z" fill="var(--duck-wing,#F2B705)"/><path d="M66,88 C80,90 98,90 112,86" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="2.4" stroke-linecap="round"/></g><ellipse class="neck" cx="138" cy="66" rx="20" ry="14" fill="var(--duck-body,#FFCB2B)"/><g class="head"><path d="M119,50 C115,26 133,7 157,7 C181,7 197,25 194,48 C192,66 177,78 156,78 C136,78 122,68 119,50 Z" fill="var(--duck-body,#FFCB2B)"/><ellipse cx="143" cy="22" rx="13" ry="6" transform="rotate(-28 143 22)" fill="#fff" opacity=".32"/><path class="beak_bottom" d="M186,47 C195,47 203,48 207,50 C203,56 193,57 184,54 Z" fill="var(--duck-beak-low,var(--duck-beak,#1E5FAF))"/><path d="M186,47 C195,47 203,48 207,50 C203,56 193,57 184,54 Z" fill="#000" opacity=".14"/><path class="beak_top" d="M183,37 C193,33 205,36 209,43 C207,48 196,49 185,48 Z" fill="var(--duck-beak,#3A8CE0)"/><ellipse class="eye_white" cx="164" cy="30" rx="6.6" ry="7.4" fill="#fff"/><g class="pupil"><circle cx="165.6" cy="31" r="4.3" fill="#1B2A3A"/><circle cx="167.2" cy="29.2" r="1.4" fill="#fff"/></g></g></symbol></defs></svg>
+    <nav id="nav-container"></nav>
+    <div id="mobile-menu-container"></div>
+
+    <main>
+        <section class="top" data-flock-game="top" aria-labelledby="road-title">
+            <svg class="sea" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,50 C240,10 480,14 720,44 C960,74 1200,72 1440,34 L1440,120 L0,120 Z" fill="#2F6FC4"/><path d="M0,84 C300,58 560,66 820,82 C1080,98 1260,94 1440,72 L1440,120 L0,120 Z" fill="#1B4F9A"/></svg>
+            <svg class="flock" viewBox="0 0 520 120" aria-hidden="true" focusable="false"><use href="#duck" x="0" y="20" width="170" height="98"/><use href="#duck" x="185" y="46" width="130" height="75"/><use href="#duck" x="330" y="34" width="150" height="86"/></svg>
+            <div class="wrap">
+                <h1 id="road-title">Onde está o The&nbsp;Flock agora, e o que vem depois?</h1>
+            </div>
+        </section>
+
+        <div class="road">
+            <div class="wrap">
+                <div class="rail" aria-hidden="true"><i></i></div>
+                <section class="stop now" aria-labelledby="now-title">
+                    <div>
+                        <svg class="here" viewBox="0 0 210 121" aria-hidden="true" focusable="false"><use href="#duck" width="210" height="121"/></svg>
+                        <h2 id="now-title">O que os membros podem usar hoje?</h2>
+                        <p>Os membros pedem ajuda à sua equipe em privado. Eles conferem os rascunhos no X antes de publicar. Guardam também um histórico de ajuda com data, confirmado pela sua equipe.</p>
+                        <details class="more"><summary>O que funciona hoje</summary>
+                            <ul>
+                                <li>Pedidos privados, numerados, respondidos em um só chat da equipe</li>
+                                <li>Um resumo de segunda-feira no chat da equipe: quem fez o trabalho e o que ainda espera. O /overview mostra o resumo a qualquer hora</li>
+                                <li>Checagem de admins falsos, e um bot que nunca pede frase de recuperação</li>
+                                <li>Conferir minha resposta, o guia de respostas e a avaliação das postagens dos membros pela sua equipe</li>
+                                <li>Um Histórico com data, que os membros podem baixar ou apagar</li>
+                                <li>O resumo semanal e as postagens agendadas</li>
+                            </ul>
+                            <p><a href="/pt/how/">Como cada parte funciona</a></p>
+                        </details>
+                    </div>
+                    <figure class="pic">
+                        <svg class="tap wide" viewBox="0 0 520 300" role="img" aria-label="Animação: um pedido no chat da equipe. Alguém da equipe toca em Useful, e uma linha com data aparece no Histórico do membro: pedido 14 marcado como útil."><defs><linearGradient id="tbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E3F66"/><stop offset="1" stop-color="#132B47"/></linearGradient></defs><rect width="520" height="300" rx="26" fill="url(#tbg)"/><text x="26" y="40" font-size="15" fill="#A9C7E8">Your team chat</text><rect x="22" y="54" width="232" height="176" rx="16" fill="#182533"/><text x="38" y="86" font-size="16" font-weight="700" fill="#fff">🎫 Ticket #0014</text><text x="38" y="116" font-size="15" fill="#E8EEF7">The sign-up page froze</text><text x="38" y="137" font-size="15" fill="#E8EEF7">at the second step.</text><rect x="34" y="170" width="70" height="40" rx="9" fill="#223A55"/><text x="69.0" y="194.7" text-anchor="middle" font-size="13" font-weight="600" fill="#8EC4FA">Done</text><rect x="109" y="170" width="70" height="40" rx="9" fill="#223A55"/><text x="144.0" y="194.7" text-anchor="middle" font-size="13" font-weight="600" fill="#8EC4FA">Useful</text><g class="useful-on"><rect x="109" y="170" width="70" height="40" rx="9" fill="#2A3B22" stroke="#FED801" stroke-width="2.5"/><text x="144.0" y="194.7" text-anchor="middle" font-size="13" font-weight="700" fill="#FED801">⭐ Useful</text></g><circle class="ring" cx="144.0" cy="190.0" r="22" fill="none" stroke="#FED801" stroke-width="3"/><rect x="184" y="170" width="70" height="40" rx="9" fill="#223A55"/><text x="219.0" y="194.7" text-anchor="middle" font-size="13" font-weight="600" fill="#8EC4FA">Spam</text><path d="M262,140 L284,140" fill="none" stroke="#FED801" stroke-width="3" stroke-dasharray="4 7" stroke-linecap="round"/><path d="M278,132 L288,140 L278,148" fill="none" stroke="#FED801" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="298" y="40" font-size="15" fill="#A9C7E8">Chat da Ana com o bot</text><rect x="296" y="54" width="204" height="226" rx="16" fill="#F6F1E3"/><path d="M296,70 a16,16 0 0 1 16,-16 h172 a16,16 0 0 1 16,16 v20 h-204 z" fill="#2FA866"/><text x="398.0" y="79" text-anchor="middle" font-size="15" font-weight="700" fill="#fff" class="t">📜 History · Ana</text><g class="newline"><rect x="306" y="104" width="184" height="66" rx="10" fill="#FFF3B0"/><text x="318" y="126" font-size="13" fill="#5B6B80">04 Nov</text><text x="318" y="148" font-size="14" font-weight="700" fill="#12304F">🎫 Request #0014</text><text x="318" y="164" font-size="14" font-weight="700" fill="#12304F">marked useful</text></g><text x="318" y="196" font-size="13" fill="#5B6B80">18 Oct</text><text x="318" y="216" font-size="14" fill="#12304F">📤 Post reviewed: 👍 Good</text></svg>
+                        <svg class="tap tall" viewBox="0 0 320 470" role="img" aria-label="Animação: um pedido no chat da equipe. Alguém da equipe toca em Useful, e uma linha com data aparece no Histórico do membro: pedido 14 marcado como útil."><defs><linearGradient id="tbg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E3F66"/><stop offset="1" stop-color="#132B47"/></linearGradient></defs><rect width="320" height="470" rx="24" fill="url(#tbg2)"/><text x="22" y="34" font-size="16" fill="#A9C7E8">Your team chat</text><rect x="18" y="46" width="284" height="160" rx="16" fill="#182533"/><text x="34" y="80" font-size="18" font-weight="700" fill="#fff">🎫 Ticket #0014</text><text x="34" y="110" font-size="17" fill="#E8EEF7">The sign-up page froze.</text><rect x="30" y="138" width="82" height="46" rx="9" fill="#223A55"/><text x="71.0" y="166.4" text-anchor="middle" font-size="15" font-weight="600" fill="#8EC4FA">Done</text><rect x="120" y="138" width="82" height="46" rx="9" fill="#223A55"/><text x="161.0" y="166.4" text-anchor="middle" font-size="15" font-weight="600" fill="#8EC4FA">Useful</text><g class="useful-on"><rect x="120" y="138" width="82" height="46" rx="9" fill="#2A3B22" stroke="#FED801" stroke-width="2.5"/><text x="161.0" y="166.4" text-anchor="middle" font-size="15" font-weight="700" fill="#FED801">⭐ Useful</text></g><circle class="ring" cx="161.0" cy="161.0" r="22" fill="none" stroke="#FED801" stroke-width="3"/><rect x="210" y="138" width="82" height="46" rx="9" fill="#223A55"/><text x="251.0" y="166.4" text-anchor="middle" font-size="15" font-weight="600" fill="#8EC4FA">Spam</text><path d="M160,216 L160,236" fill="none" stroke="#FED801" stroke-width="3" stroke-dasharray="4 7" stroke-linecap="round"/><path d="M152,232 L160,242 L168,232" fill="none" stroke="#FED801" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="18" y="252" width="284" height="200" rx="16" fill="#F6F1E3"/><path d="M18,268 a16,16 0 0 1 16,-16 h252 a16,16 0 0 1 16,16 v20 h-284 z" fill="#2FA866"/><text x="160.0" y="277" text-anchor="middle" font-size="17" font-weight="700" fill="#fff" class="t">📜 History · Ana</text><g class="newline"><rect x="28" y="302" width="264" height="66" rx="10" fill="#FFF3B0"/><text x="40" y="324" font-size="15" fill="#5B6B80">04 Nov</text><text x="40" y="346" font-size="16" font-weight="700" fill="#12304F">🎫 Request #0014</text><text x="40" y="362" font-size="16" font-weight="700" fill="#12304F">marked useful</text></g><text x="40" y="394" font-size="15" fill="#5B6B80">18 Oct</text><text x="40" y="414" font-size="16" fill="#12304F">📤 Post reviewed: 👍 Good</text></svg>
+                        <figcaption>Tela do bot, em inglês. Alguém da equipe toca em Useful, e uma linha com data aparece no Histórico do membro.<button class="replay" type="button" data-for="tap">Reproduzir de novo</button></figcaption>
+                    </figure>
+                </section>
+
+                <section class="stop test" aria-labelledby="test-title">
+                    <div>
+                        <h2 id="test-title">O que estamos testando?</h2>
+                        <p>Os membros vão de uma postagem que vale responder até o X com um toque. Respondem com as próprias palavras e voltam ao bot para o feedback da sua equipe.</p>
+                        <details class="more"><summary>Também em teste</summary>
+                            <ul>
+                                <li>Treinamento para membros de confiança que avaliam postagens</li>
+                                <li>Relatórios de problema com o registro do próprio bot sobre o que deu errado</li>
+                            </ul>
+                        </details>
+                    </div>
+                    <figure class="pic">
+                        <svg class="loopx wide" viewBox="0 0 520 290" role="img" aria-label="Animação: uma postagem no bot vai ao X com um toque, recebe a resposta e volta ao bot, onde aparece a avaliação da equipe: Good."><defs><linearGradient id="xbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A3446"/><stop offset="1" stop-color="#1A2230"/></linearGradient></defs><rect width="520" height="290" rx="26" fill="url(#xbg)"/><rect x="30" y="100" width="150" height="110" rx="18" fill="#182533"/><text x="105" y="136" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">No bot</text><text x="105" y="164" text-anchor="middle" font-size="15" fill="#A9B8CC">Uma postagem que vale</text><text x="105" y="184" text-anchor="middle" font-size="15" fill="#A9B8CC">responder</text><path class="trail" d="M180,120 C204,120 200,72 222,72 L298,72 C320,72 316,120 340,120" pathLength="1" fill="none" stroke="#FED801" stroke-width="3.5" stroke-linecap="round"/><rect x="214" y="30" width="92" height="84" rx="20" fill="#000"/><text x="260" y="86" text-anchor="middle" font-size="44" font-weight="700" fill="#fff">X</text><text x="260" y="146" text-anchor="middle" font-size="15" fill="#C9D3E0">Você responde em</text><text x="260" y="166" text-anchor="middle" font-size="15" fill="#C9D3E0">com as suas palavras</text><rect x="340" y="100" width="150" height="110" rx="18" fill="#182533"/><text x="415" y="136" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">De volta ao bot</text><text x="415" y="164" text-anchor="middle" font-size="15" fill="#A9B8CC">Sua equipe avalia</text><g class="grade"><rect x="368" y="176" width="94" height="24" rx="12" fill="#2FA866"/><text x="415" y="193" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">👍 Good</text></g><text x="105" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#FED801" class="t">↩️ Reply on X</text><text x="415" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#FED801" class="t">📤 I replied</text><use href="#duck" width="54" height="31" x="313" y="88"></use></svg>
+                        <svg class="loopx tall" viewBox="0 0 320 450" role="img" aria-label="Animação: uma postagem no bot vai ao X com um toque, recebe a resposta e volta ao bot, onde aparece a avaliação da equipe: Good."><defs><linearGradient id="xbg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A3446"/><stop offset="1" stop-color="#1A2230"/></linearGradient></defs><rect width="320" height="450" rx="24" fill="url(#xbg2)"/><rect x="20" y="24" width="280" height="94" rx="18" fill="#182533"/><text x="38" y="62" font-size="18" font-weight="700" fill="#fff">No bot</text><text x="38" y="92" font-size="16" fill="#A9B8CC">Uma postagem que vale responder</text><path class="trail" d="M96,132 L96,316" pathLength="1" fill="none" stroke="#FED801" stroke-width="3.5" stroke-linecap="round"/><rect x="50" y="180" width="92" height="90" rx="20" fill="#000"/><text x="96" y="240" text-anchor="middle" font-size="44" font-weight="700" fill="#fff">X</text><text x="160" y="218" font-size="16" fill="#C9D3E0">Você responde em</text><text x="160" y="240" font-size="16" fill="#C9D3E0">com as suas palavras</text><rect x="20" y="330" width="280" height="100" rx="18" fill="#182533"/><text x="38" y="366" font-size="18" font-weight="700" fill="#fff">De volta ao bot</text><text x="38" y="396" font-size="16" fill="#A9B8CC">Sua equipe avalia</text><g class="grade"><rect x="196" y="380" width="92" height="28" rx="14" fill="#2FA866"/><text x="242" y="399" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">👍 Good</text></g><text x="116" y="156" font-size="16" font-weight="700" fill="#FED801" class="t">↩️ Reply on X</text><text x="116" y="306" font-size="16" font-weight="700" fill="#FED801" class="t">📤 I replied</text><use href="#duck" width="54" height="31" x="69" y="300"></use></svg>
+                        <figcaption>Animação: uma postagem no bot vai ao X com um toque e volta ao bot, com a avaliação da equipe.<button class="replay" type="button" data-for="loopx">Reproduzir de novo</button></figcaption>
+                    </figure>
+                </section>
+
+                <section class="stop dev solo" aria-labelledby="ask-title">
+                    <div>
+                        <p class="status-pill">Em desenvolvimento</p>
+                        <h2 id="ask-title">Respostas que a sua equipe pode conferir</h2>
+                        <ul class="ask-cards">
+                            <li>O assistente responde só com textos que a sua equipe aprovou. A resposta de um membro entra nessa lista quando ele diz que concorda e alguém da equipe aprova.</li>
+                            <li>Cada resposta mostra o trecho de onde veio e a data desse texto.</li>
+                            <li>Quando nenhum texto responde a uma pergunta, ela vai para uma pessoa da sua equipe.</li>
+                            <li>Edite ou retire um texto, e o assistente deixa de usar a versão antiga.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="stop plan" aria-labelledby="plan-title">
+                    <div>
+                        <p class="status-pill">Planejado</p>
+                        <h2 id="plan-title">O que vem depois?</h2>
+                        <p>Um coach com IA ajuda os membros a escrever com as próprias palavras. Os membros recebem pontos por ajuda que a sua equipe confirmou. Os pontos que já estão no Histórico de um membro vêm de uma versão anterior do bot.</p>
+                        <details class="more"><summary>Mais sobre o que vem depois</summary>
+                            <ul>
+                                <li>Zeal: a posição de um membro, construída com a ajuda que outras pessoas confirmaram</li>
+                                <li>Uma versão do The Flock só sua, com o nome da sua comunidade</li>
+                                <li>Provas que confirmam algo sobre um membro sem mostrar os detalhes</li>
+                                                            </ul>
+                        </details>
+                    </div>
+                    <figure class="pic">
+                        <svg viewBox="0 0 520 320" role="img" aria-label="Desenho: uma lagoa marcada com uma linha amarela tracejada, ainda vazia, com três patos esperando do lado de fora e um farol na praia.">
+                            <defs><linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7D774"/><stop offset=".5" stop-color="#F2B257"/><stop offset="1" stop-color="#E0874A"/></linearGradient></defs>
+                            <rect width="520" height="320" rx="26" fill="url(#pbg)"/>
+                            <circle cx="300" cy="96" r="46" fill="#FFF1A6"/>
+                            <path d="M0,196 C120,176 230,198 340,188 C430,180 480,190 520,184 L520,320 L0,320Z" fill="#2B6FAE"/>
+                            <path d="M0,236 C140,222 260,246 380,236 C450,230 490,240 520,234 L520,320 L0,320Z" fill="#1F558C"/>
+                            <path d="M0,280 C130,268 260,290 390,280 C460,274 500,284 520,278 L520,320 L0,320Z" fill="#12304F"/>
+                            <ellipse cx="290" cy="252" rx="150" ry="38" fill="rgba(255,255,255,.1)" stroke="#FED801" stroke-width="3" stroke-dasharray="9 9"/>
+                            <rect x="404" y="120" width="34" height="82" rx="4" fill="#fff"/><rect x="404" y="140" width="34" height="12" fill="#E5604F"/><rect x="404" y="168" width="34" height="12" fill="#E5604F"/>
+                            <path d="M398,120 L444,120 L421,98 Z" fill="#12304F"/>
+                                                        <use href="#duck" x="22" y="164" width="62" height="36"/>
+                            <use href="#duck" x="86" y="172" width="50" height="29"/>
+                            <use href="#duck" x="138" y="168" width="56" height="32"/>
+                        </svg>
+                    </figure>
+                </section>
+
+                <section class="stop now solo" aria-labelledby="fees-title">
+                    <div>
+                        <h2 id="fees-title">Como a Arctide divide as taxas de negociação do seu token</h2>
+                <p class="intro">Se o seu token for negociado na Arctide, cada negociação paga uma taxa em USDC, e você define parte da divisão.</p>
+                        <div class="fees">
+                    <figure class="scene" id="flow">
+<svg class="scene-svg" id="fee-svg" viewBox="0 0 560 880" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Desenho de como a Arctide divide a taxa de uma negociação. Alguém negocia o seu token na Arctide. A taxa é paga em USDC. O roteador da Arctide divide a taxa na mesma transação em três partes: provedores de liquidez, a carteira ou o contrato do seu projeto, e 0,25% para a Arctide. Um fundo de recompensas e gorjetas planejado, para membros cuja ajuda a sua equipe confirmou, fica embaixo da parte do seu projeto.">
+<defs>
+  <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#37B88C"/><stop offset=".55" stop-color="#25986F"/><stop offset="1" stop-color="#17704F"/></linearGradient>
+  <clipPath id="fclip"><rect width="560" height="880" rx="30"/></clipPath>
+</defs>
+<g clip-path="url(#fclip)">
+<rect width="560" height="880" fill="url(#fsky)"/>
+<circle cx="478" cy="86" r="44" fill="#FED801"/>
+<path d="M0,170 C90,130 170,150 250,168 C340,186 430,150 560,160 L560,260 L0,260Z" fill="#43C195" opacity=".55"/>
+<path d="M0,215 C120,185 210,215 330,206 C430,198 500,190 560,206 L560,300 L0,300Z" fill="#2E9A6C" opacity=".7"/>
+<g><rect x="30.0" y="36" width="400" height="48" rx="24.0" fill="#fff"/><text x="230" y="66.8" text-anchor="middle" font-size="19" font-weight="600" fill="#12304F" class="t">Alguém negocia o seu token na Arctide</text></g>
+<rect x="196" y="150" width="168" height="14" rx="5" fill="#B7793B"/><rect x="208" y="164" width="9" height="22" fill="#8F5C28"/><rect x="343" y="164" width="9" height="22" fill="#8F5C28"/>
+<use class="duck bob" href="#duck" x="214" y="108" width="74" height="42.6" style="" opacity="1"/>
+<g><circle cx="322" cy="140" r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><circle cx="338" cy="142" r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/></g>
+<path d="M280,190 L280,306" fill="none" stroke="#7CC8F0" stroke-width="62" stroke-linecap="round"/><path d="M280,190 L280,306" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/>
+<g><rect x="318.0" y="216" width="224" height="38" rx="19.0" fill="#fff"/><text x="430" y="241.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">A taxa é paga em USDC</text></g>
+<g class="fc fc-in" transform="translate(280 190) scale(1.4)" opacity="0"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g>
+<path d="M170,394 C170,430 105,436 105,484" fill="none" stroke="#7CC8F0" stroke-width="30" stroke-linecap="round"/><path d="M170,394 C170,430 105,436 105,484" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/><path d="M280,394 L280,486" fill="none" stroke="#7CC8F0" stroke-width="54" stroke-linecap="round"/><path d="M280,394 L280,486" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/><path d="M390,394 C390,430 465,436 465,484" fill="none" stroke="#7CC8F0" stroke-width="20" stroke-linecap="round"/><path d="M390,394 C390,430 465,436 465,484" fill="none" stroke="#DDF2FD" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" class="ripple"/>
+<g class="router"><rect x="110" y="306" width="340" height="88" rx="20" fill="#12304F"/><rect x="110" y="306" width="340" height="12" rx="6" fill="#FED801"/><rect class="lamp" x="110" y="306" width="340" height="12" rx="6" fill="#FFFBE0" opacity="0"/><text x="280" y="347" text-anchor="middle" font-size="23" font-weight="700" fill="#fff" class="t">Roteador da Arctide</text><text x="280" y="374" text-anchor="middle" font-size="17" fill="#BFD9F2">divide a taxa em uma transação</text>
+<rect x="148" y="388" width="44" height="12" rx="4" fill="#FED801"/>
+<rect x="258" y="388" width="44" height="12" rx="4" fill="#FED801"/>
+<rect x="368" y="388" width="44" height="12" rx="4" fill="#FED801"/></g>
+<ellipse cx="100" cy="548" rx="84" ry="52" fill="#7CC8F0"/>
+<use class="duck bob b1" href="#duck" x="48" y="520" width="56" height="32.3" style="" opacity="1"/><g transform="translate(156 538) scale(-1 1)"><use class="duck bob b2" href="#duck" x="0" y="0" width="50" height="28.8" style="" opacity="1"/></g>
+<g><rect x="11.0" y="608" width="178" height="36" rx="18.0" fill="#fff"/><text x="100" y="632.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">Provedores de liquidez</text></g>
+<text x="100" y="664" text-anchor="middle" font-size="17" fill="#fff">A parte deles</text>
+<ellipse cx="465" cy="548" rx="76" ry="52" fill="#7CC8F0"/>
+<image href="/assets/flock/badge.png" x="436" y="518" width="58" height="58"/>
+<g><rect x="407.0" y="608" width="116" height="36" rx="18.0" fill="#fff"/><text x="465" y="632.1" text-anchor="middle" font-size="17" font-weight="600" fill="#12304F" class="t">Arctide</text></g>
+<text x="465" y="664" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" class="t">0,25%</text>
+<rect x="192" y="486" width="176" height="176" rx="48" fill="#7CC8F0" stroke="#FED801" stroke-width="5"/>
+<text x="280" y="534" text-anchor="middle" font-size="21" font-weight="700" fill="#12304F" class="t pj">Seu projeto</text><text x="280" y="566" text-anchor="middle" font-size="17" fill="#12304F">A parte que você define,</text><text x="280" y="586" text-anchor="middle" font-size="17" fill="#12304F">para a sua carteira</text><text x="280" y="606" text-anchor="middle" font-size="17" fill="#12304F">ou contrato</text>
+<g><circle cx="248" cy="636" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/><circle cx="280" cy="640" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/><circle cx="312" cy="636" r="10" fill="#fff" stroke="#2775CA" stroke-width="4"/></g>
+<g fill="none" stroke="#fff" stroke-width="3"><ellipse class="ring" opacity="0" cx="100" cy="548" rx="84" ry="52"/><rect class="ring" opacity="0" x="192" y="486" width="176" height="176" rx="48"/><ellipse class="ring" opacity="0" cx="465" cy="548" rx="76" ry="52"/></g>
+<g class="fc fc-out" transform="translate(112 508) scale(1.15)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><g class="fc fc-out" transform="translate(280 500) scale(1.4)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g><g class="fc fc-out" transform="translate(465 505) scale(0.8)"><circle r="11" fill="#fff" stroke="#2775CA" stroke-width="4.5"/><text y="4.6" text-anchor="middle" font-size="12" font-weight="700" fill="#2775CA" class="t">$</text></g>
+<path d="M280,664 L280,722" fill="none" stroke="#FED801" stroke-width="4" stroke-linecap="round" stroke-dasharray="3 11"/>
+<ellipse cx="280" cy="790" rx="190" ry="70" fill="rgba(255,255,255,.14)" stroke="#FED801" stroke-width="3" stroke-dasharray="9 9"/>
+<g class="fc-ghost" transform="translate(280 668)" opacity="0"><circle r="14" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 3.5"/></g>
+<text x="280" y="778" text-anchor="middle" font-size="21" font-weight="700" fill="#fff" class="t">Um fundo de recompensas e gorjetas</text><text x="280" y="804" text-anchor="middle" font-size="17" fill="#E6F6EE">para membros cuja ajuda</text><text x="280" y="824" text-anchor="middle" font-size="17" fill="#E6F6EE">a sua equipe confirmou</text>
+<use class="duck " href="#duck" x="120" y="768" width="54" height="31.1" style="" opacity="0.55"/><g transform="translate(440 768) scale(-1 1)"><use class="duck " href="#duck" x="0" y="0" width="54" height="31.1" style="" opacity="0.55"/></g>
+<path d="M0,846 C90,830 180,858 280,846 C380,834 470,858 560,842 L560,880 L0,880Z" fill="#1B5F8C"/><path d="M0,862 C110,850 200,872 300,862 C400,852 480,872 560,860 L560,880 L0,880Z" fill="#12304F"/>
+</g></svg>
+<figcaption class="back">Membros com ajuda reconhecida explicam melhor o projeto, e mais pessoas o encontram.</figcaption>
+</figure>
+                    <div class="fees-text">
+                        <p class="sticky">A parte do seu projeto vai direto para a sua carteira ou contrato. Ninguém a guarda nem desvia no caminho.</p>
+                        <p class="status-pill">Planejado</p>
+                        <p>Seu projeto separa parte da sua fatia da taxa como fundo de recompensas. Os membros cuja ajuda a sua equipe confirmou resgatam recompensas desse fundo com os seus pontos. Postagens no X nunca somam pontos, e ninguém recebe por postagem.</p>
+                        <p class="eg-title">Um exemplo que funciona hoje: o token da própria Arctide, o TIDE. Quem faz staking do TIDE resgata TIDE e USDC no arctide.app, e o The Flock mostra a posição de cada membro.</p>
+                        <div class="tg" role="img" aria-label="Tela de staking do bot: vincule o endereço da sua carteira para ver o que você tem em staking, quando libera e o TIDE e USDC que você pode resgatar">
+                            <div class="msg">
+                                <img src="/assets/flock/screens/staking.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                <div class="cap">
+                                    <p><b>🌊 Your $TIDE staking</b></p>
+                                    <p>Link your wallet address to see your staking position here: what you have staked, when it unlocks, and the TIDE + USDC you can claim.</p>
+                                    <p>Only your public address is needed. Never send a seed phrase or private key: nobody from Arctide will ever ask for it.</p>
+                                    <p>Staking, claiming and withdrawing happen on arctide.app, signed by your own wallet.</p>
+                                </div>
+                            </div>
+                            <div class="btns"><span class="btn">🔗 Link my wallet</span><span class="btn">🌐 Open arctide.app ↗</span></div>
+                        </div>
+                        <p class="back">Tela do bot, em inglês. Mostra o staking de um membro, com o endereço da carteira vinculada.</p>
+                    </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <section class="finish" aria-labelledby="try-title">
+            <div class="wrap">
+                <h2 id="try-title">Experimente o que funciona hoje.</h2>
+                <p>Abra o bot e toque em Iniciar para ver como os seus membros veem.</p>
+                <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer" aria-label="Rodapé do site">
+        <div class="wrap">
+            <a class="brand" href="/pt/"><img src="/bonzi-logo.png?v=20261104" alt="" width="40" height="40"><span>The Flock</span></a>
+            <div class="links"><a href="/pt/privacy/">Seus dados</a><a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a></div>
+        </div>
+    </footer>
+
+    <script>document.documentElement.classList.add('js');</script>
+</body>
+</html>
