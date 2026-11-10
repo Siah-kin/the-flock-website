@@ -3,84 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Not Found | The Flock</title>
+    <title>The Flock | Page not found</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="/assets/flock/favicon-duck-tongue.png?v=20261109" type="image/png">
+    <link rel="stylesheet" href="/css/nav.css?v=20261110hyg2">
     <link rel="stylesheet" href="/css/bonzi-design.css">
+    <link rel="stylesheet" href="/css/motion.css?v=20261109play3">
+    <link rel="stylesheet" href="/css/flock-scenes.css?v=20261109scenes1">
+    <script src="/js/nav-loader.js?v=20261110hyg3" defer></script>
+    <script src="/js/flock-motion.js?v=20261110hyg6" defer></script>
+    <script src="/js/flock-sound.js?v=20261109play3" defer></script>
     <style>
-        body {
-            background: var(--black, #0A0A0A);
-            color: #FAFAFA;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .gate {
-            text-align: center;
-            padding: 2rem;
-        }
-        .gate img {
-            width: 96px;
-            margin-bottom: 2rem;
-        }
-        .gate p {
-            text-align: center;
-            color: var(--gray, #71717A);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            max-width: 320px;
-            margin: 0 auto 1rem;
-        }
-        .gate-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .gate a {
-            display: inline-block;
-            margin-top: 0.5rem;
-            color: var(--purple-light, #5AA0E6);
-            font-weight: 700;
-            text-decoration: none;
+        @font-face { font-family: "Fredoka"; src: url("/assets/fonts/fredoka-latin.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
+        :root { --navy: #002050; --blue: #0058A8; --sky: #7CC8F0; --sun: #FED801; --ink: #0E1B33; --display: "Fredoka", "Inter", system-ui, sans-serif; }
+        .road-page { background: #fff; color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; }
+        body.dark-mode.road-page { background: #08142B; color: #E7EEF9; }
+        .road-page h1 { font-family: var(--display); text-wrap: balance; }
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+        main { flex: 1; display: flex; flex-direction: column; }
+
+        /* The same opening as the other pages: sky, sea and the flock. Here the last wave is the footer's navy, so the page ends in one piece. */
+        .top { position: relative; overflow: hidden; flex: 1; color: #fff; background: linear-gradient(180deg, #004A94 0%, #0058A8 70%, #1F68B8 100%); padding: 84px 0 200px; isolation: isolate; }
+        .top h1 { font-weight: 700; font-size: clamp(2.2rem, 4.2vw, 3.4rem); line-height: 1.08; max-width: 16em; }
+        .top p { margin-top: 20px; font-size: 1.22rem; line-height: 1.6; max-width: 34em; color: #fff; }
+        .top .sea { position: absolute; left: 0; bottom: 0; width: 100%; height: 120px; z-index: -1; }
+        .top .flock { position: absolute; right: 7%; bottom: 46px; width: 300px; height: auto; z-index: -1; }
+        .doors { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+        .doors a { display: inline-block; background: #fff; color: var(--navy); font-family: var(--display); font-weight: 600; font-size: 1.1rem; padding: 12px 22px; border-radius: 999px; text-decoration: none; }
+        .doors a:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; }
+
+        .page-footer { background: #001536; color: #fff; padding: 28px 0 32px; }
+        .page-footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; justify-content: space-between; }
+        .page-footer a { color: #fff; text-decoration: none; font-weight: 600; }
+        .page-footer .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 1.2rem; min-height: 44px; }
+        .page-footer .brand img { width: 40px; height: 40px; border-radius: 50%; }
+        .page-footer .links { display: flex; gap: 22px; }
+        .page-footer .links a { padding: 12px 0; }
+
+        @media (max-width: 900px) {
+            .wrap { padding: 0 16px; }
+            .top { padding: 56px 0 170px; }
+            .top .flock { width: 200px; right: 4%; bottom: 36px; }
         }
     </style>
-    <link rel="stylesheet" href="/css/nav.css?v=20261110hyg2">
-    <link rel="stylesheet" href="/css/flock-theme.css">
-    <script src="/js/nav-loader.js?v=20261110hyg3" defer></script>
 </head>
-<body class="dark-mode">
-<nav id="nav-container"></nav>
-<div id="mobile-menu-container"></div>
-    <div class="gate" id="gate">
-        <img src="/bonzi-logo.png" alt="The Flock">
-        <p>This page is not available. It may be unpublished, renamed, or still being prepared.</p>
-        <div class="gate-actions">
-            <a href="/">Return to intro</a>
-            <a href="/now/">Open roadmap</a>
+<body class="road-page" data-theme-default="light">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="duck" viewBox="0 0 210 121"><path class="tail" d="M52,66 C40,63 28,58 17,49 C11,44 5,46 6,53 C8,67 17,80 30,88 C38,93 47,93 55,89 Z" fill="var(--duck-body,#FFCB2B)"/><g class="body"><path d="M22,82 C21,63 44,54 78,54 C104,54 124,58 146,61 C171,64 186,79 184,96 C182,111 163,119 128,119 L66,119 C39,119 23,105 22,82 Z" fill="var(--duck-body,#FFCB2B)"/><path d="M30,100 C42,111 62,115 92,115 L130,115 C155,115 171,111 180,103 C175,114 159,119 128,119 L66,119 C47,119 35,112 30,100 Z" fill="#000" opacity=".06"/><ellipse cx="96" cy="61" rx="28" ry="3.6" transform="rotate(-2 96 61)" fill="#fff" opacity=".24"/></g><g class="wing"><path d="M52,85 C57,71 80,65 104,68 C121,70 129,80 122,89 C114,98 94,101 77,98 C70,100 61,99 57,95 C51,94 49,90 52,85 Z" fill="var(--duck-wing,#F2B705)"/><path d="M66,88 C80,90 98,90 112,86" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="2.4" stroke-linecap="round"/></g><ellipse class="neck" cx="138" cy="66" rx="20" ry="14" fill="var(--duck-body,#FFCB2B)"/><g class="head"><path d="M119,50 C115,26 133,7 157,7 C181,7 197,25 194,48 C192,66 177,78 156,78 C136,78 122,68 119,50 Z" fill="var(--duck-body,#FFCB2B)"/><ellipse cx="143" cy="22" rx="13" ry="6" transform="rotate(-28 143 22)" fill="#fff" opacity=".32"/><path class="beak_bottom" d="M186,47 C195,47 203,48 207,50 C203,56 193,57 184,54 Z" fill="var(--duck-beak-low,var(--duck-beak,#1E5FAF))"/><path d="M186,47 C195,47 203,48 207,50 C203,56 193,57 184,54 Z" fill="#000" opacity=".14"/><path class="beak_top" d="M183,37 C193,33 205,36 209,43 C207,48 196,49 185,48 Z" fill="var(--duck-beak,#3A8CE0)"/><ellipse class="eye_white" cx="164" cy="30" rx="6.6" ry="7.4" fill="#fff"/><g class="pupil"><circle cx="165.6" cy="31" r="4.3" fill="#1B2A3A"/><circle cx="167.2" cy="29.2" r="1.4" fill="#fff"/></g></g></symbol></defs></svg>
+    <nav id="nav-container"></nav>
+    <div id="mobile-menu-container"></div>
+
+    <main>
+        <section class="top" aria-labelledby="lost-title">
+            <svg class="sea" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,50 C240,10 480,14 720,44 C960,74 1200,72 1440,34 L1440,120 L0,120 Z" fill="#2F6FC4"/><path d="M0,84 C300,58 560,66 820,82 C1080,98 1260,94 1440,72 L1440,120 L0,120 Z" fill="#001536"/></svg>
+            <svg class="flock" viewBox="0 0 520 120" aria-hidden="true" focusable="false"><use href="#duck" x="0" y="20" width="170" height="98"/><use href="#duck" x="185" y="46" width="130" height="75"/><use href="#duck" x="330" y="34" width="150" height="86"/></svg>
+            <div class="wrap">
+                <h1 id="lost-title">We can’t find that page.</h1>
+                <p>The link may be old, or the address has a typo. Start from one of these.</p>
+                <div class="doors">
+                    <a href="/">Home</a>
+                    <a href="/how/">How to use the bot</a>
+                    <a href="/now/">Where it is now</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer" aria-label="Site footer">
+        <div class="wrap">
+            <a class="brand" href="/"><img src="/bonzi-logo.png?v=20261104" alt="" width="40" height="40"><span>The Flock</span></a>
+            <div class="links"><a href="/privacy/">Your data</a><a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a></div>
         </div>
-    </div>
-<footer class="site-footer bonzi-branded-footer" aria-label="Site footer">
-    <div class="footer-cto-row">
-        <span>CTO</span>
-        <span class="footer-pipe" aria-hidden="true">|</span>
-        <a href="/">
-            <img src="/bonzi-logo.png" alt="" width="24" height="24">
-            <span>The Flock</span>
-        </a>
-    </div>
-    <div class="footer-sponsor-row">
-        <span>Partner</span>
-        <span class="footer-pipe" aria-hidden="true">|</span>
-        <a href="https://arctide.app/" target="_blank" rel="noopener noreferrer">
-            <img src="/assets/partners/arctide.png" alt="" width="24" height="24">
-            <span>Arctide.app</span>
-        </a>
-    </div>
-    <div class="footer-legal-row">
-        <a href="/privacy/">Your data</a>
-    </div>
-</footer>
+    </footer>
 </body>
 </html>
