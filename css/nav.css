@@ -152,34 +152,6 @@ body.dark-mode .nav-divider {
     align-items: center;
 }
 
-.nav-lang-select { display: none; } /* replaced by flag buttons */
-
-.nav-lang-flags {
-    display: flex;
-    align-items: center;
-    gap: 1px;
-}
-.nav-lang-flags button {
-    background: none;
-    border: none;
-    padding: 3px 6px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    border-radius: 0;
-    opacity: 0.75;
-    transition: opacity 0.15s, color 0.15s;
-    line-height: 1;
-    color: var(--black);
-    letter-spacing: 0.01em;
-}
-body.dark-mode .nav-lang-flags button { color: #fff; }
-.nav-lang-flags button:hover { opacity: 1; color: #0058A8; }
-body.dark-mode .nav-lang-flags button:hover { color: #5AA0E6; }
-.nav-lang-flags button.active { opacity: 1; color: #0058A8; box-shadow: 0 2px 0 0 #0058A8; }
-body.dark-mode .nav-lang-flags button.active { color: #5AA0E6; box-shadow: 0 2px 0 0 #5AA0E6; }
-
 .theme-toggle {
     background: transparent;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -482,43 +454,7 @@ body.dark-mode .menu-gated {
     .nav-links { display: none; }
     .nav-connect-btn { padding: 8px 14px; font-size: 13px; }
     .hamburger { display: flex; }
-    .nav-lang-flags { display: none; } /* flags move into the mobile menu at this breakpoint */
 }
-
-/* Tablet - hide language selector */
-@media (max-width: 900px) {
-    .nav-lang-select { display: none; }
-}
-
-/* Mobile menu language flags */
-.mobile-lang-flags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 14px 20px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    margin-top: 8px;
-}
-.mobile-lang-flags button {
-    background: rgba(0,0,0,0.05);
-    border: 1px solid rgba(0,0,0,0.12);
-    color: var(--black);
-    padding: 6px 12px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 0;
-    font-family: inherit;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-.mobile-lang-flags button:hover { background: rgba(0,88,168,0.08); color: #0058A8; border-color: rgba(0,88,168,0.3); }
-.mobile-lang-flags button.active { background: #0058A8; border-color: #0058A8; color: #fff; }
-body.dark-mode .mobile-lang-flags button { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: #fff; }
-body.dark-mode .mobile-lang-flags button:hover { background: rgba(0,88,168,0.2); color: #5AA0E6; border-color: rgba(0,88,168,0.4); }
-body.dark-mode .mobile-lang-flags button.active { background: #0058A8; border-color: #0058A8; color: #fff; }
 
 /* Mobile - reduce logo size */
 @media (max-width: 600px) {
@@ -609,9 +545,3 @@ body.dark-mode .mobile-lang-flags button.active { background: #0058A8; border-co
     opacity: 0.5;
     cursor: not-allowed;
 }
-
-/* English only for now (The Flock rebrand, 3 Nov 2026) */
-.nav-lang-flags{display:none!important}
-
-/* English only for now (The Flock rebrand) */
-.lang-flags,.nav-lang-flags,.mobile-lang-flags{display:none!important}

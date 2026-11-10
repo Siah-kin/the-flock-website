@@ -1,4 +1,11 @@
 (() => {
+    // English only: the page language is always "en", and an old saved language choice is cleared on load.
+    document.documentElement.lang = 'en';
+    ['bonzi_lang', 'bonzi-lang', 'bonzi_site_lang'].forEach((k) => {
+        try { localStorage.removeItem(k); } catch (e) {}
+        try { sessionStorage.removeItem(k); } catch (e) {}
+    });
+
     const PRIVATE_ACCESS_SESSION_KEY = 'bonzi_private_access';
     const THEME_KEY = 'bonzi_theme';
     const LEGACY_THEME_KEY = 'bonzi-theme';
@@ -17,7 +24,7 @@
         const prefix = getPathPrefix();
 
         try {
-            const _v = '20260703full6';
+            const _v = '20261110hyg1';
         const [navRes, menuRes] = await Promise.all([
                 fetch(prefix + 'includes/nav.html?v=' + _v),
                 fetch(prefix + 'includes/mobile-menu.html?v=' + _v)
@@ -37,9 +44,7 @@
             initDevMode();
             initNavInteractions();
             initMobileMenu();
-            initLanguageSelect();
             initContactLinks();
-            // initBrazilButton(); // disabled 2026-05-29: operator request, language switching now uses nav lang-select uniformly
 
             document.dispatchEvent(new CustomEvent('nav:loaded'));
         } catch (err) {
@@ -329,143 +334,6 @@
         document.body.classList.toggle('light-mode', !isDark);
         localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
         localStorage.setItem(LEGACY_THEME_KEY, isDark ? 'dark' : 'light');
-    }
-
-    // Per-page i18n: pages that provide a window.BONZI_I18N dict of
-    // { lang: { "data-i18n-key": "translated string" } } get in-place
-    // translation via flag clicks. Pages without a dict: flags click but
-    // content stays in English (graceful degradation — no GT redirect ever).
-    var _i18nOrigText = {};
-
-    function _i18nCacheOrig() {
-        document.querySelectorAll('[data-i18n]').forEach(function(el) {
-            var k = el.getAttribute('data-i18n');
-            if (_i18nOrigText[k] == null) _i18nOrigText[k] = el.innerHTML;
-        });
-    }
-
-    // Central JSON cache (i18n/{lang}.json). Authority source for unified pages.
-    var _i18nCentralCache = {};
-
-    function _i18nBasePath() {
-        var segs = window.location.pathname.split('/').filter(function(s) {
-            return s && !s.endsWith('.html');
-        });
-        return segs.length === 0 ? './' : '../'.repeat(segs.length);
-    }
-
-    function _i18nLoadCentral(lang) {
-        if (_i18nCentralCache[lang] !== undefined) {
-            return Promise.resolve(_i18nCentralCache[lang]);
-        }
-        return fetch(_i18nBasePath() + 'i18n/' + lang + '.json?_v=20260703full6')
-            .then(function(r) { return r.ok ? r.json() : null; })
-            .then(function(j) { _i18nCentralCache[lang] = j || null; return _i18nCentralCache[lang]; })
-            .catch(function() { _i18nCentralCache[lang] = null; return null; });
-    }
-
-    // Central JSON is authority; per-page BONZI_I18N dict is fallback during
-    // migration. Dict-only pages (no central keys) keep working unchanged.
-    function _i18nApply(lang) {
-        var dict = (window.BONZI_I18N && window.BONZI_I18N[lang]) || {};
-        _i18nLoadCentral(lang).then(function(central) {
-            central = central || {};
-            document.documentElement.lang = lang;
-            document.querySelectorAll('[data-i18n]').forEach(function(el) {
-                var k = el.getAttribute('data-i18n');
-                var v = (central[k] != null) ? central[k] : dict[k];
-                if (v != null) el.innerHTML = v;
-            });
-        });
-    }
-
-    function _i18nRestoreEn() {
-        document.documentElement.lang = 'en';
-        document.querySelectorAll('[data-i18n]').forEach(function(el) {
-            var k = el.getAttribute('data-i18n');
-            if (_i18nOrigText[k] != null) el.innerHTML = _i18nOrigText[k];
-        });
-    }
-
-    function _i18nSetActive(lang) {
-        // sync active state across both the desktop nav flags and the mobile menu flags
-        document.querySelectorAll('#nav-lang-flags button, .mobile-lang-flags button').forEach(function(b) {
-            b.classList.toggle('active', b.getAttribute('data-lang') === lang);
-        });
-    }
-
-    function _siteLangToken(lang) {
-        if (lang === 'pt') return 'pt-br';
-        if (lang === 'zh') return 'zh-cn';
-        return lang;
-    }
-
-    function _normaliseSavedLang(raw) {
-        var lang = String(raw || '').trim().toLowerCase().replace(/_/g, '-');
-        if (lang === 'pt-br' || lang === 'pt' || lang.slice(0, 2) === 'pt') return 'pt';
-        if (lang === 'zh-cn' || lang === 'zh' || lang === 'mandarin' || lang.slice(0, 2) === 'zh') return 'zh';
-        if (lang === 'fr' || lang.slice(0, 2) === 'fr') return 'fr';
-        if (lang === 'ru' || lang.slice(0, 2) === 'ru') return 'ru';
-        if (lang === 'tr' || lang.slice(0, 2) === 'tr') return 'tr';
-        return 'en';
-    }
-
-    function _readSavedLang() {
-        return 'en'; // English only for now (The Flock rebrand)
-    }
-
-    function _i18nSetLang(lang) {
-        localStorage.setItem('bonzi_lang', lang);
-        localStorage.setItem('bonzi-lang', lang);
-        localStorage.setItem('bonzi_site_lang', _siteLangToken(lang));
-        if (lang === 'en') { _i18nRestoreEn(); _i18nSetActive('en'); return; }
-        _i18nApply(lang);
-        _i18nSetActive(lang);
-    }
-
-    // A flag shows only if the page actually delivers that language.
-    // Page declares window.BONZI_LANGS = ['en','pt',...]; default is English-only
-    // so hardcoded pages never show a flag that does nothing. 'en' is always allowed.
-    function _allowedLangs() {
-        var a = (window.BONZI_LANGS && window.BONZI_LANGS.length) ? window.BONZI_LANGS.slice() : ['en'];
-        if (a.indexOf('en') === -1) a.push('en');
-        return a;
-    }
-
-    function _wireFlagGroup(container) {
-        if (!container) return;
-        var allowed = _allowedLangs();
-        container.querySelectorAll('button[data-lang]').forEach(function(btn) {
-            var L = btn.getAttribute('data-lang');
-            if (allowed.indexOf(L) === -1) {
-                btn.style.display = 'none';
-                return;
-            }
-            btn.addEventListener('click', function() {
-                _i18nSetLang(L);
-            });
-        });
-    }
-
-    function initLanguageSelect() {
-        _i18nCacheOrig();
-        _wireFlagGroup(document.getElementById('nav-lang-flags'));
-        // Mobile menu flags are injected dynamically; wire them after menu loads
-        var mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenu) {
-            _wireFlagGroup(mobileMenu.querySelector('.mobile-lang-flags'));
-        } else {
-            // mobile-menu may not be loaded yet; observe for it
-            var obs = new MutationObserver(function(_, o) {
-                var mm = document.getElementById('mobile-menu');
-                if (mm) { _wireFlagGroup(mm.querySelector('.mobile-lang-flags')); o.disconnect(); }
-            });
-            obs.observe(document.body, { childList: true, subtree: true });
-        }
-        // Restore saved language preference on page load
-        var saved = _readSavedLang();
-        if (saved && saved !== 'en') { _i18nApply(saved); }
-        _i18nSetActive(saved || 'en');
     }
 
     function initNavInteractions() {
