@@ -159,6 +159,10 @@
     // one number only: bots bonked
     hud.innerHTML = '<div>BONKED <b data-s style="font:700 15px Fredoka,system-ui,sans-serif;color:#FED801;margin-left:4px">0</b></div>';
     const hudS = hud.querySelector('[data-s]'), live = o.live; let liveFlip = false;
+    // One score for the whole site: the same number on every page and every visit, kept in this browser only (key flock-bonked).
+    const SCORE_KEY = 'flock-bonked';
+    const loadScore = () => { try { const n = parseInt(localStorage.getItem(SCORE_KEY), 10); return Number.isFinite(n) && n > 0 ? Math.min(n, 999999) : 0; } catch (e) { return 0; } };
+    const saveScore = () => { try { localStorage.setItem(SCORE_KEY, String(st.score)); } catch (e) {} };
     // The call-out can show one other line for a while (the end of a fake-admin round), then goes back. It is timed on the game clock, so Pause holds it.
     const hintSpan = o.hint.lastChild, HINT = hintSpan.textContent; let barUntil = 0;
     const barBack = () => { if (!barUntil) return; barUntil = 0; const f = o.hint.contains(document.activeElement); hintSpan.textContent = HINT; o.g.bar.classList.remove('game-bar-end', 'game-bar-tight'); if (f) hit.focus({ preventScroll: true }); };
@@ -171,6 +175,8 @@
     };
     const announce = () => { liveFlip = !liveFlip; live.textContent = 'Bonked: ' + st.score + (liveFlip ? '' : '.'); };
     const st = { W: 0, H: 0, WL: 0, HB: 0, tx: 0, ox: 0, oy: 0, sc: .44, score: 0, combo: 0, wind: 0, aiming: false, ptr: null, thrown: false, nextSay: 2500, banner: null, auto: null, attracted: false };
+    st.score = loadScore(); hudS.textContent = st.score;
+    window.addEventListener('storage', e => { if (e.key === SCORE_KEY) { st.score = loadScore(); hudS.textContent = st.score; } });
     const thrower = { id: 'thr', k: 'y', s: .5, d0: 1, water: '#2F6FC4', posFn: () => [st.tx, st.WL, 0] };
     const slots = [0, 1, 2].map(i => ({ i, st: 'float', x: 0, y: 0, rot: 0, bx: 0, by: 0, vx: 0, vy: 0, spin: 0, t0: 0, sayT: -1e9, landed: false, op: 1, hid: false, safe: false, dm: null }));
     slots.forEach(s => { s.duck = { id: 'b' + s.i, k: 'g', s: .44, d0: -1, water: '#2F6FC4', posFn: () => [s.x, s.y, 0], extra: (T, o) => { o.rot = s.rot; } }; });
@@ -283,7 +289,7 @@
     // Reduced motion: a throw is worked out at once and shown as its result (score, a stain), with no flight, particles or respawn
     const settleThrow = () => {
       const tg = targets(); let n = 0, g = 0;
-      const cb = { hit: t => { if (t.s.safe) return; n++; snd('bonk'); snd('quack'); st.score++; hudS.textContent = st.score; stain(t.x + rnd(-24, 24), rnd(st.lo, Math.max(st.lo + 2, st.hi)), 4); }, skip() {}, splash() {} };
+      const cb = { hit: t => { if (t.s.safe) return; n++; snd('bonk'); snd('quack'); st.score++; hudS.textContent = st.score; saveScore(); stain(t.x + rnd(-24, 24), rnd(st.lo, Math.max(st.lo + 2, st.hi)), 4); }, skip() {}, splash() {} };
       while (!rock.dead && g++ < 3000) step(rock, 1 / 120, tg, cb);
       if (n === 0) { const f = slots.filter(s => s.st === 'float'); if (f.length) say(pick(f), L('miss')); }
 
@@ -348,7 +354,7 @@
     };
     const shake = () => { if (calm()) return; const k = [{ transform: 'translate(0,0)' }, { transform: 'translate(-6px,3px)' }, { transform: 'translate(5px,-3px)' }, { transform: 'translate(-2px,2px)' }, { transform: 'none' }]; anim(gsvg, k, { duration: 260 }); };
     const liveCb = {
-      hit: t => { const s = t.s; if (s.safe) { snd('quack'); s.duck.react = { type: 'confused', start: stage.R, dur: 950 }; if (cur && cur.def.safe) cur.def.safe(C, cur.s, s); return; } snd('bonk'); later(() => snd('quack'), 120); Object.assign(s, { st: 'ko', vx: rock.vx * .35 + 90, vy: -480 - Math.random() * 160, spin: (Math.random() < .5 ? -1 : 1) * rnd(600, 1000), landed: false }); st.combo++; st.score++; hudS.textContent = st.score; text(s.x, s.y - 40 * st.sc / .44, L('bonk')); if (Math.random() < .5) { const w = slots.filter(o => o.st === 'float' && o !== s); if (w.length) later(() => say(pick(w), L('witness')), 700); } feathers(s.x, s.y - 16); blood(s.x, s.y - 18, rock.vx); shake(); },
+      hit: t => { const s = t.s; if (s.safe) { snd('quack'); s.duck.react = { type: 'confused', start: stage.R, dur: 950 }; if (cur && cur.def.safe) cur.def.safe(C, cur.s, s); return; } snd('bonk'); later(() => snd('quack'), 120); Object.assign(s, { st: 'ko', vx: rock.vx * .35 + 90, vy: -480 - Math.random() * 160, spin: (Math.random() < .5 ? -1 : 1) * rnd(600, 1000), landed: false }); st.combo++; st.score++; hudS.textContent = st.score; saveScore(); text(s.x, s.y - 40 * st.sc / .44, L('bonk')); if (Math.random() < .5) { const w = slots.filter(o => o.st === 'float' && o !== s); if (w.length) later(() => say(pick(w), L('witness')), 700); } feathers(s.x, s.y - 16); blood(s.x, s.y - 18, rock.vx); shake(); },
       skip: r => splash(r.x, st.WL, false), splash: r => splash(r.x, st.WL, true)
     };
     const rootPt = e => { const r = root.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
@@ -488,7 +494,7 @@
       grab: s => { s.st = 'event'; s.rot = 0; return s; },
       release: (s, how) => { if (how === 'float') { s.st = 'float'; s.rot = 0; } else { s.st = 'sink'; s.t0 = stage.R - 700; } },
       say, text, line: L, splash, feathers, blood, shake,
-      ko: (s, vx) => { Object.assign(s, { st: 'ko', vx: vx == null ? 120 : vx, vy: -520, spin: rnd(600, 1000) * (Math.random() < .5 ? -1 : 1), landed: false }); st.score++; hudS.textContent = st.score; feathers(s.x, s.y - 16); },
+      ko: (s, vx) => { Object.assign(s, { st: 'ko', vx: vx == null ? 120 : vx, vy: -520, spin: rnd(600, 1000) * (Math.random() < .5 ? -1 : 1), landed: false }); st.score++; hudS.textContent = st.score; saveScore(); feathers(s.x, s.y - 16); },
       g: front => { const e = mk('g', {}, front === false ? Ly.evb : Ly.evf); if (cur) cur.gs.push(e); return e; },
       duck: o => { const d = Object.assign({ id: 'e' + (++eid), k: 'g', s: st.sc, d0: 1, land: true, px: 0, py: 0, pv: 0 }, o); const g = C.g(o.front !== false); g.innerHTML = FD.svg(d); FD.prep(d, g); d.posFn = () => [d.px, d.py, d.pv]; return d; },
       upd: (d, ptr) => FD.update(d, 0, stage.R, C.dt * 1000, ptr || null, '#2F6FC4'),

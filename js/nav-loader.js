@@ -2,10 +2,11 @@
     // English only: the page language is always "en".
     document.documentElement.lang = 'en';
 
-    // The site keeps three things in the browser, nothing else:
-    //   bonzi_theme   light or dark (set here)
-    //   flock-motion  animations paused or running (flock-motion.js)
-    //   flock-sound   sound on or off (flock-sound.js)
+    // The site keeps four things in the browser, nothing else:
+    //   bonzi_theme    light or dark (set here)
+    //   flock-motion   animations paused or running (flock-motion.js)
+    //   flock-sound    sound on or off (flock-sound.js)
+    //   flock-bonked   the duck game score, one number shared by every page (flock-game.js)
     // Anything older (a language choice, the old theme key, a private-access flag, a cockpit key) is cleared on load.
     const THEME_KEY = 'bonzi_theme';
     ['bonzi_lang', 'bonzi-lang', 'bonzi_site_lang', 'bonzi-theme', 'bonzi_private_access', 'bonzi_cockpit_key'].forEach((k) => {
