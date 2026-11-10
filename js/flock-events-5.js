@@ -1,6 +1,8 @@
 /* Weird events, part 5: weather, officials and time. */
 (function () {
-  var F = window.FlockEvents = window.FlockEvents || [], K = window.FlockEvKit, T = K.T, seg = K.seg, n = K.n;
+  var F = window.FlockEvents = window.FlockEvents || [], K = window.FlockEvKit;
+  if (!K) return;   // the shared kit from flock-events-1.js did not load: add no events here, and raise no error
+  var T = K.T, seg = K.seg, n = K.n;
   var L = function (c, a) { return a[Math.floor(Math.random() * a.length)]; };
 
   F.push({ id: 'snow', name: 'Crypto winter', dur: 8,
@@ -52,10 +54,11 @@
       if (t > 5.6 && !s.q3) { s.q3 = 1; c.text(x, v.y - 90, L(c, ['EXPOSED', 'SCAM DENIED'])); }
     } });
 
-  /* Spot the fake admin. The bots go quiet for a round and two or three ducks each hold a team DM. One is the real team, the rest are
-     fakes. Bonking a fake counts as usual; the real team takes the rock without harm and answers softly. When the round ends, the
-     bar under the pond names the tell. Every word is in js/flock-lines.js (fakeRound, fakeSoft, fakeLink). The older passive
-     event above ('fakeadmin') stays in this file, switched off, because this round tells the same story. */
+  /* Spot the fake admin. The bots go quiet for a round and two or three ducks each hold a message. One is a scam, the others are
+     the real team. Bonking the fake counts as usual; a real team duck takes the rock without harm and answers softly. While the
+     round runs the bar under the pond reads "Bonk the fake admin."; when it ends, the bar names the tell, then the hint returns.
+     Every word is in js/flock-lines.js (fakeRound, fakeHint, fakeSoft, fakeLink, botUrl). The older passive event above
+     ('fakeadmin') stays in this file, switched off, because this round tells the same story. */
   var lastPairs = [];
   F.push({ id: 'spotfake', name: 'Spot the fake admin', dur: 14, need: 2, quiet: true,
     start: function (c, s) {
@@ -66,14 +69,15 @@
       var a = ix[Math.floor(Math.random() * ix.length)], rest = []; P.forEach(function (x, i) { if (i !== a) rest.push(i); });
       var b = rest[Math.floor(Math.random() * rest.length)];
       lastPairs.push(a); if (lastPairs.length > 3) lastPairs.shift();
-      var fakes = [P[a].fake, P[b].fake]; if (use.length > 2 && Math.random() < .5) fakes.reverse();   // with two ducks the one fake is always the pair whose tell the bar shows
-      var r = Math.floor(Math.random() * use.length), k = 0;
+      // one fake per round, so the line in the bar always explains the scam on screen; the other ducks are real team lines
+      var f = Math.floor(Math.random() * use.length), reals = [P[a].real, P[b].real], k = 0;
       s.pair = P[a]; s.soft = LN.fakeSoft || 'That was the real team';
-      s.p = use.map(function (v, i) { var real = i === r; v.sayT = -1e9; return { v: v, real: real, text: real ? P[a].real : fakes[k++], at: .4 + i * .45, up: 0, gone: 0 }; });
+      s.p = use.map(function (v, i) { var fake = i === f; v.sayT = -1e9; return { v: v, real: !fake, text: fake ? P[a].fake : reals[k++], at: .4 + i * .45, up: 0, gone: 0 }; });
       s.rest = fl.filter(function (v) { return use.indexOf(v) < 0; });
       s.rest.forEach(function (v) { c.hide(v, true); });
       c.slots.forEach(function (v) { v.sayT = -1e9; });
       s.p.forEach(function (p) { if (p.real) p.v.safe = true; });
+      if (LN.fakeHint) c.bar(LN.fakeHint, null, null, 1e7);   // the bar tells the player what to do for as long as the round runs
     },
     frame: function (c, k, t, dt, s) {
       if (!s.p) return;
@@ -95,8 +99,8 @@
       if (!s.p) return;
       s.p.forEach(function (p) { c.dmOff(p.v); p.v.safe = false; });
       s.rest.forEach(function (v) { c.hide(v, false); });
-      var LN = window.FlockLines || {}, a = document.querySelector('a.cta[href^="https://t.me/"], a.pw-cta[href^="https://t.me/"]');
-      if (s.pair) c.bar(s.pair.tell, LN.fakeLink, a ? a.href : LN.botUrl, 8000);
+      var LN = window.FlockLines || {};
+      if (s.pair) c.bar(s.pair.tell, LN.fakeLink, LN.botUrl, 8000);
     } });
 
   F.push({ id: 'bribe', name: 'An offer you can refuse', dur: 7.5,

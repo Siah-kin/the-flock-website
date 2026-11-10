@@ -33,7 +33,7 @@
     '.game-waves{position:absolute;left:0;top:0;width:100%;height:100%;display:block}' +
     '.game-host>.game-bar{background:#1B4F9A;padding:12px 0 16px}' +
     /* top: the hero band; its text stays above the game */
-    '.top.game-top{padding-bottom:214px}.game-top>.wrap{position:relative;z-index:2}.game-bar.game-bar-page{background:#fff;padding:14px 0 6px}.game-bar-page .game-hint.game-hint{background:#12304F}.game-bar-page .game-hud{color:#0058A8}body.dark-mode .game-bar.game-bar-page{background:#08142B}body.dark-mode .game-bar-page .game-hud{color:#BFD9F2}@media(max-width:900px){.top.game-top{padding-bottom:194px}}' +
+    '.top.game-top{padding-bottom:214px}.game-top>.wrap{position:relative;z-index:2}.game-bar.game-bar-page{background:#fff;padding:14px 0 6px}.game-bar-page .game-hint.game-hint{background:#12304F}.game-bar-page .game-hud b{color:#12304F!important}body.dark-mode .game-bar-page .game-hud b{color:#FED801!important}.game-bar-page .game-hud{color:#0058A8}body.dark-mode .game-bar.game-bar-page{background:#08142B}body.dark-mode .game-bar-page .game-hud{color:#BFD9F2}@media(max-width:900px){.top.game-top{padding-bottom:194px}}' +
     /* wave: the answer band; the answer text stays above the game, the call-out sits under the button */
     '.game-end .pw-calm{position:relative;z-index:2}.game-end .pw-ducks{visibility:hidden}' +
     '.pw-end.game-end .pw-sun{display:none}' +
@@ -162,7 +162,7 @@
     const barBack = () => { if (!barUntil) return; barUntil = 0; const f = o.hint.contains(document.activeElement); hintSpan.textContent = HINT; o.g.bar.classList.remove('game-bar-end', 'game-bar-tight'); if (f) hit.focus({ preventScroll: true }); };
     const barSay = (text, linkText, href, ms) => {
       if (red) return;
-      hintSpan.textContent = text + (/[.!?]$/.test(text) ? ' ' : '. ');   // a stop between the line and the link
+      hintSpan.textContent = text + (linkText && href ? (/[.!?]$/.test(text) ? ' ' : '. ') : '');   // a stop between the line and the link
       if (linkText && href) { const a = document.createElement('a'); a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = linkText; hintSpan.appendChild(a); }
       o.g.bar.classList.add('game-bar-end'); if (o.hint.offsetHeight > 54) o.g.bar.classList.add('game-bar-tight'); barUntil = stage.R + ms;   // a very narrow phone: drop the badge so the line stays on two lines
        live.textContent = text; wake();

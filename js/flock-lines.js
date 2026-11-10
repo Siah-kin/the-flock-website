@@ -31,7 +31,7 @@ window.FlockLines = {
   ],
   combo2: ['2 DUCKS, 1 ROCK'],
   combo3: ['3 DUCKS, 1 ROCK'],
-  // "Spot the fake admin" round. Two or three ducks each hold a message: one is the real team, the rest are scams.
+  // "Spot the fake admin" round. Two or three ducks each hold a message: one is a scam, the others are the real team.
   // Each pair is one scam and its real counterpart. fake: what the scammer sends. real: what the team says.
   // tell: the one line the bar shows when the round ends, with the link after it. On a phone the line, the link and the
   // score share two lines, so keep a tell to about 30 characters. Keep fake and real lines near 38 characters: longer ones wrap to three lines on a phone.
@@ -44,6 +44,7 @@ window.FlockLines = {
     { fake: 'Group admin: pay 20 USDC to get help', real: 'Support is free, ask us in the bot', tell: 'Paying for help is the scam' },
     { fake: 'Support bot here. Send your login code', real: 'Your request gets a number in the bot', tell: 'Keep login codes to yourself' }
   ],
+  fakeHint: 'Bonk the fake admin.',   // the bar's line while a round runs
   fakeSoft: 'That was the real team',
   fakeLink: 'Check a message with the bot',
   botUrl: 'https://t.me/Arctide_TheFlock_Bot'
