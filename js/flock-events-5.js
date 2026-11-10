@@ -52,6 +52,53 @@
       if (t > 5.6 && !s.q3) { s.q3 = 1; c.text(x, v.y - 90, L(c, ['EXPOSED', 'SCAM DENIED'])); }
     } });
 
+  /* Spot the fake admin. The bots go quiet for a round and two or three ducks each hold a team DM. One is the real team, the rest are
+     fakes. Bonking a fake counts as usual; the real team takes the rock without harm and answers softly. When the round ends, the
+     bar under the pond names the tell. Every word is in js/flock-lines.js (fakeRound, fakeSoft, fakeLink). The older passive
+     event above ('fakeadmin') stays in this file, switched off, because this round tells the same story. */
+  var lastPairs = [];
+  F.push({ id: 'spotfake', name: 'Spot the fake admin', dur: 14, need: 2, quiet: true,
+    start: function (c, s) {
+      var LN = window.FlockLines || {}, P = LN.fakeRound || [], fl = c.floats().slice().sort(function (a, b) { return a.bx - b.bx; });
+      if (P.length < 2 || fl.length < 2) { s.finish = true; return; }
+      var n = Math.min(fl.length, c.W < 700 ? 2 : 3), use = fl.length > n ? [fl[0], fl[fl.length - 1]] : fl.slice(0, n), ix = [];
+      P.forEach(function (x, i) { if (lastPairs.indexOf(i) < 0) ix.push(i); });
+      var a = ix[Math.floor(Math.random() * ix.length)], rest = []; P.forEach(function (x, i) { if (i !== a) rest.push(i); });
+      var b = rest[Math.floor(Math.random() * rest.length)];
+      lastPairs.push(a); if (lastPairs.length > 3) lastPairs.shift();
+      var fakes = [P[a].fake, P[b].fake]; if (use.length > 2 && Math.random() < .5) fakes.reverse();   // with two ducks the one fake is always the pair whose tell the bar shows
+      var r = Math.floor(Math.random() * use.length), k = 0;
+      s.pair = P[a]; s.soft = LN.fakeSoft || 'That was the real team';
+      s.p = use.map(function (v, i) { var real = i === r; v.sayT = -1e9; return { v: v, real: real, text: real ? P[a].real : fakes[k++], at: .4 + i * .45, up: 0, gone: 0 }; });
+      s.rest = fl.filter(function (v) { return use.indexOf(v) < 0; });
+      s.rest.forEach(function (v) { c.hide(v, true); });
+      c.slots.forEach(function (v) { v.sayT = -1e9; });
+      s.p.forEach(function (p) { if (p.real) p.v.safe = true; });
+    },
+    frame: function (c, k, t, dt, s) {
+      if (!s.p) return;
+      s.now = t;
+      var left = 0;
+      s.p.forEach(function (p) {
+        if (!p.up && t > p.at) { p.up = 1; p.v.duck.react = { type: 'hop', start: c.R, dur: 520 }; c.dm(p.v, p.text); }
+        if (p.up && !p.real && !p.gone && ['ko', 'down', 'sink', 'para'].indexOf(p.v.st) >= 0) { p.gone = 1; c.dmOff(p.v); }
+        if (p.back && t > p.back) { p.back = 0; c.dm(p.v, p.text); }
+        if (!p.real && !p.gone) left++;
+      });
+      if (t > 1.5 && !left && !s.fin) s.fin = t + 1.6;
+      if (s.fin && t > s.fin) s.finish = true;
+    },
+    safe: function (c, s, v) {
+      s.p.forEach(function (p) { if (p.v === v) { c.dm(v, s.soft, true); p.back = (s.now || 0) + 2.6; } });
+    },
+    end: function (c, s) {
+      if (!s.p) return;
+      s.p.forEach(function (p) { c.dmOff(p.v); p.v.safe = false; });
+      s.rest.forEach(function (v) { c.hide(v, false); });
+      var LN = window.FlockLines || {}, a = document.querySelector('a.cta[href^="https://t.me/"], a.pw-cta[href^="https://t.me/"]');
+      if (s.pair) c.bar(s.pair.tell, LN.fakeLink, a ? a.href : LN.botUrl, 8000);
+    } });
+
   F.push({ id: 'bribe', name: 'An offer you can refuse', dur: 7.5,
     start: function (c, s) { s.g = c.g(); s.g.innerHTML = '<rect x="-30" y="-20" width="60" height="40" rx="5" fill="#2E1C0B" stroke="#12304F" stroke-width="2"/><rect x="-8" y="-26" width="16" height="8" rx="2" fill="none" stroke="#12304F" stroke-width="3"/><g data-o opacity="0"><rect x="-26" y="-34" width="52" height="16" rx="2" fill="#7FD1AE" stroke="#3E8E6C" stroke-width="1.5"/><text y="-22" text-anchor="middle" font-family="Fredoka,system-ui,sans-serif" font-weight="700" font-size="10" fill="#12304F">$$ 5 USDC $$</text></g>'; },
     frame: function (c, k, t, dt, s) {

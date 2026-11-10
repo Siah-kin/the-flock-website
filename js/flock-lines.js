@@ -30,7 +30,23 @@ window.FlockLines = {
     ['bro what do you do all day', 'reply gm', 'and then?', 'reply gm again']
   ],
   combo2: ['2 DUCKS, 1 ROCK'],
-  combo3: ['3 DUCKS, 1 ROCK']
+  combo3: ['3 DUCKS, 1 ROCK'],
+  // "Spot the fake admin" round. Two or three ducks each hold a message: one is the real team, the rest are scams.
+  // Each pair is one scam and its real counterpart. fake: what the scammer sends. real: what the team says.
+  // tell: the one line the bar shows when the round ends, with the link after it. On a phone the line, the link and the
+  // score share two lines, so keep a tell to about 30 characters. Keep fake and real lines near 38 characters: longer ones wrap to three lines on a phone.
+  // Real and fake lines get the same punctuation and a mix of lengths, and "bot" and "group" turn up on both sides, so only the meaning separates them.
+  fakeRound: [
+    { fake: 'DM me your seed to verify', real: 'Tap Help, then Ask the team', tell: 'Your seed phrase stays private' },
+    { fake: 'Urgent: connect your wallet here', real: 'Answers come through the bot', tell: 'Support never needs a wallet' },
+    { fake: 'Claim your airdrop, link below', real: 'Announcements are pinned in the group', tell: 'Real news is in the pinned post' },
+    { fake: 'Saw your question. Message me privately', real: 'Support never DMs first. Ask in the group', tell: 'Real admins never DM first' },
+    { fake: 'Group admin: pay 20 USDC to get help', real: 'Support is free, ask us in the bot', tell: 'Paying for help is the scam' },
+    { fake: 'Support bot here. Send your login code', real: 'Send /status to see where it stands', tell: 'Keep login codes to yourself' }
+  ],
+  fakeSoft: 'That was the real team',
+  fakeLink: 'Check a message with the bot',
+  botUrl: 'https://t.me/Arctide_TheFlock_Bot'
 };
 window.FlockLine = (function () {
   var last = {};
