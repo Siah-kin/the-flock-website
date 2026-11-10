@@ -1,0 +1,23 @@
+/* "Two ducks, one rock": a small static mark for the moments where one thing does two jobs (the logo and the game say
+   it too). The drawing is the #twoducks symbol in each page's defs; this file only places and colours it. No motion,
+   so Pause and reduced motion change nothing. Colours are tokens: light by default, the dark set on dark mode and on
+   the dark bands. */
+.td { --td-sky: #DCEBFA; --td-wave2: #5AA0E6; --td-wave: #0058A8; --td-rock: #6E7D93; --td-arc: #0058A8; --td-edge: #0058A8; --td-tag: #0058A8;
+      display: flex; align-items: center; gap: 12px; margin-top: 22px; }
+body.dark-mode .td, .band .td { --td-sky: #163A6B; --td-wave2: #1F5CA3; --td-wave: #0A2A57; --td-rock: #A7B4C7; --td-arc: #8EC4FA; --td-edge: #FED801; --td-tag: #8EC4FA; }
+.band .td, body.dark-mode .band .td { --td-tag: #FED801; }
+.td-mark { flex: none; display: block; width: 80px; height: 50px; overflow: visible; }
+.td-tag { font: 600 1rem/1.2 var(--display, "Fredoka", "Inter", system-ui, sans-serif); color: var(--td-tag); max-width: 6.2em; text-wrap: balance; }
+
+/* Home, beside the pull quote: the quote keeps its own width, the mark sits to its right and drops under it on phones */
+.pull-row { display: flex; align-items: center; gap: 28px; }
+.pull-row .pull { flex: 1 1 auto; min-width: 0; }
+.pull-row .td { margin-top: 0; flex: none; flex-direction: column; align-items: flex-start; gap: 8px; }
+@media (max-width: 640px) {
+    .pull-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .pull-row .td { padding-left: 21px; flex-direction: row; align-items: center; gap: 12px; }
+}
+
+/* Home, on the Monday card */
+.wk-card .td { margin-top: 0; padding: 16px 20px 0; }
+.wk-card .td + p { padding-top: 12px; }
