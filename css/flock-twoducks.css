@@ -19,5 +19,4 @@ body.dark-mode .td, .band .td { --td-sky: #163A6B; --td-wave2: #1F5CA3; --td-wav
 }
 
 /* Home, on the Monday card */
-.wk-card .td { margin-top: 0; padding: 16px 20px 0; }
-.wk-card .td + p { padding-top: 12px; }
+.wk-card .td { margin-top: auto; padding: 0 20px 20px; }
