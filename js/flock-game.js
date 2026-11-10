@@ -18,12 +18,15 @@
   const CSS = '.game-throw:focus-visible,.game-control:focus-visible{outline:3px solid #FED801;outline-offset:3px}' +
     /* the clipped game layer: nothing the game draws can reach the text above it */
     '.game-layer{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:1}' +
-    /* the call-out and the score sit in a bar BELOW the playfield, one row: call-out left, score right; they wrap on a phone */
-    '.game-bar{position:relative;z-index:3;pointer-events:none;box-sizing:border-box}.game-bar .game-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;box-sizing:border-box}.game-bar .game-hud{margin-left:auto}' +
-    '.game-hint.game-hint{display:flex;align-items:center;gap:8px;width:fit-content;max-width:100%;box-sizing:border-box;margin:0;padding:6px 12px 6px 6px;border-radius:22px;background:rgba(0,16,48,.45);color:#fff;font:500 14.5px/1.4 Inter,system-ui,sans-serif;letter-spacing:0;text-align:left}.game-hint>span:last-child{min-width:0}' +
+    /* ONE bar on every page with the game (Home, About, Where it is now, How): a blue strip directly BELOW the playfield, in the colour of the lowest wave.
+       The call-out and the score are one group on the left edge of the page's content column (the row is the page's .wrap), score 16px after the call-out; they wrap on a phone.
+       --gb-h is the bar's height: 64px with one row, 77px under 900px (room for the two-line end text), 92px under 388px where the score drops under the call-out. */
+    ':root{--gb-h:64px}@media (max-width:899px){:root{--gb-h:77px}}@media (max-width:387px){:root{--gb-h:92px}}' +
+    '.game-bar{position:relative;z-index:3;pointer-events:none;box-sizing:border-box;display:flex;align-items:center;min-height:var(--gb-h);background:#1B4F9A;text-align:left}.game-bar .game-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:8px 16px;box-sizing:border-box;width:100%;padding-top:12px;padding-bottom:12px}' +
+    '.game-hint.game-hint{display:flex;align-items:center;gap:8px;width:fit-content;max-width:100%;box-sizing:border-box;margin:0;padding:6px 12px 6px 6px;border-radius:22px;background:#0F336A;color:#fff;font:500 14.5px/1.4 Inter,system-ui,sans-serif;letter-spacing:0;text-align:left}.game-hint>span:last-child{min-width:0}' +
     /* the end line of the fake-admin round puts one link in the call-out; the bar itself ignores the pointer, the link does not */
-    /* while the end line shows, the score stays beside it on one row (the line wraps inside its pill); the row keeps room for two lines on a phone, so nothing below moves */
-    '.game-bar.game-bar-end .game-row{flex-wrap:nowrap}.game-bar.game-bar-end .game-hint.game-hint{flex:0 1 auto;min-width:0}.game-bar.game-bar-end .game-hud{flex:none}.game-bar.game-bar-tight .game-hint>span:first-child{display:none!important}@media (max-width:899px){.game-bar .game-row{min-height:53px}}' +
+    /* while the end line shows, the score stays beside it on one row (the line wraps inside its pill); the bar keeps room for two lines on a phone, so nothing below moves */
+    '.game-bar.game-bar-end .game-row{flex-wrap:nowrap}.game-bar.game-bar-end .game-hint.game-hint{flex:0 1 auto;min-width:0}.game-bar.game-bar-end .game-hud{flex:none}.game-bar.game-bar-tight .game-hint>span:first-child{display:none!important}' +
     '.game-hint a{color:#FED801;font-weight:600;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;pointer-events:auto;border-radius:3px}.game-hint a:hover{color:#fff}.game-hint a:focus-visible{outline:3px solid #fff;outline-offset:2px}' +
     '.game-hud{display:flex;gap:4px 16px;align-items:baseline;font:600 13px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#BFD9F2;z-index:3}' +
     '.game-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}' +
@@ -31,17 +34,16 @@
     '.game-host{padding-bottom:0!important}.game-host>.wrap{padding-bottom:0}' +
     '.game-pond{position:relative;width:100%;height:320px;margin:0;background:#0b3969}' +
     '.game-waves{position:absolute;left:0;top:0;width:100%;height:100%;display:block}' +
-    '.game-host>.game-bar{background:#1B4F9A;padding:12px 0 16px}' +
     /* top: the hero band; its text stays above the game */
-    '.top.game-top{padding-bottom:214px}.game-top>.wrap{position:relative;z-index:2}.game-bar.game-bar-page{background:#fff;padding:20px 0}.game-bar-page .game-hint.game-hint{margin-left:96px}.game-bar-page + .road{padding-top:120px}.game-bar-page .game-hint.game-hint{background:#12304F}.game-bar-page .game-hud b{color:#12304F!important}body.dark-mode .game-bar-page .game-hud b{color:#FED801!important}.game-bar-page .game-hud{color:#0058A8}body.dark-mode .game-bar.game-bar-page{background:#08142B}body.dark-mode .game-bar-page .game-hud{color:#BFD9F2}@media(max-width:900px){.top.game-top{padding-bottom:194px}.game-bar-page .game-hint.game-hint{margin-left:58px}.game-bar-page + .road{padding-top:96px}}' +
+    '.top.game-top{padding-bottom:214px}.game-top>.wrap{position:relative;z-index:2}.game-bar-page + .road{padding-top:120px}@media(max-width:900px){.top.game-top{padding-bottom:194px}.game-bar-page + .road{padding-top:96px}}' +
     /* wave: the answer band; the answer text stays above the game, the call-out sits under the button */
     '.game-end .pw-calm{position:relative;z-index:2}.game-end .pw-ducks{visibility:hidden}' +
     '.pw-end.game-end .pw-sun{display:none}' +
-    '.game-end>.game-bar{position:absolute;left:0;right:0;bottom:0;height:56px;display:flex;align-items:center;background:var(--navy,#002050);text-align:left}.game-end>.game-bar .game-row{width:100%;padding:0 max(16px,5%)}.pw-end.game-end .pw-sea{bottom:54px}.pw-end.game-end .pw-ducks{bottom:126px}.pw-view>.pw-end.game-end .pw-ducks{bottom:calc(13% + 56px)}' +
-    '.pw-end.game-end{padding-bottom:306px}' +
+    '.game-end>.game-bar{position:absolute;left:0;right:0;bottom:0}.pw-end.game-end .pw-shore{fill:#1B4F9A}.pw-end.game-end .pw-sea{bottom:calc(var(--gb-h) - 2px)}.pw-end.game-end .pw-ducks{bottom:calc(var(--gb-h) + 70px)}.pw-view>.pw-end.game-end .pw-ducks{bottom:calc(13% + var(--gb-h))}' +
+    '.pw-end.game-end{padding-bottom:calc(var(--gb-h) + 250px)}' +
     '.pw-view>.pw-end .game-layer,.pw-view>.pw-end .game-throw,.pw-view>.pw-end .game-bar{transition:opacity .35s}.pw-view>.pw-end:not(.pw-open) .game-layer,.pw-view>.pw-end:not(.pw-open) .game-throw,.pw-view>.pw-end:not(.pw-open) .game-bar{opacity:0;visibility:hidden}' +
     '.pw-view>.pw-end.pw-open .game-throw{pointer-events:auto}' +
-    '@media (max-width:899px){.pw-end.game-end{padding-bottom:326px}}' +
+    '@media (max-width:899px){.pw-end.game-end{padding-bottom:calc(var(--gb-h) + 270px)}}' +
     /* Phone: keep the pond and controls readable. */
     '@media (max-width:699px){.game-key{display:none}.game-pond{height:320px}}';
 
@@ -105,7 +107,7 @@
       // wave: the answer band of the home page's pain wall. Its three ducks give way to the game's bots on the same wave.
       host.classList.add('game-end');
       const ducks = host.querySelector('.pw-ducks'), sea = host.querySelector('.pw-sea'), cta = host.querySelector('.pw-cta');
-      host.insertBefore(layer, host.firstChild); host.appendChild(bar); host.appendChild(hit); host.appendChild(help); host.appendChild(live);
+      row.classList.add('wrap'); host.insertBefore(layer, host.firstChild); host.appendChild(bar); host.appendChild(hit); host.appendChild(help); host.appendChild(live);
       g.info = bar;
       g.scales = s => s ? [.4, .46] : [.5, .56];
       g.live = () => !host.parentElement || !host.parentElement.classList.contains('pw-view') || host.classList.contains('pw-open');
