@@ -80,7 +80,13 @@
         wall.style.setProperty('--pw-fs', 1);
         var step = H * 0.1;
         cards.forEach(function (q, i) { if (i) step = Math.min(step, (limit - q.offsetHeight - top) / i); });
-        pos = cards.map(function (q, i) { return { x: Math.round(W * (0.04 + (i % 2) * 0.06)), y: Math.round(top + i * step) }; });
+        // a wide, short window (a laptop with a small browser window, a phone on its side) uses this cascade too, because
+        // the height is what is short; there the cards fan out across the width instead of hugging the left edge
+        var wide = W >= 700, gap = Math.round(W * 0.04), run = Math.max(0, W - cw - 2 * gap);
+        pos = cards.map(function (q, i) {
+            var x = wide ? gap + Math.round(run * i / Math.max(1, cards.length - 1)) : Math.round(W * (0.04 + (i % 2) * 0.06));
+            return { x: x, y: Math.round(top + i * step) };
+        });
         // the cascade needs a real step, or the cards read as one block
         return step >= 24 && cards[0].offsetHeight + top <= limit;
     }
