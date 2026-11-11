@@ -1,16 +1,11 @@
 .pic picture, .pic img { display:block; max-width:100%; height:auto; border-radius:12px; }
 .lp-fig picture, .lp-fig img { display:block; width:100%; max-width:100%; height:auto; }
 
-/* Pond section on the How page (#plan) and loop section on the home page (.lp) */
-#plan .more > summary, .lp .more > summary { box-sizing: border-box; min-height: 44px; padding-block: 10px; }
+/* Loop section on the home page (.lp) */
+.lp .more > summary { box-sizing: border-box; min-height: 44px; padding-block: 10px; }
 
-/* Pond: picture first on narrow screens (it comes before the toggle in the source); beside the text on wide ones */
-@media (min-width: 1101px) {
-    #plan { row-gap: 0; }
-    #plan > div { grid-column: 1; grid-row: 1; }
-    #plan > .pic { grid-column: 2; grid-row: 1 / span 2; position: sticky; top: 84px; align-self: start; }
-    #plan > .more { grid-column: 1; grid-row: 2; }
-}
+/* How page, plan stop: the tour card is a square photo that sits flush on its caption, as in Telegram, so its bottom corners stay square */
+#plan .tg .msg img { border-radius: 0; }
 
 /* Loop: text first, then the picture across the full content width so its labels can be read */
 .lp-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; align-items: start; }
