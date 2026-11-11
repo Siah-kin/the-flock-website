@@ -160,6 +160,9 @@
         .fx .panel + .panel { margin-top: 0; }
         .fx .panel[hidden] { display: none; }
         .panel .tg { justify-self: center; }
+        .tg-fig { margin: 0; justify-self: center; width: 100%; max-width: 460px; }
+        .tg-cap { margin: 12px 0 0; font-size: 1rem; line-height: 1.5; color: #4A5B72; }
+        body.dark-mode .tg-cap { color: #A9B8CC; }
         .panel h3 { font-weight: 600; font-size: 1.7rem; line-height: 1.15; }
         .panel p { font-size: 1.15rem; line-height: 1.6; margin-top: 14px; max-width: 30em; color: #E4ECF7; }
         .next-step { margin-top: 22px; background: transparent; color: var(--sun); border: 2px solid var(--sun); font: 600 1.05rem var(--display); padding: 10px 20px; border-radius: 999px; cursor: pointer; display: none; }
@@ -296,22 +299,23 @@
                     <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a>
                 </div>
                 <figure>
-                    <div class="tg" role="img" aria-label="Tela Histórico do bot da Ana, uma membro: dois pedidos marcados como úteis pela equipe, um post avaliado como Bom e um agradecimento recebido">
+                    <div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, one post reviewed as Good, and one thanks received">
                         <div class="msg">
                             <img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="">
                             <div class="cap">
-                                <p><b>📜 Histórico</b> · Ana</p>
-                                <p class="quiet">Estes são os registros salvos da sua conta no bot. Os registros antigos mostram atividade passada; eles não prometem nada para o futuro.</p>
-                                <p>🙏 Thanks: 1 recebido · 0 enviados</p>
-                                <p><b>Avaliado pela equipe</b><br>
-                                <mark>• 29 out 2026 · 🎫 Pedido #0014 marcado como útil</mark>
-                                • 18 out 2026 · 📤 Post avaliado: 👍 Bom<br>
-                                • 12 out 2026 · 🎫 Pedido #0009 marcado como útil</p>
-                                <p class="quiet">Algo parece errado? Toque em Falar com a equipe.</p>
+                                <p><b>📜 History</b> · Ana</p>
+                                <p class="quiet">These are the saved entries for your bot account. Older points show past activity; they do not promise anything in future.</p>
+                                <p>🙏 Thanks: 1 received · 0 given</p>
+                                <p><b>Reviewed by the team</b><br>
+                                <mark>• 29 Oct 2026 · 🎫 Request #0014 marked useful</mark>
+                                • 18 Oct 2026 · 📤 Post reviewed: 👍 Good<br>
+                                • 12 Oct 2026 · 🎫 Request #0009 marked useful</p>
+                                <p class="quiet">Something looks wrong? Tap Ask the team.</p>
                             </div>
                         </div>
-                        <div class="btns"><span class="btn">🎫 Falar com a equipe</span><span class="btn">◀ Voltar</span></div>
+                        <div class="btns"><span class="btn">🎫 Ask the team</span><span class="btn">◀ Back</span></div>
                     </div>
+                    <figcaption class="tg-cap">Tela do bot, em inglês: o membro vê o histórico com a data de cada ajuda confirmada.</figcaption>
                 </figure>
             </div>
         </section>
@@ -491,20 +495,20 @@
                     </div>
                     <div class="panels">
                         <div class="panel" role="tabpanel" id="x-p1" aria-labelledby="x-t1">
-                            <div class="tg" role="img" aria-label="Tela Ser notado no X do bot, com botões para revisar uma resposta, ver meus posts, aprender a responder bem e voltar ao início">
+                            <figure class="tg-fig"><div class="tg" role="img" aria-label="The bot's Get noticed on X screen, with buttons to check a reply, see my posts, learn how to reply well, and go home">
                                 <div class="msg">
                                     <img src="/assets/flock/screens/x_home.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
                                     <div class="cap">
-                                        <p><b>📣 Escreva respostas que as pessoas querem responder</b></p>
-                                        <p>Escolha um post que você quer responder e acrescente um detalhe útil, uma experiência ou uma pergunta bem pensada.</p>
-                                        <p>Leia → Acrescente valor → Responda</p>
-                                        <p>✍️ <b>Tem um rascunho?</b> Revise minha resposta antes de postar.</p>
-                                        <p>📤 <b>Já postou?</b> Envie em Meus posts. Se a equipe avaliar, o retorno chega neste chat.</p>
-                                        <p>💬 <b>Não sabe como?</b> Como responder bem mostra um exemplo e dicas.</p>
+                                        <p><b>📣 Write replies people want to answer</b></p>
+                                        <p>Pick a post you want to answer, then add a useful detail, an experience or a thoughtful question.</p>
+                                        <p>Read → Add value → Reply</p>
+                                        <p>✍️ <b>Have a draft?</b> Check my reply before you post it.</p>
+                                        <p>📤 <b>Already posted?</b> Send it in My posts. If the team reviews it, their feedback arrives in this chat.</p>
+                                        <p>💬 <b>Not sure how?</b> How to reply well shows an example and tips.</p>
                                     </div>
                                 </div>
-                                <div class="btns"><span class="btn">✍️ Revisar minha resposta</span><span class="btn">📤 Meus posts</span><span class="btn">💬 Como responder bem</span><span class="btn">🏠 Início</span></div>
-                            </div>
+                                <div class="btns"><span class="btn">✍️ Check my reply</span><span class="btn">📤 My posts</span><span class="btn">💬 How to reply well</span><span class="btn">🏠 Home</span></div>
+                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o menu de respostas no X, com botões para revisar um rascunho, ver os posts enviados e aprender a responder bem.</figcaption></figure>
                             <div>
                                 <h3>Comece com um post que vale a pena responder</h3>
                                 <p>O membro responde com um detalhe, uma experiência ou uma pergunta. O guia de respostas, de dez páginas, mostra como o X decide quais respostas são vistas.</p>
@@ -512,24 +516,24 @@
                             </div>
                         </div>
                         <div class="panel" role="tabpanel" id="x-p2" aria-labelledby="x-t2">
-                            <div class="tg marked" role="img" aria-label="Um membro cola um rascunho de resposta. O bot responde que tem um link, que tem o ticker, que fala de preço ou de ganho prometido, e diz que não guardou o texto">
+                            <figure class="tg-fig"><div class="tg marked" role="img" aria-label="A member pastes a draft reply. The bot answers that it has a link, it drops the ticker, and it has price talk or a promised gain, and says it did not keep the text">
                                 <div class="msg">
                                     <img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
                                     <div class="cap">
-                                        <p><b>✍️ Revisar minha resposta</b></p>
-                                        <p>Envie o texto que você pensa em postar como resposta no X. Eu verifico problemas como tamanho, links, menções de ticker e promessas de preço.</p>
+                                        <p><b>✍️ Check my reply</b></p>
+                                        <p>Send the text you are thinking of posting as a reply on X. I’ll check for issues such as length, links, ticker mentions and price promises.</p>
                                     </div>
                                 </div>
-                                <div class="me"><span class="who">Seu rascunho</span><u data-k="1">$COIN</u> vai <u data-k="2">dar 10x</u>, entre antes que suba 🚀 <u data-k="0">coin.app</u></div>
+                                <div class="me"><span class="who">Your draft</span><u data-k="1">$COIN</u> is <u data-k="2">about to 10x</u>, get in before it pumps 🚀 <u data-k="0">coin.app</u></div>
                                 <div class="msg later">
                                     <div class="cap">
-                                        <p><b>✍️ Revisar minha resposta</b></p>
-                                        <ul><li>Tem um link.</li><li>Cita o ticker.</li><li>Fala de preço ou de ganho prometido.</li></ul>
-                                        <p class="quiet"><i>Não guardei o seu texto.</i></p>
+                                        <p><b>✍️ Check my reply</b></p>
+                                        <ul><li>It has a link.</li><li>It drops the ticker.</li><li>Price talk or a promised gain.</li></ul>
+                                        <p class="quiet"><i>I did not keep your text.</i></p>
                                     </div>
                                 </div>
-                                <div class="btns later"><span class="btn wide">❓ Por que estes?</span><span class="btn">✍️ Revisar outro</span><span class="btn">✍️ Ser notado no X</span></div>
-                            </div>
+                                <div class="btns later"><span class="btn wide">❓ Why these?</span><span class="btn">✍️ Check another</span><span class="btn">✍️ Get noticed on X</span></div>
+                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o bot marca o link, o ticker e a promessa de ganho no rascunho, e diz que não guardou o texto.</figcaption></figure>
                             <div>
                                 <h3>Veja o que faz uma resposta ser escondida, antes de postar</h3>
                                 <p>O bot aponta o que costuma esconder respostas: um link, um ticker, papo de preço, pedidos de curtidas e cerca de dez frases feitas que as ferramentas de IA adoram. Ele nunca reescreve o texto e não guarda nada.</p>
@@ -537,37 +541,37 @@
                             </div>
                         </div>
                         <div class="panel" role="tabpanel" id="x-p3" aria-labelledby="x-t3">
-                            <div class="tg" role="img" aria-label="Tela Retorno sobre seu post do bot: Bom, por Ben. Um post enviado, um bom">
+                            <figure class="tg-fig"><div class="tg" role="img" aria-label="The bot's Your post feedback screen: Good, by Ben. One post sent, one good">
                                 <div class="msg">
                                     <img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
                                     <div class="cap">
-                                        <p><b>📣 Retorno sobre seu post</b></p>
-                                        <p><b>👍 Bom</b>, por Ben.</p>
-                                        <p>1 enviado · 1 bom</p>
+                                        <p><b>📣 Your post feedback</b></p>
+                                        <p><b>👍 Good</b>, by Ben.</p>
+                                        <p>1 sent · 1 good</p>
                                     </div>
                                 </div>
-                                <div class="btns"><span class="btn">📤 Meus posts</span><span class="btn">✍️ Ser notado no X</span></div>
-                            </div>
+                                <div class="btns"><span class="btn">📤 My posts</span><span class="btn">✍️ Get noticed on X</span></div>
+                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o retorno da equipe sobre um post enviado, com a nota Good (Bom).</figcaption></figure>
                             <div>
                                 <h3>Uma pessoa da sua equipe avalia o post</h3>
-                                <p>Depois de postar, o membro envia o link. A equipe avalia como Bom, Precisa melhorar ou Não permitido, e diz o motivo.</p>
+                                <p>Depois de postar, o membro envia o link. A equipe avalia como <span lang="en">Good</span> (Bom), <span lang="en">Needs work</span> (Precisa melhorar) ou <span lang="en">Not allowed</span> (Não permitido), e diz o motivo.</p>
                                 <button class="next-step" type="button">Próximo: o histórico de ajuda</button>
                             </div>
                         </div>
                         <div class="panel" role="tabpanel" id="x-p4" aria-labelledby="x-t4">
-                            <div class="tg" role="img" aria-label="Tela Histórico do bot da Maya, com um post avaliado como Bom em 7 de outubro de 2026">
+                            <figure class="tg-fig"><div class="tg" role="img" aria-label="The bot's History screen for Maya, with one post reviewed as Good on 7 October 2026">
                                 <div class="msg">
                                     <img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
                                     <div class="cap">
-                                        <p><b>📜 Histórico</b> · Maya</p>
-                                        <p class="quiet">Estes são os registros salvos da sua conta no bot. Os registros antigos mostram atividade passada; eles não prometem nada para o futuro.</p>
-                                        <p>🙏 Thanks: 0 recebidos · 0 enviados</p>
-                                        <p><b>Avaliado pela equipe</b><br><mark>• 07 out 2026 · 📤 Post avaliado: 👍 Bom</mark></p>
-                                        <p class="quiet">Algo parece errado? Toque em Falar com a equipe.</p>
+                                        <p><b>📜 History</b> · Maya</p>
+                                        <p class="quiet">These are the saved entries for your bot account. Older points show past activity; they do not promise anything in future.</p>
+                                        <p>🙏 Thanks: 0 received · 0 given</p>
+                                        <p><b>Reviewed by the team</b><br><mark>• 07 Oct 2026 · 📤 Post reviewed: 👍 Good</mark></p>
+                                        <p class="quiet">Something looks wrong? Tap Ask the team.</p>
                                     </div>
                                 </div>
-                                <div class="btns"><span class="btn">🎫 Falar com a equipe</span><span class="btn">◀ Voltar</span></div>
-                            </div>
+                                <div class="btns"><span class="btn">🎫 Ask the team</span><span class="btn">◀ Back</span></div>
+                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o histórico de um membro, com um post avaliado como Good (Bom) em 7 de outubro de 2026.</figcaption></figure>
                             <div>
                                 <h3>A avaliação entra no histórico de ajuda</h3>
                                 <p>Cada post avaliado entra com a data. Meses depois, quem explicou bem o seu projeto pode mostrar isso. A pessoa pode baixar o próprio histórico de ajuda ou apagá-lo quando quiser.</p>
@@ -595,23 +599,23 @@
                 <div class="demo" data-demo>
                     <div class="steps" role="tablist" aria-label="Suporte e segurança">
                         <button class="step" role="tab" id="h-t1" aria-controls="h-p1" aria-selected="true"><span class="thumb"><img src="/assets/flock/screens/ask.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">1</span>Um membro pergunta</span></button>
-                        <button class="step" role="tab" id="h-t2" aria-controls="h-p2" aria-selected="false" tabindex="-1"><span class="thumb ticket" aria-hidden="true"><span>🎫 <b>Ticket #0001</b></span><span class="mini-btns"><i>Feito</i><i class="on">Útil</i><i>Spam</i></span></span><span class="lbl"><span class="n">2</span>Sua equipe responde</span></button>
+                        <button class="step" role="tab" id="h-t2" aria-controls="h-p2" aria-selected="false" tabindex="-1"><span class="thumb ticket" aria-hidden="true"><span>🎫 <b>Ticket #0001</b></span><span class="mini-btns"><i>Done</i><i class="on">Useful</i><i>Spam</i></span></span><span class="lbl"><span class="n">2</span>Sua equipe responde</span></button>
                         <button class="step" role="tab" id="h-t3" aria-controls="h-p3" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/profile.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">3</span>A ajuda útil fica salva</span></button>
                         <button class="step" role="tab" id="h-t4" aria-controls="h-p4" aria-selected="false" tabindex="-1"><span class="thumb"><img src="/assets/flock/screens/staffcheck.jpg?v=20261104" width="1280" height="640" alt=""></span><span class="lbl"><span class="n">4</span>Isso é mesmo da equipe?</span></button>
                     </div>
                     <div class="panels">
                         <div class="panel" role="tabpanel" id="h-p1" aria-labelledby="h-t1">
-                            <div class="tg" role="img" aria-label="Tela Falar com a equipe do bot, com botões para um problema, uma reclamação e uma ideia ou proposta">
+                            <figure class="tg-fig"><div class="tg" role="img" aria-label="The bot's Ask the team screen, with buttons for a problem, a complaint, and an idea or proposal">
                                 <div class="msg">
                                     <img src="/assets/flock/screens/ask.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
                                     <div class="cap">
-                                        <p><b>🎫 Falar com a equipe</b></p>
-                                        <p>Envie um pedido privado quando precisar de ajuda, quiser registrar uma reclamação ou tiver uma ideia ou proposta. Um conjunto curto de perguntas ajuda a equipe a entender o que aconteceu e do que você precisa.</p>
-                                        <p>Nunca inclua frase de recuperação ou chave privada. Escolha o tema mais próximo do seu pedido.</p>
+                                        <p><b>🎫 Ask the team</b></p>
+                                        <p>Send a private request when you need help, want to raise a complaint or have an idea or proposal. A short set of questions helps the team understand what happened and what you need.</p>
+                                        <p>Never include a seed phrase or private key. Choose the topic closest to your request.</p>
                                     </div>
                                 </div>
-                                <div class="btns"><span class="btn">🛠 Um problema</span><span class="btn">⚠️ Reclamação</span><span class="btn">💡 Ideia ou proposta</span><span class="btn">◀ Ajuda</span></div>
-                            </div>
+                                <div class="btns"><span class="btn">🛠 A problem</span><span class="btn">⚠️ Complaint</span><span class="btn">💡 Idea or proposal</span><span class="btn">◀ Help</span></div>
+                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o pedido privado para a equipe, com as opções de problema, reclamação ou ideia.</figcaption></figure>
                             <div>
                                 <h3>Um pedido privado com número</h3>
                                 <p>Cada pedido recebe um número, e a resposta chega no mesmo chat privado. /status mostra em que pé ele está.</p>
@@ -619,57 +623,57 @@
                             </div>
                         </div>
                         <div class="panel" role="tabpanel" id="h-p2" aria-labelledby="h-t2">
-                            <div class="tg" role="img" aria-label="Cartão do pedido no chat da equipe, depois de tocar em Fechar: os botões são Feito, Útil, Spam e Voltar, com Útil destacado">
+                            <figure class="tg-fig"><div class="tg" role="img" aria-label="A ticket card in the team chat, after tapping Close: the buttons are Done, Useful, Spam and Back, with Useful highlighted">
                                 <div class="msg">
                                     <div class="cap">
-                                        <p>🎫 <b>Pedido #0001</b> · 💡 Ideia · ✅ limpo (pontuação 0)</p>
-                                        <p>De: Maya</p>
-                                        <p><b>Ideia:</b> Acrescentar um guia curto para novos membros sobre onde encontrar os links oficiais do projeto.</p>
-                                        <p><b>Por quê:</b> Novos membros seguem perguntando a mesma coisa no grupo.</p>
-                                        <p>↩️ <b>Responda a este membro</b><br>Toque em 💬 Responder, ou responda a esta mensagem. Sua resposta vai para o chat privado dele.</p>
+                                        <p>🎫 <b>Ticket #0001</b> · 💡 Idea · ✅ clean (score 0)</p>
+                                        <p>From: Maya</p>
+                                        <p><b>Idea:</b> Add a short guide for new members on where to find the project’s official links.</p>
+                                        <p><b>Why:</b> New members keep asking the same question in the group.</p>
+                                        <p>↩️ <b>Answer this member</b><br>Tap 💬 Reply, or reply to this message. Your answer goes to their private chat.</p>
                                     </div>
                                 </div>
-                                <div class="btns"><span class="btn">✅ Feito</span><span class="btn pick">⭐ Útil</span><span class="btn">🚫 Spam</span><span class="btn">◀ Voltar</span></div>
-                            </div>
+                                <div class="btns"><span class="btn">✅ Done</span><span class="btn pick">⭐ Useful</span><span class="btn">🚫 Spam</span><span class="btn">◀ Back</span></div>
+                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o cartão de um pedido no chat da equipe, com o botão Useful (Útil) destacado.</figcaption></figure>
                             <div>
                                 <h3>Um chat privado para toda a sua equipe</h3>
-                                <p>Qualquer pessoa da equipe pode responder, assumir um pedido ou fechá-lo como Feito, Útil ou Spam. Mensagens com cara de spam ficam na lista de retidos.</p>
+                                <p>Qualquer pessoa da equipe pode responder, assumir um pedido ou fechá-lo como <span lang="en">Done</span> (Feito), <span lang="en">Useful</span> (Útil) ou Spam. Mensagens com cara de spam ficam na lista de retidos.</p>
                                 <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg><span class="td-tag">Dois patos, uma pedra</span></div>
-                                <p>Um toque em Útil fecha o pedido e envia um agradecimento ao membro.</p>
+                                <p>Um toque em <span lang="en">Useful</span> (Útil) fecha o pedido e envia um agradecimento ao membro.</p>
                                 <button class="next-step" type="button">Próximo: a ajuda útil fica salva</button>
                             </div>
                         </div>
                         <div class="panel" role="tabpanel" id="h-p3" aria-labelledby="h-t3">
-                            <div class="tg" role="img" aria-label="Tela Meu perfil do bot da Maya: o histórico de ajuda dela no The Flock, com botões para Histórico, Medalhas, Conta e Início">
+                            <figure class="tg-fig"><div class="tg" role="img" aria-label="The bot's My profile screen for Maya: her track record in The Flock, with buttons for History, Badges, Account and Home">
                                 <div class="msg">
                                     <img src="/assets/flock/screens/profile.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
                                     <div class="cap">
                                         <p>👤 <b>Maya</b></p>
-                                        <p>Seu histórico de ajuda no The Flock: com o que você contribuiu e o que outros confirmaram.</p>
-                                        <p>📜 <b>Histórico</b> lista o que você fez aqui, com datas. 🏅 <b>Medalhas</b> mostra o reconhecimento na sua conta.<br>🔐 <b>Conta</b> guarda sua carteira e seus dados: você pode baixá-los ou apagá-los a qualquer momento.</p>
-                                        <p>Este histórico é seu.</p>
+                                        <p>Your record in The Flock: what you have contributed, and what others confirmed.</p>
+                                        <p>📜 <b>History</b> lists what you have done here, with dates. 🏅 <b>Badges</b> shows recognition on your account.<br>🔐 <b>Account</b> holds your wallet and your data: download it or delete it at any time.</p>
+                                        <p>This record is yours.</p>
                                     </div>
                                 </div>
-                                <div class="btns"><span class="btn">📜 Histórico</span><span class="btn">🏅 Medalhas</span><span class="btn">🔐 Conta</span><span class="btn">🏠 Início</span></div>
-                            </div>
+                                <div class="btns"><span class="btn">📜 History</span><span class="btn">🏅 Badges</span><span class="btn">🔐 Account</span><span class="btn">🏠 Home</span></div>
+                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o perfil de um membro, com o histórico de ajuda e as opções de conta e medalhas.</figcaption></figure>
                             <div>
                                 <h3>Um toque, e a ajuda fica registrada</h3>
-                                <p>Um bom relato de bug ou uma ideia certeira também é ajuda. Quando a equipe marca como Útil, ela entra no Histórico do membro, com a data. Ninguém precisa lembrar quem achou aquele bug no ano passado.</p>
+                                <p>Um bom relato de bug ou uma ideia certeira também é ajuda. Quando a equipe marca como <span lang="en">Useful</span> (Útil), ela entra no <span lang="en">History</span> (Histórico) do membro, com a data. Ninguém precisa lembrar quem achou aquele bug no ano passado.</p>
                                 <button class="next-step" type="button">Próximo: isso é mesmo da equipe?</button>
                             </div>
                         </div>
                         <div class="panel" role="tabpanel" id="h-p4" aria-labelledby="h-t4">
-                            <div class="tg" role="img" aria-label="Resposta do bot a uma mensagem encaminhada: escrita por alguém da equipe, com um aviso para ter cuidado">
+                            <figure class="tg-fig"><div class="tg" role="img" aria-label="The bot's answer to a forwarded message: written by someone on the team, with a warning to be careful">
                                 <div class="msg">
                                     <img src="/assets/flock/screens/staffcheck.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
                                     <div class="cap">
-                                        <p><b>🛡 Escrita por alguém da equipe.</b></p>
-                                        <p>Cuidado: se o seu chat mostrar “Encaminhada de”, quem enviou a mensagem para você pode não fazer parte da equipe. Mesmo uma conta real da equipe pode ser invadida, então isso não prova que a mensagem é segura.</p>
-                                        <p>Você nunca precisa conectar uma carteira ou pagar para receber suporte. As respostas do suporte chegam por este bot. Nunca pedimos sua frase de recuperação, chave privada, senha ou código de login.</p>
+                                        <p><b>🛡 Written by someone on the team.</b></p>
+                                        <p>Careful: if your chat shows “Forwarded from”, the person who sent it to you may not be on the team. And even a real team account can be taken over, so this does not prove the message is safe.</p>
+                                        <p>You never need to connect a wallet or pay to get support. Support replies arrive through this bot. We never ask for your seed phrase, private key, password or login code.</p>
                                     </div>
                                 </div>
-                                <div class="btns"><span class="btn">🎫 Falar com a equipe</span><span class="btn">Revisar outro</span></div>
-                            </div>
+                                <div class="btns"><span class="btn">🎫 Ask the team</span><span class="btn">Check another</span></div>
+                            </div><figcaption class="tg-cap">Tela do bot, em inglês: a resposta a uma mensagem encaminhada, com o aviso para ter cuidado.</figcaption></figure>
                             <div>
                                 <h3>Encaminhe a mensagem, e o bot avisa você</h3>
                                 <p>Aqui, alguém da sua equipe escreveu a mensagem, e mesmo assim o bot avisa para ter cuidado. Ele nunca pede frase de recuperação, senha ou conexão de carteira, e apaga uma chave privada se alguém colar uma.</p>
