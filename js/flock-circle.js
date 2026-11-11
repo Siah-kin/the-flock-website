@@ -2,7 +2,8 @@
    passes the middle of the window, the circle zooms to that step's scene; above the first step it shows the whole
    circle. It moves an HTML layer (translate3d and scale), which stays smooth on phones and slow machines.
    Under reduced motion or Pause the circle never moves: the step you are reading is outlined instead.
-   Tapping a scene, or a line in the list under it, scrolls to that step. */
+   Tapping a scene, or a line in the list under it, scrolls to that step and puts focus on its heading. The drawing is
+   for the eye only (hidden from screen readers, out of the Tab order): the numbered list under it has the same links. */
 (function () {
     'use strict';
     var hc = document.querySelector('.hc');
@@ -66,6 +67,10 @@
             e.preventDefault();
             target.scrollIntoView({ behavior: still() ? 'auto' : 'smooth', block: 'start' });
             try { history.replaceState(null, '', '#' + id); } catch (err) { /* the jump still happened */ }
+            // Keyboard and screen reader users carry on inside the step, not back in the circle
+            var h = document.getElementById(id + '-h') || target;
+            if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '-1');
+            h.focus({ preventScroll: true });
         });
     });
     update();
