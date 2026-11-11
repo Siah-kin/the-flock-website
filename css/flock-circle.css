@@ -1,0 +1,94 @@
+/* How page: the circle. Eight steps that go round, drawn with the home page help circle's own parts (round scenes,
+   green ground, white bubbles, paper card, tick badges, star), numbers on sun discs, a small pond in the middle.
+   Wide screens (1100px and up): the circle stays on the left while the steps scroll on the right, and the camera
+   (js/flock-circle.js) zooms to the step you are reading. Narrower: the circle sits at the top as the contents, its
+   labels move into a list under it, and each step ends with a link back. No motion under reduced motion or Pause. */
+
+.hc { --hc-bed: #E4F0FC; --hc-rim: #5AA0E6; --hc-arc: #0058A8; --hc-air: #FFFFFF; --hc-w2: #5AA0E6; --hc-w1: #0058A8; --hc-lbl: #0E1B33; --hc-ring: #FFFFFF;
+      margin: 0 auto 64px; max-width: 560px; scroll-margin-top: 72px; }
+body.dark-mode .hc { --hc-bed: #10244A; --hc-arc: #8EC4FA; --hc-air: #0B1B38; --hc-w2: #1F5CA3; --hc-w1: #0A2A57; --hc-lbl: #E7EEF9; --hc-ring: #08142B; }
+.hc-intro { margin: 0 0 14px; font-size: 1.12rem; line-height: 1.55; color: #33445A; }
+body.dark-mode .hc-intro { color: #C5D3E8; }
+.hc-stage { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; }
+.hc-cam { position: absolute; inset: 0; transform-origin: 0 0; will-change: transform; transition: transform 650ms cubic-bezier(.45, 0, .55, 1); }
+.hc-cam svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* The drawing, in the help circle's colours */
+.hc-bed { fill: var(--hc-bed); }
+.hc-rim { fill: none; stroke: var(--hc-rim); stroke-width: 3; transition: stroke 180ms, stroke-width 180ms; }
+.hc-gr { fill: #2FA866; } .hc-wh { fill: #FFFFFF; } .hc-ln { fill: #9AA7B8; }
+.hc-pp { fill: #F6F1E3; } .hc-pph { fill: #E3D9BD; } .hc-ppl { fill: #CBBF9C; } .hc-sun { fill: #FED801; }
+.hc-nv { fill: #0058A8; } .hc-nvs { fill: none; stroke: #0058A8; stroke-width: 2.5; }
+.hc-tk { fill: none; stroke: #FFFFFF; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+.hc-gn { fill: #2FA866; } .hc-sn { fill: #FED801; stroke: #F2B705; stroke-width: 2; } .hc-sn-tk { stroke: #12304F; }
+.hc-star { fill: #FED801; stroke: #F2B705; stroke-width: 2; stroke-linejoin: round; }
+.hc-qm { font: 700 22px var(--display); fill: #0058A8; text-anchor: middle; }
+.hc-lens { fill: rgba(255, 255, 255, .35); stroke: #0058A8; stroke-width: 4; } .hc-lens-h { stroke: #0058A8; stroke-width: 5; stroke-linecap: round; }
+.hc-num { fill: var(--sun); stroke: var(--hc-ring); stroke-width: 4; }
+.hc-numt { font: 700 19px var(--display); fill: var(--navy); text-anchor: middle; dominant-baseline: central; }
+.hc-arc { fill: none; stroke: var(--hc-arc); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.hc-air { fill: var(--hc-air); } .hc-w2 { fill: var(--hc-w2); } .hc-w1 { fill: var(--hc-w1); }
+.hc-scene { cursor: pointer; outline: none; transition: opacity 650ms cubic-bezier(.45, 0, .55, 1); }
+.hc-scene:hover .hc-rim, .hc-scene.on .hc-rim { stroke: var(--sun); stroke-width: 5; }
+.hc-scene:focus-visible .hc-rim { stroke: var(--blue); stroke-width: 7; }
+body.dark-mode .hc-scene:focus-visible .hc-rim { stroke: var(--sun); }
+.hc-zoomed .hc-scene:not(.on) { opacity: .45; }
+
+/* Each step: its place in the circle, why it matters, the way back */
+.hc-eye { margin: 0 0 8px !important; font-size: .78rem !important; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; color: var(--muted) !important; }
+body.dark-mode .hc-eye { color: #A9B8CC !important; }
+.stop .hc-why { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-size: 1rem; line-height: 1.5; max-width: 32em; }
+.hc-why b { color: var(--ink); }
+body.dark-mode .stop .hc-why { background: #0B1B38; border-color: #23395C; }
+body.dark-mode .hc-why b { color: #E7EEF9; }
+.hc-back { display: none; }
+
+/* The steps' names sit beside the drawing, not in it: a numbered list under the circle that lights up the step you are reading */
+.hc-toc { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 14px; list-style: none; margin: 16px 0 0; padding: 0; width: 100%; }
+.hc-toc a { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 8px 0 0; border-radius: 22px; font: 600 1rem/1.2 var(--display); color: var(--ink); text-decoration: none; transition: background 180ms; }
+.hc-toc a:hover { background: var(--soft); }
+.hc-toc a.on { background: #FFF1A6; color: #12304F; }
+.hc-toc a:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.hc-tn { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--sun); color: var(--navy); font: 700 .95rem/1 var(--display); }
+body.dark-mode .hc-toc a { color: #E7EEF9; }
+body.dark-mode .hc-toc a:hover { background: #0B1B38; }
+body.dark-mode .hc-toc a.on { background: #FFF1A6; color: #12304F; }
+body.dark-mode .hc-toc a:focus-visible { outline-color: var(--sun); }
+
+/* Narrower screens: the circle is the contents at the top; labels leave the drawing (they would be under 14px) */
+@media (max-width: 1099px) {
+    .hc { position: relative; z-index: 1; background: #fff; padding-bottom: 8px; }   /* covers the road's rail, which starts at the top of this column */
+    body.dark-mode .hc { background: #08142B; }
+    .hc-back { display: inline-flex; align-items: center; min-height: 44px; font: 600 .98rem var(--display); color: var(--blue); text-decoration: none; }
+    body.dark-mode .hc-back { color: #8EC4FA; }
+    .js .hc-back { display: none; }   /* with JavaScript, one floating button does this job (below) */
+    .stop .hc-why { background: none; border: 0; padding: 0; font-size: 1rem; color: var(--muted); }
+    body.dark-mode .stop .hc-why { background: none; color: #A9B8CC; }
+    .stop { scroll-margin-top: 72px; }
+    .hc-fab { position: fixed; z-index: 900; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 22px; background: #0F336A; color: #fff;
+        font: 600 .95rem var(--display); text-decoration: none; box-shadow: 0 8px 20px rgba(0, 16, 48, .3);
+        opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity 180ms, transform 180ms; }
+    .hc-fab.show { opacity: 1; transform: none; pointer-events: auto; }
+    .hc-fab:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+}
+@media (min-width: 1100px) { .hc-fab { display: none; } }
+
+/* Wide screens: the circle stays on the left, the steps scroll on the right */
+@media (min-width: 1100px) {
+    .road .wrap { max-width: 1280px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 540px); column-gap: 56px; align-items: start; }
+    .road .rail { display: none; }
+    .hc { position: sticky; top: 76px; margin: 0; max-width: none; height: calc(100vh - 96px); display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .hc-intro { align-self: stretch; max-width: 30em; }
+    .hc-stage { width: min(100%, calc(100vh - 290px)); }
+    .hc-toc { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px 8px; margin-top: 12px; }
+    .hc-toc a { font-size: .92rem; gap: 8px; }
+    .hc-list .stop { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 0 0 104px; scroll-margin-top: 76px; }
+    .hc-list .stop::before { display: none; }
+    .hc-list .stop > .pic { max-width: 460px; }
+    .hc-list .stop p { max-width: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hc-cam, .hc-scene, .hc-rim, .hc-fab { transition: none; }
+}
