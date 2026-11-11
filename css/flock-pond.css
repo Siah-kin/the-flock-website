@@ -7,6 +7,9 @@
 /* How page, plan stop: the tour card is a square photo that sits flush on its caption, as in Telegram, so its bottom corners stay square */
 #plan .tg .msg img { border-radius: 0; }
 
+/* A button that takes the whole row. Not named "wide": flock-scenes.css hides every .pic .wide below 600px */
+.tg .btn.full { grid-column: 1 / -1; }
+
 /* Loop: text first, then the picture across the full content width so its labels can be read */
 .lp-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; align-items: start; }
 .lp-fig { width: 100%; max-width: 1060px; margin: 0 auto; }
