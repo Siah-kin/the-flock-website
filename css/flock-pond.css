@@ -1,0 +1,2 @@
+.pic picture, .pic img { display:block; max-width:100%; height:auto; border-radius:12px; }
+.lp-fig picture, .lp-fig img { display:block; width:100%; max-width:100%; height:auto; }
