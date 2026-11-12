@@ -197,6 +197,7 @@
         .x-close { margin-top: 64px; display: grid; gap: 28px; max-width: 46em; }
         .x-close .lede { margin: 0; }
         .band .lede a { color: #fff; text-underline-offset: 3px; }
+        .hero .sub a { color: #fff; font-weight: 700; text-underline-offset: 3px; }
         .x-close .pull { margin: 0; max-width: none; }
         .band .pull { color: #fff; }
         body.dark-mode .pull { color: #fff; }
@@ -304,16 +305,17 @@
                 <div>
                     <h1 id="hero-title">Grow your whole community through the people who already carry it.</h1>
                     <p class="sub">A peer-to-peer clubhouse on Telegram. When a member reports a real problem or posts well about your project on X, your team marks it, the helper keeps the credit, and the whole community gets stronger.</p>
+                    <p class="sub door">Starting a community? <a href="/how/#plan">Begin with a plan.</a> In the bot you answer seven short questions, and it sends you a plan with a next step. For now we set up each new group with its team.</p>
                     <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a>
                 </div>
                 <figure>
-                    <div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, one post reviewed as Good, and one thanks received">
+                    <div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, and one post reviewed as Good">
                         <div class="msg">
                             <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/history-480.webp?v=20261111 480w, /assets/flock/screens/history-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="" decoding="async"></picture>
                             <div class="cap">
                                 <p><b>📜 History</b> · Ana</p>
                                 <p class="quiet">These are the saved entries for your bot account. Older points are a record of past activity, not a promise of anything in future.</p>
-                                <p>🙏 Thanks: 1 received · 0 given</p>
+                                <p>🙏 Thanks: 0 received · 0 given</p>
                                 <p><b>Reviewed by the team</b><br>
                                 <mark>• 29 Oct 2026 · 🎫 Request #0014 marked useful</mark>
                                 • 18 Oct 2026 · 📤 Post reviewed: 👍 Good<br>
@@ -373,8 +375,8 @@
             <div class="wrap lp-grid">
                 <div class="lp-copy">
                     <h2 id="loop-title">When people help, the whole community gets stronger.</h2>
-                    <p>Every request your team marks useful goes on that member’s track record.</p>
-                    <p class="lp-dev"><span class="status-pill">In development</span> Your team credits the answers members give each other. With the helper’s OK and a person’s approval, the answer is kept. <a href="/now/#ask-title">The assistant</a> shows it to the next member who asks, with where it came from.</p>
+                    <p>When your team marks a request useful, it goes on that member’s track record, with the date. A post on X that your team grades goes there too.</p>
+                    <p class="lp-dev"><span class="status-pill">In development</span> Help comes back around too: <a href="/now/#ask-title">the assistant</a> will answer from texts your team has approved, and show where each answer came from.</p>
                     <p class="lp-name">This circle shows how help turns into answers, in five steps. Everything you can do with the bot is on <a href="/how/">How to use the bot</a>.</p>
                 </div>
                 <figure class="lp-fig">
@@ -524,7 +526,7 @@
                             </div>
                             <div>
                                 <h3>Start with a post worth answering</h3>
-                                <p>The member replies with a detail, an experience or a question. The ten-page reply guide shows how X decides which replies get seen.</p>
+                                <p>The member picks a post, then replies with a detail, an experience or a question. This screen leads to the team’s list of accounts to follow, to the draft check, and to My posts, where a published reply goes to the team for feedback.</p>
                                 <button class="next-step" type="button">Next: check a draft</button>
                             </div>
                         </div>
@@ -655,7 +657,7 @@
                                 <h3>One private chat for your whole team</h3>
                                 <p>Anyone on the team can reply, take a request, or close it as Done, Useful or Spam. Likely spam waits in its own list.</p>
                                 <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg><span class="td-tag">Two ducks, one rock</span></div>
-                                <p>One tap on Useful closes the request and sends the member a thank-you.</p>
+                                <p>Tap Close, then Useful: the request closes, and the help goes on the member’s track record.</p>
                                 <button class="next-step" type="button">Next: useful help is saved</button>
                             </div>
                         </div>
@@ -674,7 +676,7 @@
                                 <div class="btns"><span class="btn">📜 History</span><span class="btn">🏅 Badges</span><span class="btn">🔐 Account</span><span class="btn">🏠 Home</span></div>
                             </div>
                             <div>
-                                <h3>One tap, and the help is remembered</h3>
+                                <h3>Two taps, and the help is remembered</h3>
                                 <p>A good bug report or a sharp idea is help too. Once your team marks it Useful, it goes into the member’s History with its date. Nobody has to remember who found the bug last spring.</p>
                                 <button class="next-step" type="button">Next: is this really the team?</button>
                             </div>

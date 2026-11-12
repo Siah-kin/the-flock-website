@@ -201,6 +201,7 @@
         .x-close { margin-top: 64px; display: grid; gap: 28px; max-width: 46em; }
         .x-close .lede { margin: 0; }
         .band .lede a { color: #fff; text-underline-offset: 3px; }
+        .hero .sub a { color: #fff; font-weight: 700; text-underline-offset: 3px; }
         .x-close .pull { margin: 0; max-width: none; }
         .band .pull { color: #fff; }
         body.dark-mode .pull { color: #fff; }
@@ -309,16 +310,17 @@
                     <h1 id="hero-title">Faça crescer toda a sua comunidade com as pessoas que já a sustentam.</h1>
                     <p class="h1-en" lang="en">Grow your whole community through the people who already carry it.</p>
                     <p class="sub">Um clube entre pares no Telegram. Quando um membro relata um problema real ou faz um bom post sobre o seu projeto no X, a sua equipe marca a ajuda, quem ajudou fica com o crédito, e a comunidade inteira fica mais forte.</p>
+                    <p class="sub door">Vai começar uma comunidade? <a href="/pt/how/#plan">Comece com um plano.</a> No bot você responde a sete perguntas curtas, e ele envia um plano com um próximo passo. Por enquanto, montamos cada grupo novo junto com a equipe dele.</p>
                     <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a>
                 </div>
                 <figure>
-                    <div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, one post reviewed as Good, and one thanks received">
+                    <div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, and one post reviewed as Good">
                         <div class="msg">
                             <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/history-480.webp?v=20261111 480w, /assets/flock/screens/history-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="" decoding="async"></picture>
                             <div class="cap">
                                 <p><b>📜 History</b> · Ana</p>
                                 <p class="quiet">These are the saved entries for your bot account. Older points are a record of past activity, not a promise of anything in future.</p>
-                                <p>🙏 Thanks: 1 received · 0 given</p>
+                                <p>🙏 Thanks: 0 received · 0 given</p>
                                 <p><b>Reviewed by the team</b><br>
                                 <mark>• 29 Oct 2026 · 🎫 Request #0014 marked useful</mark>
                                 • 18 Oct 2026 · 📤 Post reviewed: 👍 Good<br>
@@ -379,8 +381,8 @@
             <div class="wrap lp-grid">
                 <div class="lp-copy">
                     <h2 id="loop-title">Quando as pessoas ajudam, a comunidade inteira fica mais forte.</h2>
-                    <p>Cada pedido que a sua equipe marca como útil entra no histórico de ajuda daquele membro.</p>
-                    <p class="lp-dev"><span class="status-pill">Em desenvolvimento</span> A sua equipe credita as respostas que os membros dão uns aos outros. Com o OK de quem ajudou e a aprovação de uma pessoa, a resposta fica guardada. <a href="/pt/now/#ask-title">O assistente</a> mostra a resposta ao próximo membro que perguntar, com a origem dela.</p>
+                    <p>Quando a sua equipe marca um pedido como útil, ele entra no histórico de ajuda do membro, com a data. Um post no X que a sua equipe avalia entra lá também.</p>
+                    <p class="lp-dev"><span class="status-pill">Em desenvolvimento</span> A ajuda também volta para quem pergunta depois: <a href="/pt/now/#ask-title">o assistente</a> vai responder com base em textos que a sua equipe aprovou, e mostrar de onde veio cada resposta.</p>
                     <p class="lp-name">Este círculo mostra, em cinco passos, como a ajuda vira resposta. Tudo o que você pode fazer com o bot está em <a href="/pt/how/">Como usar o bot</a>.</p>
                 </div>
                 <figure class="lp-fig">
@@ -530,7 +532,7 @@
                             </div><figcaption class="tg-cap">Tela do bot, em inglês: o menu de respostas no X, com botões para revisar um rascunho, ver os posts enviados e abrir as contas para seguir.</figcaption></figure>
                             <div>
                                 <h3>Comece com um post que vale a pena responder</h3>
-                                <p>O membro responde com um detalhe, uma experiência ou uma pergunta. O guia de respostas, de dez páginas, mostra como o X decide quais respostas são vistas.</p>
+                                <p>O membro escolhe um post e responde com um detalhe, uma experiência ou uma pergunta. Esta tela leva à lista de contas para seguir da equipe, à revisão do rascunho e a My posts (Meus posts), onde uma resposta já publicada vai para a equipe dar feedback.</p>
                                 <button class="next-step" type="button">Próximo: revise um rascunho</button>
                             </div>
                         </div>
@@ -661,7 +663,7 @@
                                 <h3>Um chat privado para toda a sua equipe</h3>
                                 <p>Qualquer pessoa da equipe pode responder, assumir um pedido ou fechá-lo como <span lang="en">Done</span> (Feito), <span lang="en">Useful</span> (Útil) ou Spam. Mensagens com cara de spam ficam numa lista própria.</p>
                                 <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg><span class="td-tag">Dois coelhos, uma cajadada</span></div>
-                                <p>Um toque em <span lang="en">Useful</span> (Útil) fecha o pedido e envia um agradecimento ao membro.</p>
+                                <p>Toque em <span lang="en">Close</span> (Fechar) e depois em <span lang="en">Useful</span> (Útil): o pedido fecha, e a ajuda entra no histórico do membro.</p>
                                 <button class="next-step" type="button">Próximo: a ajuda útil fica salva</button>
                             </div>
                         </div>
@@ -680,7 +682,7 @@
                                 <div class="btns"><span class="btn">📜 History</span><span class="btn">🏅 Badges</span><span class="btn">🔐 Account</span><span class="btn">🏠 Home</span></div>
                             </div><figcaption class="tg-cap">Tela do bot, em inglês: o perfil de um membro, com o histórico de ajuda e as opções de conta e medalhas.</figcaption></figure>
                             <div>
-                                <h3>Um toque, e a ajuda fica registrada</h3>
+                                <h3>Dois toques, e a ajuda fica registrada</h3>
                                 <p>Um bom relato de bug ou uma ideia certeira também é ajuda. Quando a equipe marca como <span lang="en">Useful</span> (Útil), ela entra no <span lang="en">History</span> (Histórico) do membro, com a data. Ninguém precisa lembrar quem achou aquele bug no ano passado.</p>
                                 <button class="next-step" type="button">Próximo: isso é mesmo da equipe?</button>
                             </div>
