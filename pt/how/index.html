@@ -28,10 +28,10 @@
     <link rel="stylesheet" href="/css/flock-duck-play.css?v=20261110hyg10">
     <link rel="stylesheet" href="/css/flock-twoducks.css?v=fix1">
     <link rel="stylesheet" href="/css/flock-pond.css?v=pond5">
-    <link rel="stylesheet" href="/css/flock-circle.css?v=circle5">
+    <link rel="stylesheet" href="/css/flock-circle.css?v=circle6">
     <script src="/js/nav-loader.js?v=20261111logo" defer></script>
     <script src="/js/flock-motion.js?v=20261110pt2" defer></script>
-    <script src="/js/flock-circle.js?v=circle4" defer></script>
+    <script src="/js/flock-circle.js?v=circle5" defer></script>
     <script src="/js/flock-sound.js?v=20261109play3" defer></script>
     <script src="/js/flock-duck-play.js?v=20261112poke2" defer></script>
     <script src="/js/flock-duck.js?v=20261109game2" defer></script>
@@ -71,7 +71,7 @@
         .here { position: absolute; left: -6px; top: -50px; width: 96px; height: auto; }
         .stop p a { color: var(--blue); }
         body.dark-mode .stop p a { color: #8EC4FA; }
-        .stop h2 { margin-top: 0; font-weight: 700; font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.12; }
+        .stop h2 { margin-top: 0; text-wrap: balance; font-weight: 700; font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.12; }
         .stop p { margin-top: 14px; font-size: 1.15rem; line-height: 1.6; color: #33445A; max-width: 30em; }
         body.dark-mode .stop p, body.dark-mode .more li { color: #C5D3E8; }
         .more { margin-top: 18px; }
@@ -189,7 +189,8 @@
                         <p class="hc-eye">1 de 8 · Para sua equipe</p>
                         <h2 id="plan-h">Como planejamos a nossa comunidade?</h2>
                         <p class="hc-why"><b>Por que importa:</b> Um plano ajuda você a decidir o que a sua comunidade faz primeiro.</p>
-                        <p>Começando agora? É aqui que começa quem vai fundar a primeira comunidade. Abra Guides (Guias) no bot e toque em Plan your community (Planejar sua comunidade). Sete perguntas curtas levam você por quatro passos: Your idea (Sua ideia), Your people (Suas pessoas), Do something together (Fazer algo juntos) e Listen and improve (Ouvir e melhorar). Você pode mudar qualquer resposta antes de terminar.</p>
+                        <p>Começando? Mande sua ideia para nós: toque em Help, depois em Ask the team (Falar com a equipe) e em Idea or proposal (Ideia ou proposta). O guia do plano abre para os admins que o dono indicou.</p>
+                        <p>Abra Guides (Guias) no bot e toque em Plan your community (Planejar sua comunidade). Sete perguntas curtas levam você por quatro passos: Your idea (Sua ideia), Your people (Suas pessoas), Do something together (Fazer algo juntos) e Listen and improve (Ouvir e melhorar). Você pode mudar qualquer resposta antes de terminar.</p>
                         <p>O seu plano chega como uma mensagem nova no seu chat com o bot, com um próximo passo. Ele fica nesse chat e não é publicado na sua comunidade.</p>
                     </div>
                     <figure class="pic"><div class="tg" role="img" aria-label="Cartão do bot, em inglês: 🧭 Plan your community. Uma imagem com quatro passos, Your idea, Your people, Do something together e Listen and improve, com uma seta do último passo de volta ao primeiro. Abaixo, o bot explica o guia: sete perguntas curtas, uma de cada vez, qualquer resposta pode ser mudada antes de terminar, e o plano chega como uma mensagem neste chat e não é publicado na comunidade. Botões: Start e Back."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/plan_tour-480.webp?v=20261111 480w, /assets/flock/screens/plan_tour-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/plan_tour.png?v=20261104" width="1080" height="1080" alt="Cartão com o título Plan your community. Quatro passos descem pelo cartão: Your idea, Your people, Do something together e Listen and improve. Uma seta leva do último passo de volta ao primeiro. Os textos do cartão estão em inglês." loading="lazy" decoding="async"></picture><div class="cap"><p><b>🧭 Plan your community</b></p><p>You have a product or meme idea and want people to gather around it. This guide helps you plan how to keep them happy and help the group grow.</p><p>I ask seven short questions, one at a time. They cover your project, your experience and the people you want to bring together. The last one is optional.</p><p>You can change any answer before you finish. If you step away, your answers are kept for 30 minutes.</p><p>Your plan comes as a message in this chat. It is not posted to your community.</p></div></div><div class="btns"><span class="btn full">Start</span><span class="btn full">Back</span></div></div><figcaption>Cartão do guia Plan your community, em inglês como o bot mostra hoje. Mostra os quatro passos e a seta que volta ao começo.</figcaption></figure>
@@ -266,8 +267,8 @@
                         <p class="hc-eye">6 de 8 · Para membros</p>
                         <h2 id="profile-h">Onde fica meu histórico de ajuda?</h2>
                         <p class="hc-why"><b>Por que importa:</b> Os membros guardam uma lista, com datas, da ajuda que a sua equipe confirmou.</p>
-                        <p>Abra My profile (Meu perfil) e depois History (Histórico). Ele lista, com datas, os pedidos que sua equipe marcou como úteis e os posts que ela avaliou. Para levar seus dados, abra Account (Conta), depois Your data (Seus dados), e toque em Download my data (Baixar meus dados). Delete my account (Apagar minha conta) fica no mesmo lugar: remove seu perfil, seus posts, suas medalhas e os vínculos da carteira e do X. Os pedidos que a equipe já tratou ficam com ela, e as linhas marcadas como úteis vêm desses pedidos.</p>
-                        <details class="more"><summary>O que o bot guarda sobre você</summary><ul><li>Seus pedidos de suporte e os posts do X que você enviou para feedback.</li><li>Abra My profile, depois Account e depois Your data. Toque em See what is kept para a lista completa.</li><li>Apagar sua conta remove seu nome, seus vínculos da carteira e do X, seus posts e suas medalhas. Os pedidos que você enviou ficam com a equipe.</li></ul></details>
+                        <p>Abra My profile (Meu perfil) e depois History (Histórico). Ele lista, com datas, os pedidos que sua equipe marcou como úteis e os posts que ela avaliou. Para levar seus dados, abra Account (Conta), depois Your data (Seus dados), e toque em Download my data (Baixar meus dados). Delete my account (Apagar minha conta) fica no mesmo lugar.</p>
+                        <details class="more"><summary>O que o bot guarda sobre você</summary><ul><li>Seus pedidos de suporte e os posts do X que você enviou para feedback.</li><li>Abra My profile, depois Account e depois Your data. Toque em See what is kept para a lista completa.</li><li>Apagar sua conta remove seu nome, seus vínculos da carteira e do X, seus posts e suas medalhas. Os pedidos que você enviou ficam com a equipe, então a equipe continua com os pedidos que marcou como úteis.</li></ul></details>
                     </div>
                     <figure class="pic"><div class="tg" role="img" aria-label="Tela do Histórico de exemplo, de uma pessoa chamada Ana: dois pedidos marcados como úteis pela equipe, e um post avaliado como bom">
                         <div class="msg">
@@ -299,16 +300,16 @@
                     </div>
                     <figure class="pic"><div class="tg" role="img" aria-label="Tela do bot, em inglês: ✍️ Check my reply"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/check_reply-480.webp?v=20261111 480w, /assets/flock/screens/check_reply-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>✍️ Check my reply</b></p><p>• It has a link.<br>
                         • It drops the ticker.<br>
-                        • Price talk or a promised gain.</p><p>I did not keep your text.</p></div></div><div class="btns"><span class="btn">✍️ Check another</span><span class="btn">✍️ Get noticed on X</span></div></div><figcaption>Tela de verificação de resposta, em inglês como o bot mostra hoje. Mostra os avisos encontrados no rascunho. O bot não guarda o texto.</figcaption></figure>
+                        • Price talk or a promised gain.</p><p>Use this check to shape the idea, then type your reply fresh on X. X notes when a reply was pasted.</p><p>I did not keep your text.</p></div></div><div class="btns"><span class="btn full">❓ Why these?</span><span class="btn">✍️ Check another</span><span class="btn">✍️ Get noticed on X</span></div></div><figcaption>Tela de verificação de resposta, em inglês como o bot mostra hoje. Mostra os avisos encontrados no rascunho. O bot não guarda o texto.</figcaption></figure>
                     <a class="hc-back" href="#how-circle">↑ Voltar ao círculo</a>
                 </section>
                 <section class="stop calm" id="review" data-hc="8" aria-labelledby="review-h">
                     <div>
                         <p class="hc-eye">8 de 8 · Para sua equipe e membros</p>
-                        <h2 id="review-h">Como avaliamos os posts, e como os membros recebem feedback?</h2>
+                        <h2 id="review-h">Como avaliamos os posts?</h2>
                         <p class="hc-why"><b>Por que importa:</b> A sua equipe diz o que funcionou, e o membro fica sabendo no privado.</p>
-                        <p>Envie /review no chat da equipe para receber o próximo post da fila. Leia no X, avalie e escreva um motivo. O membro recebe seu feedback em privado.</p>
-                        <p id="get-noticed">Os membros vinculam a conta do X em My posts (Meus posts) e enviam o link de um post que publicaram. Alguém da equipe avalia como Good (Bom), Needs work (Precisa melhorar) ou Not allowed (Não permitido), e explica o motivo. O feedback chega no chat privado do membro.</p>
+                        <p id="get-noticed">Os membros vinculam a conta do X em My posts (Meus posts) e enviam o link de um post que publicaram. Alguém da equipe avalia como Good (Bom), Needs work (Precisa melhorar) ou Not allowed (Não permitido), e explica o motivo.</p>
+                        <p>Envie /review no chat da equipe para receber o próximo post da fila. Leia no X, avalie e escreva um motivo. Seu feedback vai direto para o membro.</p>
                     </div>
                     <figure class="pic pair"><div class="tg" role="img" aria-label="Tela do bot, em inglês: 📣 X posts"><div class="msg"><div class="cap"><p><b>📣 X posts</b></p><p>1 post waiting · oldest less than an hour</p><p>Read the post before grading; the member receives your final feedback privately.</p></div></div><div class="btns"><span class="btn">▶️ Next post</span><span class="btn">ℹ️ Help</span></div></div><figcaption>Tela da fila de posts, em inglês como o bot mostra hoje. Leia o post no X antes de avaliar.</figcaption><div class="tg" role="img" aria-label="Tela do bot, em inglês: 📣 Your post feedback"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/post_feedback-480.webp?v=20261111 480w, /assets/flock/screens/post_feedback-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>📣 Your post feedback</b></p><p>👍 Good, by Ben.</p><p>1 sent · 1 good</p></div></div><div class="btns"><span class="btn">📤 My posts</span><span class="btn">✍️ Get noticed on X</span></div></div><figcaption>Tela de feedback de posts, em inglês como o bot mostra hoje. Mostra um post enviado e um avaliado como bom.</figcaption></figure>
                     <a class="hc-back" href="#how-circle">↑ Voltar ao círculo</a>

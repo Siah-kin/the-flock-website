@@ -28,10 +28,10 @@
     <link rel="stylesheet" href="/css/flock-duck-play.css?v=20261110hyg10">
     <link rel="stylesheet" href="/css/flock-twoducks.css?v=fix1">
     <link rel="stylesheet" href="/css/flock-pond.css?v=pond5">
-    <link rel="stylesheet" href="/css/flock-circle.css?v=circle5">
+    <link rel="stylesheet" href="/css/flock-circle.css?v=circle6">
     <script src="/js/nav-loader.js?v=20261111logo" defer></script>
     <script src="/js/flock-motion.js?v=20261110pt2" defer></script>
-    <script src="/js/flock-circle.js?v=circle4" defer></script>
+    <script src="/js/flock-circle.js?v=circle5" defer></script>
     <script src="/js/flock-sound.js?v=20261109play3" defer></script>
     <script src="/js/flock-duck-play.js?v=20261112poke2" defer></script>
     <script src="/js/flock-duck.js?v=20261109game2" defer></script>
@@ -71,7 +71,7 @@
         .here { position: absolute; left: -6px; top: -50px; width: 96px; height: auto; }
         .stop p a { color: var(--blue); }
         body.dark-mode .stop p a { color: #8EC4FA; }
-        .stop h2 { margin-top: 0; font-weight: 700; font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.12; }
+        .stop h2 { margin-top: 0; text-wrap: balance; font-weight: 700; font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.12; }
         .stop p { margin-top: 14px; font-size: 1.15rem; line-height: 1.6; color: #33445A; max-width: 30em; }
         body.dark-mode .stop p, body.dark-mode .more li { color: #C5D3E8; }
         .more { margin-top: 18px; }
@@ -189,7 +189,8 @@
                         <p class="hc-eye">1 of 8 · For your team</p>
                         <h2 id="plan-h">How do we plan our community?</h2>
                         <p class="hc-why"><b>Why it matters:</b> A plan helps you decide what your community does first.</p>
-                        <p>Starting out? This is where a first-time founder begins. Open Guides in the bot and tap Plan your community. Seven short questions take you through four steps: Your idea, Your people, Do something together, and Listen and improve. You can change any answer before you finish.</p>
+                        <p>Starting out? Send us your idea: tap Help, then Ask the team, then Idea or proposal. The plan guide opens for the admins the owner named.</p>
+                        <p>Open Guides in the bot and tap Plan your community. Seven short questions take you through four steps: Your idea, Your people, Do something together, and Listen and improve. You can change any answer before you finish.</p>
                         <p>Your plan arrives as a new message in your chat with the bot, with a next step. It stays in that chat and is not posted to your community.</p>
                     </div>
                     <figure class="pic"><div class="tg" role="img" aria-label="The bot’s Plan your community card: a picture of four steps, Your idea, Your people, Do something together and Listen and improve, with an arrow from the last step back to the first. Below it, the bot explains the guide: seven short questions, one at a time, any answer can be changed before you finish, and the plan comes as a message in this chat and is not posted to your community. Buttons: Start and Back."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/plan_tour-480.webp?v=20261111 480w, /assets/flock/screens/plan_tour-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/plan_tour.png?v=20261104" width="1080" height="1080" alt="A card titled Plan your community. Four steps run down the card: Your idea, Your people, Do something together, and Listen and improve. An arrow leads from the last step back to the first." loading="lazy" decoding="async"></picture><div class="cap"><p><b>🧭 Plan your community</b></p><p>You have a product or meme idea and want people to gather around it. This guide helps you plan how to keep them happy and help the group grow.</p><p>I ask seven short questions, one at a time. They cover your project, your experience and the people you want to bring together. The last one is optional.</p><p>You can change any answer before you finish. If you step away, your answers are kept for 30 minutes.</p><p>Your plan comes as a message in this chat. It is not posted to your community.</p></div></div><div class="btns"><span class="btn full">Start</span><span class="btn full">Back</span></div></div></figure>
@@ -266,8 +267,8 @@
                         <p class="hc-eye">6 of 8 · For members</p>
                         <h2 id="profile-h">Where is my track record?</h2>
                         <p class="hc-why"><b>Why it matters:</b> Members keep a dated list of the help your team confirmed.</p>
-                        <p>Open My profile, then History. It lists, with dates, the requests your team marked useful and the posts it reviewed. To take your data with you, open Account, then Your data, then Download my data. Delete my account is in the same place: it removes your profile, posts, badges, wallet and X links. Requests the team already handled stay with the team, and the lines marked useful come from those requests.</p>
-                        <details class="more"><summary>What the bot keeps about you</summary><ul><li>Your support requests and the X posts you sent for feedback.</li><li>Open My profile, then Account, then Your data, and tap See what is kept for the full list.</li><li>Deleting your account removes your name, your wallet and X links, your posts and your badges. Requests you sent stay with the team.</li></ul></details>
+                        <p>Open My profile, then History. It lists, with dates, the requests your team marked useful and the posts it reviewed. To take your data with you, open Account, then Your data, then Download my data. Delete my account is in the same place.</p>
+                        <details class="more"><summary>What the bot keeps about you</summary><ul><li>Your support requests and the X posts you sent for feedback.</li><li>Open My profile, then Account, then Your data, and tap See what is kept for the full list.</li><li>Deleting your account removes your name, your wallet and X links, your posts and your badges. Requests you sent stay with the team, so the team still has the requests it marked useful.</li></ul></details>
                     </div>
                     <figure class="pic"><div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, and one post reviewed as Good">
                         <div class="msg">
@@ -299,16 +300,16 @@
                     </div>
                     <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: ✍️ Check my reply"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/check_reply-480.webp?v=20261111 480w, /assets/flock/screens/check_reply-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>✍️ Check my reply</b></p><p>• It has a link.<br>
                         • It drops the ticker.<br>
-                        • Price talk or a promised gain.</p><p>I did not keep your text.</p></div></div><div class="btns"><span class="btn">✍️ Check another</span><span class="btn">✍️ Get noticed on X</span></div></div></figure>
+                        • Price talk or a promised gain.</p><p>Use this check to shape the idea, then type your reply fresh on X. X notes when a reply was pasted.</p><p>I did not keep your text.</p></div></div><div class="btns"><span class="btn full">❓ Why these?</span><span class="btn">✍️ Check another</span><span class="btn">✍️ Get noticed on X</span></div></div></figure>
                     <a class="hc-back" href="#how-circle">↑ Back to the circle</a>
                 </section>
                 <section class="stop calm" id="review" data-hc="8" aria-labelledby="review-h">
                     <div>
                         <p class="hc-eye">8 of 8 · For your team and members</p>
-                        <h2 id="review-h">How do we grade posts, and how do members get feedback?</h2>
+                        <h2 id="review-h">How do we grade posts?</h2>
                         <p class="hc-why"><b>Why it matters:</b> Your team says what worked, and the member hears it in private.</p>
-                        <p>Send /review in the team chat to get the next post waiting. Read it on X, grade it, and add a reason. The member gets your feedback in private.</p>
-                        <p id="get-noticed">Members link their X account under My posts, then send the link to a post they published. Someone on the team grades it Good, Needs work or Not allowed, and says why. The feedback arrives in the member’s private chat.</p>
+                        <p id="get-noticed">Members link their X account under My posts, then send the link to a post they published. Someone on the team grades it Good, Needs work or Not allowed, and says why.</p>
+                        <p>Send /review in the team chat to get the next post waiting. Read it on X, grade it, and add a reason. Your feedback goes straight to the member.</p>
                     </div>
                     <figure class="pic pair"><div class="tg" role="img" aria-label="The bot screen: 📣 X posts"><div class="msg"><div class="cap"><p><b>📣 X posts</b></p><p>1 post waiting · oldest less than an hour</p><p>Read the post before grading; the member receives your final feedback privately.</p></div></div><div class="btns"><span class="btn">▶️ Next post</span><span class="btn">ℹ️ Help</span></div></div><div class="tg" role="img" aria-label="The bot screen: 📣 Your post feedback"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/post_feedback-480.webp?v=20261111 480w, /assets/flock/screens/post_feedback-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>📣 Your post feedback</b></p><p>👍 Good, by Ben.</p><p>1 sent · 1 good</p></div></div><div class="btns"><span class="btn">📤 My posts</span><span class="btn">✍️ Get noticed on X</span></div></div></figure>
                     <a class="hc-back" href="#how-circle">↑ Back to the circle</a>
