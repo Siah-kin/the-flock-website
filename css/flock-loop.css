@@ -67,3 +67,18 @@ html[data-motion="paused"] .lp-arm .lp-headfade { opacity: 1; }
 .fees-text .sticky { border-left: 0; padding-left: 0; font-size: 1.5rem; }
 
 @media (max-width: 560px) { .lp-cap { font-size: 20px; } }
+
+/* Phones: the circle's labels would be smaller than 14px, so they leave the drawing and sit in a short list under it,
+   in the same order, with the round sun bullets of the week cards. The last line is the way back to a person. */
+.lp-list { display: none; }
+@media (max-width: 640px) {
+    .lp-svg .lp-t, .lp-svg .lp-cap { display: none; }
+    .lp-list { display: grid; gap: 10px; list-style: none; margin: 20px 0 0; padding: 0; }
+    .lp-list li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: center; font: 600 1.05rem/1.35 var(--display); color: var(--ink); }
+    .lp-list li::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: var(--sun); justify-self: center; }
+    .lp-list li.back { font-weight: 500; color: #33445A; }
+    .lp-list li.back::before { width: 12px; height: 12px; background: transparent; border: 2px dashed var(--blue); }
+    body.dark-mode .lp-list li { color: #E7EEF9; }
+    body.dark-mode .lp-list li.back { color: #C5D3E8; }
+    body.dark-mode .lp-list li.back::before { border-color: #8EC4FA; }
+}

@@ -1,6 +1,11 @@
 /* A small joke in the opening flock of how/ and privacy/. One user-triggered routine; no autoplay. */
 (function () {
     'use strict';
+    // Portuguese pages live under /pt/ (the same test as js/nav-loader.js)
+    var pt = location.pathname === '/pt' || location.pathname.indexOf('/pt/') === 0;
+    var T = pt
+        ? { label: 'Cutuque os patos', said: 'Pffft! O pato do meio soltou um pum. Os outros patos olham.' }
+        : { label: 'Poke the ducks', said: 'Pffft! The middle duck farted. The other ducks look over.' };
     function init() {
         var F = window.Flock, host = document.querySelector('.top'), flock = host && host.querySelector('.flock');
         if (!F || !flock || !flock.querySelector('.rig')) return;
@@ -8,11 +13,11 @@
         if (birds.length < 3) return;
         var button = document.createElement('button');
         button.type = 'button'; button.className = 'duck-play-control';
-        button.setAttribute('aria-label', 'Poke the ducks');
+        button.setAttribute('aria-label', T.label);
         flock.before(button); button.appendChild(flock);
         flock.setAttribute('viewBox', '-30 -55 580 190');
         flock.insertAdjacentHTML('beforeend', '<g class="duck-gas" fill="#C8E594"><ellipse cx="180" cy="76" rx="16" ry="12"/><ellipse cx="158" cy="60" rx="21" ry="17"/><ellipse cx="137" cy="42" rx="25" ry="20"/></g><text class="duck-pffft" x="110" y="8" fill="#FFF5B8" font-size="30" font-weight="700" transform="rotate(-10 110 8)">Pffft!</text>');
-        var hint = document.createElement('span'); hint.className = 'duck-play-hint'; hint.setAttribute('aria-hidden', 'true'); hint.innerHTML = '<i>i</i>Poke the ducks'; button.appendChild(hint);
+        var hint = document.createElement('span'); hint.className = 'duck-play-hint'; hint.setAttribute('aria-hidden', 'true'); hint.innerHTML = '<i>i</i>' + T.label; button.appendChild(hint);
         var status = document.createElement('span'); status.className = 'duck-play-status'; status.setAttribute('role', 'status'); button.after(status);
         host.classList.add('has-duck-play');
         var animations = [], run = 0;
@@ -31,7 +36,7 @@
             button.classList.remove('duck-playing'); button.classList.add('duck-play-still');
         }
         function play() {
-            clear(); status.textContent = 'Pffft! The middle duck farted. The other ducks look over.';
+            clear(); status.textContent = T.said;
             if (F.paused || F.reduced) { button.classList.add('duck-play-still'); return; }
             button.classList.add('duck-playing'); var token = run;
             try { window.FlockSound && FlockSound.play('pffft'); } catch (e) {}

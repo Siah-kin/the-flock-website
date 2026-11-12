@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="/css/flock-scenes.css?v=20261109scenes1">
     <link rel="stylesheet" href="/css/flock-road.css?v=20261109road1">
     <link rel="stylesheet" href="/css/flock-demos.css?v=20261109demos2">
-    <script src="/js/nav-loader.js?v=20261110pt2" defer></script>
+    <script src="/js/nav-loader.js?v=20261111logo" defer></script>
     <script src="/js/flock-motion.js?v=20261110pt2" defer></script>
     <script src="/js/flock-sound.js?v=20261109play3" defer></script>
     <script src="/js/flock-demos.js?v=20261109play3" defer></script>
@@ -69,6 +69,7 @@
         .stop.now { --c: #2FA866; } .stop.test { --c: #3E8FD8; } .stop.dev { --c: #E5604F; } .stop.plan { --c: #E0B800; }
         .here { position: absolute; left: -8px; top: -46px; width: 88px; height: auto; }
         .stop p a { color: var(--blue); }
+        body.dark-mode .stop p a { color: #8EC4FA; }
         p.status-pill, .stop p.status-pill, .band p.status-pill { display: inline-block; margin: 0 0 12px; padding: 4px 12px; border-radius: 999px; background: #FFF1A6; color: #12304F; font-size: .85rem; font-weight: 700; line-height: 1.3; width: fit-content; max-width: none; }
         .stop h2 { margin-top: 0; font-weight: 700; font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.12; }
         .stop p { margin-top: 14px; font-size: 1.15rem; line-height: 1.6; color: #33445A; max-width: 30em; }
@@ -124,6 +125,7 @@
         .stop .fees-text .eg-title { margin-top: 28px; font-weight: 600; color: var(--navy); }
         body.dark-mode .stop .fees-text p, body.dark-mode .back { color: #C5D3E8; }
         body.dark-mode .stop .fees-text .sticky, body.dark-mode .stop .fees-text .eg-title { color: #fff; }
+        body.dark-mode .stop p.status-pill, body.dark-mode .stop .fees-text p.status-pill, body.dark-mode .band p.status-pill { color: #12304F; }   /* navy on its yellow in both themes */
         .tg { background: #0E1621; border: 1px solid rgba(142, 196, 250, .3); border-radius: 22px; padding: 16px; max-width: 460px; width: 100%; box-shadow: 0 26px 56px rgba(0, 0, 0, .34), 0 4px 10px rgba(0, 0, 0, .16); color: #E8EEF7; font-size: .95rem; line-height: 1.45; text-align: left; }
         .tg .msg { background: #182533; border-radius: 16px 16px 16px 4px; overflow: hidden; }
         .tg .msg + .msg, .tg .me + .msg, .tg .msg + .me { margin-top: 10px; }
@@ -318,7 +320,7 @@
                         <p class="eg-title">An example that works today: Arctide’s own token, TIDE. Its stakers claim TIDE and USDC on arctide.app, and The Flock shows each member’s position.</p>
                         <div class="tg" role="img" aria-label="The bot's staking screen: link your wallet address to see what you have staked, when it unlocks, and the TIDE and USDC you can claim">
                             <div class="msg">
-                                <img src="/assets/flock/screens/staking.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy">
+                                <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/staking-480.webp?v=20261111 480w, /assets/flock/screens/staking-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/staking.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture>
                                 <div class="cap">
                                     <p><b>🌊 Your $TIDE staking</b></p>
                                     <p>Link your wallet address to see your staking position here: what you have staked, when it unlocks, and the TIDE + USDC you can claim.</p>
@@ -347,7 +349,7 @@
 
     <footer class="page-footer" aria-label="Site footer">
         <div class="wrap">
-            <a class="brand" href="/"><img src="/bonzi-logo.png?v=20261104" alt="" width="40" height="40"><span>The Flock</span></a>
+            <a class="brand" href="/"><img src="/assets/flock/logo-144.webp?v=20261111" alt="" width="40" height="40"><span>The Flock</span></a>
             <div class="links"><a href="/privacy/">Your data</a><a href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a></div>
         </div>
     </footer>

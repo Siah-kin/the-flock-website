@@ -1775,3 +1775,7 @@ body:not(.dark-mode) .term:focus::after {
 
 /* Partner row: Arctide's own icon (replaces the old Ethervista sponsor icon) */
 .site-footer.bonzi-branded-footer .footer-sponsor-row img { display: block; flex: 0 0 auto; height: 24px; width: 24px; border-radius: 5px; }
+
+/* Bot screens are served as WebP with the JPEG as fallback: <picture class="scr"><source …><img …></picture>.
+   The wrapper takes no box of its own, so the rules written for the <img> lay it out exactly as before. */
+picture.scr { display: contents; }
