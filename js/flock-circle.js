@@ -42,7 +42,12 @@
     var back = document.querySelector('.hc-back'), fab = null;
     if (back) {
         fab = document.createElement('a');
-        fab.className = 'hc-fab'; fab.href = '#how-circle'; fab.textContent = back.textContent;
+        fab.className = 'hc-fab'; fab.href = '#how-circle';
+        var lbl = back.textContent.replace(/^\s*\u2191\s*/, ''), arrow = document.createElement('span'), txt = document.createElement('span');
+        fab.setAttribute('aria-label', lbl); fab.title = lbl;
+        arrow.setAttribute('aria-hidden', 'true'); arrow.textContent = '\u2191';
+        txt.className = 'hc-fab-t'; txt.setAttribute('aria-hidden', 'true'); txt.textContent = '\u00a0' + lbl;
+        fab.appendChild(arrow); fab.appendChild(txt);
         fab.addEventListener('click', function (e) { e.preventDefault(); hc.scrollIntoView({ behavior: still() ? 'auto' : 'smooth', block: 'start' }); });
         document.body.appendChild(fab);
     }

@@ -201,6 +201,8 @@
         .x-close { margin-top: 64px; display: grid; gap: 28px; max-width: 46em; }
         .x-close .lede { margin: 0; }
         .band .lede a { color: #fff; text-underline-offset: 3px; }
+        .hero .sub.door { font-size: 1.1rem; margin-top: 18px; text-wrap: balance; }
+        .hero .sub a { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
         .x-close .pull { margin: 0; max-width: none; }
         .band .pull { color: #fff; }
         body.dark-mode .pull { color: #fff; }
@@ -310,15 +312,16 @@
                     <p class="h1-en" lang="en">Grow your whole community through the people who already carry it.</p>
                     <p class="sub">Um clube entre pares no Telegram. Quando um membro relata um problema real ou faz um bom post sobre o seu projeto no X, a sua equipe marca a ajuda, quem ajudou fica com o crédito, e a comunidade inteira fica mais forte.</p>
                     <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Abrir o bot</a>
+                    <p class="sub door">Vai começar uma comunidade? <a href="/pt/how/#plan">Mande sua ideia</a>, e o plano vem depois.</p>
                 </div>
                 <figure>
-                    <div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, one post reviewed as Good, and one thanks received">
+                    <div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, and one post reviewed as Good">
                         <div class="msg">
                             <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/history-480.webp?v=20261111 480w, /assets/flock/screens/history-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="" decoding="async"></picture>
                             <div class="cap">
                                 <p><b>📜 History</b> · Ana</p>
-                                <p class="quiet">These are the saved entries for your bot account. Older points show past activity; they do not promise anything in future.</p>
-                                <p>🙏 Thanks: 1 received · 0 given</p>
+                                <p class="quiet">These are the saved entries for your bot account. Older points are a record of past activity, not a promise of anything in future.</p>
+                                <p>🙏 Thanks: 0 received · 0 given</p>
                                 <p><b>Reviewed by the team</b><br>
                                 <mark>• 29 Oct 2026 · 🎫 Request #0014 marked useful</mark>
                                 • 18 Oct 2026 · 📤 Post reviewed: 👍 Good<br>
@@ -379,8 +382,8 @@
             <div class="wrap lp-grid">
                 <div class="lp-copy">
                     <h2 id="loop-title">Quando as pessoas ajudam, a comunidade inteira fica mais forte.</h2>
-                    <p>Cada pedido que a sua equipe marca como útil entra no histórico de ajuda daquele membro.</p>
-                    <p class="lp-dev"><span class="status-pill">Em desenvolvimento</span> A sua equipe credita as respostas que os membros dão uns aos outros. Com o OK de quem ajudou e a aprovação de uma pessoa, a resposta fica guardada. <a href="/pt/now/#ask-title">O assistente</a> mostra a resposta ao próximo membro que perguntar, com a origem dela.</p>
+                    <p>Quando a sua equipe marca um pedido como útil, ele entra no histórico de ajuda do membro, com a data. Um post no X que a sua equipe avalia também entra no histórico.</p>
+                    <p class="lp-dev"><span class="status-pill">Em desenvolvimento</span> A ajuda também volta para quem pergunta depois: <a href="/pt/now/#ask-title">o assistente</a> vai responder com base em textos que a sua equipe aprovou, e mostrar de onde veio cada resposta.</p>
                     <p class="lp-name">Este círculo mostra, em cinco passos, como a ajuda vira resposta. Tudo o que você pode fazer com o bot está em <a href="/pt/how/">Como usar o bot</a>.</p>
                 </div>
                 <figure class="lp-fig">
@@ -465,7 +468,7 @@
                             <path d="M118 77 l7 7 13-14" fill="none" stroke="#002050" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M128 48 v-7 M104 56 l-5-5 M152 56 l5-5" stroke="#FED801" stroke-width="3.4" stroke-linecap="round"/>
                         </svg>
-                        <p>Um membro relata um bug que a sua equipe deixou passar. A equipe marca como útil, e quem ajudou fica com o crédito.</p>
+                        <p>Um membro relata um bug que a sua equipe deixou passar. A equipe marca como útil.</p>
                     </li>
                     <li class="wk-card">
                         <span class="wk-day">Sábado</span>
@@ -514,48 +517,51 @@
                     </div>
                     <div class="panels">
                         <div class="panel" role="tabpanel" id="x-p1" aria-labelledby="x-t1">
-                            <figure class="tg-fig"><div class="tg" role="img" aria-label="The bot's Get noticed on X screen, with buttons to check a reply, see my posts, learn how to reply well, and go home">
+                            <figure class="tg-fig"><div class="tg" role="img" aria-label="The bot's Get noticed on X screen, with buttons to check a reply, see my posts, see the accounts to follow, and go home">
                                 <div class="msg">
                                     <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/x_home-480.webp?v=20261111 480w, /assets/flock/screens/x_home-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/x_home.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture>
                                     <div class="cap">
                                         <p><b>📣 Write replies people want to answer</b></p>
                                         <p>Pick a post you want to answer, then add a useful detail, an experience or a thoughtful question.</p>
                                         <p>Read → Add value → Reply</p>
-                                        <p>✍️ <b>Have a draft?</b> Check my reply before you post it.</p>
+                                        <p>👥 <b>Looking for a post?</b> Accounts to follow is the team’s list on X.</p>
+                                        <p>✍️ <b>Have a draft?</b> Check my reply before you type it on X.</p>
                                         <p>📤 <b>Already posted?</b> Send it in My posts. If the team reviews it, their feedback arrives in this chat.</p>
-                                        <p>💬 <b>Not sure how?</b> How to reply well shows an example and tips.</p>
                                     </div>
                                 </div>
-                                <div class="btns"><span class="btn">✍️ Check my reply</span><span class="btn">📤 My posts</span><span class="btn">💬 How to reply well</span><span class="btn">🏠 Home</span></div>
-                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o menu de respostas no X, com botões para revisar um rascunho, ver os posts enviados e aprender a responder bem.</figcaption></figure>
+                                <div class="btns"><span class="btn">✍️ Check my reply</span><span class="btn">📤 My posts</span><span class="btn">👥 Accounts to follow</span><span class="btn">🏠 Home</span></div>
+                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o menu de respostas no X, com botões para revisar um rascunho, ver os posts enviados e abrir as contas para seguir.</figcaption></figure>
                             <div>
                                 <h3>Comece com um post que vale a pena responder</h3>
-                                <p>O membro responde com um detalhe, uma experiência ou uma pergunta. O guia de respostas, de dez páginas, mostra como o X decide quais respostas são vistas.</p>
+                                <p>O membro escolhe um post e responde com um detalhe, uma experiência ou uma pergunta. Esta tela leva à lista de contas para seguir da equipe, à revisão do rascunho e a My posts (Meus posts), onde uma resposta já publicada vai para a equipe dar feedback.</p>
                                 <button class="next-step" type="button">Próximo: revise um rascunho</button>
                             </div>
                         </div>
                         <div class="panel" role="tabpanel" id="x-p2" aria-labelledby="x-t2">
-                            <figure class="tg-fig"><div class="tg marked" role="img" aria-label="A member pastes a draft reply. The bot answers that it has a link, it drops the ticker, and it has price talk or a promised gain, and says it did not keep the text">
+                            <figure class="tg-fig"><div class="tg marked" role="img" aria-label="A member pastes a draft reply. The bot answers that it has a link and price talk or a promised gain, says to type the reply fresh on X, and says it did not keep the text">
                                 <div class="msg">
-                                    <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/check_reply-480.webp?v=20261111 480w, /assets/flock/screens/check_reply-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture>
                                     <div class="cap">
                                         <p><b>✍️ Check my reply</b></p>
                                         <p>Send the text you are thinking of posting as a reply on X. I’ll check for issues such as length, links, ticker mentions and price promises.</p>
+                                        <p>This is a limited writing check, not approval of the claims or a guarantee people will see the reply. I do not publish it or keep the draft text.</p>
+                                        <p>Paste your draft next.</p>
                                     </div>
                                 </div>
-                                <div class="me"><span class="who">Your draft</span><u data-k="1">$COIN</u> is <u data-k="2">about to 10x</u>, get in before it pumps 🚀 <u data-k="0">coin.app</u></div>
+                                <div class="me"><span class="who">Your draft</span>This coin is <u data-k="1">about to 10x</u>, get in before it pumps 🚀 <u data-k="0">https://coin.app</u></div>
                                 <div class="msg later">
+                                    <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/check_reply-480.webp?v=20261111 480w, /assets/flock/screens/check_reply-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture>
                                     <div class="cap">
                                         <p><b>✍️ Check my reply</b></p>
-                                        <ul><li>It has a link.</li><li>It drops the ticker.</li><li>Price talk or a promised gain.</li></ul>
+                                        <ul><li>It has a link.</li><li>Price talk or a promised gain.</li></ul>
+                                        <p>Use this check to shape the idea, then type your reply fresh on X. X notes when a reply was pasted.</p>
                                         <p class="quiet"><i>I did not keep your text.</i></p>
                                     </div>
                                 </div>
                                 <div class="btns later"><span class="btn wide">❓ Why these?</span><span class="btn">✍️ Check another</span><span class="btn">✍️ Get noticed on X</span></div>
-                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o bot marca o link, o ticker e a promessa de ganho no rascunho, e diz que não guardou o texto.</figcaption></figure>
+                            </div><figcaption class="tg-cap">Tela do bot, em inglês: o bot marca o link e a promessa de ganho no rascunho, diz para digitar a resposta de novo no X e informa que não guardou o texto.</figcaption></figure>
                             <div>
                                 <h3>Veja o que costuma esconder uma resposta, antes de postar</h3>
-                                <p>O bot aponta o que costuma esconder respostas: um link, um ticker, papo de preço, pedidos de curtidas e cerca de dez frases feitas que as ferramentas de IA adoram. Ele nunca reescreve o texto e não guarda nada.</p>
+                                <p>O bot aponta o que costuma esconder respostas: um link, o ticker $TIDE (o token da Arctide) ou um endereço de contrato, papo de preço, pedidos de curtidas e cerca de dez frases feitas que as ferramentas de IA adoram. Ele nunca reescreve o texto e não guarda nada.</p>
                                 <button class="next-step" type="button">Próximo: o retorno da equipe</button>
                             </div>
                         </div>
@@ -583,7 +589,7 @@
                                     <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/history-480.webp?v=20261111 480w, /assets/flock/screens/history-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture>
                                     <div class="cap">
                                         <p><b>📜 History</b> · Maya</p>
-                                        <p class="quiet">These are the saved entries for your bot account. Older points show past activity; they do not promise anything in future.</p>
+                                        <p class="quiet">These are the saved entries for your bot account. Older points are a record of past activity, not a promise of anything in future.</p>
                                         <p>🙏 Thanks: 0 received · 0 given</p>
                                         <p><b>Reviewed by the team</b><br><mark>• 07 Oct 2026 · 📤 Post reviewed: 👍 Good</mark></p>
                                         <p class="quiet">Something looks wrong? Tap Ask the team.</p>
@@ -593,7 +599,7 @@
                             </div><figcaption class="tg-cap">Tela do bot, em inglês: o histórico de um membro, com um post avaliado como Good (Bom) em 7 de outubro de 2026.</figcaption></figure>
                             <div>
                                 <h3>A avaliação entra no histórico de ajuda</h3>
-                                <p>Cada post avaliado entra com a data. Meses depois, quem explicou bem o seu projeto pode mostrar isso. A pessoa pode baixar o próprio histórico de ajuda ou apagá-lo quando quiser.</p>
+                                <p>Cada post avaliado entra com a data. Meses depois, quem explicou bem o seu projeto pode mostrar isso.</p>
                                 <button class="next-step" type="button">Voltar ao início</button>
                             </div>
                         </div>
@@ -602,7 +608,7 @@
                 <div class="x-close">
                     <p class="lede">Em 15 de janeiro de 2026, o chefe de produto do X escreveu que o X não permitiria mais “apps que recompensam usuários por postar no X” (<span lang="en">“<a href="https://decrypt.co/354736/elon-musks-x-bans-access-infofi-crypto-projects-ai-slop-backlash" target="_blank" rel="noopener noreferrer">no longer allow apps that reward users for posting on X</a>”</span>). Ninguém no The Flock é pago para postar.</p>
                     <div class="pull-row">
-                        <blockquote class="pull"><span lang="en">Anyone can become a professional and help pitch a project, out of loyalty or as a small business of their own. Both are fair when the work is real. But the method has to be forged, and that is where The Flock steps in.</span><br>Qualquer pessoa pode virar profissional e ajudar a divulgar um projeto, por lealdade ou como um pequeno negócio próprio. As duas coisas são justas quando o trabalho é real. Mas o método precisa ser lapidado, e é aí que entra o The Flock.</blockquote>
+                        <blockquote class="pull"><span lang="en">Anyone can become a professional and help pitch a project, out of loyalty or as a small business of their own. Both are fair when the work is real, and the method has to be forged.</span><br>Qualquer pessoa pode virar profissional e ajudar a divulgar um projeto, por lealdade ou como um pequeno negócio próprio. As duas coisas são justas quando o trabalho é real, e o método precisa ser lapidado.</blockquote>
                         <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg><span class="td-tag">Dois coelhos, uma cajadada</span></div>
                     </div>
                     <blockquote class="pull"><span lang="en">If you are here to advocate a project and its token, and you want to learn from professionals, you are at the right stop.</span><br>Se você está aqui para defender um projeto e o token dele, e quer aprender com profissionais, está no lugar certo.</blockquote>
@@ -658,7 +664,7 @@
                                 <h3>Um chat privado para toda a sua equipe</h3>
                                 <p>Qualquer pessoa da equipe pode responder, assumir um pedido ou fechá-lo como <span lang="en">Done</span> (Feito), <span lang="en">Useful</span> (Útil) ou Spam. Mensagens com cara de spam ficam numa lista própria.</p>
                                 <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg><span class="td-tag">Dois coelhos, uma cajadada</span></div>
-                                <p>Um toque em <span lang="en">Useful</span> (Útil) fecha o pedido e envia um agradecimento ao membro.</p>
+                                <p>Toque em <span lang="en">Close</span> (Fechar) e depois em <span lang="en">Useful</span> (Útil), e o pedido fecha.</p>
                                 <button class="next-step" type="button">Próximo: a ajuda útil fica salva</button>
                             </div>
                         </div>
@@ -668,15 +674,16 @@
                                     <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/profile-480.webp?v=20261111 480w, /assets/flock/screens/profile-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/profile.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture>
                                     <div class="cap">
                                         <p>👤 <b>Maya</b></p>
-                                        <p>Your record in The Flock: what you have contributed, and what others confirmed.</p>
+                                        <p>Your track record in The Flock: what you have contributed, and what others confirmed.</p>
+                                        <p>Nothing here yet. Your first entry can come from a request the team marks useful or a post you send for review.</p>
                                         <p>📜 <b>History</b> lists what you have done here, with dates. 🏅 <b>Badges</b> shows recognition on your account.<br>🔐 <b>Account</b> holds your wallet and your data: download it or delete it at any time.</p>
-                                        <p>This record is yours.</p>
+                                        <p>This track record is yours.</p>
                                     </div>
                                 </div>
                                 <div class="btns"><span class="btn">📜 History</span><span class="btn">🏅 Badges</span><span class="btn">🔐 Account</span><span class="btn">🏠 Home</span></div>
                             </div><figcaption class="tg-cap">Tela do bot, em inglês: o perfil de um membro, com o histórico de ajuda e as opções de conta e medalhas.</figcaption></figure>
                             <div>
-                                <h3>Um toque, e a ajuda fica registrada</h3>
+                                <h3>Dois toques, e a ajuda fica registrada</h3>
                                 <p>Um bom relato de bug ou uma ideia certeira também é ajuda. Quando a equipe marca como <span lang="en">Useful</span> (Útil), ela entra no <span lang="en">History</span> (Histórico) do membro, com a data. Ninguém precisa lembrar quem achou aquele bug no ano passado.</p>
                                 <button class="next-step" type="button">Próximo: isso é mesmo da equipe?</button>
                             </div>
@@ -695,7 +702,7 @@
                             </div><figcaption class="tg-cap">Tela do bot, em inglês: a resposta a uma mensagem encaminhada, com o aviso para ter cuidado.</figcaption></figure>
                             <div>
                                 <h3>Encaminhe a mensagem, e o bot avisa você</h3>
-                                <p>Aqui, alguém da sua equipe escreveu a mensagem, e mesmo assim o bot avisa para ter cuidado. Ele nunca pede frase de recuperação, senha ou conexão de carteira, e apaga uma chave privada se alguém colar uma.</p>
+                                <p>Na primeira vez que você encaminha uma mensagem, o bot pergunta para onde ela deve ir. Toque em Check who wrote it (Ver quem escreveu) e encaminhe a mensagem de novo em até cinco minutos. Aqui, alguém da sua equipe escreveu a mensagem, e mesmo assim o bot avisa para ter cuidado. Ele nunca pede frase de recuperação, senha ou conexão de carteira, e apaga uma chave privada se alguém colar uma.</p>
                                 <button class="next-step" type="button">Voltar ao início</button>
                             </div>
                         </div>
@@ -708,8 +715,8 @@
             <div class="wrap">
                 <h2 id="does-title">Onde cada ferramenta atua</h2>
                 <figure class="gap">
-                    <svg class="gap-svg gap-h" viewBox="0 0 1000 232" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Onde cada ferramenta atua, nas cinco etapas que um membro percorre: ele fica sabendo do projeto, etapa coberta por quadros de missões, bots de raid e anúncios; entra no grupo, etapa coberta por bots de moderação; pede ajuda, etapa coberta por centrais de suporte e pelo The Flock; confere se uma mensagem veio da equipe, e ajuda o próximo recém-chegado enquanto a equipe acompanha, etapa coberta pelo The Flock."><rect class="gap-hl" x="404" y="4" width="588" height="224" rx="24"/><path class="gap-trail" d="M118 124 H900"/><circle class="gap-n" cx="100" cy="34" r="17"/><text class="gap-nt" x="100" y="40" text-anchor="middle">1</text><text class="gap-t" x="100" y="156" text-anchor="middle">Fica sabendo</text><text class="gap-t" x="100" y="177" text-anchor="middle">do projeto</text><text class="gap-c" x="100" y="200" text-anchor="middle">Quadros de missões, bots de raid, anúncios</text><circle class="gap-n" cx="300" cy="34" r="17"/><text class="gap-nt" x="300" y="40" text-anchor="middle">2</text><text class="gap-t" x="300" y="156" text-anchor="middle">Entra</text><text class="gap-t" x="300" y="177" text-anchor="middle">no grupo</text><text class="gap-c" x="300" y="200" text-anchor="middle">Bots de moderação</text><circle class="gap-n hl" cx="500" cy="34" r="17"/><text class="gap-nt" x="500" y="40" text-anchor="middle">3</text><text class="gap-t" x="500" y="156" text-anchor="middle">Pede</text><text class="gap-t" x="500" y="177" text-anchor="middle">ajuda</text><text class="gap-c hl" x="500" y="200" text-anchor="middle">Central de suporte, The Flock</text><circle class="gap-n hl" cx="700" cy="34" r="17"/><text class="gap-nt" x="700" y="40" text-anchor="middle">4</text><text class="gap-t" x="700" y="156" text-anchor="middle">Confere quem</text><text class="gap-t" x="700" y="177" text-anchor="middle">enviou a mensagem</text><text class="gap-c hl" x="700" y="200" text-anchor="middle">The Flock</text><circle class="gap-n hl" cx="900" cy="34" r="17"/><text class="gap-nt" x="900" y="40" text-anchor="middle">5</text><text class="gap-t" x="900" y="156" text-anchor="middle">Ajuda o próximo</text><text class="gap-t" x="900" y="177" text-anchor="middle">recém-chegado</text><text class="gap-c hl" x="900" y="200" text-anchor="middle">The Flock</text><text class="gap-c hl" x="900" y="218" text-anchor="middle">mostra à sua equipe</text><use href="#duck" x="77" y="92" width="46" height="26.5"/><path class="gap-sea" d="M52 124 C70 114 84 134 102 124 C120 114 134 134 150 124 L150 134 Q150 144 140 144 L62 144 Q52 144 52 134 Z"/><path class="gap-gate" d="M318 78 V122 M354 78 V122 M312 78 H360"/><use href="#duck" x="262" y="96" width="46" height="26.5"/><use href="#duck" x="462" y="96" width="46" height="26.5"/><g class="gap-bub"><rect x="500" y="62" width="40" height="28" rx="9"/><path d="M506 90 l-6 9 l14 -9 z"/><text x="520" y="82" text-anchor="middle">?</text></g><use href="#duck" x="650" y="96" width="46" height="26.5"/><use href="#duck" x="716" y="100" width="40" height="23.0" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity=".95"/><use href="#duck" x="838" y="96" width="46" height="26.5"/><use href="#duck" x="886" y="101" width="36" height="20.7"/><use href="#duck" x="922" y="105" width="28" height="16.1"/></svg>
-                    <svg class="gap-svg gap-v" viewBox="0 0 360 524" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Onde cada ferramenta atua, nas cinco etapas que um membro percorre: ele fica sabendo do projeto, etapa coberta por quadros de missões, bots de raid e anúncios; entra no grupo, etapa coberta por bots de moderação; pede ajuda, etapa coberta por centrais de suporte e pelo The Flock; confere se uma mensagem veio da equipe, e ajuda o próximo recém-chegado enquanto a equipe acompanha, etapa coberta pelo The Flock."><rect class="gap-hl" x="4" y="204" width="352" height="316" rx="22"/><path class="gap-trail" d="M52 70 V470"/><circle class="gap-n" cx="30" cy="44" r="15"/><text class="gap-nt" x="30" y="50" text-anchor="middle">1</text><text class="gap-t" x="110" y="38">Fica sabendo do projeto</text><text class="gap-c" x="110" y="60">Quadros de missões, bots de raid, anúncios</text><circle class="gap-n" cx="30" cy="148" r="15"/><text class="gap-nt" x="30" y="154" text-anchor="middle">2</text><text class="gap-t" x="110" y="142">Entra no grupo</text><text class="gap-c" x="110" y="164">Bots de moderação</text><circle class="gap-n hl" cx="30" cy="252" r="15"/><text class="gap-nt" x="30" y="258" text-anchor="middle">3</text><text class="gap-t" x="110" y="246">Pede ajuda</text><text class="gap-c hl" x="110" y="268">Central de suporte, The Flock</text><circle class="gap-n hl" cx="30" cy="356" r="15"/><text class="gap-nt" x="30" y="362" text-anchor="middle">4</text><text class="gap-t" x="110" y="350">Confere quem enviou a mensagem</text><text class="gap-c hl" x="110" y="372">The Flock</text><circle class="gap-n hl" cx="30" cy="460" r="15"/><text class="gap-nt" x="30" y="466" text-anchor="middle">5</text><text class="gap-t" x="110" y="454">Ajuda o próximo recém-chegado</text><text class="gap-c hl" x="110" y="476">O The Flock mostra à sua equipe</text><use href="#duck" x="52" y="38" width="46" height="26.5"/><path class="gap-sea" d="M40 66 C54 58 64 74 78 66 C90 59 98 72 104 68 L104 76 Q104 82 94 82 L50 82 Q40 82 40 76 Z"/><use href="#duck" x="52" y="142" width="46" height="26.5"/><use href="#duck" x="52" y="246" width="46" height="26.5"/><use href="#duck" x="52" y="350" width="46" height="26.5"/><use href="#duck" x="52" y="454" width="46" height="26.5"/></svg>
+                    <svg class="gap-svg gap-h" viewBox="0 0 1000 232" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Onde cada ferramenta atua, nas cinco etapas que um membro percorre: ele fica sabendo do projeto, etapa coberta por quadros de missões, bots de raid e anúncios; entra no grupo, etapa coberta por bots de moderação; pede ajuda, etapa coberta por centrais de suporte e pelo The Flock; confere se uma mensagem veio da equipe, e a equipe vê quem ajudou pelo resumo de segunda-feira, etapa coberta pelo The Flock."><rect class="gap-hl" x="404" y="4" width="588" height="224" rx="24"/><path class="gap-trail" d="M118 124 H900"/><circle class="gap-n" cx="100" cy="34" r="17"/><text class="gap-nt" x="100" y="40" text-anchor="middle">1</text><text class="gap-t" x="100" y="156" text-anchor="middle">Fica sabendo</text><text class="gap-t" x="100" y="177" text-anchor="middle">do projeto</text><text class="gap-c" x="100" y="200" text-anchor="middle">Quadros de missões, bots de raid, anúncios</text><circle class="gap-n" cx="300" cy="34" r="17"/><text class="gap-nt" x="300" y="40" text-anchor="middle">2</text><text class="gap-t" x="300" y="156" text-anchor="middle">Entra</text><text class="gap-t" x="300" y="177" text-anchor="middle">no grupo</text><text class="gap-c" x="300" y="200" text-anchor="middle">Bots de moderação</text><circle class="gap-n hl" cx="500" cy="34" r="17"/><text class="gap-nt" x="500" y="40" text-anchor="middle">3</text><text class="gap-t" x="500" y="156" text-anchor="middle">Pede</text><text class="gap-t" x="500" y="177" text-anchor="middle">ajuda</text><text class="gap-c hl" x="500" y="200" text-anchor="middle">Central de suporte, The Flock</text><circle class="gap-n hl" cx="700" cy="34" r="17"/><text class="gap-nt" x="700" y="40" text-anchor="middle">4</text><text class="gap-t" x="700" y="156" text-anchor="middle">Confere quem</text><text class="gap-t" x="700" y="177" text-anchor="middle">enviou a mensagem</text><text class="gap-c hl" x="700" y="200" text-anchor="middle">The Flock</text><circle class="gap-n hl" cx="900" cy="34" r="17"/><text class="gap-nt" x="900" y="40" text-anchor="middle">5</text><text class="gap-t" x="900" y="156" text-anchor="middle">Equipe vê</text><text class="gap-t" x="900" y="177" text-anchor="middle">quem ajudou</text><text class="gap-c hl" x="900" y="200" text-anchor="middle">The Flock</text><text class="gap-c hl" x="900" y="218" text-anchor="middle">resumo de segunda</text><use href="#duck" x="77" y="92" width="46" height="26.5"/><path class="gap-sea" d="M52 124 C70 114 84 134 102 124 C120 114 134 134 150 124 L150 134 Q150 144 140 144 L62 144 Q52 144 52 134 Z"/><path class="gap-gate" d="M318 78 V122 M354 78 V122 M312 78 H360"/><use href="#duck" x="262" y="96" width="46" height="26.5"/><use href="#duck" x="462" y="96" width="46" height="26.5"/><g class="gap-bub"><rect x="500" y="62" width="40" height="28" rx="9"/><path d="M506 90 l-6 9 l14 -9 z"/><text x="520" y="82" text-anchor="middle">?</text></g><use href="#duck" x="650" y="96" width="46" height="26.5"/><use href="#duck" x="716" y="100" width="40" height="23.0" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6" opacity=".95"/><use href="#duck" x="838" y="96" width="46" height="26.5"/><use href="#duck" x="886" y="101" width="36" height="20.7"/><use href="#duck" x="922" y="105" width="28" height="16.1"/></svg>
+                    <svg class="gap-svg gap-v" viewBox="0 0 360 524" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Onde cada ferramenta atua, nas cinco etapas que um membro percorre: ele fica sabendo do projeto, etapa coberta por quadros de missões, bots de raid e anúncios; entra no grupo, etapa coberta por bots de moderação; pede ajuda, etapa coberta por centrais de suporte e pelo The Flock; confere se uma mensagem veio da equipe, e a equipe vê quem ajudou pelo resumo de segunda-feira, etapa coberta pelo The Flock."><rect class="gap-hl" x="4" y="204" width="352" height="316" rx="22"/><path class="gap-trail" d="M52 70 V470"/><circle class="gap-n" cx="30" cy="44" r="15"/><text class="gap-nt" x="30" y="50" text-anchor="middle">1</text><text class="gap-t" x="110" y="38">Fica sabendo do projeto</text><text class="gap-c" x="110" y="60">Quadros de missões, bots de raid, anúncios</text><circle class="gap-n" cx="30" cy="148" r="15"/><text class="gap-nt" x="30" y="154" text-anchor="middle">2</text><text class="gap-t" x="110" y="142">Entra no grupo</text><text class="gap-c" x="110" y="164">Bots de moderação</text><circle class="gap-n hl" cx="30" cy="252" r="15"/><text class="gap-nt" x="30" y="258" text-anchor="middle">3</text><text class="gap-t" x="110" y="246">Pede ajuda</text><text class="gap-c hl" x="110" y="268">Central de suporte, The Flock</text><circle class="gap-n hl" cx="30" cy="356" r="15"/><text class="gap-nt" x="30" y="362" text-anchor="middle">4</text><text class="gap-t" x="110" y="350">Confere quem enviou a mensagem</text><text class="gap-c hl" x="110" y="372">The Flock</text><circle class="gap-n hl" cx="30" cy="460" r="15"/><text class="gap-nt" x="30" y="466" text-anchor="middle">5</text><text class="gap-t" x="110" y="454">Equipe vê quem ajudou</text><text class="gap-c hl" x="110" y="476">The Flock, resumo de segunda</text><use href="#duck" x="52" y="38" width="46" height="26.5"/><path class="gap-sea" d="M40 66 C54 58 64 74 78 66 C90 59 98 72 104 68 L104 76 Q104 82 94 82 L50 82 Q40 82 40 76 Z"/><use href="#duck" x="52" y="142" width="46" height="26.5"/><use href="#duck" x="52" y="246" width="46" height="26.5"/><use href="#duck" x="52" y="350" width="46" height="26.5"/><use href="#duck" x="52" y="454" width="46" height="26.5"/></svg>
                 </figure>
                 <p class="where">Mantenha o bot que você usa para moderar seu grupo. O The Flock funciona junto com ele. Veja <a href="/pt/how/">como cada parte funciona</a> e <a href="/pt/now/">o que vem a seguir</a>.</p>
             </div>
@@ -723,7 +730,7 @@
                 <div class="fin-note">
                     <span class="fin-i" aria-hidden="true">i</span>
                     <div>
-                        <p>O The Flock funciona hoje na comunidade da Arctide. Para levá-lo à sua comunidade, envie uma proposta de parceria:</p>
+                        <p>O The Flock funciona hoje na comunidade da Arctide. Para levá-lo à sua comunidade, mande sua ideia:</p>
                         <ol class="fin-steps"><li>Toque em <span lang="en">Help</span> (Ajuda)</li><li>Toque em <span lang="en">Ask the team</span> (Falar com a equipe)</li><li>Toque em <span lang="en">Idea or proposal</span> (Ideia ou proposta)</li></ol>
                     </div>
                 </div>

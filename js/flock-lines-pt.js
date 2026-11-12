@@ -17,7 +17,7 @@ window.FlockLines = {
   ],
   banterIdle: [
     ['apagou minha mensagem, chefe?', 'qual delas?', 'a que tinha o link', 'por isso, chefe'],
-    ['posso falar com o admin?', 'eu sou o admin', 'admin de verdade?', 'encaminha minha mensagem pro bot e vê', '…deixa pra lá'],
+    ['posso falar com o admin?', 'eu sou o admin', 'admin de verdade?', 'encaminha pro bot e toca em Check who wrote it', '…deixa pra lá'],
     ['tenho uma proposta', 'pode falar', 'e se a gente ganhasse pra dizer bom dia', 'o X disse não a isso em janeiro', 'e se a gente falasse mais alto'],
     ['tenho uma proposta', 'toca em Ask the team, escolhe Idea or proposal', 'são muitos passos', 'são três toques, chefe', 'vou mandar DM pro admin'],
     ['chefe, desbane meu primo', 'qual primo?', 'todos os 11', 'é um cara só, chefe'],
@@ -40,7 +40,7 @@ window.FlockLines = {
     { fake: 'Me chama e manda sua frase secreta', real: 'Toque em Help, depois em Ask the team', tell: 'Sua frase secreta fica só com você' },
     { fake: 'Urgente: conecte sua carteira aqui', real: 'As respostas vêm pelo bot', tell: 'Suporte nunca pede carteira' },
     { fake: 'Resgate seu airdrop, link abaixo', real: 'Os avisos ficam fixados no grupo', tell: 'Notícia real fica no post fixado' },
-    { fake: 'Vi sua dúvida. Me manda no privado', real: 'Equipe não chama primeiro. Pergunte no grupo', tell: 'Admin de verdade não chama primeiro' },
+    { fake: 'Vi sua dúvida. Me manda no privado', real: 'Equipe não chama primeiro. Pergunte à equipe no bot', tell: 'Admin de verdade não chama primeiro' },
     { fake: 'Admin: pague 20 USDC pra ser ajudado', real: 'Suporte é grátis, pergunte no bot', tell: 'Pagar por ajuda é o golpe' },
     { fake: 'Suporte aqui. Mande seu código de acesso', real: 'Seu pedido ganha um número no bot', tell: 'Código de acesso é só seu' }
   ],

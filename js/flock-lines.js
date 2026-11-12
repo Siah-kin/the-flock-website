@@ -17,7 +17,7 @@ window.FlockLines = {
   ],
   banterIdle: [
     ['you delete my msg sir?', 'which one', 'the one with the link', 'that\'s why sir'],
-    ['can i talk to the admin?', 'i am the admin', 'real admin?', 'forward my message to the bot and see', '…nvm'],
+    ['can i talk to the admin?', 'i am the admin', 'real admin?', 'forward it to the bot, then tap Check who wrote it', '…nvm'],
     ['i have a proposal', 'go on', 'what if we get paid to say gm', 'X said no to that in january', 'what if we say it louder'],
     ['i have a proposal', 'tap Ask the team, pick Idea or proposal', 'that\'s a lot of steps', 'it\'s three taps sir', 'i\'ll just DM the admin'],
     ['sir pls unban my cousin', 'which cousin', 'all 11 of them', 'that\'s one guy sir'],
@@ -40,7 +40,7 @@ window.FlockLines = {
     { fake: 'DM me your seed to verify', real: 'Tap Help, then Ask the team', tell: 'Your seed phrase stays private' },
     { fake: 'Urgent: connect your wallet here', real: 'Answers come through the bot', tell: 'Support never needs a wallet' },
     { fake: 'Claim your airdrop, link below', real: 'Announcements are pinned in the group', tell: 'Real news is in the pinned post' },
-    { fake: 'Saw your question. Message me privately', real: 'Support never DMs first. Ask in the group', tell: 'Real admins never DM first' },
+    { fake: 'Saw your question. Message me privately', real: 'Support never DMs first. Ask the team in the bot', tell: 'Real admins never DM first' },
     { fake: 'Group admin: pay 20 USDC to get help', real: 'Support is free, ask us in the bot', tell: 'Paying for help is the scam' },
     { fake: 'Support bot here. Send your login code', real: 'Your request gets a number in the bot', tell: 'Keep login codes to yourself' }
   ],
