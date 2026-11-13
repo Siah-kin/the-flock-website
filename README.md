@@ -22,7 +22,7 @@ data/          the quotes shown on the home page
 scripts/       small checks and helpers, each described at the top of its file
 ```
 
-A few old addresses (faq/, manual/, why/ and similar) hold a short redirect page, so links people saved still land on the right page. 404.html is the page for addresses that do not exist. CNAME sets the domain, sitemap.xml lists the ten pages, and robots.txt lets link previews in Telegram and other apps read the site while search engines stay out until it opens.
+A few old addresses (faq/, manual/, why/ and similar) hold a short redirect page, so links people saved still land on the right page. 404.html is the page for addresses that do not exist. CNAME sets the domain, and sitemap.xml lists the five pages in both languages. robots.txt lets link previews in Telegram and other apps read the site and keeps search engines out for now.
 
 ## Preview it on your computer
 
@@ -32,7 +32,7 @@ From the repository root, run:
 python3 -m http.server
 ```
 
-Then open http://localhost:8000 in a browser. The menu is loaded by a script, so it appears only when the pages are served this way and not when you open a file directly.
+Then open http://localhost:8000 in a browser. The pages load their styles, pictures and menu from paths that start at the site root, so all three appear only when the pages are served this way and not when you open a file directly.
 
 ## Languages
 

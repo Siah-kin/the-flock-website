@@ -1,12 +1,12 @@
 # Working on this repository
 
-This file is for anyone who changes the site, whether a person or a coding agent. The site speaks for a live product and main is public, so what it says has to stay true. These rules keep it that way. CLAUDE.md points here, and new rules go in this file only.
+This file is for anyone who changes the site, whether a person or a coding agent. The site speaks for a live product and main is public, so what it says has to stay true. CLAUDE.md points here, and new rules go in this file only.
 
 ## The site shows what the bot does today
 
 Describe what the bot does now. When something is only planned, mark it once, in plain words, with the label the now page already uses: "Planned" in English and "Planejado" in Portuguese. Never promise safety, reach, price or returns, and leave out hype words, the kind a sales page uses.
 
-If the site and the bot disagree, the bot is right and the site changes. Fix the page in both languages, then check that the screenshots in assets/flock/screens/ still match what the bot shows.
+If the site and the bot disagree, the bot is right and the site changes. Fix the page in both languages, then replace any screenshot in assets/flock/screens/ that no longer matches the bot.
 
 ## English and Portuguese change together
 
@@ -20,9 +20,9 @@ A change to one goes into the same pull request as the change to the other. Writ
 
 ## Words people read
 
-A caption tells the visitor something the picture does not. It never describes its own picture. A thing gets one sentence that says what it does.
+A caption never describes its own picture; it tells the visitor what the picture cannot. A thing gets one sentence that says what it does.
 
-Say "track record", never a bare "record". Use the bot's own words exactly as the bot shows them, for buttons, screen titles and commands. The screenshots in assets/flock/screens/ show them.
+Say "track record", never a bare "record". Use the bot's own words exactly as the bot shows them today, for buttons, screen titles and commands. Open the bot to check them. The screenshots in assets/flock/screens/ are a handy reference, and the bot overrides them.
 
 After any edit, read the whole page in order, in both languages. A change in one place often leaves a repeat or a gap in another. Run the copy checks you have, such as a readability check and a scan for stock AI phrasing. They find candidates and a reader decides.
 
@@ -40,4 +40,4 @@ The home page quotes come from data/pain-wall.json. After editing the file, run 
 - Someone who did not write the change reviews it first, reading the rendered pages in both languages.
 - Run `python3 scripts/check_pain_wall_links.py` before each release. It checks that every quote's source link still answers and still carries the quoted words.
 - The maintainers record each release in a receipt made at the exact commit that goes live. A later edit needs a new receipt.
-- Main is public, so keep private notes, strategy, anyone's personal details, passwords and other secrets, and file paths from your own computer out of every commit. Private working notes live outside this repository.
+- Main is public. Never commit private notes, strategy, anyone's personal details, passwords or other secrets, or file paths from your own computer. Private working notes live outside this repository.
