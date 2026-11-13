@@ -177,8 +177,8 @@
             <div class="wrap">
                 <h1 id="road-title">How do you use The&nbsp;Flock?</h1>
                 <p>Open the bot in Telegram and press Start.</p>
-                <p>Members can check a reply before they post it on X, and your team grades the post afterwards. The grade goes on the member’s track record.</p>
-                <p class="doors"><a href="#member">I’m a member</a><a href="#team">I’m starting a community</a></p>
+                <p>Members ask your team for help in private and get feedback on their X posts. Your team answers both from one private group chat.</p>
+                <p class="doors"><a href="#member">I’m a member</a><a href="#team">I run a community</a></p>
             </div>
         </section>
 
@@ -217,9 +217,10 @@
                     <li class="stop" id="check-my-reply">
                         <div>
                             <h3>How do I check a reply before I post it on X?</h3>
-                            <p>Check my reply looks at your draft for ten things that often get a reply hidden. The bot keeps no copy of it.</p>
+                            <p>Before you post a reply on X, the bot points out ten things that often get a reply skipped or hidden. It keeps no copy of your draft.</p>
                             <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg></div>
                             <p>Open BUIDL, then Pitch, then Get noticed on X, then Check my reply, and paste your draft.</p>
+                            <p>After you post, send the link under My posts, and someone on your team gives you feedback in private.</p>
                             <details class="more"><summary>What Check my reply looks for</summary><ul><li>A reply under 20 characters, or over 280</li><li>A link that starts with http or www</li><li>The $TIDE ticker, the name Arctide or a contract address that starts with 0x</li><li>More than two hashtags, or more than one cashtag besides $TIDE</li><li>Mostly capital letters</li><li>Price talk or a promised gain</li><li>Income or legal claims</li><li>Asking for likes or reposts</li><li>About ten stock phrases, and two rockets in a row</li><li>Writing that sounds like AI: long dashes, “not this but that”, a chatbot opener or closer, and words AI tools overuse. Two of these together raise the remark</li></ul><p>The bot shows six remarks at most. The Reply guide shows how to write replies people answer.</p></details>
                         </div>
                         <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: ✍️ Check my reply"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/check_reply-480.webp?v=20261111 480w, /assets/flock/screens/check_reply-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>✍️ Check my reply</b></p><p>• It has a link.<br>
@@ -229,8 +230,8 @@
                     <li class="stop" id="profile">
                         <div>
                             <h3>Where is my track record?</h3>
-                            <p>Open My profile, then History to see your track record: a dated list of the requests your team marked useful and the posts it reviewed.</p>
-                            <p>To take your data with you, open Account, then Your data, then Download my data. Delete my account is in the same place.</p>
+                            <p>Your track record is a dated list of the requests your team marked useful and the posts it reviewed. To see it, open My profile, then History.</p>
+                            <p>To take your data with you, open Account, then Your data, then Download my data.</p>
                             <details class="more"><summary>What the bot keeps about you</summary><ul><li>Your support requests and the X posts you sent for feedback.</li><li>Open My profile, then Account, then Your data, and tap See what is kept for the full list.</li><li>Deleting your account removes your name, your wallet and X links, your posts and your badges. Requests you sent stay with the team, so the team still has the requests it marked useful.</li></ul></details>
                         </div>
                         <figure class="pic"><div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, and one post reviewed as Good">
@@ -332,7 +333,7 @@
     <script>
     // Old manual and FAQ links keep working: their anchors point to the matching section here.
     (function () {
-        var map = { 'zeal': 'questions', 'x-feedback': 'get-noticed', 'post-feedback': 'get-noticed', 'reply-guide': 'check-my-reply', 'my-contributions': 'profile', 'never-ask': 'is-it-the-team', 'help': 'is-it-the-team', 'what-is-kept': 'profile', 'your-data': 'profile', 'thanks': 'profile', 'wallet': 'need-a-wallet', 'noise': 'tickets', 'team-desk': 'tickets', 'brief': 'tickets', 'carousel': 'setup', 'who-is-team': 'setup', 'what-can-i-do': 'ask-the-team', 'members': 'ask-the-team', 'start': 'ask-the-team', 'troubleshooting': 'questions', 'reach-a-person': 'ask-the-team', 'how-circle': 'ask-the-team' };
+        var map = { 'zeal': 'questions', 'x-feedback': 'get-noticed', 'post-feedback': 'get-noticed', 'reply-guide': 'check-my-reply', 'my-contributions': 'profile', 'never-ask': 'is-it-the-team', 'help': 'is-it-the-team', 'what-is-kept': 'profile', 'your-data': 'profile', 'thanks': 'profile', 'wallet': 'need-a-wallet', 'noise': 'tickets', 'team-desk': 'tickets', 'brief': 'tickets', 'carousel': 'setup', 'who-is-team': 'setup', 'what-can-i-do': 'ask-the-team', 'members': 'ask-the-team', 'start': 'ask-the-team', 'troubleshooting': 'questions', 'reach-a-person': 'ask-the-team', 'how-circle': 'ask-the-team', 'ask-the-team-h': 'ask-the-team', 'is-it-the-team-h': 'is-it-the-team', 'check-my-reply-h': 'check-my-reply', 'profile-h': 'profile', 'plan-h': 'plan', 'setup-h': 'setup', 'tickets-h': 'tickets', 'review-h': 'review' };
         var h = location.hash.slice(1);
         if (map[h] && !document.getElementById(h)) { history.replaceState(null, '', '#' + map[h]); var el = document.getElementById(map[h]); if (el) el.scrollIntoView(); }
     })();
