@@ -138,6 +138,8 @@
         .pic .tg { justify-self: center; }
         .part { font-family: var(--display); font-weight: 700; font-size: clamp(1.9rem, 3.4vw, 2.5rem); line-height: 1.1; margin: 0 0 40px 96px; color: var(--navy); }
         body.dark-mode .part { color: #E7EEF9; }
+        .part-lead { margin: -18px 0 36px 96px; max-width: 34em; font-size: 1.15rem; line-height: 1.6; color: #33445A; }
+        body.dark-mode .part-lead { color: #C5D3E8; }
         .steps { list-style: none; margin: 0; padding: 0; }
         [id] { scroll-margin-top: 76px; }
         /* The team list sits on a pale band, so the two lists read as two at a glance. The band runs the full width of the window, behind the rail. */
@@ -159,7 +161,7 @@
         .qa > summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
         .qa p { margin: 0 0 18px; font-size: 1.08rem; line-height: 1.6; color: #33445A; }
         body.dark-mode .qa p { color: #C5D3E8; } body.dark-mode .qa { border-color: #23395C; }
-        @media (max-width: 900px) { .part { margin-left: 58px; } }
+        @media (max-width: 900px) { .part, .part-lead { margin-left: 58px; } }
         @media (max-width: 1100px) { .pic .tg { justify-self: start; } }
     </style>
 </head>
@@ -251,20 +253,20 @@
                 </ol>
                 <div class="team-band">
                 <h2 class="part" id="team">For your team</h2>
+                <p class="part-lead">The Flock runs in Arctide’s community today. To bring it to your community, send us your idea: under Help, tap Ask the team, then Idea or proposal.</p>
                 <ol class="steps team" role="list" aria-labelledby="team">
                     <li class="stop" id="plan">
                         <div>
                             <h3>How do we plan our community?</h3>
-                            <p>Answer seven short questions and the guide gives you a plan for your community, with a next step. The guide opens for the team’s listed admins: open Guides in the bot and tap Plan your community. The questions follow four steps, called Your idea, Your people, Do something together and Listen and improve. You can change any answer before you finish.</p>
-                            <p>Your plan arrives as a new message in your chat with the bot. It stays in that chat and is not posted to your community.</p>
-                            <p>Starting out? Send us your idea. Under Help, tap Ask the team, then Idea or proposal.</p>
+                            <p>Answer seven short questions and the guide gives you a plan for your community, with a next step. The guide opens for people on your team’s admin list: open Guides in the bot and tap Plan your community. The plan arrives as a message in your chat with the bot.</p>
+                            <details class="more"><summary>More about the plan</summary><ul><li>The questions follow four steps: Your idea, Your people, Do something together and Listen and improve.</li><li>You can change any answer before you finish.</li><li>The plan stays in that chat and is not posted to your community.</li></ul></details>
                         </div>
                         <figure class="pic"><div class="tg" role="img" aria-label="The bot’s Plan your community card: four steps, Your idea, Your people, Do something together and Listen and improve, and an arrow from the last step back to the first. Below it, the bot explains the guide: seven short questions, one at a time, any answer can be changed before you finish, and the plan comes as a message in this chat and is not posted to your community. Buttons: Start and Back."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/plan_tour-480.webp?v=20261111 480w, /assets/flock/screens/plan_tour-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/plan_tour.png?v=20261104" width="1080" height="1080" alt="A card titled Plan your community. Four steps run down the card: Your idea, Your people, Do something together, and Listen and improve. An arrow leads from the last step back to the first." loading="lazy" decoding="async"></picture><div class="cap"><p><b>🧭 Plan your community</b></p><p>You have a product or meme idea and want people to gather around it. This guide helps you plan how to keep them happy and help the group grow.</p><p>I ask seven short questions, one at a time. They cover your project, your experience and the people you want to bring together. The last one is optional.</p><p>You can change any answer before you finish. If you step away, your answers are kept for 30 minutes.</p><p>Your plan comes as a message in this chat. It is not posted to your community.</p></div></div><div class="btns"><span class="btn full">Start</span><span class="btn full">Back</span></div></div></figure>
                     </li>
                     <li class="stop" id="setup">
                         <div>
                             <h3>How do we set up our team chat?</h3>
-                            <p>Your team sees every request and post for review in one place: the team chat. To set it up, make a private Telegram group for your team and add the bot. Everyone in the group can read members’ names and messages, so add only your team.</p>
+                            <p>Your team sees every request and post for review in one place: the team chat. Someone on your team’s admin list sets it up: make a private Telegram group for your team and add the bot. Everyone in the group can read members’ names and messages, so add only your team.</p>
                         </div>
                         <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: ✅ Your team chat is ready. Under the heading Your team chat is ready in Team desk, two steps to answer a request: tap I’ll take it, then tap Reply. Buttons: Team guide and Done."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/team_ready-480.webp?v=20261112 480w, /assets/flock/screens/team_ready-960.webp?v=20261112 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/team_ready.jpg?v=20261112" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>✅ Your team chat is ready</b></p><p>New tickets and X posts for review arrive here as cards. To answer one:<br>1. Tap 🙋 I’ll take it, so the team knows it’s yours.<br>2. Tap 💬 Reply and write your answer. The member gets it in their private chat with the bot.</p><p class="quiet"><i>Everyone in this group can read members’ names and messages. If this group includes people outside your team, send /setup in your team’s own group instead.</i></p></div></div><div class="btns"><span class="btn">📖 Team guide</span><span class="btn">✖ Done</span></div></div></figure>
                     </li>
@@ -273,8 +275,7 @@
                             <h3>How do we answer requests?</h3>
                             <p>Each request arrives in the team chat as a numbered card, and you answer it from the card. Tap Reply, and your answer goes to the member’s private chat. Tap Close, then choose Done, Useful or Spam. Useful puts the help on the member’s track record.</p>
                             <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg></div>
-                            <p>A tap on Spam quietly closes the request and gives the sender a strike. After two strikes, their next request waits in the held list. A report of a hack or drained funds still reaches the team.</p>
-                            <details class="more"><summary>More about the team chat</summary><ul><li>Likely spam goes to the held list, so real requests come first.</li><li>Every Monday the team chat gets an overview: who did the work and what is still waiting. /overview shows it any time.</li></ul></details>
+                            <details class="more"><summary>More about the team chat</summary><ul><li>A tap on Spam closes the request without telling the sender and gives them a strike. After two strikes, their next request waits in the held list, which /noise shows. A report of a hack or drained funds still reaches the team.</li><li>Likely spam also goes to the held list, so real requests come first.</li><li>Every Monday the team chat gets an overview: who did the work and what is still waiting. /overview shows it any time.</li></ul></details>
                         </div>
                         <figure class="pic"><div class="tg" role="img" aria-label="A ticket card in the team chat, after tapping Close: the buttons are Done, Useful, Spam and Back, with Useful highlighted">
                                 <div class="msg">
@@ -292,7 +293,7 @@
                     <li class="stop" id="review">
                         <div>
                             <h3>How do we grade posts?</h3>
-                            <p id="get-noticed">Your team gives members feedback on their X posts, in private. A member links their X account under My posts and sends the link to a post they published. Someone on the team picks Good, Needs work or Not allowed and adds a reason.</p>
+                            <p id="get-noticed">Your team gives members feedback on their X posts, in private. A member links their X account under My posts and sends the link to a post they published. Someone on the team picks Good, Needs work or Not allowed, and gives a reason for anything other than Good.</p>
                             <p>Send /review in the team chat to get the next post waiting, then read it on X and grade it.</p>
                         </div>
                         <figure class="pic pair"><div class="tg" role="img" aria-label="The bot screen: 📣 X posts"><div class="msg"><div class="cap"><p><b>📣 X posts</b></p><p>1 post waiting · oldest less than an hour</p><p>Read the post before grading; the member receives your final feedback privately.</p></div></div><div class="btns"><span class="btn">▶️ Next post</span><span class="btn">ℹ️ Help</span></div></div><div class="tg" role="img" aria-label="The bot screen: 📣 Your post feedback"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/post_feedback-480.webp?v=20261111 480w, /assets/flock/screens/post_feedback-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>📣 Your post feedback</b></p><p>👍 Good, by Ben.</p><p>1 sent · 1 good</p></div></div><div class="btns"><span class="btn">📤 My posts</span><span class="btn">✍️ Get noticed on X</span></div></div></figure>

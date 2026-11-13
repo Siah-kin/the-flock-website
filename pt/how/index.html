@@ -138,6 +138,8 @@
         .pic .tg { justify-self: center; }
         .part { font-family: var(--display); font-weight: 700; font-size: clamp(1.9rem, 3.4vw, 2.5rem); line-height: 1.1; margin: 0 0 40px 96px; color: var(--navy); }
         body.dark-mode .part { color: #E7EEF9; }
+        .part-lead { margin: -18px 0 36px 96px; max-width: 34em; font-size: 1.15rem; line-height: 1.6; color: #33445A; }
+        body.dark-mode .part-lead { color: #C5D3E8; }
         .steps { list-style: none; margin: 0; padding: 0; }
         [id] { scroll-margin-top: 76px; }
         /* The team list sits on a pale band, so the two lists read as two at a glance. The band runs the full width of the window, behind the rail. */
@@ -159,7 +161,7 @@
         .qa > summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
         .qa p { margin: 0 0 18px; font-size: 1.08rem; line-height: 1.6; color: #33445A; }
         body.dark-mode .qa p { color: #C5D3E8; } body.dark-mode .qa { border-color: #23395C; }
-        @media (max-width: 900px) { .part { margin-left: 58px; } }
+        @media (max-width: 900px) { .part, .part-lead { margin-left: 58px; } }
         @media (max-width: 1100px) { .pic .tg { justify-self: start; } }
     </style>
 </head>
@@ -251,20 +253,20 @@
                 </ol>
                 <div class="team-band">
                 <h2 class="part" id="team">Para sua equipe</h2>
+                <p class="part-lead">Hoje o The Flock funciona na comunidade da Arctide. Para levar o bot à sua comunidade, mande sua ideia para nós: em Help (Ajuda), toque em Ask the team (Falar com a equipe) e depois em Idea or proposal (Ideia ou proposta).</p>
                 <ol class="steps team" role="list" aria-labelledby="team">
                     <li class="stop" id="plan">
                         <div>
                             <h3>Como planejamos a nossa comunidade?</h3>
-                            <p>Responda a sete perguntas curtas e receba um plano para a comunidade, com um próximo passo. O guia abre para os admins listados da equipe: abra Guides (Guias) no bot e toque em Plan your community (Planejar sua comunidade). As perguntas seguem quatro passos, chamados Your idea (Sua ideia), Your people (Suas pessoas), Do something together (Fazer algo juntos) e Listen and improve (Ouvir e melhorar). Você pode mudar qualquer resposta antes de terminar.</p>
-                            <p>O seu plano chega como uma mensagem nova no seu chat com o bot. Ele fica nesse chat e não é publicado na sua comunidade.</p>
-                            <p>Está começando? Mande sua ideia para nós. Em Help, toque em Ask the team (Falar com a equipe) e depois em Idea or proposal (Ideia ou proposta).</p>
+                            <p>Responda a sete perguntas curtas e receba do guia um plano para a comunidade, com um próximo passo. Quem está na lista de admins da equipe abre o guia em Guides (Guias) no bot e toca em Plan your community (Planejar sua comunidade). O plano chega como uma mensagem no seu chat com o bot.</p>
+                            <details class="more"><summary>Mais sobre o plano</summary><ul><li>As perguntas seguem quatro passos: Your idea (Sua ideia), Your people (Suas pessoas), Do something together (Fazer algo juntos) e Listen and improve (Ouvir e melhorar).</li><li>Você pode mudar qualquer resposta antes de terminar.</li><li>O plano fica nesse chat e não é publicado na sua comunidade.</li></ul></details>
                         </div>
                         <figure class="pic"><div class="tg" role="img" aria-label="Cartão do bot, em inglês: 🧭 Plan your community. Quatro passos: Your idea, Your people, Do something together e Listen and improve, com uma seta do último passo de volta ao primeiro. Abaixo, o bot explica o guia: sete perguntas curtas, uma de cada vez, qualquer resposta pode ser mudada antes de terminar, e o plano chega como uma mensagem neste chat e não é publicado na comunidade. Botões: Start e Back."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/plan_tour-480.webp?v=20261111 480w, /assets/flock/screens/plan_tour-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/plan_tour.png?v=20261104" width="1080" height="1080" alt="Cartão com o título Plan your community. Quatro passos descem pelo cartão: Your idea, Your people, Do something together e Listen and improve. Uma seta leva do último passo de volta ao primeiro. Os textos do cartão estão em inglês." loading="lazy" decoding="async"></picture><div class="cap"><p><b>🧭 Plan your community</b></p><p>You have a product or meme idea and want people to gather around it. This guide helps you plan how to keep them happy and help the group grow.</p><p>I ask seven short questions, one at a time. They cover your project, your experience and the people you want to bring together. The last one is optional.</p><p>You can change any answer before you finish. If you step away, your answers are kept for 30 minutes.</p><p>Your plan comes as a message in this chat. It is not posted to your community.</p></div></div><div class="btns"><span class="btn full">Start</span><span class="btn full">Back</span></div></div></figure>
                     </li>
                     <li class="stop" id="setup">
                         <div>
                             <h3>Como montamos o chat da nossa equipe?</h3>
-                            <p>A sua equipe vê todo pedido e todo post para revisão em um só lugar: o chat da equipe. Para montar, crie um grupo privado no Telegram para sua equipe e adicione o bot. Todos no grupo podem ler os nomes e as mensagens dos membros, então adicione só a sua equipe.</p>
+                            <p>A sua equipe vê todo pedido e todo post para revisão em um só lugar: o chat da equipe. Quem está na lista de admins da equipe faz a configuração: crie um grupo privado no Telegram para a equipe e adicione o bot. Todos no grupo podem ler os nomes e as mensagens dos membros, então adicione só a sua equipe.</p>
                         </div>
                         <figure class="pic"><div class="tg" role="img" aria-label="Tela do bot, em inglês: ✅ Your team chat is ready. Sob o título Your team chat is ready in Team desk, dois passos para responder a um pedido: tocar em I’ll take it e em Reply. Botões: Team guide e Done."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/team_ready-480.webp?v=20261112 480w, /assets/flock/screens/team_ready-960.webp?v=20261112 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/team_ready.jpg?v=20261112" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>✅ Your team chat is ready</b></p><p>New tickets and X posts for review arrive here as cards. To answer one:<br>1. Tap 🙋 I’ll take it, so the team knows it’s yours.<br>2. Tap 💬 Reply and write your answer. The member gets it in their private chat with the bot.</p><p class="quiet"><i>Everyone in this group can read members’ names and messages. If this group includes people outside your team, send /setup in your team’s own group instead.</i></p></div></div><div class="btns"><span class="btn">📖 Team guide</span><span class="btn">✖ Done</span></div></div></figure>
                     </li>
@@ -273,8 +275,7 @@
                             <h3>Como respondemos aos pedidos?</h3>
                             <p>Cada pedido chega ao chat da equipe como um cartão numerado, e você responde direto no cartão. Toque em Reply (Responder), e sua resposta vai para o chat privado do membro. Depois, toque em Close (Fechar) e escolha Done (Feito), Useful (Útil) ou Spam. Useful coloca a ajuda no histórico de ajuda do membro.</p>
                             <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg></div>
-                            <p>Um toque em Spam fecha o pedido em silêncio e dá um strike (uma advertência) ao remetente. Depois de dois strikes, o próximo pedido dele espera na lista de retidos. Um relato de invasão ou de fundos drenados ainda chega à equipe.</p>
-                            <details class="more"><summary>Mais sobre o chat da equipe</summary><ul><li>Pedidos com cara de spam vão para a lista de retidos, para que os pedidos reais venham primeiro.</li><li>Toda segunda-feira, o chat da equipe recebe um resumo: quem fez o trabalho e o que ainda está pendente. /overview mostra o resumo a qualquer hora.</li></ul></details>
+                            <details class="more"><summary>Mais sobre o chat da equipe</summary><ul><li>Um toque em Spam fecha o pedido sem avisar o remetente e dá a ele um strike (uma advertência). Depois de dois strikes, o próximo pedido dele espera na lista de retidos, que o /noise mostra. Um relato de invasão ou de carteira drenada continua chegando à equipe.</li><li>Pedidos com cara de spam também vão para a lista de retidos, para que os pedidos reais venham primeiro.</li><li>Toda segunda-feira, o chat da equipe recebe um resumo: quem fez o trabalho e o que ainda está pendente. /overview mostra o resumo a qualquer hora.</li></ul></details>
                         </div>
                         <figure class="pic"><div class="tg" role="img" aria-label="Cartão de pedido no chat da equipe, em inglês, depois de tocar em Fechar: botões Done, Useful, Spam e Back, com Useful destacado">
                                 <div class="msg">
@@ -292,7 +293,7 @@
                     <li class="stop" id="review">
                         <div>
                             <h3>Como avaliamos os posts?</h3>
-                            <p id="get-noticed">A sua equipe dá feedback aos membros sobre os posts deles no X, no privado. O membro vincula a conta do X em My posts (Meus posts) e envia o link de um post que publicou. Alguém da equipe escolhe Good (Bom), Needs work (Precisa melhorar) ou Not allowed (Não permitido) e escreve o motivo.</p>
+                            <p id="get-noticed">A sua equipe dá feedback aos membros sobre os posts deles no X, no privado. O membro vincula a conta do X em My posts (Meus posts) e envia o link de um post que publicou. Alguém da equipe escolhe Good (Bom), Needs work (Precisa melhorar) ou Not allowed (Não permitido) e explica o motivo quando não é Good.</p>
                             <p>Envie /review no chat da equipe para receber o próximo post da fila, leia no X e avalie.</p>
                         </div>
                         <figure class="pic pair"><div class="tg" role="img" aria-label="Tela do bot, em inglês: 📣 X posts"><div class="msg"><div class="cap"><p><b>📣 X posts</b></p><p>1 post waiting · oldest less than an hour</p><p>Read the post before grading; the member receives your final feedback privately.</p></div></div><div class="btns"><span class="btn">▶️ Next post</span><span class="btn">ℹ️ Help</span></div></div><div class="tg" role="img" aria-label="Tela do bot, em inglês: 📣 Your post feedback"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/post_feedback-480.webp?v=20261111 480w, /assets/flock/screens/post_feedback-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>📣 Your post feedback</b></p><p>👍 Good, by Ben.</p><p>1 sent · 1 good</p></div></div><div class="btns"><span class="btn">📤 My posts</span><span class="btn">✍️ Get noticed on X</span></div></div><figcaption> Good quer dizer Bom.</figcaption></figure>
