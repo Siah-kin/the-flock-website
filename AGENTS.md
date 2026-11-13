@@ -18,11 +18,13 @@ Each of the five pages (home, how, now, about, privacy) exists in English and in
 
 A change to one goes into the same pull request as the change to the other. Write the Portuguese from the meaning, never word by word, and ask a native speaker to read it before it goes up.
 
+Leave i18n/ alone: no page loads it.
+
 ## Words people read
 
 A caption never describes its own picture; it tells the visitor what the picture cannot. Describe each feature once, in one sentence about what it does for the member.
 
-Say "track record", never a bare "record". Use the bot's own words exactly as the bot shows them today, for buttons, screen titles and commands. [Open the bot](https://t.me/Arctide_TheFlock_Bot) to check them. The screenshots in assets/flock/screens/ are a handy reference, and the bot overrides them.
+Say "track record", never a bare "record". Use the bot's own words exactly as the bot shows them today, for buttons, screen titles and commands. [Open the bot](https://t.me/Arctide_TheFlock_Bot) to check them. The screenshots in assets/flock/screens/ show them too, but where a screenshot and the bot differ, the bot is right.
 
 After any edit, read the whole page in order, in both languages. A change in one place often leaves a repeat or a gap in another. Read it aloud as a visitor would.
 
@@ -34,9 +36,15 @@ Run `python3 scripts/motion_lint.py` after any change to animation. It requires 
 
 The home page quotes come from data/pain-wall.json. After editing the file, run `python3 scripts/build_pain_wall.py`. It rewrites index.html only, so bring the cards in pt/index.html in line by hand. Because the site has no build step, commit the generated output.
 
+Pages link every stylesheet and script with a version value, such as /css/nav.css?v=20261110pt2. When you change one of those files, change its value in every page that links it, so visitors do not keep the old file. The menu files in includes/ use the version value in js/nav-loader.js.
+
+## Adding or moving a page
+
+A new page exists in English and in Portuguese. Each has one h1, a title, a description, a canonical link, the two language links and an image in assets/og/. Add both addresses to sitemap.xml and link the page from includes/nav.html and includes/mobile-menu.html, and from the two copies under includes/pt/. When you move a page, leave a redirect page at the old address, like the ones in faq/ and manual/.
+
 ## Before a change merges
 
 - Work on a branch and open a pull request. Merging into main publishes the site within minutes.
-- Every change is reviewed by someone who did not write it, who reads the rendered pages in both languages.
-- Run `python3 scripts/check_pain_wall_links.py` before each release. It checks that every quote's source link still answers and still carries the quoted words.
+- Someone who did not write a change reads the rendered pages in both languages before it merges.
+- Run `python3 scripts/check_pain_wall_links.py` before each release. It checks that every quote's source link still answers and still carries the quoted words. BLOCKED means the source refused the check, so open that link and read the quote yourself.
 - Main is public. Never commit private notes, strategy, anyone's personal details, passwords or other secrets, or file paths from your own computer. Private working notes live outside this repository.

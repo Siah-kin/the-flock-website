@@ -23,7 +23,7 @@ scripts/       small checks and helpers, each described at the top of its file
 i18n/          old translation files, not used by any page
 ```
 
-A few old addresses (faq/, manual/, why/ and similar) hold a short redirect page, so links people saved still land on the right page. 404.html is the page for addresses that do not exist. CNAME sets the domain, and sitemap.xml lists the five pages in both languages. robots.txt lets link previews in Telegram and other apps read the site and keeps search engines out for now.
+Old addresses such as faq/, manual/, why/ and page_1/ hold a short redirect page, so links people saved still land on the right page. 404.html is the page for addresses that do not exist. CNAME sets the domain, and sitemap.xml lists the five pages in both languages. robots.txt lets link previews in Telegram and other apps read the site and keeps search engines out for now.
 
 ## Preview it on your computer
 
@@ -33,7 +33,7 @@ From the repository root, run:
 python3 -m http.server
 ```
 
-Then open http://localhost:8000 in a browser. The pages load their styles, pictures and menu from paths that start at the site root, so all three appear only when the pages are served this way and not when you open a file directly.
+Then open http://localhost:8000 in a browser. The pages load their styles, pictures and menu from paths that start at the site root, so a file opened directly shows none of them.
 
 ## Languages
 
@@ -41,12 +41,12 @@ The site is in English and in Brazilian Portuguese. English sits at the root and
 
 ## How changes reach the site
 
-GitHub Pages serves the main branch. Make your change on a branch and open a pull request. Once it is merged into main, the site updates within a few minutes. Before you open one, read [AGENTS.md](AGENTS.md), which lists the rules every change follows.
+GitHub Pages serves the main branch. Changes go in on a branch through a pull request, and the site updates within a few minutes of a merge into main. Anyone who changes the site reads [AGENTS.md](AGENTS.md) first; it lists the rules every change follows.
 
 ## Licence
 
-No licence file yet; ask the maintainers before reusing the code or images.
+The repository has no licence file. Ask the maintainers before reusing the code or images.
 
 ## Contact
 
-Contact the maintainers through the bot: open it, tap Help, then Ask the team.
+Reach the maintainers through the bot: open it, tap Help, then Ask the team.
