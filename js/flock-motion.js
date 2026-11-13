@@ -361,14 +361,19 @@
             });
         });
         // the path fills as you read: one measurement per frame, and only while the road is on screen
-        var rd = doc.querySelector('.road'), fill = doc.querySelector('.rail i'), rail = fill && fill.parentNode;
-        if (rd && fill) {
+        // a page may have one path (now/) or one per list (how/): each rail fills along its own stops
+        var rd = doc.querySelector('.road'), fills = rd ? arr(rd.querySelectorAll('.rail i')) : [];
+        if (rd && fills.length) {
             var pend = false, on = false;
-            // the path ends on the last stop's ring (its centre is 25px below the stop's top), not in the space under it
+            // each path ends on its last stop's ring (the ring's centre is --ring-y below the stop's top, 25px unless the page sets it), not in the space under it
             var endRail = function () {
-                var stops = rd.querySelectorAll('.stop'), wrap = rail.offsetParent;
-                if (!stops.length || !wrap) return;
-                rail.style.bottom = Math.max(0, wrap.offsetHeight - (stops[stops.length - 1].offsetTop + 25)) + 'px';
+                fills.forEach(function (fill) {
+                    var rail = fill.parentNode, wrap = rail.offsetParent, stops = rail.parentNode.querySelectorAll('.stop');
+                    if (!stops.length) stops = rd.querySelectorAll('.stop');
+                    if (!stops.length || !wrap) return;
+                    var last = stops[stops.length - 1], y = parseFloat(getComputedStyle(last).getPropertyValue('--ring-y')) || 25;
+                    rail.style.bottom = Math.max(0, wrap.offsetHeight - (last.offsetTop + y)) + 'px';
+                });
             };
             endRail();
             if (window.ResizeObserver) new ResizeObserver(endRail).observe(rd);
@@ -377,8 +382,10 @@
             var tickRail = function () {
                 pend = false;
                 if (F.reduced) return;
-                var r = rail.getBoundingClientRect(), p = Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / (r.height || 1)));
-                fill.style.setProperty('--fill', p.toFixed(3));
+                fills.forEach(function (fill) {
+                    var r = fill.parentNode.getBoundingClientRect(), p = Math.min(1, Math.max(0, (innerHeight * 0.6 - r.top) / (r.height || 1)));
+                    fill.style.setProperty('--fill', p.toFixed(3));
+                });
             };
             var onScroll = function () { if (!pend && !F.reduced) { pend = true; requestAnimationFrame(tickRail); } };
             var set = function (v) {
