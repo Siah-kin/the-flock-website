@@ -200,7 +200,7 @@
                     <div>
                         <p class="hc-eye">2 of 8 · For your team</p>
                         <h2 id="setup-h">How do we set up our team chat?</h2>
-                        <p class="hc-why"><b>Why it matters:</b> Every request from members lands in one private place.</p>
+                        <p class="hc-why"><b>Why it matters:</b> Requests from members land in one private place.</p>
                         <p>Make a private Telegram group for your team and add the bot. That group becomes your team chat, where every request and post for review arrives. Keep it private: everyone in it can read members’ names and messages.</p>
                     </div>
                     <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: ✅ Your team chat is ready. Under the heading Your team chat is ready in Team desk, two steps to answer a request: tap I’ll take it, then tap Reply. Buttons: Team guide and Done."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/team_ready-480.webp?v=20261112 480w, /assets/flock/screens/team_ready-960.webp?v=20261112 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/team_ready.jpg?v=20261112" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>✅ Your team chat is ready</b></p><p>New tickets and X posts for review arrive here as cards. To answer one:<br>1. Tap 🙋 I’ll take it, so the team knows it’s yours.<br>2. Tap 💬 Reply and write your answer. The member gets it in their private chat with the bot.</p><p class="quiet"><i>Everyone in this group can read members’ names and messages. If this group includes people outside your team, send /setup in your team’s own group instead.</i></p></div></div><div class="btns"><span class="btn">📖 Team guide</span><span class="btn">✖ Done</span></div></div></figure>
@@ -223,7 +223,7 @@
                         <h2 id="is-it-the-team-h">How do I check a message is really from my team?</h2>
                         <p class="hc-why"><b>Why it matters:</b> Scammers pretend to be your team.</p>
                         <p>Tap Help, then Common questions, then Wallets and safety, then Is it really the team? Or forward the message to the bot. It asks where the message should go: tap Check who wrote it, then forward the message again within five minutes. The bot can tell you whether the writer is on your team’s admin list. If Telegram hides who wrote it, the bot says it can’t tell. Names and screenshots can’t be checked, so forward the message itself.</p>
-                        <details class="more"><summary>What the bot will never ask for</summary><ul><li>Your seed phrase, private key, password or login code.</li><li>A wallet connection or a payment to get support.</li><li>If you paste something that looks like a private key, the bot tries to delete your message and, if that fails, asks you to delete it yourself.</li></ul></details>
+                        <details class="more"><summary>What the bot will never ask for</summary><ul><li>Your seed phrase, private key, password or login code.</li><li>A wallet connection or a payment to get support.</li><li>If you paste what looks like a private key into your private chat with the bot, it tries to delete the message and, if that fails, asks you to delete it yourself. The check is automatic and can miss a key in an unusual format.</li></ul></details>
                     </div>
                     <figure class="pic"><div class="tg" role="img" aria-label="The bot's answer to a forwarded message: written by someone on the team, with a warning to be careful">
                                 <div class="msg">
@@ -347,7 +347,7 @@
     <script>
     // Old manual and FAQ links keep working: their anchors point to the matching section here.
     (function () {
-        var map = { 'member': 'ask-the-team', 'team': 'plan', 'zeal': 'questions', 'x-feedback': 'get-noticed', 'post-feedback': 'get-noticed', 'reply-guide': 'check-my-reply', 'my-contributions': 'profile', 'never-ask': 'is-it-the-team', 'help': 'is-it-the-team', 'what-is-kept': 'profile', 'your-data': 'profile', 'thanks': 'profile', 'wallet': 'need-a-wallet', 'noise': 'tickets', 'team-desk': 'tickets', 'brief': 'tickets', 'carousel': 'setup', 'who-is-team': 'setup', 'what-can-i-do': 'member', 'members': 'member', 'start': 'member', 'troubleshooting': 'questions', 'reach-a-person': 'ask-the-team' };
+        var map = { 'member': 'ask-the-team', 'team': 'plan', 'zeal': 'questions', 'x-feedback': 'get-noticed', 'post-feedback': 'get-noticed', 'reply-guide': 'check-my-reply', 'my-contributions': 'profile', 'never-ask': 'is-it-the-team', 'help': 'is-it-the-team', 'what-is-kept': 'profile', 'your-data': 'profile', 'thanks': 'profile', 'wallet': 'need-a-wallet', 'noise': 'tickets', 'team-desk': 'tickets', 'brief': 'tickets', 'carousel': 'setup', 'who-is-team': 'setup', 'what-can-i-do': 'ask-the-team', 'members': 'ask-the-team', 'start': 'ask-the-team', 'troubleshooting': 'questions', 'reach-a-person': 'ask-the-team' };
         var h = location.hash.slice(1);
         if (map[h] && !document.getElementById(h)) { history.replaceState(null, '', '#' + map[h]); var el = document.getElementById(map[h]); if (el) el.scrollIntoView(); }
     })();
