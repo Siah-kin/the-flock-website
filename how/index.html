@@ -28,8 +28,10 @@
     <link rel="stylesheet" href="/css/flock-duck-play.css?v=20261110hyg10">
     <link rel="stylesheet" href="/css/flock-twoducks.css?v=fix1">
     <link rel="stylesheet" href="/css/flock-pond.css?v=pond5">
+    <link rel="stylesheet" href="/css/flock-circle.css?v=circle6">
     <script src="/js/nav-loader.js?v=20261111logo" defer></script>
     <script src="/js/flock-motion.js?v=20261113how2" defer></script>
+    <script src="/js/flock-circle.js?v=circle5" defer></script>
     <script src="/js/flock-sound.js?v=20261109play3" defer></script>
     <script src="/js/flock-duck-play.js?v=20261112poke2" defer></script>
     <script src="/js/flock-duck.js?v=20261109game2" defer></script>
@@ -43,7 +45,7 @@
     <script src="/js/flock-game.js?v=20261110pt2" defer></script>
     <style>
         @font-face { font-family: "Fredoka"; src: url("/assets/fonts/fredoka-latin.woff2") format("woff2"); font-weight: 500 700; font-display: swap; }
-        :root { --navy: #002050; --blue: #0058A8; --sky: #7CC8F0; --sun: #FED801; --ink: #0E1B33; --muted: #4A5B72; --soft: #F2F7FC; --band: #EDF4FB; --line: #D6E4F3; --edge: #C9DCF0; --display: "Fredoka", "Inter", system-ui, sans-serif; }
+        :root { --navy: #002050; --blue: #0058A8; --sky: #7CC8F0; --sun: #FED801; --ink: #0E1B33; --muted: #4A5B72; --soft: #F2F7FC; --line: #D6E4F3; --display: "Fredoka", "Inter", system-ui, sans-serif; }
         .road-page { background: #fff; color: var(--ink); }
         body.dark-mode.road-page { background: #08142B; color: #E7EEF9; }
         .road-page h1, .road-page h2, .road-page h3 { font-family: var(--display); text-wrap: balance; }
@@ -59,24 +61,21 @@
         /* The path: one line down the page that fills in as you read */
         .road { position: relative; padding: 80px 0 40px; }
         .road .wrap { position: relative; }
-        .list { position: relative; }
-        .rail { position: absolute; left: 46px; top: 19px; bottom: 96px; width: 6px; border-radius: 3px; background: var(--line); }
-        body.dark-mode .rail { background: #23395C; }
-        .stop { --ring-y: 25; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 48px; align-items: start; padding: 0 0 96px 96px; }
+        .rail { position: absolute; left: 86px; top: 19px; bottom: 96px; width: 6px; border-radius: 3px; background: var(--line); }
+        .stop { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 48px; align-items: start; padding: 0 0 96px 96px; }
         /* below 1100px the picture goes under the words, so the text keeps a readable line */
         @media (max-width: 1100px) { .stop { grid-template-columns: minmax(0, 1fr); gap: 26px; } .stop > .pic { max-width: 520px; } }
-        @media (min-width: 901px) and (max-width: 1100px) { .stop > .pic { max-width: 460px; margin-inline: auto; } }
-        .stop::before { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 6px solid var(--c); box-shadow: 0 0 0 var(--halo, 6px) #fff; }
-        body.dark-mode .stop::before { background: #08142B; box-shadow: 0 0 0 var(--halo, 6px) #08142B; }
-        .steps.members .stop { --c: #2FA866; } .steps.team .stop { --c: #E0B800; }
+        .stop::before { content: ""; position: absolute; left: 30px; top: 6px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 6px solid var(--c); box-shadow: 0 0 0 6px #fff; }
+        body.dark-mode .stop::before { background: #08142B; box-shadow: 0 0 0 6px #08142B; }
+        .stop.now { --c: #2FA866; } .stop.test { --c: #3E8FD8; } .stop.plan { --c: #E0B800; }
         .here { position: absolute; left: -6px; top: -50px; width: 96px; height: auto; }
         .stop p a { color: var(--blue); }
         body.dark-mode .stop p a { color: #8EC4FA; }
-        .stop h3 { margin-top: 0; text-wrap: balance; font-weight: 700; font-size: clamp(1.4rem, 2.3vw, 1.8rem); line-height: 1.15; }
+        .stop h2 { margin-top: 0; text-wrap: balance; font-weight: 700; font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.12; }
         .stop p { margin-top: 14px; font-size: 1.15rem; line-height: 1.6; color: #33445A; max-width: 30em; }
         body.dark-mode .stop p, body.dark-mode .more li { color: #C5D3E8; }
         .more { margin-top: 18px; }
-        .more > summary { cursor: pointer; display: inline-block; list-style: none; font-weight: 600; color: var(--blue); padding: 10px 0; }
+        .more > summary { cursor: pointer; display: inline-block; list-style: none; font-weight: 600; color: var(--blue); padding: 4px 0; }
         .more > summary::-webkit-details-marker { display: none; }
         .more > summary::after { content: " +"; } .more[open] > summary::after { content: " −"; }
         .more > summary:focus-visible, .more a:focus-visible, .replay:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
@@ -112,7 +111,7 @@
             .wrap { padding: 0 16px; }
             .top { padding: 56px 0 130px; }
             .top .flock { width: 200px; right: 4%; bottom: 36px; }
-            .rail { left: 28px; top: 19px; }
+            .rail { left: 44px; top: 19px; }
             .stop { grid-template-columns: 1fr; gap: 26px; padding: 0 0 72px 58px; }
             .stop::before { left: 12px; }
             .here { left: -12px; width: 76px; top: -42px; }
@@ -133,33 +132,17 @@
         .tg .cap ul { margin: 8px 0 0 1.1em; padding: 0; }
         .tg mark { background: rgba(254, 216, 1, .2); color: #fff; padding: 2px 6px; border-radius: 6px; display: block; margin: 2px -6px; }
         .tg .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
-        .tg .btn { background: #223A55; color: #8EC4FA; text-align: center; font-size: .9rem; font-weight: 600; padding: 10px 8px; border-radius: 10px; pointer-events: none; user-select: none; cursor: default; }
+        .tg .btn { background: #223A55; color: #8EC4FA; text-align: center; font-size: .9rem; font-weight: 600; padding: 10px 8px; border-radius: 10px; }
         .tg .btn.wide { grid-column: 1 / -1; }
         .tg .btn.pick { outline: 2px solid var(--sun); color: var(--sun); }
         .tg { max-width: 460px; width: 100%; box-shadow: 0 22px 46px rgba(0, 32, 80, .22); }
         .tg .cap p { font-size: .95rem; line-height: 1.45; }
         .pic .tg { justify-self: center; }
-        .part { font-family: var(--display); font-weight: 700; font-size: clamp(1.9rem, 3.4vw, 2.5rem); line-height: 1.1; margin: 0 0 22px 96px; color: var(--navy); }
-        body.dark-mode .part { color: #E7EEF9; }
-        .part-lead { margin: 0 0 22px 96px; max-width: 34em; font-size: 1.15rem; line-height: 1.6; color: #33445A; }
-        body.dark-mode .part-lead { color: #C5D3E8; }
-        .qlist { list-style: none; margin: 0 0 52px 96px; padding: 0; columns: 2; column-gap: 40px; max-width: 56em; }
-        .qlist li { break-inside: avoid; }
-        .qlist a { display: block; padding: 10px 0; color: var(--blue); font-size: 1.05rem; line-height: 1.35; font-weight: 500; text-decoration: underline; text-decoration-color: rgba(0, 88, 168, .35); text-underline-offset: 3px; }
-        .qlist a:hover { text-decoration-color: currentColor; }
-        .qlist a:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; border-radius: 4px; }
-        body.dark-mode .qlist a { color: #8EC4FA; text-decoration-color: rgba(142, 196, 250, .4); }
-        .steps { list-style: none; margin: 0; padding: 0; }
-        [id] { scroll-margin-top: 76px; }
-        /* The team list sits on a pale band, so the two lists read as two at a glance. The band runs the full width of the window, behind the rail. */
-        .road { overflow-x: hidden; overflow-x: clip; padding-bottom: 0; }
-        .team-band { margin: 0 -50vw; padding: 64px 50vw 40px; background: var(--band); border-top: 1px solid var(--edge); border-bottom: 1px solid var(--edge); }
-        body.dark-mode .team-band { background: #0D1F40; border-color: #23395C; }
-        .team-band .stop::before { background: var(--band); box-shadow: 0 0 0 var(--halo, 6px) var(--band); }
-        body.dark-mode .team-band .stop::before { background: #0D1F40; box-shadow: 0 0 0 var(--halo, 6px) #0D1F40; }
-        .top .doors { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
-        .doors a { display: inline-block; color: #fff; border: 2px solid rgba(255, 255, 255, .75); font-family: var(--display); font-weight: 600; font-size: 1.05rem; padding: 10px 22px; border-radius: 999px; text-decoration: none; }
-        .doors a:hover { background: rgba(255, 255, 255, .14); border-color: #fff; }
+        .part { font-family: var(--display); font-weight: 700; font-size: clamp(1.5rem, 2.6vw, 2rem); margin: 0 0 40px 96px; color: var(--blue); }
+        .stop.calm, .stop.solo { --c: #3E8FD8; }
+        .stop.solo { grid-template-columns: minmax(0, 1fr); }
+        .doors { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+        .doors a { display: inline-block; background: #fff; color: var(--navy); font-family: var(--display); font-weight: 600; font-size: 1.1rem; padding: 12px 22px; border-radius: 999px; text-decoration: none; }
         .doors a:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; }
         .questions { padding: 40px 0 84px; }
         .questions h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.7rem, 2.8vw, 2.2rem); margin-bottom: 18px; }
@@ -171,25 +154,7 @@
         .qa > summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
         .qa p { margin: 0 0 18px; font-size: 1.08rem; line-height: 1.6; color: #33445A; }
         body.dark-mode .qa p { color: #C5D3E8; } body.dark-mode .qa { border-color: #23395C; }
-        body.dark-mode .qa > summary::after { color: #8EC4FA; }
-        body.dark-mode .qlist a:focus-visible, body.dark-mode .more > summary:focus-visible, body.dark-mode .more a:focus-visible, body.dark-mode .qa > summary:focus-visible { outline-color: #8EC4FA; }
-        @media (max-width: 900px) { .part, .part-lead, .qlist { margin-left: 58px; } }
-        @media (max-width: 760px) { .qlist { columns: 1; } }
-        @media (max-width: 600px) {
-            .top .cta { display: block; text-align: center; }
-            .top .doors { flex-direction: column; }
-            .doors a { text-align: center; padding: 8px 22px; }
-            .rail { left: 8px; }
-            .stop { --ring-y: 13; --halo: 4px; padding: 0 0 64px 28px; }
-            .stop::before { left: 2px; top: 4px; width: 10px; height: 10px; border-width: 4px; }
-            .part, .part-lead, .qlist { margin-left: 28px; }
-            .stop > .pic { margin-left: -28px; max-width: none; }
-            .tg { padding: 10px; max-width: none; }
-            .tg .btn { padding: 10px 6px; font-size: .88rem; }
-            .questions .wrap { padding-left: 44px; }
-        }
-        body.dark-mode .top .sea path:last-child { fill: #08142B; }
-        body.dark-mode .tg { box-shadow: 0 22px 46px rgba(0, 0, 0, .5); }
+        @media (max-width: 900px) { .part { margin-left: 58px; } }
         @media (max-width: 1100px) { .pic .tg { justify-self: start; } }
     </style>
 </head>
@@ -205,35 +170,62 @@
             <div class="wrap">
                 <h1 id="road-title">How do you use The&nbsp;Flock?</h1>
                 <p>Open the bot in Telegram and press Start.</p>
-                <p>Members ask your team for help in private and get feedback on their X posts. Your team answers both from one private group chat.</p>
-                <a class="cta" href="https://t.me/Arctide_TheFlock_Bot" target="_blank" rel="noopener noreferrer">Open the bot</a>
-                <p class="doors"><a href="#member">I’m a member</a><a href="#team">I run a community</a></p>
+                <p>Members can check a reply before they post it on X, and your team grades the post afterwards. The grade goes on the member’s track record.</p>
+                <p class="doors"><a href="#ask-the-team">I’m a member</a><a href="#plan">I’m starting a community</a></p>
             </div>
         </section>
 
         <div class="road">
             <div class="wrap">
-                <div class="list">
                 <div class="rail" aria-hidden="true"><i></i></div>
-                <h2 class="part" id="member">For members</h2>
-                <ul class="qlist"><li><a href="#ask-the-team">How do I ask my team for support?</a></li><li><a href="#is-it-the-team">How do I check a message is really from my team?</a></li><li><a href="#check-my-reply">How do I check a reply before I post it on X?</a></li><li><a href="#profile">Where is my track record?</a></li></ul>
-                <ol class="steps members" role="list" aria-labelledby="member">
-                    <li class="stop" id="ask-the-team">
-                        <div>
-                            <h3>How do I ask my team for support?</h3>
-                            <p>Your request reaches your team in private, away from strangers in the group. Tap Help, then Ask the team. Pick a problem, a complaint or an idea and send it. Your request gets a number, and the answer arrives in your private chat with the bot.</p>
-                            <details class="more"><summary>More about requests</summary><ul><li>Send /status to see where your requests stand.</li><li>You can attach a screenshot before you send.</li><li>Never include a seed phrase or private key. If you paste something that looks like one, the bot tries to delete your message and, if that fails, asks you to delete it yourself.</li></ul></details>
-                        </div>
-                        <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: 🎫 Ask the team"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/ask-480.webp?v=20261111 480w, /assets/flock/screens/ask-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/ask.jpg?v=20261104" width="1280" height="640" alt="" fetchpriority="high" decoding="async"></picture><div class="cap"><p><b>🎫 Ask the team</b></p><p>Send a private request when you need help, want to raise a complaint or have an idea or proposal. A short set of questions helps the team understand what happened and what you need.</p><p>Your answers and any attachments go to the team’s private chat. Their reply arrives in this chat. You can check its status later with /status. The team will reply when they can; this bot does not promise a response time.</p><p>Never include a seed phrase or private key. Choose the topic closest to your request.</p></div></div><div class="btns"><span class="btn">🛠 A problem</span><span class="btn">⚠️ Complaint</span><span class="btn">💡 Idea or proposal</span><span class="btn">◀ Help</span></div></div></figure>
-                    </li>
-                    <li class="stop" id="is-it-the-team">
-                        <div>
-                            <h3>How do I check a message is really from my team?</h3>
-                            <p>The bot can tell you whether a message came from someone on your team’s admin list. Forward the message to the bot. If Telegram hides who wrote it, the bot says it can’t tell.</p>
-                            <p>When you forward it, the bot first asks where the message should go: tap Check who wrote it, then forward the message again within five minutes. The same check is in Help, under Common questions, then Wallets and safety: tap Is it really the team? and forward the message. Names and screenshots can’t be checked, so forward the message itself.</p>
-                            <details class="more"><summary>What the bot will never ask for</summary><ul><li>Your seed phrase, private key, password or login code.</li><li>A wallet connection or a payment to get support.</li></ul></details>
-                        </div>
-                        <figure class="pic"><div class="tg" role="img" aria-label="The bot's answer to a forwarded message: written by someone on the team, with a warning to be careful">
+                <div class="hc" id="how-circle">
+                    <p class="hc-intro">Eight things you can do with the bot today. They go round in a circle. Tap one to read how it works. Planning and the team chat setup (steps 1 and 2) are for the team’s listed admins. <a href="/#loop-title">The circle on the home page</a> is a different one. It shows how help turns into answers.</p>
+                    <div class="hc-stage"><div class="hc-cam"><svg viewBox="-40 -25 880 880" aria-hidden="true" focusable="false"><path d="M487.2,123.4 A290,290 0 0 1 533.9,142.8" class="hc-arc"/><path d="M-7,-8 L3,0 L-7,8" class="hc-arc" transform="translate(533.9 142.8) rotate(27.5)"/><path d="M657.2,266.1 A290,290 0 0 1 676.6,312.8" class="hc-arc"/><path d="M-7,-8 L3,0 L-7,8" class="hc-arc" transform="translate(676.6 312.8) rotate(72.5)"/><path d="M676.6,487.2 A290,290 0 0 1 657.2,533.9" class="hc-arc"/><path d="M-7,-8 L3,0 L-7,8" class="hc-arc" transform="translate(657.2 533.9) rotate(117.5)"/><path d="M533.9,657.2 A290,290 0 0 1 487.2,676.6" class="hc-arc"/><path d="M-7,-8 L3,0 L-7,8" class="hc-arc" transform="translate(487.2 676.6) rotate(162.5)"/><path d="M312.8,676.6 A290,290 0 0 1 266.1,657.2" class="hc-arc"/><path d="M-7,-8 L3,0 L-7,8" class="hc-arc" transform="translate(266.1 657.2) rotate(207.5)"/><path d="M142.8,533.9 A290,290 0 0 1 123.4,487.2" class="hc-arc"/><path d="M-7,-8 L3,0 L-7,8" class="hc-arc" transform="translate(123.4 487.2) rotate(252.5)"/><path d="M123.4,312.8 A290,290 0 0 1 142.8,266.1" class="hc-arc"/><path d="M-7,-8 L3,0 L-7,8" class="hc-arc" transform="translate(142.8 266.1) rotate(297.5)"/><path d="M266.1,142.8 A290,290 0 0 1 312.8,123.4" class="hc-arc"/><path d="M-7,-8 L3,0 L-7,8" class="hc-arc" transform="translate(312.8 123.4) rotate(342.5)"/><clipPath id="hc-pond"><circle cx="400" cy="400" r="118"/></clipPath><g clip-path="url(#hc-pond)"><rect x="270" y="270" width="260" height="260" class="hc-air"/><path d="M270 404 C300 394 330 414 360 404 S420 394 450 404 S500 414 530 402 V540 H270Z" class="hc-w2"/><use href="#duck" x="300" y="352" width="86" height="49.6"/><g transform="translate(484 370) scale(-1 1)"><use href="#duck" width="60" height="34.6"/></g><path d="M270 434 C302 424 332 444 362 434 S422 424 452 434 S502 444 530 432 V540 H270Z" class="hc-w1"/></g><a class="hc-scene" tabindex="-1" href="#plan" data-n="1" aria-label="1. Plan"><g transform="translate(400.0 110.0)"><clipPath id="hc-sc1"><circle r="74"/></clipPath><circle r="74" class="hc-bed"/><g clip-path="url(#hc-sc1)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" class="hc-gr"/><use href="#duck" x="-66" y="-2" width="54" height="31.1"/><rect x="-4" y="-50" width="58" height="74" rx="6" class="hc-pp"/><rect x="-4" y="-50" width="58" height="11" rx="6" class="hc-pph"/><circle cx="7" cy="-30" r="4" class="hc-sun"/><rect x="15" y="-31.75" width="30" height="3.5" rx="1.75" class="hc-ppl"/><circle cx="7" cy="-17" r="4" class="hc-sun"/><rect x="15" y="-18.75" width="30" height="3.5" rx="1.75" class="hc-ppl"/><circle cx="7" cy="-4" r="4" class="hc-sun"/><rect x="15" y="-5.75" width="30" height="3.5" rx="1.75" class="hc-ppl"/><circle cx="7" cy="9" r="4" class="hc-sun"/><rect x="15" y="7.25" width="30" height="3.5" rx="1.75" class="hc-ppl"/></g></g><circle r="74" class="hc-rim"/><circle cx="-52" cy="-52" r="17" class="hc-num"/><text x="-52" y="-51" class="hc-numt">1</text></g></a><a class="hc-scene" tabindex="-1" href="#setup" data-n="2" aria-label="2. Team chat"><g transform="translate(605.1 194.9)"><clipPath id="hc-sc2"><circle r="74"/></clipPath><circle r="74" class="hc-bed"/><g clip-path="url(#hc-sc2)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" class="hc-gr"/><use href="#duck" x="-66" y="0" width="50" height="28.8"/><g transform="translate(66 0) scale(-1 1)"><use href="#duck" width="50" height="28.8"/></g><rect x="-22" y="-54" width="44" height="28" rx="7" class="hc-wh"/><path d="M-14,-27 l-3,8 l11,-8z" class="hc-wh"/><rect x="-15" y="-47" width="30" height="3.5" rx="1.75" class="hc-ln"/><rect x="-15" y="-40" width="18" height="3.5" rx="1.75" class="hc-ln"/><rect x="12" y="-46" width="10" height="9" rx="2" class="hc-nv"/><path d="M14,-46 v-3 a3,3 0 0 1 6,0 v3" class="hc-nvs"/></g></g><circle r="74" class="hc-rim"/><circle cx="-52" cy="-52" r="17" class="hc-num"/><text x="-52" y="-51" class="hc-numt">2</text></g></a><a class="hc-scene" tabindex="-1" href="#ask-the-team" data-n="3" aria-label="3. Ask the team"><g transform="translate(690.0 400.0)"><clipPath id="hc-sc3"><circle r="74"/></clipPath><circle r="74" class="hc-bed"/><g clip-path="url(#hc-sc3)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" class="hc-gr"/><rect x="-60" y="-56" width="40" height="26" rx="7" class="hc-wh"/><path d="M-52,-31 l-3,8 l11,-8z" class="hc-wh"/><rect x="-53" y="-49" width="26" height="3.5" rx="1.75" class="hc-ln"/><rect x="-53" y="-42" width="16" height="3.5" rx="1.75" class="hc-ln"/><use href="#duck" x="-64" y="-6" width="54" height="31.1"/><g transform="translate(62 -2) scale(-1 1)"><use href="#duck" width="46" height="26.5"/></g><text x="40" y="-14" class="hc-qm">?</text></g></g><circle r="74" class="hc-rim"/><circle cx="-52" cy="-52" r="17" class="hc-num"/><text x="-52" y="-51" class="hc-numt">3</text></g></a><a class="hc-scene" tabindex="-1" href="#is-it-the-team" data-n="4" aria-label="4. Is it the team?"><g transform="translate(605.1 605.1)"><clipPath id="hc-sc4"><circle r="74"/></clipPath><circle r="74" class="hc-bed"/><g clip-path="url(#hc-sc4)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" class="hc-gr"/><use href="#duck" x="-68" y="-2" width="50" height="28.8" style="--duck-body:#9AA7B8;--duck-wing:#7F8DA2;--duck-beak:#C3CBD6"/><rect x="-56" y="-52" width="38" height="24" rx="7" class="hc-wh"/><path d="M-48,-29 l-3,8 l11,-8z" class="hc-wh"/><rect x="-49" y="-45" width="24" height="3.5" rx="1.75" class="hc-ln"/><rect x="-49" y="-38" width="14" height="3.5" rx="1.75" class="hc-ln"/><g transform="translate(68 -4) scale(-1 1)"><use href="#duck" width="50" height="28.8"/></g><g transform="translate(36 -30)"><path d="M0,-13 L11,-9 L11,0 C11,8 5,12 0,14 C-5,12 -11,8 -11,0 L-11,-9Z" class="hc-nv"/><path d="M-5,0 l3.5,4 l7,-8" class="hc-tk"/></g></g></g><circle r="74" class="hc-rim"/><circle cx="-52" cy="-52" r="17" class="hc-num"/><text x="-52" y="-51" class="hc-numt">4</text></g></a><a class="hc-scene" tabindex="-1" href="#tickets" data-n="5" aria-label="5. Answer requests"><g transform="translate(400.0 690.0)"><clipPath id="hc-sc5"><circle r="74"/></clipPath><circle r="74" class="hc-bed"/><g clip-path="url(#hc-sc5)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" class="hc-gr"/><use href="#duck" x="-62" y="-6" width="54" height="31.1"/><rect x="8" y="-6" width="52" height="44" rx="6" class="hc-pp"/><rect x="8" y="-6" width="52" height="11" rx="6" class="hc-pph"/><rect x="15" y="13" width="38" height="3.5" rx="1.75" class="hc-ppl"/><rect x="15" y="21" width="28" height="3.5" rx="1.75" class="hc-ppl"/><circle cx="56" cy="-8" r="14" class="hc-gn"/><path d="M49.0,-8.0 l4.9,5.3 l9.8,-11.9" class="hc-tk hc-gn-tk"/><g transform="translate(-26 -20)"><path d="M0,-9 L2.6,-3 L9,-2.8 L4.1,1.4 L5.6,7.6 L0,4.2 L-5.6,7.6 L-4.1,1.4 L-9,-2.8 L-2.6,-3Z" class="hc-star"/></g></g></g><circle r="74" class="hc-rim"/><circle cx="-52" cy="-52" r="17" class="hc-num"/><text x="-52" y="-51" class="hc-numt">5</text></g></a><a class="hc-scene" tabindex="-1" href="#profile" data-n="6" aria-label="6. Track record"><g transform="translate(194.9 605.1)"><clipPath id="hc-sc6"><circle r="74"/></clipPath><circle r="74" class="hc-bed"/><g clip-path="url(#hc-sc6)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" class="hc-gr"/><g transform="translate(64 0) scale(-1 1)"><use href="#duck" width="48" height="27.7"/></g><rect x="-56" y="-46" width="62" height="70" rx="6" class="hc-pp"/><rect x="-56" y="-46" width="62" height="11" rx="6" class="hc-pph"/><rect x="-49" y="-27" width="48" height="3.5" rx="1.75" class="hc-ppl"/><rect x="-49" y="-19" width="38" height="3.5" rx="1.75" class="hc-ppl"/><rect x="-49" y="-11" width="28" height="3.5" rx="1.75" class="hc-ppl"/><rect x="-49" y="-3" width="18" height="3.5" rx="1.75" class="hc-ppl"/><circle cx="2" cy="-46" r="12" class="hc-nv"/><path d="M2,-52 v10 M-3,-46 l5,5 l5,-5" class="hc-tk"/></g></g><circle r="74" class="hc-rim"/><circle cx="-52" cy="-52" r="17" class="hc-num"/><text x="-52" y="-51" class="hc-numt">6</text></g></a><a class="hc-scene" tabindex="-1" href="#check-my-reply" data-n="7" aria-label="7. Check a reply"><g transform="translate(110.0 400.0)"><clipPath id="hc-sc7"><circle r="74"/></clipPath><circle r="74" class="hc-bed"/><g clip-path="url(#hc-sc7)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" class="hc-gr"/><use href="#duck" x="-66" y="-2" width="54" height="31.1"/><rect x="-6" y="-50" width="52" height="32" rx="7" class="hc-wh"/><path d="M2,-19 l-3,8 l11,-8z" class="hc-wh"/><rect x="1" y="-43" width="38" height="3.5" rx="1.75" class="hc-ln"/><rect x="1" y="-36" width="23" height="3.5" rx="1.75" class="hc-ln"/><circle cx="30" cy="-18" r="12" class="hc-lens"/><path d="M38,-10 l10,10" class="hc-lens-h"/></g></g><circle r="74" class="hc-rim"/><circle cx="-52" cy="-52" r="17" class="hc-num"/><text x="-52" y="-51" class="hc-numt">7</text></g></a><a class="hc-scene" tabindex="-1" href="#review" data-n="8" aria-label="8. Feedback on posts"><g transform="translate(194.9 194.9)"><clipPath id="hc-sc8"><circle r="74"/></clipPath><circle r="74" class="hc-bed"/><g clip-path="url(#hc-sc8)"><g transform="scale(1.06)"><path d="M-72,30 Q0,20 72,30 L72,74 L-72,74Z" class="hc-gr"/><use href="#duck" x="-64" y="-2" width="52" height="30.0"/><rect x="2" y="-50" width="50" height="40" rx="6" class="hc-wh"/><rect x="9" y="-41" width="30" height="3.5" rx="1.75" class="hc-ln"/><rect x="9" y="-34" width="22" height="3.5" rx="1.75" class="hc-ln"/><rect x="9" y="-27" width="26" height="3.5" rx="1.75" class="hc-ln"/><circle cx="48" cy="-8" r="13" class="hc-sn"/><path d="M41.5,-8.0 l4.5,4.9 l9.1,-11.0" class="hc-tk hc-sn-tk"/></g></g><circle r="74" class="hc-rim"/><circle cx="-52" cy="-52" r="17" class="hc-num"/><text x="-52" y="-51" class="hc-numt">8</text></g></a></svg></div></div>
+                    <ol class="hc-toc" aria-label="The eight steps"><li><a href="#plan" data-n="1"><span class="hc-tn">1</span>Plan</a></li><li><a href="#setup" data-n="2"><span class="hc-tn">2</span>Team chat</a></li><li><a href="#ask-the-team" data-n="3"><span class="hc-tn">3</span>Ask the team</a></li><li><a href="#is-it-the-team" data-n="4"><span class="hc-tn">4</span>Is it the team?</a></li><li><a href="#tickets" data-n="5"><span class="hc-tn">5</span>Answer requests</a></li><li><a href="#profile" data-n="6"><span class="hc-tn">6</span>Track record</a></li><li><a href="#check-my-reply" data-n="7"><span class="hc-tn">7</span>Check a reply</a></li><li><a href="#review" data-n="8"><span class="hc-tn">8</span>Feedback on posts</a></li></ol>
+                </div>
+                <div class="hc-list">
+                <section class="stop calm" id="plan" data-hc="1" aria-labelledby="plan-h">
+                    <div>
+                        <p class="hc-eye">1 of 8 · For your team</p>
+                        <h2 id="plan-h">How do we plan our community?</h2>
+                        <p class="hc-why"><b>Why it matters:</b> A plan helps you decide what your community does first.</p>
+                        <p>Starting out? Send us your idea: tap Help, then Ask the team, then Idea or proposal. The plan guide opens for the team’s listed admins.</p>
+                        <p>Open Guides in the bot and tap Plan your community. Seven short questions take you through four steps: Your idea, Your people, Do something together, and Listen and improve. You can change any answer before you finish.</p>
+                        <p>Your plan arrives as a new message in your chat with the bot, with a next step. It stays in that chat and is not posted to your community.</p>
+                    </div>
+                    <figure class="pic"><div class="tg" role="img" aria-label="The bot’s Plan your community card: four steps, Your idea, Your people, Do something together and Listen and improve, and an arrow from the last step back to the first. Below it, the bot explains the guide: seven short questions, one at a time, any answer can be changed before you finish, and the plan comes as a message in this chat and is not posted to your community. Buttons: Start and Back."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/plan_tour-480.webp?v=20261111 480w, /assets/flock/screens/plan_tour-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/plan_tour.png?v=20261104" width="1080" height="1080" alt="A card titled Plan your community. Four steps run down the card: Your idea, Your people, Do something together, and Listen and improve. An arrow leads from the last step back to the first." loading="lazy" decoding="async"></picture><div class="cap"><p><b>🧭 Plan your community</b></p><p>You have a product or meme idea and want people to gather around it. This guide helps you plan how to keep them happy and help the group grow.</p><p>I ask seven short questions, one at a time. They cover your project, your experience and the people you want to bring together. The last one is optional.</p><p>You can change any answer before you finish. If you step away, your answers are kept for 30 minutes.</p><p>Your plan comes as a message in this chat. It is not posted to your community.</p></div></div><div class="btns"><span class="btn full">Start</span><span class="btn full">Back</span></div></div></figure>
+                    <a class="hc-back" href="#how-circle">↑ Back to the circle</a>
+                </section>
+                <section class="stop calm" id="setup" data-hc="2" aria-labelledby="setup-h">
+                    <div>
+                        <p class="hc-eye">2 of 8 · For your team</p>
+                        <h2 id="setup-h">How do we set up our team chat?</h2>
+                        <p class="hc-why"><b>Why it matters:</b> Every request from members lands in one private place.</p>
+                        <p>Make a private Telegram group for your team and add the bot. That group becomes your team chat, where every request and post for review arrives. Keep it private: everyone in it can read members’ names and messages.</p>
+                    </div>
+                    <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: ✅ Your team chat is ready. Under the heading Your team chat is ready in Team desk, two steps to answer a request: tap I’ll take it, then tap Reply. Buttons: Team guide and Done."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/team_ready-480.webp?v=20261112 480w, /assets/flock/screens/team_ready-960.webp?v=20261112 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/team_ready.jpg?v=20261112" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>✅ Your team chat is ready</b></p><p>New tickets and X posts for review arrive here as cards. To answer one:<br>1. Tap 🙋 I’ll take it, so the team knows it’s yours.<br>2. Tap 💬 Reply and write your answer. The member gets it in their private chat with the bot.</p><p class="quiet"><i>Everyone in this group can read members’ names and messages. If this group includes people outside your team, send /setup in your team’s own group instead.</i></p></div></div><div class="btns"><span class="btn">📖 Team guide</span><span class="btn">✖ Done</span></div></div></figure>
+                    <a class="hc-back" href="#how-circle">↑ Back to the circle</a>
+                </section>
+                <section class="stop calm" id="ask-the-team" data-hc="3" aria-labelledby="ask-the-team-h">
+                    <div>
+                        <p class="hc-eye">3 of 8 · For members</p>
+                        <h2 id="ask-the-team-h">How do I ask my team for support?</h2>
+                        <p class="hc-why"><b>Why it matters:</b> Members get help in private, away from strangers in the group.</p>
+                        <p>Tap Help, then Ask the team. Pick a problem, a complaint or an idea and send it. Your request gets a number, and the answer arrives in your private chat with the bot.</p>
+                        <details class="more"><summary>More about requests</summary><ul><li>Send /status to see where your requests stand.</li><li>You can attach a screenshot before you send.</li><li>Never include a seed phrase or private key.</li></ul></details>
+                    </div>
+                    <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: 🎫 Ask the team"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/ask-480.webp?v=20261111 480w, /assets/flock/screens/ask-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/ask.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>🎫 Ask the team</b></p><p>Send a private request when you need help, want to raise a complaint or have an idea or proposal. A short set of questions helps the team understand what happened and what you need.</p><p>Your answers and any attachments go to the team’s private chat. Their reply arrives in this chat. You can check its status later with /status. The team will reply when they can; this bot does not promise a response time.</p><p>Never include a seed phrase or private key. Choose the topic closest to your request.</p></div></div><div class="btns"><span class="btn">🛠 A problem</span><span class="btn">⚠️ Complaint</span><span class="btn">💡 Idea or proposal</span><span class="btn">◀ Help</span></div></div></figure>
+                    <a class="hc-back" href="#how-circle">↑ Back to the circle</a>
+                </section>
+                <section class="stop calm" id="is-it-the-team" data-hc="4" aria-labelledby="is-it-the-team-h">
+                    <div>
+                        <p class="hc-eye">4 of 8 · For members</p>
+                        <h2 id="is-it-the-team-h">How do I check a message is really from my team?</h2>
+                        <p class="hc-why"><b>Why it matters:</b> Scammers pretend to be your team.</p>
+                        <p>Tap Help, then Common questions, then Wallets and safety, then Is it really the team? Or forward the message to the bot. It asks where the message should go: tap Check who wrote it, then forward the message again within five minutes. The bot can tell you whether the writer is on your team’s admin list. If Telegram hides who wrote it, the bot says it can’t tell. Names and screenshots can’t be checked, so forward the message itself.</p>
+                        <details class="more"><summary>What the bot will never ask for</summary><ul><li>Your seed phrase, private key, password or login code.</li><li>A wallet connection or a payment to get support.</li><li>If you paste something that looks like a private key, the bot tries to delete your message and, if that fails, asks you to delete it yourself.</li></ul></details>
+                    </div>
+                    <figure class="pic"><div class="tg" role="img" aria-label="The bot's answer to a forwarded message: written by someone on the team, with a warning to be careful">
                                 <div class="msg">
                                     <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/staffcheck-480.webp?v=20261111 480w, /assets/flock/screens/staffcheck-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/staffcheck.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture>
                                     <div class="cap">
@@ -244,28 +236,41 @@
                                 </div>
                                 <div class="btns"><span class="btn">🎫 Ask the team</span><span class="btn">Check another</span></div>
                             </div></figure>
-                    </li>
-                    <li class="stop" id="check-my-reply">
-                        <div>
-                            <h3>How do I check a reply before I post it on X?</h3>
-                            <p>Before you post a reply on X, the bot points out ten things that often get a reply skipped or hidden. It keeps no copy of your draft.</p>
-                            <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg></div>
-                            <p>Open BUIDL, then Pitch, then Get noticed on X, then Check my reply, and paste your draft.</p>
-                            <p>After you post, send the link under My posts, and someone on your team gives you feedback in private.</p>
-                            <details class="more"><summary>What Check my reply looks for</summary><ul><li>A reply under 20 characters, or over 280</li><li>A link that starts with http or www</li><li>The $TIDE ticker, the name Arctide or a contract address that starts with 0x</li><li>More than two hashtags, or more than one cashtag besides $TIDE</li><li>Mostly capital letters</li><li>Price talk or a promised gain</li><li>Income or legal claims</li><li>Asking for likes or reposts</li><li>About ten stock phrases, and two rockets in a row</li><li>Writing that sounds like AI: long dashes, “not this but that”, a chatbot opener or closer, and words AI tools overuse. Two of these together raise the remark</li></ul><p>The bot shows six remarks at most. The Reply guide shows how to write replies people answer.</p></details>
-                        </div>
-                        <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: ✍️ Check my reply"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/check_reply-480.webp?v=20261111 480w, /assets/flock/screens/check_reply-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>✍️ Check my reply</b></p><p>• It has a link.<br>
-                        • It drops the ticker.<br>
-                        • Price talk or a promised gain.</p><p>Use this check to shape the idea, then type your reply fresh on X. X notes when a reply was pasted.</p><p>I did not keep your text.</p></div></div><div class="btns"><span class="btn full">❓ Why these?</span><span class="btn">✍️ Check another</span><span class="btn">✍️ Get noticed on X</span></div></div></figure>
-                    </li>
-                    <li class="stop" id="profile">
-                        <div>
-                            <h3>Where is my track record?</h3>
-                            <p>Your track record is a dated list of the requests your team marked useful and the posts it reviewed. To see it, open My profile, then History.</p>
-                            <p>To take your data with you, open My profile, then Account, then Your data, and tap Download my data.</p>
-                            <details class="more"><summary>What the bot keeps about you</summary><ul><li>Your support requests and the X posts you sent for feedback.</li><li>Open My profile, then Account, then Your data, and tap See what is kept for the full list.</li><li>Deleting your account removes your name, your wallet and X links, your posts and your badges. Requests you sent stay with the team, so the team still has the requests it marked useful.</li></ul></details>
-                        </div>
-                        <figure class="pic"><div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, and one post reviewed as Good">
+                    <a class="hc-back" href="#how-circle">↑ Back to the circle</a>
+                </section>
+                <section class="stop calm" id="tickets" data-hc="5" aria-labelledby="tickets-h">
+                    <div>
+                        <p class="hc-eye">5 of 8 · For your team</p>
+                        <h2 id="tickets-h">How do we answer requests?</h2>
+                        <p class="hc-why"><b>Why it matters:</b> Two taps, Close and then Useful, close a request and put the help on the member’s track record.</p>
+                        <p>Each request arrives as a numbered card. Tap Reply, and your answer goes to the member’s private chat. Tap Close, then choose Done, Useful or Spam. Useful puts the help on the member’s track record.</p>
+                        <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg></div>
+                        <p>A tap on Spam quietly closes the request and gives the sender a strike. After two strikes, their next request waits in the held list. A report of a hack or drained funds still reaches the team.</p>
+                        <details class="more"><summary>More about the team chat</summary><ul><li>Likely spam goes to the held list, so real requests come first.</li><li>Every Monday the team chat gets an overview: who did the work and what is still waiting. /overview shows it any time.</li></ul></details>
+                    </div>
+                    <figure class="pic"><div class="tg" role="img" aria-label="A ticket card in the team chat, after tapping Close: the buttons are Done, Useful, Spam and Back, with Useful highlighted">
+                                <div class="msg">
+                                    <div class="cap">
+                                        <p>🎫 <b>Ticket #0001</b> · 💡 Idea · ✅ clean (score 0)</p>
+                                        <p>From: Maya</p>
+                                        <p><b>Idea:</b> Add a short guide for new members on where to find the project’s official links.</p>
+                                        <p><b>Why:</b> New members keep asking the same question in the group.</p>
+                                        <p>↩️ <b>Answer this member</b><br>Tap 💬 Reply, or reply to this message. Your answer goes to their private chat.</p>
+                                    </div>
+                                </div>
+                                <div class="btns"><span class="btn">✅ Done</span><span class="btn pick">⭐ Useful</span><span class="btn">🚫 Spam</span><span class="btn">◀ Back</span></div>
+                            </div></figure>
+                    <a class="hc-back" href="#how-circle">↑ Back to the circle</a>
+                </section>
+                <section class="stop calm" id="profile" data-hc="6" aria-labelledby="profile-h">
+                    <div>
+                        <p class="hc-eye">6 of 8 · For members</p>
+                        <h2 id="profile-h">Where is my track record?</h2>
+                        <p class="hc-why"><b>Why it matters:</b> Members keep a dated list of the help your team confirmed.</p>
+                        <p>Open My profile, then History. It lists, with dates, the requests your team marked useful and the posts it reviewed. To take your data with you, open Account, then Your data, then Download my data. Delete my account is in the same place.</p>
+                        <details class="more"><summary>What the bot keeps about you</summary><ul><li>Your support requests and the X posts you sent for feedback.</li><li>Open My profile, then Account, then Your data, and tap See what is kept for the full list.</li><li>Deleting your account removes your name, your wallet and X links, your posts and your badges. Requests you sent stay with the team, so the team still has the requests it marked useful.</li></ul></details>
+                    </div>
+                    <figure class="pic"><div class="tg" role="img" aria-label="The bot's History screen for a member named Ana: two requests marked useful by the team, and one post reviewed as Good">
                         <div class="msg">
                             <picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/history-480.webp?v=20261111 480w, /assets/flock/screens/history-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/history.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture>
                             <div class="cap">
@@ -281,61 +286,34 @@
                         </div>
                         <div class="btns"><span class="btn">🎫 Ask the team</span><span class="btn">◀ Back</span></div>
                     </div></figure>
-                    </li>
-                </ol>
-                </div>
-                <div class="team-band">
-                <div class="list">
-                <div class="rail" aria-hidden="true"><i></i></div>
-                <h2 class="part" id="team">For your team</h2>
-                <p class="part-lead">The Flock runs in Arctide’s community today. To bring it to your community, send us your idea: under Help, tap Ask the team, then Idea or proposal.</p>
-                <ul class="qlist"><li><a href="#plan">How do we plan our community?</a></li><li><a href="#setup">How do we set up our team chat?</a></li><li><a href="#tickets">How do we answer requests?</a></li><li><a href="#review">How do we grade posts?</a></li></ul>
-                <ol class="steps team" role="list" aria-labelledby="team">
-                    <li class="stop" id="plan">
-                        <div>
-                            <h3>How do we plan our community?</h3>
-                            <p>Answer seven short questions and the guide gives you a plan for your community, with a next step. The guide opens for people on your team’s admin list: open Guides in the bot and tap Plan your community.</p>
-                            <details class="more"><summary>More about the plan</summary><ul><li>The questions follow four steps: Your idea, Your people, Do something together and Listen and improve.</li><li>You can change any answer before you finish.</li><li>The plan stays in your chat with the bot and is not posted to your community.</li></ul></details>
-                        </div>
-                        <figure class="pic"><div class="tg" role="img" aria-label="The bot’s Plan your community card: four steps, Your idea, Your people, Do something together and Listen and improve, and an arrow from the last step back to the first. Below it, the bot explains the guide: seven short questions, one at a time, any answer can be changed before you finish, and the plan comes as a message in this chat and is not posted to your community. Buttons: Start and Back."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/plan_tour-480.webp?v=20261111 480w, /assets/flock/screens/plan_tour-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/plan_tour.png?v=20261104" width="1080" height="1080" alt="A card titled Plan your community. Four steps run down the card: Your idea, Your people, Do something together, and Listen and improve. An arrow leads from the last step back to the first." loading="lazy" decoding="async"></picture><div class="cap"><p><b>🧭 Plan your community</b></p><p>You have a product or meme idea and want people to gather around it. This guide helps you plan how to keep them happy and help the group grow.</p><p>I ask seven short questions, one at a time. They cover your project, your experience and the people you want to bring together. The last one is optional.</p><p>You can change any answer before you finish. If you step away, your answers are kept for 30 minutes.</p><p>Your plan comes as a message in this chat. It is not posted to your community.</p></div></div><div class="btns"><span class="btn full">Start</span><span class="btn full">Back</span></div></div></figure>
-                    </li>
-                    <li class="stop" id="setup">
-                        <div>
-                            <h3>How do we set up our team chat?</h3>
-                            <p>Your team sees every request and post for review in one place: the team chat. Someone on your team’s admin list sets it up: make a private Telegram group for your team and add the bot. Everyone in the group can read members’ names and messages, so add only your team.</p>
-                        </div>
-                        <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: ✅ Your team chat is ready. Under the heading Your team chat is ready in Team desk, two steps to answer a request: tap I’ll take it, then tap Reply. Buttons: Team guide and Done."><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/team_ready-480.webp?v=20261112 480w, /assets/flock/screens/team_ready-960.webp?v=20261112 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/team_ready.jpg?v=20261112" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>✅ Your team chat is ready</b></p><p>New tickets and X posts for review arrive here as cards. To answer one:<br>1. Tap 🙋 I’ll take it, so the team knows it’s yours.<br>2. Tap 💬 Reply and write your answer. The member gets it in their private chat with the bot.</p><p class="quiet"><i>Everyone in this group can read members’ names and messages. If this group includes people outside your team, send /setup in your team’s own group instead.</i></p></div></div><div class="btns"><span class="btn">📖 Team guide</span><span class="btn">✖ Done</span></div></div></figure>
-                    </li>
-                    <li class="stop" id="tickets">
-                        <div>
-                            <h3>How do we answer requests?</h3>
-                            <p>Each request arrives in the team chat as a numbered card, and you answer it from the card. Tap Reply, and your answer goes to the member’s private chat. Tap Close, then choose Done, Useful or Spam. Useful puts the help on the member’s track record.</p>
-                            <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg></div>
-                            <details class="more"><summary>More about the team chat</summary><ul><li>The bot holds likely spam back from the team chat, so real requests come first. /noise lists what it held, and you can release anything real.</li><li>A tap on Spam closes the request without telling the sender and gives them a strike. After two strikes, their next request is held too. A report of a hack or drained funds still reaches the team.</li><li>Every Monday the team chat gets an overview: who did the work and what is still waiting. /overview shows it any time.</li></ul></details>
-                        </div>
-                        <figure class="pic"><div class="tg" role="img" aria-label="A ticket card in the team chat, after tapping Close: the buttons are Done, Useful, Spam and Back, with Useful highlighted">
-                                <div class="msg">
-                                    <div class="cap">
-                                        <p>🎫 <b>Ticket #0001</b> · 💡 Idea · ✅ clean (score 0)</p>
-                                        <p>From: Maya</p>
-                                        <p><b>Idea:</b> Add a short guide for new members on where to find the project’s official links.</p>
-                                        <p><b>Why:</b> New members keep asking the same question in the group.</p>
-                                        <p>↩️ <b>Answer this member</b><br>Tap 💬 Reply, or reply to this message. Your answer goes to their private chat.</p>
-                                    </div>
-                                </div>
-                                <div class="btns"><span class="btn">✅ Done</span><span class="btn pick">⭐ Useful</span><span class="btn">🚫 Spam</span><span class="btn">◀ Back</span></div>
-                            </div></figure>
-                    </li>
-                    <li class="stop" id="review">
-                        <div>
-                            <h3>How do we grade posts?</h3>
-                            <p id="get-noticed">Your team gives members feedback on their X posts, in private. A member links their X account under My posts and sends the link to a post they published. Someone on the team picks Good, Needs work or Not allowed, and gives a reason for anything other than Good.</p>
-                            <p>Send /review in the team chat to get the next post waiting, then read it on X and grade it.</p>
-                        </div>
-                        <figure class="pic pair"><div class="tg" role="img" aria-label="The bot screen: 📣 X posts"><div class="msg"><div class="cap"><p><b>📣 X posts</b></p><p>1 post waiting · oldest less than an hour</p><p>Read the post before grading; the member receives your final feedback privately.</p></div></div><div class="btns"><span class="btn">▶️ Next post</span><span class="btn">ℹ️ Help</span></div></div><div class="tg" role="img" aria-label="The bot screen: 📣 Your post feedback"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/post_feedback-480.webp?v=20261111 480w, /assets/flock/screens/post_feedback-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>📣 Your post feedback</b></p><p>👍 Good, by Ben.</p><p>1 sent · 1 good</p></div></div><div class="btns"><span class="btn">📤 My posts</span><span class="btn">✍️ Get noticed on X</span></div></div></figure>
-                    </li>
-                </ol>
-                </div>
+                    <a class="hc-back" href="#how-circle">↑ Back to the circle</a>
+                </section>
+                <section class="stop calm" id="check-my-reply" data-hc="7" aria-labelledby="check-my-reply-h">
+                    <div>
+                        <p class="hc-eye">7 of 8 · For members</p>
+                        <h2 id="check-my-reply-h">How do I check a reply before I post it on X?</h2>
+                        <p class="hc-why"><b>Why it matters:</b> Members can fix a reply before they post it on X.</p>
+                        <p>Open BUIDL, then Pitch, then Get noticed on X, then Check my reply, and paste your draft.</p>
+                        <div class="td"><svg class="td-mark" viewBox="0 0 160 100" aria-hidden="true" focusable="false"><use href="#twoducks"/></svg></div>
+                        <p>One paste checks your draft for ten things that often get a reply hidden. The bot keeps no copy of it.</p>
+                        <details class="more"><summary>What Check my reply looks for</summary><ul><li>A reply under 20 characters, or over 280</li><li>A link that starts with http or www</li><li>The $TIDE ticker, the name Arctide or a contract address that starts with 0x</li><li>More than two hashtags, or more than one cashtag besides $TIDE</li><li>Mostly capital letters</li><li>Price talk or a promised gain</li><li>Income or legal claims</li><li>Asking for likes or reposts</li><li>About ten stock phrases, and two rockets in a row</li><li>Writing that sounds like AI: long dashes, “not this but that”, a chatbot opener or closer, and words AI tools overuse. Two of these together raise the remark</li></ul><p>The bot shows six remarks at most. The Reply guide shows how to write replies people answer.</p></details>
+                    </div>
+                    <figure class="pic"><div class="tg" role="img" aria-label="The bot screen: ✍️ Check my reply"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/check_reply-480.webp?v=20261111 480w, /assets/flock/screens/check_reply-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/check_reply.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>✍️ Check my reply</b></p><p>• It has a link.<br>
+                        • It drops the ticker.<br>
+                        • Price talk or a promised gain.</p><p>Use this check to shape the idea, then type your reply fresh on X. X notes when a reply was pasted.</p><p>I did not keep your text.</p></div></div><div class="btns"><span class="btn full">❓ Why these?</span><span class="btn">✍️ Check another</span><span class="btn">✍️ Get noticed on X</span></div></div></figure>
+                    <a class="hc-back" href="#how-circle">↑ Back to the circle</a>
+                </section>
+                <section class="stop calm" id="review" data-hc="8" aria-labelledby="review-h">
+                    <div>
+                        <p class="hc-eye">8 of 8 · For your team and members</p>
+                        <h2 id="review-h">How do we grade posts?</h2>
+                        <p class="hc-why"><b>Why it matters:</b> Your team says what worked, and the member hears it in private.</p>
+                        <p id="get-noticed">Members link their X account under My posts, then send the link to a post they published. Someone on the team grades it Good, Needs work or Not allowed, and says why.</p>
+                        <p>Send /review in the team chat to get the next post waiting. Read it on X, grade it, and add a reason. Your feedback goes straight to the member.</p>
+                    </div>
+                    <figure class="pic pair"><div class="tg" role="img" aria-label="The bot screen: 📣 X posts"><div class="msg"><div class="cap"><p><b>📣 X posts</b></p><p>1 post waiting · oldest less than an hour</p><p>Read the post before grading; the member receives your final feedback privately.</p></div></div><div class="btns"><span class="btn">▶️ Next post</span><span class="btn">ℹ️ Help</span></div></div><div class="tg" role="img" aria-label="The bot screen: 📣 Your post feedback"><div class="msg"><picture class="scr"><source type="image/webp" srcset="/assets/flock/screens/post_feedback-480.webp?v=20261111 480w, /assets/flock/screens/post_feedback-960.webp?v=20261111 960w" sizes="(min-width: 768px) 426px, 84vw"><img src="/assets/flock/screens/post_feedback.jpg?v=20261104" width="1280" height="640" alt="" loading="lazy" decoding="async"></picture><div class="cap"><p><b>📣 Your post feedback</b></p><p>👍 Good, by Ben.</p><p>1 sent · 1 good</p></div></div><div class="btns"><span class="btn">📤 My posts</span><span class="btn">✍️ Get noticed on X</span></div></div></figure>
+                    <a class="hc-back" href="#how-circle">↑ Back to the circle</a>
+                </section>
                 </div>
             </div>
         </div>
@@ -343,7 +321,7 @@
         <section class="questions" aria-labelledby="questions">
             <div class="wrap">
                 <h2 id="questions">Common questions</h2>
-                <details class="qa" id="is-posting-paid"><summary>Is posting on X paid?</summary><p>Posting is your choice. Nobody is paid to post, to reply or to raid a cashtag, and you can stop at any time.</p></details><details class="qa" id="need-a-wallet"><summary>Do I need a wallet?</summary><p>Support and the X tools work without one. Some communities switch on token tools, such as a staking view, which read a public address you choose to link.</p></details><details class="qa" id="really-the-team"><summary>Is a “yes” from the team check a guarantee?</summary><p>It tells you the account is on your team’s admin list. A real team account can still be taken over, so stay careful with any message that asks you to act fast or to send something.</p></details><details class="qa" id="delete-account"><summary>How do I delete my account?</summary><p>Open My profile, then Account, then Your data, and tap Delete my account, or send /deleteaccount. The bot lists what will go and asks you to confirm.</p></details><details class="qa" id="moderation"><summary>Does The Flock replace our moderation bot?</summary><p>Keep the bot you use to moderate your group. The Flock works alongside it, in private chats and your team chat.</p></details>
+                <details class="qa" id="is-posting-paid"><summary>Is posting on X paid?</summary><p>Posting is your choice. Nobody is paid to post, to reply or to raid a cashtag, and you can stop at any time.</p></details><details class="qa" id="need-a-wallet"><summary>Do I need a wallet?</summary><p>Support and the X tools work without one. Some communities switch on token tools, such as a staking view, which read a public address you choose to link.</p></details><details class="qa" id="really-the-team"><summary>Is a “yes” from the team check a guarantee?</summary><p>It tells you the account is on your team. A real team account can still be taken over, so stay careful with any message that asks you to act fast or to send something.</p></details><details class="qa" id="delete-account"><summary>How do I delete my account?</summary><p>Open My profile, then Account, then Your data, and tap Delete my account, or send /deleteaccount. The bot lists what will go and asks you to confirm.</p></details><details class="qa" id="moderation"><summary>Does The Flock replace our moderation bot?</summary><p>Keep the bot you use to moderate your group. The Flock works alongside it, in private chats and your team chat.</p></details>
             </div>
         </section>
 
@@ -369,7 +347,7 @@
     <script>
     // Old manual and FAQ links keep working: their anchors point to the matching section here.
     (function () {
-        var map = { 'zeal': 'questions', 'x-feedback': 'get-noticed', 'post-feedback': 'get-noticed', 'reply-guide': 'check-my-reply', 'my-contributions': 'profile', 'never-ask': 'is-it-the-team', 'help': 'is-it-the-team', 'what-is-kept': 'profile', 'your-data': 'profile', 'thanks': 'profile', 'wallet': 'need-a-wallet', 'noise': 'tickets', 'team-desk': 'tickets', 'brief': 'tickets', 'carousel': 'setup', 'who-is-team': 'setup', 'what-can-i-do': 'ask-the-team', 'members': 'ask-the-team', 'start': 'ask-the-team', 'troubleshooting': 'questions', 'reach-a-person': 'ask-the-team', 'how-circle': 'ask-the-team', 'ask-the-team-h': 'ask-the-team', 'is-it-the-team-h': 'is-it-the-team', 'check-my-reply-h': 'check-my-reply', 'profile-h': 'profile', 'plan-h': 'plan', 'setup-h': 'setup', 'tickets-h': 'tickets', 'review-h': 'review' };
+        var map = { 'member': 'ask-the-team', 'team': 'plan', 'zeal': 'questions', 'x-feedback': 'get-noticed', 'post-feedback': 'get-noticed', 'reply-guide': 'check-my-reply', 'my-contributions': 'profile', 'never-ask': 'is-it-the-team', 'help': 'is-it-the-team', 'what-is-kept': 'profile', 'your-data': 'profile', 'thanks': 'profile', 'wallet': 'need-a-wallet', 'noise': 'tickets', 'team-desk': 'tickets', 'brief': 'tickets', 'carousel': 'setup', 'who-is-team': 'setup', 'what-can-i-do': 'member', 'members': 'member', 'start': 'member', 'troubleshooting': 'questions', 'reach-a-person': 'ask-the-team' };
         var h = location.hash.slice(1);
         if (map[h] && !document.getElementById(h)) { history.replaceState(null, '', '#' + map[h]); var el = document.getElementById(map[h]); if (el) el.scrollIntoView(); }
     })();
