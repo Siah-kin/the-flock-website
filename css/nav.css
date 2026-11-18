@@ -455,7 +455,7 @@ body.dark-mode .menu-gated {
 
 /* Touch targets: the visible size is unchanged; an invisible pseudo-element widens the tap area to 44 px (audit 18 Nov 2026). */
 .hamburger { position: relative; }
-.hamburger::after { content: ""; position: absolute; inset: -8px; }
+.hamburger::after { content: ""; position: absolute; inset: -8px 0 -8px -16px; }
 .theme-toggle { position: relative; }
 .theme-toggle::after { content: ""; position: absolute; inset: -4px; }
 .more > summary { position: relative; }
